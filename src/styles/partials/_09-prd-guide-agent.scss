@@ -1,0 +1,1326 @@
+/* ==========================================================================
+   PRD AI Tour Guide ("المرشد السياحي الذكي") — R15 Editorial Identity,
+   Clean Crest Launcher, Concise Dialog Cards, & Today Mode
+   ========================================================================== */
+
+/* Visually-hidden accessible live-region helper (never leaks visible text) */
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* 1. Single active avatar enforcement + Al-Baha Crest Guide launcher */
+#sirajLauncher.bot {
+  padding: 2px !important;
+  background: transparent !important;
+  border: 1.5px solid rgba(200, 157, 84, 0.85) !important;
+  box-shadow: 0 10px 26px rgba(6, 26, 51, 0.24), 0 0 0 2.5px rgba(252, 251, 247, 0.8) !important;
+  overflow: visible !important;
+}
+
+#sirajLauncher.bot .guide-character-svg,
+#sirajLauncher.bot svg.guide-launcher-avatar {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  max-height: none !important;
+  display: block;
+  border-radius: 50%;
+}
+
+#sirajLauncher.bot .siraj-tooltip {
+  position: absolute;
+  inset-inline-start: calc(100% + 10px);
+  top: 50%;
+  transform: translateY(-50%) translateX(-4px);
+  padding: 6px 11px;
+  border-radius: 9px;
+  background: #061A33;
+  color: #FAF7F0;
+  border: 1px solid rgba(200, 157, 84, 0.55);
+  box-shadow: 0 8px 20px rgba(6, 26, 51, 0.22);
+  font-size: 0.76rem;
+  font-weight: 700;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+#sirajLauncher.bot:hover .siraj-tooltip,
+#sirajLauncher.bot:focus-visible .siraj-tooltip {
+  opacity: 1;
+  transform: translateY(-50%) translateX(0);
+}
+
+#sirajLauncher.bot[hidden],
+body.guide-char-docked #sirajLauncher.bot,
+html.has-dialog #sirajLauncher.bot {
+  display: none !important;
+}
+
+/* 2. Guide Character Pose States */
+.guide-character-svg {
+  flex: none;
+  display: block;
+  border-radius: 50%;
+  transform-origin: center;
+}
+
+.guide-character-svg[data-pose='idle'] {
+  animation: gcIdleFloat 4.6s ease-in-out infinite;
+}
+
+.guide-character-svg[data-pose='listening'] .gc-listening-aura circle {
+  opacity: 0.95;
+  transform-origin: 48px 48px;
+  animation: gcListenPulse 1.4s ease-out infinite;
+}
+
+.guide-character-svg[data-pose='speaking'] .gc-speak-waves {
+  opacity: 1;
+}
+
+.guide-character-svg[data-pose='speaking'] .gc-speak-waves rect:nth-child(1) {
+  animation: gcWaveBar 0.72s ease-in-out infinite;
+}
+
+.guide-character-svg[data-pose='speaking'] .gc-speak-waves rect:nth-child(2) {
+  animation: gcWaveBar 0.58s ease-in-out 0.14s infinite;
+}
+
+.guide-character-svg[data-pose='speaking'] .gc-speak-waves rect:nth-child(3) {
+  animation: gcWaveBar 0.66s ease-in-out 0.28s infinite;
+}
+
+.guide-character-svg[data-pose='speaking'] .gc-mouth-smile {
+  opacity: 0;
+}
+
+.guide-character-svg[data-pose='speaking'] .gc-mouth-speak {
+  opacity: 1;
+  transform-origin: 48px 54.2px;
+  animation: gcMouthSpeak 0.34s ease-in-out infinite alternate;
+}
+
+.guide-character-svg[data-pose='pointing'] .gc-pointing-pin,
+.guide-character-svg[data-pose='docked'] .gc-pointing-pin {
+  opacity: 1;
+}
+
+.guide-character-svg[data-pose='pointing'] .gc-pointing-pin circle:first-of-type {
+  transform-origin: 17px 60px;
+  animation: gcPinPulse 1.6s ease-in-out infinite;
+}
+
+@keyframes gcIdleFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-2px);
+  }
+}
+
+@keyframes gcListenPulse {
+  0% {
+    transform: scale(0.95);
+    opacity: 0.9;
+  }
+  75%,
+  100% {
+    transform: scale(1.1);
+    opacity: 0;
+  }
+}
+
+@keyframes gcWaveBar {
+  0%,
+  100% {
+    transform: scaleY(0.55);
+    transform-origin: center;
+  }
+  50% {
+    transform: scaleY(1.15);
+    transform-origin: center;
+  }
+}
+
+@keyframes gcMouthSpeak {
+  from {
+    transform: scaleY(0.6);
+  }
+  to {
+    transform: scaleY(1.3);
+  }
+}
+
+@keyframes gcPinPulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.16);
+  }
+}
+
+/* 3. Calm Editorial R15 Single-Palette Concierge Dialog */
+@media (min-width: 641px) {
+  .panel-content.concierge-shell {
+    width: min(440px, 100%) !important;
+    background: #FAF7F0 !important;
+  }
+}
+
+.concierge-shell .concierge-header {
+  padding: 13px 16px !important;
+  background: #061A33 !important;
+  border-bottom: 1.5px solid rgba(200, 157, 84, 0.45) !important;
+}
+
+.concierge-shell .concierge-avatar {
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 50% !important;
+}
+
+.concierge-shell .concierge-avatar svg.guide-dialog-avatar {
+  width: 36px !important;
+  height: 36px !important;
+}
+
+.concierge-title-row {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.concierge-title-row h2 {
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.concierge-header .concierge-subtitle {
+  display: flex !important;
+  align-items: center;
+  gap: 6px;
+  margin-top: 2px !important;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: rgba(250, 247, 240, 0.78) !important;
+}
+
+.concierge-shell .concierge-context,
+.concierge-live-dot,
+.concierge-mode-badge {
+  display: none !important;
+}
+
+.concierge-shell .concierge-welcome {
+  border-top: 2px solid #C89D54 !important;
+  background: #FFFFFF !important;
+}
+
+.concierge-shell .concierge-welcome .caption {
+  color: #8A6525 !important;
+}
+
+.concierge-shell .concierge-body {
+  padding: 14px 16px 18px !important;
+  background: #FAF7F0 !important;
+}
+
+.concierge-shell .concierge-thread {
+  gap: 10px !important;
+}
+
+.concierge-shell .concierge-message {
+  padding: 11px 13px !important;
+  font-size: 0.84rem !important;
+  line-height: 1.62 !important;
+  background: #FFFFFF !important;
+  border: 1px solid rgba(6, 26, 51, 0.09) !important;
+  box-shadow: 0 2px 8px rgba(6, 26, 51, 0.04) !important;
+}
+
+.concierge-shell .concierge-message.is-visitor {
+  background: #061A33 !important;
+  color: #FAF7F0 !important;
+  border-color: #061A33 !important;
+}
+
+.concierge-shell .concierge-message h4 {
+  color: #061A33 !important;
+  font-size: 0.76rem !important;
+  font-weight: 700 !important;
+  opacity: 0.72;
+}
+
+.concierge-shell .concierge-items {
+  margin-top: 8px !important;
+  gap: 7px !important;
+}
+
+.concierge-shell .concierge-item-card {
+  gap: 10px !important;
+  padding: 8px 10px !important;
+  border-radius: 10px !important;
+  background: #FFFFFF !important;
+  border: 1px solid rgba(6, 26, 51, 0.1) !important;
+  transition: background-color 0.18s ease, border-color 0.18s ease !important;
+}
+
+.concierge-shell .concierge-item-card.is-interactive:hover {
+  background: #FAF7F0 !important;
+  border-color: rgba(200, 157, 84, 0.75) !important;
+  box-shadow: none !important;
+}
+
+.concierge-shell .concierge-item-card img {
+  width: 84px !important;
+  height: 52px !important;
+  aspect-ratio: 16 / 10 !important;
+  object-fit: cover !important;
+  border-radius: 8px !important;
+  flex: none !important;
+}
+
+.concierge-shell .concierge-item-copy {
+  gap: 2px !important;
+  min-width: 0;
+}
+
+.concierge-shell .concierge-item-copy strong {
+  color: #061A33 !important;
+  font-size: 0.82rem !important;
+  font-weight: 700 !important;
+}
+
+.concierge-shell .concierge-item-copy span {
+  color: #475569 !important;
+  font-size: 0.74rem !important;
+  line-height: 1.45 !important;
+}
+
+.concierge-item-meta {
+  display: block;
+  margin-top: 1px !important;
+  font-size: 0.7rem !important;
+  font-weight: 600 !important;
+  color: #64748B !important;
+}
+
+.concierge-shell .concierge-actions {
+  margin-top: 9px !important;
+  gap: 6px !important;
+}
+
+.concierge-shell .concierge-actions-top {
+  margin-top: 6px !important;
+  margin-bottom: 8px !important;
+}
+
+.concierge-shell .concierge-choice {
+  min-height: 36px !important;
+  padding: 5px 12px !important;
+  background: #FFFFFF !important;
+  border: 1px solid rgba(6, 26, 51, 0.15) !important;
+  color: #061A33 !important;
+  font-size: 0.76rem !important;
+}
+
+.concierge-shell .concierge-choice:hover:not(:disabled) {
+  background: #FAF7F0 !important;
+  border-color: #C89D54 !important;
+  color: #061A33 !important;
+}
+
+.concierge-shell .concierge-choice.is-primary {
+  background: #061A33 !important;
+  border-color: #061A33 !important;
+  color: #FFFFFF !important;
+}
+
+.concierge-shell .concierge-choice.is-primary:hover:not(:disabled) {
+  background: #0A2E5C !important;
+  border-color: #0A2E5C !important;
+  color: #FFFFFF !important;
+}
+
+.concierge-shell .concierge-preset,
+.concierge-shell .concierge-quickbar button {
+  background: #FFFFFF !important;
+  border: 1px solid rgba(6, 26, 51, 0.13) !important;
+  color: #061A33 !important;
+}
+
+.concierge-shell .concierge-preset:hover,
+.concierge-shell .concierge-quickbar button:hover {
+  background: #FAF7F0 !important;
+  border-color: rgba(200, 157, 84, 0.75) !important;
+  color: #061A33 !important;
+  box-shadow: none !important;
+}
+
+.concierge-shell .concierge-composer {
+  padding: 10px 16px max(11px, env(safe-area-inset-bottom)) !important;
+  background: #FFFFFF !important;
+  border-top: 1px solid rgba(6, 26, 51, 0.08) !important;
+}
+
+.concierge-shell .concierge-composer input:focus-visible,
+.concierge-shell .concierge-head-btn:focus-visible,
+.concierge-shell .concierge-send:focus-visible {
+  outline: 2px solid #C89D54 !important;
+  border-color: #C89D54 !important;
+}
+
+.concierge-shell .concierge-send {
+  background: #061A33 !important;
+  color: #FAF7F0 !important;
+}
+
+.concierge-shell .concierge-send:hover {
+  background: #0A2E5C !important;
+}
+
+.concierge-shell .concierge-composer-meta {
+  justify-content: flex-end !important;
+}
+
+.concierge-shell .concierge-composer-meta button {
+  color: #475569 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.concierge-shell .concierge-composer-meta button:is(:hover, :focus-visible) {
+  color: #061A33 !important;
+  background: rgba(6, 26, 51, 0.06) !important;
+  box-shadow: 0 0 0 4px rgba(6, 26, 51, 0.06) !important;
+}
+
+.concierge-item-link img {
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  border-radius: 9px;
+}
+
+/* 4. Light R15 Map Sizing & Guide Inline Fallback Card */
+@media (min-width: 821px) {
+  #routeSticky {
+    height: auto !important;
+    min-height: clamp(500px, calc(100svh - var(--header) - 23px), 660px);
+  }
+
+  #routeSticky .map-panel {
+    min-height: clamp(460px, calc(100svh - var(--header) - 23px), 640px);
+  }
+}
+
+@media (max-width: 820px) {
+  #routeSticky {
+    height: auto !important;
+    min-height: 0 !important;
+  }
+}
+
+.concierge-guide-dock {
+  position: relative;
+  direction: rtl;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  margin-top: 16px;
+  padding: 14px 16px;
+  border-radius: 9px;
+  background: #061A33;
+  color: #FAF7F0;
+  border: 1.5px solid rgba(200, 157, 84, 0.72);
+  box-shadow: 0 12px 28px rgba(6, 26, 51, 0.16);
+}
+
+.concierge-guide-dock.is-missing-coords {
+  border-color: #C89D54;
+}
+
+.concierge-dock-avatar {
+  display: grid;
+  place-items: center;
+  padding: 2px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(200, 157, 84, 0.8);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.concierge-dock-body {
+  min-width: 0;
+  display: grid;
+  gap: 5px;
+}
+
+.concierge-dock-kicker {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  padding: 2px 9px;
+  border-radius: 999px;
+  background: rgba(200, 157, 84, 0.2);
+  color: #F6DC9D;
+  font-size: 0.74rem;
+  font-weight: 700;
+}
+
+.concierge-dock-text {
+  margin: 0;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: #FCFBF7;
+}
+
+.concierge-dock-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.concierge-dock-btn {
+  min-height: 44px;
+  min-width: 44px;
+  padding: 8px 14px !important;
+  border-radius: 9px !important;
+  font-size: 0.8rem !important;
+  font-weight: 700 !important;
+}
+
+.concierge-guide-dock .btn-dark {
+  background: #C89D54 !important;
+  color: #061A33 !important;
+  border-color: #C89D54 !important;
+}
+
+.concierge-guide-dock .btn-soft {
+  background: rgba(255, 255, 255, 0.14) !important;
+  color: #FAF7F0 !important;
+  border-color: rgba(255, 255, 255, 0.34) !important;
+}
+
+.concierge-dock-dismiss {
+  align-self: start;
+  display: grid;
+  place-items: center;
+  min-width: 44px;
+  min-height: 44px;
+  border-radius: 9px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.1);
+  color: #FAF7F0;
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+/* Result Highlight Pulse */
+.is-concierge-highlight {
+  animation: prdResultGlow 2.4s ease-out 1;
+  box-shadow: 0 0 0 2.5px #C89D54, 0 12px 30px rgba(0, 108, 53, 0.22) !important;
+}
+
+@keyframes prdResultGlow {
+  0% {
+    box-shadow: 0 0 0 4px rgba(200, 157, 84, 0.9), 0 16px 36px rgba(0, 108, 53, 0.3);
+  }
+  100% {
+    box-shadow: 0 0 0 1px rgba(200, 157, 84, 0.35), 0 8px 20px rgba(6, 26, 51, 0.08);
+  }
+}
+
+/* 5. Exploration Banner & Sleek Secondary Stop Quick Tools */
+.stop-explore-banner {
+  margin-bottom: 6px;
+  padding: 5px 10px;
+  border-radius: 9px;
+  background: #EEF7F2;
+  color: #006C35;
+  border: 1px solid rgba(0, 108, 53, 0.26);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+#routeSticky .route-footer {
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.9fr) minmax(0, 1.15fr);
+}
+
+#routeSticky .route-footer a#openMaps {
+  width: 100% !important;
+  height: auto !important;
+  border-radius: 9px !important;
+}
+
+.stop-tool-btn.is-active,
+.stop-tool-btn[aria-pressed='true'] {
+  background: #061A33;
+  color: #FAF7F0;
+  border-color: #061A33;
+}
+
+/* Map Marker Exploration / Completed / Locked States */
+.street-marker.is-exploration {
+  background: #006C35 !important;
+  border-color: #F6DC9D !important;
+  box-shadow: 0 0 0 4px rgba(0, 108, 53, 0.28) !important;
+}
+
+.street-marker.is-completed {
+  background: #4B5563 !important;
+  border-color: #D1D5DB !important;
+  opacity: 0.85;
+}
+
+.map-pin.is-exploration .terrain-pin-dot {
+  fill: #006C35;
+  stroke: #F6DC9D;
+  stroke-width: 2.5;
+}
+
+.map-pin.is-completed .terrain-pin-dot {
+  fill: #4B5563;
+  opacity: 0.85;
+}
+
+/* 6. Editable Draft Assumptions Bar */
+.draft-assumptions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.draft-assumptions label {
+  display: grid;
+  gap: 3px;
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: #0A2E5C;
+}
+
+.draft-assumptions select,
+.draft-assumptions input[type='time'] {
+  min-height: 44px;
+  padding: 4px 9px;
+  border-radius: 9px;
+  border: 1px solid rgba(10, 46, 92, 0.2);
+  background: #FFFFFF;
+  color: #061A33;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.draft-mini-btn {
+  min-height: 44px;
+  border-radius: 9px !important;
+  padding: 6px 12px !important;
+  font-size: 0.8rem !important;
+}
+
+/* 7. Today Operational Mode Panel ("رحلتي اليوم") */
+.today-trip-panel {
+  margin-top: 14px;
+  padding: clamp(16px, 2.5vw, 24px);
+  border-radius: 9px;
+  border: 1px solid rgba(10, 46, 92, 0.16);
+  background: #FCFBF7;
+  box-shadow: 0 12px 28px rgba(6, 26, 51, 0.08);
+  display: grid;
+  gap: 14px;
+}
+
+.today-trip-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.today-trip-kicker {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #006C35;
+}
+
+.today-trip-head h4 {
+  margin: 2px 0 0;
+  font-size: 1.25rem;
+  color: #061A33;
+}
+
+.today-trip-controls .btn {
+  min-height: 44px;
+  border-radius: 9px;
+}
+
+.today-next-card {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px;
+  border-radius: 9px;
+  background: #FAF7F0;
+  border: 1.5px solid rgba(200, 157, 84, 0.55);
+}
+
+.today-next-info {
+  display: grid;
+  gap: 4px;
+}
+
+.today-next-badge {
+  width: fit-content;
+  padding: 2px 9px;
+  border-radius: 999px;
+  background: #006C35;
+  color: #FFFFFF;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.today-next-info strong {
+  font-size: 1.05rem;
+  color: #061A33;
+}
+
+.today-next-time,
+.today-next-hours {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.today-next-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.today-action-btn {
+  min-height: 44px !important;
+  border-radius: 9px !important;
+  font-size: 0.8rem !important;
+}
+
+.today-trip-timeline {
+  display: grid;
+  gap: 8px;
+}
+
+.today-timeline-item {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 9px;
+  border: 1px solid rgba(10, 46, 92, 0.12);
+  background: #FFFFFF;
+}
+
+.today-timeline-item.is-next {
+  border-color: #006C35;
+  background: #F4FBF7;
+}
+
+.today-timeline-item.is-done {
+  opacity: 0.75;
+  background: #F5F1E6;
+}
+
+.today-step-num {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #0A2E5C;
+  color: #FAF7F0;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.today-timeline-item.is-done .today-step-num {
+  background: #006C35;
+}
+
+.today-step-copy {
+  min-width: 0;
+  display: grid;
+  gap: 2px;
+}
+
+.today-step-copy strong {
+  font-size: 0.9rem;
+  color: #061A33;
+}
+
+.today-step-copy span {
+  font-size: 0.76rem;
+  color: var(--muted);
+}
+
+.today-tag-lock {
+  font-style: normal;
+  color: #9A7231;
+  font-weight: 700;
+}
+
+.today-tag-done {
+  font-style: normal;
+  color: #006C35;
+  font-weight: 700;
+}
+
+.today-step-toggle {
+  min-height: 44px;
+  min-width: 88px;
+  padding: 6px 12px;
+  border-radius: 9px;
+  border: 1px solid rgba(10, 46, 92, 0.2);
+  background: #FAF7F0;
+  color: #0A2E5C;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.today-step-toggle[aria-pressed='true'] {
+  background: #006C35;
+  color: #FFFFFF;
+  border-color: #006C35;
+}
+
+/* 8. Mobile Responsiveness (360px / 390px / <= 640px) & Reduced Motion */
+@media (max-width: 640px) {
+  .concierge-guide-dock {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 12px;
+  }
+
+  .concierge-dock-avatar {
+    width: fit-content;
+  }
+
+  .concierge-dock-dismiss {
+    position: absolute;
+    inset: 8px auto auto 8px;
+  }
+
+  #routeSticky .route-footer {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .draft-assumptions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .draft-mini-btn {
+    grid-column: 1 / -1;
+  }
+
+  .today-timeline-item {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .today-step-toggle {
+    grid-column: 1 / -1;
+    width: 100%;
+  }
+
+  #sirajLauncher.bot .siraj-tooltip {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .guide-character-svg,
+  .guide-character-svg *,
+  .is-concierge-highlight {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+html.reduce-motion .guide-character-svg,
+html.reduce-motion .guide-character-svg *,
+html.reduce-motion .is-concierge-highlight {
+  animation: none !important;
+  transition: none !important;
+}
+
+/* ==========================================================================
+   FINAL VISUAL POLISH: CLASSIC ROBOT ICON, FLAT SLEEK DRAWER & COMPACT MAP
+   ========================================================================== */
+
+/* 1. Classic Electronic Robot Emblem Across Floating Launcher, Dialog & Contact */
+#sirajLauncher.bot,
+body:has(#homeView:not([hidden])) #sirajLauncher.bot {
+  width: clamp(44px, 3.1vw, 52px) !important;
+  height: clamp(44px, 3.1vw, 52px) !important;
+  border-radius: 15px 15px 14px 8px !important;
+  background: linear-gradient(145deg, #061A33, #0A2E5C 60%, #006C35) !important;
+  border: 1px solid rgba(125, 211, 252, 0.45) !important;
+  box-shadow: 0 10px 26px rgba(6, 26, 51, 0.35) !important;
+  padding: 0 !important;
+}
+
+#sirajLauncher.bot .guide-character-svg,
+#sirajLauncher.bot svg.guide-launcher-avatar {
+  width: clamp(32px, 2.25vw, 38px) !important;
+  height: clamp(32px, 2.25vw, 38px) !important;
+  display: block;
+}
+
+.concierge-shell .concierge-avatar {
+  width: 36px !important;
+  height: 36px !important;
+  border-radius: 11px 11px 10px 6px !important;
+  background: linear-gradient(145deg, #061A33, #0A2E5C 60%, #006C35) !important;
+  border: 1px solid rgba(125, 211, 252, 0.45) !important;
+  box-shadow: 0 6px 14px rgba(6, 26, 51, 0.25) !important;
+  display: grid !important;
+  place-items: center !important;
+  flex: none !important;
+}
+
+.concierge-shell .concierge-avatar svg.guide-dialog-avatar {
+  width: 26px !important;
+  height: 26px !important;
+}
+
+.cta-final .guide-section-badge {
+  display: inline-grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 8px 8px 7px 4px;
+  background: linear-gradient(145deg, #061A33, #0A2E5C 60%, #006C35);
+  border: 1px solid rgba(125, 211, 252, 0.45);
+  box-shadow: 0 4px 10px rgba(6, 26, 51, 0.28);
+  flex: none;
+}
+
+.cta-final .guide-section-avatar {
+  width: 20px !important;
+  height: 20px !important;
+  display: block;
+}
+
+/* 2. Compact, Shrink-Safe AI Guide Sidebar + Direct Flat Tabs in Chat */
+#agentPanel .panel-content.concierge-shell {
+  width: clamp(296px, 25.5vw, 352px) !important;
+  max-width: calc(100vw - 24px) !important;
+}
+
+#agentPanel .concierge-shell .concierge-header {
+  padding: 9px 11px !important;
+  gap: 8px !important;
+}
+
+#agentPanel .concierge-shell .concierge-identity {
+  min-width: 0 !important;
+}
+
+#agentPanel .concierge-shell .concierge-identity h2,
+#agentPanel .concierge-shell #conciergeTitle {
+  font-size: clamp(0.81rem, 0.92vw, 0.95rem) !important;
+  line-height: 1.25 !important;
+  white-space: nowrap !important;
+}
+
+#agentPanel .concierge-shell .concierge-identity p {
+  font-size: 0.67rem !important;
+  line-height: 1.28 !important;
+}
+
+#agentPanel .concierge-shell .concierge-head-btn {
+  width: 30px !important;
+  height: 30px !important;
+  min-width: 30px !important;
+  min-height: 30px !important;
+}
+
+#agentPanel .concierge-shell .concierge-context {
+  padding: 5px 12px !important;
+  gap: 5px !important;
+}
+
+#agentPanel .concierge-shell .concierge-context-pill {
+  font-size: 0.68rem !important;
+  padding: 2px 8px !important;
+}
+
+#agentPanel .concierge-shell .concierge-body {
+  padding: 12px 14px !important;
+  gap: 10px !important;
+}
+
+#agentPanel .concierge-shell .concierge-welcome {
+  background: transparent !important;
+  border: 0 !important;
+  border-top: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding: 2px 0 4px !important;
+  margin: 0 !important;
+}
+
+#agentPanel .concierge-shell .concierge-welcome .caption,
+#agentPanel .concierge-shell .concierge-welcome .caption::before,
+#agentPanel .concierge-shell .concierge-presets {
+  display: none !important;
+}
+
+#agentPanel .concierge-shell .concierge-welcome h3 {
+  margin: 0 0 10px !important;
+  font-size: clamp(0.88rem, 0.96vw, 0.98rem) !important;
+  font-weight: 700 !important;
+  line-height: 1.35 !important;
+  color: #061A33 !important;
+}
+
+#agentPanel .concierge-shell .concierge-shortcuts {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 7px !important;
+  margin-top: 0 !important;
+}
+
+#agentPanel .concierge-shell .concierge-shortcuts button {
+  padding: 8px 9px !important;
+  gap: 7px !important;
+  border-radius: 9px !important;
+  background: #FFFFFF !important;
+  border: 1px solid rgba(10, 46, 92, 0.14) !important;
+  box-shadow: 0 1px 4px rgba(6, 26, 51, 0.04) !important;
+}
+
+#agentPanel .concierge-shell .concierge-shortcuts button:is(:hover, :focus-visible) {
+  border-color: rgba(0, 108, 53, 0.42) !important;
+  background: #F4FAF7 !important;
+}
+
+#agentPanel .concierge-shell .concierge-shortcuts .ic {
+  width: 15px !important;
+  height: 15px !important;
+}
+
+#agentPanel .concierge-shell .concierge-shortcuts strong {
+  font-size: 0.76rem !important;
+  line-height: 1.25 !important;
+}
+
+#agentPanel .concierge-shell .concierge-shortcuts small {
+  font-size: 0.66rem !important;
+  line-height: 1.28 !important;
+}
+
+#agentPanel .concierge-shell .concierge-message {
+  padding: 9px 11px !important;
+  font-size: 0.77rem !important;
+  line-height: 1.55 !important;
+  border-radius: 9px !important;
+}
+
+#agentPanel .concierge-shell .concierge-message h4 {
+  font-size: 0.74rem !important;
+}
+
+#agentPanel .concierge-shell .concierge-item-card {
+  padding: 7px 9px !important;
+  gap: 8px !important;
+}
+
+#agentPanel .concierge-shell .concierge-item-card img {
+  width: 44px !important;
+  height: 30px !important;
+}
+
+#agentPanel .concierge-shell .concierge-item-copy strong {
+  font-size: 0.76rem !important;
+}
+
+#agentPanel .concierge-shell .concierge-item-copy span {
+  font-size: 0.68rem !important;
+}
+
+#agentPanel .concierge-shell .concierge-choice {
+  font-size: 0.7rem !important;
+  padding: 4px 9px !important;
+}
+
+#agentPanel .concierge-shell .concierge-composer {
+  padding: 8px 12px 10px !important;
+  gap: 6px !important;
+}
+
+#agentPanel .concierge-shell .concierge-quickbar {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  overflow: visible !important;
+  gap: 4px !important;
+}
+
+#agentPanel .concierge-shell .concierge-quickbar button {
+  font-size: 0.67rem !important;
+  padding: 3px 7px !important;
+  border-radius: 7px !important;
+}
+
+#agentPanel .concierge-shell #conciergeInput {
+  font-size: 0.77rem !important;
+  min-height: 36px !important;
+  padding: 6px 10px !important;
+}
+
+#agentPanel .concierge-shell .concierge-send {
+  width: 36px !important;
+  height: 36px !important;
+  min-width: 36px !important;
+  min-height: 36px !important;
+}
+
+#agentPanel .concierge-shell .concierge-composer-meta,
+#agentPanel .concierge-shell .concierge-composer-meta button {
+  font-size: 0.68rem !important;
+}
+
+@media (max-width: 640px) {
+  #agentPanel .panel-content.concierge-shell {
+    width: min(304px, calc(100vw - 20px)) !important;
+    max-width: calc(100vw - 20px) !important;
+    border-inline-end: 1px solid rgba(10, 46, 92, 0.14) !important;
+  }
+
+  #agentPanel .concierge-shell .concierge-head-btn {
+    width: 34px !important;
+    height: 34px !important;
+    min-width: 34px !important;
+    min-height: 34px !important;
+  }
+
+  #agentPanel .concierge-shell .concierge-send {
+    min-width: 38px !important;
+    min-height: 38px !important;
+  }
+}
+
+/* 3. Compact Map Card Height (#routeSticky): Remove Empty Vertical Void Under Buttons */
+@media (min-width: 901px) {
+  #planner .planner-card-shell #routeSticky,
+  #routeSticky {
+    min-height: 0 !important;
+    height: auto !important;
+    align-items: stretch !important;
+  }
+
+  #planner .planner-card-shell #routeSticky .map-panel,
+  #planner .planner-card-shell #mapPanel,
+  #routeSticky .map-panel {
+    min-height: clamp(300px, 24.5vw, 375px) !important;
+    height: auto !important;
+  }
+
+  #planner .planner-card-shell #routeSticky .map-frame,
+  #routeSticky .map-frame {
+    min-height: clamp(300px, 24.5vw, 375px) !important;
+    height: 100% !important;
+  }
+
+  #planner .planner-card-shell #routeSticky .route-side,
+  #routeSticky .route-side {
+    min-height: 0 !important;
+    height: auto !important;
+    padding: 10px 14px !important;
+    gap: 4px !important;
+    align-content: start !important;
+  }
+
+  #routeSticky .route-head {
+    margin-bottom: 1px !important;
+    padding-bottom: 2px !important;
+  }
+
+  #routeSticky #routeDots {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    overflow: visible !important;
+    gap: 3px !important;
+    margin: 1px 0 !important;
+  }
+
+  #routeSticky #routeDots button {
+    min-width: 20px !important;
+    height: 20px !important;
+    padding: 0 3px !important;
+    font-size: 0.67rem !important;
+  }
+
+  #routeSticky .map-approx-note,
+  #routeSticky #mapApproximate {
+    margin: 0 0 2px !important;
+    font-size: 0.66rem !important;
+    line-height: 1.25 !important;
+  }
+
+  #routeSticky .route-image {
+    aspect-ratio: 16 / 10 !important;
+    max-height: 152px !important;
+    width: 100% !important;
+    object-fit: cover !important;
+    margin: 1px 0 3px !important;
+  }
+
+  #routeSticky .route-text {
+    display: grid !important;
+    gap: 2px !important;
+  }
+
+  #routeSticky .route-category,
+  #routeSticky .route-kicker {
+    margin: 0 !important;
+    font-size: 0.69rem !important;
+  }
+
+  #routeSticky #stopTitle,
+  #routeSticky .route-title {
+    margin: 0 !important;
+    font-size: clamp(0.98rem, 1.2vw, 1.15rem) !important;
+    line-height: 1.2 !important;
+  }
+
+  #routeSticky .route-info,
+  #routeSticky .route-meta,
+  #routeSticky .route-desc,
+  #routeSticky .route-weather {
+    margin: 0 !important;
+    font-size: 0.73rem !important;
+    line-height: 1.32 !important;
+  }
+
+  #routeSticky .route-footer {
+    margin-top: 4px !important;
+    padding-top: 6px !important;
+    gap: 6px !important;
+  }
+
+  #routeSticky .route-footer .btn,
+  #routeSticky .route-footer button,
+  #routeSticky .route-footer a {
+    min-height: 36px !important;
+    padding: 5px 9px !important;
+    font-size: 0.75rem !important;
+  }
+}
+
+/* Guide & Place RTL Discipline (Text RIGHT, Media LEFT), Equal Bento Cards & Crisp Headings */
+.place-guide {
+  max-width: none !important;
+  width: 100% !important;
+  margin-top: clamp(12px, 1.8vw, 18px) !important;
+}
+
+.place-guide-bento {
+  width: 100% !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+}
+
+@media (max-width: 900px) {
+  .place-guide-bento {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+}
+
+.tour-guide-detail {
+  grid-template-columns: minmax(0, 1.02fr) minmax(0, .98fr) !important;
+  gap: clamp(18px, 3vw, 34px) !important;
+  align-items: start !important;
+}
+
+.directory-intro-copy {
+  order: 0 !important;
+}
+
+.directory-gallery {
+  order: 1 !important;
+}
+
+.tour-guide-intro {
+  order: 0 !important;
+}
+
+.tour-guide-cover-media {
+  order: 1 !important;
+}
+
+@media (max-width: 900px) {
+  .tour-guide-detail {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+}
+
+.place-view .place-hero h1,
+.tour-guide-cover h1,
+.tour-guide-detail h1 {
+  font-size: clamp(1.18rem, 1.44vw, 1.42rem) !important;
+  line-height: 1.28 !important;
+  font-weight: 700 !important;
+}
+
+.tour-guide-intro > p,
+.place-hero .lead,
+.directory-intro-copy .lead {
+  font-size: clamp(0.84rem, 0.94vw, 0.91rem) !important;
+  line-height: 1.68 !important;
+  font-weight: 400 !important;
+}
+
+.directory-category-summary,
+.tour-guide-address {
+  font-size: 0.83rem !important;
+  line-height: 1.55 !important;
+}
+
+.place-view h2,
+.tour-guide h2,
+.place-bento-card h2,
+.directory-visit-guide h2,
+.tour-guide-facts h2 {
+  font-size: clamp(0.98rem, 1.15vw, 1.1rem) !important;
+  line-height: 1.32 !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .faq-item,
+  .faq-support-card,
+  .faq-support-link {
+    transition: none !important;
+  }
+}

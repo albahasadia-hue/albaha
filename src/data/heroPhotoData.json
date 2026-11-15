@@ -1,0 +1,16 @@
+{
+  "ain": {
+    "wide": "/media/hero-ain-wide.webp",
+    "mobile": "/media/hero-ain-mobile.webp"
+  },
+  "shada": {
+    "wide": "/media/hero-shada-wide.webp",
+    "mobile": "/media/hero-shada-mobile.webp"
+  },
+  "khairah": {
+    "wide": "/media/hero-khairah-wide.webp"
+  },
+  "mishari": {
+    "wide": "/media/hero-mishari-wide.webp"
+  }
+}

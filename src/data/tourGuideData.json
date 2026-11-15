@@ -1,0 +1,1641 @@
+{
+  "source": "https://baha.gov.sa/ar/Albums/SiteTypes?category=Entertainment",
+  "categories": [
+    {
+      "id": "parks",
+      "label": "المنتزهات",
+      "icon": "leaf",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=6"
+    },
+    {
+      "id": "water",
+      "label": "الشلالات والأودية",
+      "icon": "mountain",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=20"
+    },
+    {
+      "id": "farms",
+      "label": "المزارع السياحية",
+      "icon": "season-spring",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?type=15"
+    },
+    {
+      "id": "heritage",
+      "label": "القرى التراثية",
+      "icon": "section-village",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Heritage&type=19"
+    },
+    {
+      "id": "museums",
+      "label": "المتاحف",
+      "icon": "heritage",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Heritage&type=12"
+    },
+    {
+      "id": "hotels",
+      "label": "الفنادق",
+      "icon": "directory-hotel",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=4"
+    },
+    {
+      "id": "chalets",
+      "label": "الشاليهات",
+      "icon": "guide-tent",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=5"
+    },
+    {
+      "id": "restaurants",
+      "label": "المطاعم",
+      "icon": "guide-dining",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?type=7"
+    },
+    {
+      "id": "cafes",
+      "label": "المقاهي",
+      "icon": "directory-coffee",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=8"
+    },
+    {
+      "id": "malls",
+      "label": "المولات",
+      "icon": "directory-shopping",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=9"
+    }
+  ],
+  "records": [
+    {
+      "id": "raghdan",
+      "name": "منتزه غابة رغدان",
+      "category": "parks",
+      "address": "الباحة - رغدان",
+      "district": "الباحة",
+      "source": "https://baha.gov.sa/ar/Albums/ImageDetails/174",
+      "photo": "raghdan",
+      "trip": "raghdan",
+      "coordinates": [
+        20.0206063,
+        41.4327877
+      ],
+      "map": "https://maps.app.goo.gl/TH9tmy3dD4ocAvfx6",
+      "description": "منتزه جبلي يجمع بين التنزّه وسط الأشجار وإطلالات السراة. تشمل خيارات التجربة الجسر المعلّق وحديقة اللافندر بحسب دليل صيف السعودية.",
+      "facts": [
+        [
+          "مساحة المنتزه",
+          "482,195 م²"
+        ],
+        [
+          "التجارب المتاحة",
+          "الجسر المعلّق وحديقة اللافندر (دليل صيف السعودية)"
+        ],
+        [
+          "المرافق",
+          "مسطحات خضراء، مصلى ودورات مياه"
+        ]
+      ]
+    },
+    {
+      "id": "hussam",
+      "name": "منتزه الأمير حسام",
+      "category": "parks",
+      "address": "مدينة الباحة · منتزه الأمير حسام",
+      "district": "الباحة",
+      "source": "https://baha.gov.sa/ar/Albums/ImageDetails/304",
+      "photo": "hussam",
+      "trip": "hussam",
+      "coordinates": [
+        20.012892,
+        41.450364
+      ],
+      "map": "https://maps.app.goo.gl/FG65qchxj8vq6qhY8",
+      "description": "منتزه عائلي تتوزع فيه ممرات المشاة والجلسات حول البحيرة. يضم مسرحًا مفتوحًا ومنطقتين لألعاب الأطفال.",
+      "facts": [
+        [
+          "المساحة الإجمالية",
+          "161,000 م²"
+        ],
+        [
+          "المسطحات الخضراء",
+          "80,000 م²"
+        ],
+        [
+          "ممرات المشاة",
+          "600 م"
+        ],
+        [
+          "مواقف السيارات",
+          "600 موقف"
+        ],
+        [
+          "الجلسات",
+          "36 جلسة، منها 21 مظللة"
+        ],
+        [
+          "البحيرة",
+          "1,200 م²"
+        ],
+        [
+          "المسرح المفتوح",
+          "1,000 شخص"
+        ],
+        [
+          "ألعاب الأطفال",
+          "منطقتان"
+        ],
+        [
+          "المرافق",
+          "مسجد، دورات مياه، أكشاك ومنافذ أطعمة"
+        ]
+      ]
+    },
+    {
+      "id": "dhee-ain",
+      "name": "قرية ذي عين التراثية",
+      "category": "heritage",
+      "address": "الباحة - المخواة",
+      "district": "المخواة",
+      "source": "https://baha.gov.sa/ar/Albums/ImageDetails/123",
+      "photo": "ain",
+      "trip": "ain",
+      "coordinates": [
+        19.9311047,
+        41.4424626
+      ],
+      "map": "https://maps.app.goo.gl/UtqB32AtHVNsMWJA9",
+      "description": "تتدرّج بيوت قرية ذي عين الحجرية فوق التلة. تستمد القرية اسمها من عين الماء أسفل الجبل، وبين مستوياتها ممرات وسلالم حجرية.",
+      "facts": [
+        [
+          "المحافظة",
+          "المخواة"
+        ],
+        [
+          "الارتفاع عن سطح البحر",
+          "نحو 800 م"
+        ],
+        [
+          "ساعات العمل المنشورة",
+          "9:00 ص – 5:00 م (دليل صيف السعودية)"
+        ],
+        [
+          "العمارة",
+          "بيوت حجرية وممرات وسلالم حجرية"
+        ]
+      ]
+    },
+    {
+      "id": "khairah-waterfall",
+      "name": "شلال خيرة",
+      "category": "water",
+      "address": "الباحة - بني حسن - شلال خيرة",
+      "district": "بني حسن",
+      "source": "https://baha.gov.sa/ar/Albums/ImageDetails/412",
+      "accessMap": "https://maps.app.goo.gl/SJQLJA9rNo7JddNm9",
+      "description": "شلال طبيعي في محافظة بني حسن. رابط الوصول المنشور لدى الأمانة يفتح موقع متنزه غابة خيرة.",
+      "facts": [
+        [
+          "المحافظة",
+          "بني حسن"
+        ],
+        [
+          "نقطة الوصول المنشورة",
+          "موقع متنزه غابة خيرة (أمانة منطقة الباحة)"
+        ]
+      ]
+    },
+    {
+      "id": "almond-farm",
+      "name": "مزرعة بساتين اللوز",
+      "category": "farms",
+      "address": "الباحة - بني ظبيان",
+      "district": "الباحة",
+      "source": "https://baha.gov.sa/ar/Albums/ImageDetails/246",
+      "description": "تجربة ريفية في بني ظبيان تجمع بين جولة وسط الأشجار والإقامة في أكواخ خشبية. يذكر الدليل السياحي وجود مقهى لخدمة الزوار.",
+      "facts": [
+        [
+          "المنطقة",
+          "بني ظبيان"
+        ],
+        [
+          "التجربة",
+          "جولة وسط الأشجار وأكواخ خشبية"
+        ],
+        [
+          "الخدمات المنشورة",
+          "مقهى لخدمة الزوار"
+        ]
+      ]
+    },
+    {
+      "id": "khazim-farm",
+      "name": "مزرعة الخازم",
+      "category": "farms",
+      "address": "الباحة - بلجرشي",
+      "district": "بلجرشي",
+      "source": "https://baha.gov.sa/ar/Albums/ImageDetails/430",
+      "coordinates": [
+        19.8544859,
+        41.602385
+      ],
+      "map": "https://maps.app.goo.gl/Tw4wD6QAeQ9ind3i9",
+      "description": "مزرعة في بلجرشي بجوار بحيرة سد الطلقية، وتتنوع فيها أشجار الفاكهة بحسب الموسم.",
+      "facts": [
+        [
+          "المحافظة",
+          "بلجرشي"
+        ],
+        [
+          "الموقع",
+          "بحيرة سد الطلقية"
+        ],
+        [
+          "التجربة",
+          "التعرّف على الفاكهة الموسمية وقطفها عند توفرها"
+        ]
+      ],
+      "trip": "khazim-farm"
+    },
+    {
+      "id": "north-park",
+      "name": "حديقة الشمال",
+      "category": "parks",
+      "address": "الباحة",
+      "district": "الباحة",
+      "source": "https://baha.gov.sa/ar/internalpages/page/الدليل-الإرشادي-والسياحي",
+      "coordinates": [
+        20.1294271,
+        41.4333574
+      ],
+      "map": "https://goo.gl/maps/2EM4C9XpquvNURaZ7",
+      "description": "مساحات خضراء وأشجار في الحديقة، مع ملاعب لكرة القدم.",
+      "facts": [
+        [
+          "المساحة",
+          "28,770 م²"
+        ],
+        [
+          "المرافق",
+          "مسطحات خضراء وملاعب كرة قدم"
+        ]
+      ],
+      "trip": "north-park"
+    },
+    {
+      "id": "shahbah",
+      "name": "حديقة شهبة",
+      "category": "parks",
+      "address": "الباحة - شهبة",
+      "district": "الباحة",
+      "source": "https://baha.gov.sa/ar/internalpages/page/الدليل-الإرشادي-والسياحي",
+      "coordinates": [
+        20.050882,
+        41.4740586
+      ],
+      "map": "https://goo.gl/maps/ywapYmXBssL14Tv46",
+      "description": "مساحة للتنزه في شهبة، تضم أشجارًا ومساحات خضراء وألعابًا للأطفال.",
+      "facts": [
+        [
+          "المساحة",
+          "43,000 م²"
+        ],
+        [
+          "المرافق",
+          "مسطحات خضراء وألعاب أطفال"
+        ]
+      ],
+      "trip": "shahbah"
+    },
+    {
+      "id": "habashi",
+      "name": "حديقة الحبشي",
+      "category": "parks",
+      "address": "الباحة",
+      "district": "الباحة",
+      "source": "https://baha.gov.sa/ar/internalpages/page/الدليل-الإرشادي-والسياحي",
+      "coordinates": [
+        20.0432294,
+        41.4571911
+      ],
+      "map": "https://goo.gl/maps/eEhfohCrqcrehtko9",
+      "description": "حديقة تضم أشجارًا ومساحات خضراء، مع ملاعب لكرة القدم ومنطقة لألعاب الأطفال.",
+      "facts": [
+        [
+          "المساحة",
+          "25,148 م²"
+        ],
+        [
+          "المرافق",
+          "ألعاب أطفال وملاعب كرة قدم"
+        ]
+      ],
+      "trip": "habashi"
+    },
+    {
+      "id": "mohammed-bin-saud-park",
+      "name": "حديقة الأمير محمد بن سعود",
+      "category": "parks",
+      "address": "الباحة",
+      "district": "الباحة",
+      "source": "https://baha.gov.sa/ar/internalpages/page/الدليل-الإرشادي-والسياحي",
+      "coordinates": [
+        20.0189178,
+        41.4427019
+      ],
+      "map": "https://goo.gl/maps/SLEmxwNBAU5n5cEDA",
+      "description": "مساحات خضراء وأشجار، مع مصلى ودورات مياه ضمن مرافق الحديقة.",
+      "facts": [
+        [
+          "المساحة",
+          "21,623 م²"
+        ],
+        [
+          "المرافق",
+          "مسطحات خضراء ومصلى ودورات مياه"
+        ]
+      ],
+      "trip": "mohammed-bin-saud-park"
+    },
+    {
+      "id": "parks-07",
+      "name": "حديقة الأمير سلطان بن سلمان",
+      "category": "parks",
+      "address": "الباحة",
+      "district": "الباحة",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=6"
+    },
+    {
+      "id": "parks-08",
+      "name": "حديقة السلام",
+      "category": "parks",
+      "address": "الباحة - بلجرشي",
+      "district": "بلجرشي",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=6"
+    },
+    {
+      "id": "parks-09",
+      "name": "حديقة أم غيث",
+      "category": "parks",
+      "address": "الباحة - بلجرشي",
+      "district": "بلجرشي",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=6"
+    },
+    {
+      "id": "parks-10",
+      "name": "حديقة الخزامى",
+      "category": "parks",
+      "address": "الباحة - بلجرشي",
+      "district": "بلجرشي",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=6"
+    },
+    {
+      "id": "parks-11",
+      "name": "حديقة مقمور",
+      "category": "parks",
+      "address": "الباحة - بلجرشي",
+      "district": "بلجرشي",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=6"
+    },
+    {
+      "id": "parks-12",
+      "name": "حديقة شرى",
+      "category": "parks",
+      "address": "الباحة - بلجرشي",
+      "district": "بلجرشي",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=6"
+    },
+    {
+      "id": "parks-13",
+      "name": "حديقة دانة بلجرشي",
+      "category": "parks",
+      "address": "الباحة - بلجرشي",
+      "district": "بلجرشي",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=6"
+    },
+    {
+      "id": "parks-14",
+      "name": "منتزه السكران",
+      "category": "parks",
+      "address": "الباحة - بلجرشي",
+      "district": "بلجرشي",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=6"
+    },
+    {
+      "id": "parks-15",
+      "name": "حديقة البرج",
+      "category": "parks",
+      "address": "الباحة - المندق",
+      "district": "المندق",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=6"
+    },
+    {
+      "id": "parks-16",
+      "name": "حديقة برحرح",
+      "category": "parks",
+      "address": "الباحة - المندق",
+      "district": "المندق",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=6"
+    },
+    {
+      "id": "parks-17",
+      "name": "الفراشة الترفيهية",
+      "category": "parks",
+      "address": "الباحة - المندق",
+      "district": "المندق",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=6"
+    },
+    {
+      "id": "parks-18",
+      "name": "متنزه بالخزمر",
+      "category": "parks",
+      "address": "الباحة - المندق",
+      "district": "المندق",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=6"
+    },
+    {
+      "id": "sharashir",
+      "name": "شلال الشراشير",
+      "category": "water",
+      "address": "الباحة · قرية جدرة",
+      "district": "الباحة",
+      "source": "https://baha.gov.sa/ar/Albums/ImageDetails/403",
+      "description": "شلال طبيعي في قرية جدرة، يستقطب الزوار الراغبين في استكشاف طبيعة الباحة خلال الصيف.",
+      "facts": [
+        [
+          "الموقع",
+          "قرية جدرة"
+        ]
+      ]
+    },
+    {
+      "id": "water-03",
+      "name": "شلال وادي الملد",
+      "category": "water",
+      "address": "الباحة - شلال وادي الملد",
+      "district": "الباحة",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=20"
+    },
+    {
+      "id": "water-04",
+      "name": "شلال ام الدقيق",
+      "category": "water",
+      "address": "الباحة - بشير",
+      "district": "الباحة",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=20"
+    },
+    {
+      "id": "water-05",
+      "name": "شلال الغدير",
+      "category": "water",
+      "address": "الباحة",
+      "district": "الباحة",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=20"
+    },
+    {
+      "id": "water-06",
+      "name": "شلال الشولة",
+      "category": "water",
+      "address": "الباحة",
+      "district": "الباحة",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=20"
+    },
+    {
+      "id": "water-07",
+      "name": "سد القمع",
+      "category": "water",
+      "address": "الباحة - بلجرشي",
+      "district": "بلجرشي",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=20"
+    },
+    {
+      "id": "water-08",
+      "name": "شلال الحمده",
+      "category": "water",
+      "address": "الباحة - بلجرشي",
+      "district": "بلجرشي",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=20"
+    },
+    {
+      "id": "water-09",
+      "name": "وادي مذود",
+      "category": "water",
+      "address": "الباحة - بلجرشي",
+      "district": "بلجرشي",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=20"
+    },
+    {
+      "id": "water-10",
+      "name": "شلال اثرب",
+      "category": "water",
+      "address": "الباحة - بلجرشي",
+      "district": "بلجرشي",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=20"
+    },
+    {
+      "id": "water-11",
+      "name": "وادي الخيطان",
+      "category": "water",
+      "address": "الباحة - بلجرشي",
+      "district": "بلجرشي",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=20"
+    },
+    {
+      "id": "water-12",
+      "name": "وادي ضرك",
+      "category": "water",
+      "address": "الباحة - المندق",
+      "district": "المندق",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=20"
+    },
+    {
+      "id": "water-13",
+      "name": "وادي برحرح",
+      "category": "water",
+      "address": "الباحة - المندق",
+      "district": "المندق",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=20"
+    },
+    {
+      "id": "water-14",
+      "name": "وادي زهران",
+      "category": "water",
+      "address": "الباحة - المندق",
+      "district": "المندق",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=20"
+    },
+    {
+      "id": "water-15",
+      "name": "سد مدهاس",
+      "category": "water",
+      "address": "الباحة - المندق",
+      "district": "المندق",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=20"
+    },
+    {
+      "id": "water-16",
+      "name": "وادي القدحة",
+      "category": "water",
+      "address": "الباحة - المندق",
+      "district": "المندق",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=20"
+    },
+    {
+      "id": "water-17",
+      "name": "وادي مشنية",
+      "category": "water",
+      "address": "الباحة - المندق",
+      "district": "المندق",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=20"
+    },
+    {
+      "id": "water-18",
+      "name": "وادي دوقة",
+      "category": "water",
+      "address": "الباحة - قلوة",
+      "district": "قلوة",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=20"
+    },
+    {
+      "id": "farms-02",
+      "name": "مزرعة العمر الريفية",
+      "category": "farms",
+      "address": "الباحة - المندق - مزرعة العمر الريفية",
+      "district": "المندق",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?type=15"
+    },
+    {
+      "id": "farms-03",
+      "name": "مزرعة الخميس النموذجية",
+      "category": "farms",
+      "address": "الباحة",
+      "district": "الباحة",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?type=15"
+    },
+    {
+      "id": "farms-04",
+      "name": "مزرعة برشومي السراه",
+      "category": "farms",
+      "address": "الباحة",
+      "district": "الباحة",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?type=15"
+    },
+    {
+      "id": "farms-06",
+      "name": "مزرعه الوادي الريفيه",
+      "category": "farms",
+      "address": "الباحة - بلجرشي",
+      "district": "بلجرشي",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?type=15"
+    },
+    {
+      "id": "farms-07",
+      "name": "مزرعة الوالدين",
+      "category": "farms",
+      "address": "الباحة - بلجرشي",
+      "district": "بلجرشي",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?type=15"
+    },
+    {
+      "id": "farms-08",
+      "name": "مزرعة الجسر النباتية",
+      "category": "farms",
+      "address": "الباحة - بلجرشي",
+      "district": "بلجرشي",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?type=15"
+    },
+    {
+      "id": "farms-09",
+      "name": "مزرعة البروقي",
+      "category": "farms",
+      "address": "الباحة - المندق",
+      "district": "المندق",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?type=15"
+    },
+    {
+      "id": "farms-10",
+      "name": "اكواخ الحازم",
+      "category": "farms",
+      "address": "الباحة - المندق",
+      "district": "المندق",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?type=15"
+    },
+    {
+      "id": "farms-11",
+      "name": "قرية الأطلال التراثية",
+      "category": "farms",
+      "address": "الباحة - المندق",
+      "district": "المندق",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?type=15"
+    },
+    {
+      "id": "farms-12",
+      "name": "مزرعة ارياف السياحية",
+      "category": "farms",
+      "address": "الباحة - المخواة",
+      "district": "المخواة",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?type=15"
+    },
+    {
+      "id": "farms-13",
+      "name": "مزرعة الزيتونة",
+      "category": "farms",
+      "address": "الباحة - العقيق",
+      "district": "العقيق",
+      "source": "https://baha.gov.sa/ar/Departments/ImageAlbum/245?deptId=112",
+      "coordinates": [
+        20.0763061,
+        41.5692638
+      ],
+      "map": "https://maps.app.goo.gl/4KVcEBmy7H3oLSn5A",
+      "description": "مزرعة سياحية تجمع مدرجات الزيتون وتجارب الزراعة. يذكر دليل الأمانة زراعة الفراولة مائيًا ووجود حديقة للطيور.",
+      "facts": [
+        [
+          "المحافظة",
+          "العقيق"
+        ],
+        [
+          "التجارب الزراعية",
+          "مدرجات الزيتون وزراعة الفراولة مائيًا"
+        ],
+        [
+          "المرافق",
+          "حديقة للطيور"
+        ]
+      ],
+      "trip": "farms-13"
+    },
+    {
+      "id": "farms-14",
+      "name": "مركز فال العز للفروسية",
+      "category": "farms",
+      "address": "الباحة - العقيق",
+      "district": "العقيق",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?type=15"
+    },
+    {
+      "id": "farms-15",
+      "name": "مزرعة عقيق النخل للسياحة الريفية",
+      "category": "farms",
+      "address": "الباحة - العقيق",
+      "district": "العقيق",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?type=15"
+    },
+    {
+      "id": "farms-16",
+      "name": "مزرعة لتين بارك",
+      "category": "farms",
+      "address": "الباحة - العقيق",
+      "district": "العقيق",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?type=15"
+    },
+    {
+      "id": "farms-17",
+      "name": "مزرعة واكواخ ريف الازهر",
+      "category": "farms",
+      "address": "الباحة - القرى",
+      "district": "القرى",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?type=15"
+    },
+    {
+      "id": "farms-18",
+      "name": "مزرعة حسن الشنتير",
+      "category": "farms",
+      "address": "الباحة - القرى",
+      "district": "القرى",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?type=15"
+    },
+    {
+      "id": "heritage-02",
+      "name": "قرية حصون بخروش بن علاس",
+      "category": "heritage",
+      "address": "الباحة - القرى",
+      "district": "القرى",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Heritage&type=19"
+    },
+    {
+      "id": "museums-01",
+      "name": "نزل العائد",
+      "category": "museums",
+      "address": "الباحة -بني كبير",
+      "district": "الباحة",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Heritage&type=12"
+    },
+    {
+      "id": "museums-02",
+      "name": "متحف الشملاني",
+      "category": "museums",
+      "address": "الباحة - الأطاولة",
+      "district": "الباحة",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Heritage&type=12"
+    },
+    {
+      "id": "museums-03",
+      "name": "متحف الفيان",
+      "category": "museums",
+      "address": "الباحة - الأطاولة",
+      "district": "الباحة",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Heritage&type=12"
+    },
+    {
+      "id": "museums-04",
+      "name": "متحف بدر ال موالا",
+      "category": "museums",
+      "address": "الباحة - المخواه",
+      "district": "المخواة",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Heritage&type=12"
+    },
+    {
+      "id": "museums-05",
+      "name": "متحف الشيخ مصبح",
+      "category": "museums",
+      "address": "الباحة- بلجرشي",
+      "district": "بلجرشي",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Heritage&type=12"
+    },
+    {
+      "id": "museums-06",
+      "name": "متحف الاخوين",
+      "category": "museums",
+      "address": "الباحة",
+      "district": "الباحة",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Heritage&type=12"
+    },
+    {
+      "id": "museums-07",
+      "name": "المتحف المركزي في الباحة",
+      "category": "museums",
+      "address": "الباحة",
+      "district": "الباحة",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Heritage&type=12"
+    },
+    {
+      "id": "museums-08",
+      "name": "متحف العمدة",
+      "category": "museums",
+      "address": "الباحة",
+      "district": "الباحة",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Heritage&type=12"
+    },
+    {
+      "id": "museums-09",
+      "name": "المتحف الأبنوي",
+      "category": "museums",
+      "address": "الباحة - بلجرشي",
+      "district": "بلجرشي",
+      "source": "https://baha.gov.sa/ar/Departments/ImageAlbum/442?deptId=110",
+      "coordinates": [
+        19.8201044,
+        41.6111074
+      ],
+      "map": "https://maps.app.goo.gl/q6nTzLP1tRdP6RKF7",
+      "description": "يعرض المتحف مقتنيات من الحياة اليومية قديمًا، منها أدوات الزراعة والحياة المنزلية والملابس التقليدية.",
+      "facts": [
+        [
+          "المحافظة",
+          "بلجرشي"
+        ],
+        [
+          "المقتنيات",
+          "أدوات الزراعة والحياة المنزلية والملابس التقليدية"
+        ],
+        [
+          "المرجع",
+          "أمانة منطقة الباحة"
+        ]
+      ],
+      "trip": "museums-09"
+    },
+    {
+      "id": "museums-10",
+      "name": "متحف بني جرة",
+      "category": "museums",
+      "address": "الباحة - بلجرشي",
+      "district": "بلجرشي",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Heritage&type=12"
+    },
+    {
+      "id": "museums-11",
+      "name": "متحف آل دغسان",
+      "category": "museums",
+      "address": "الباحة - بلجرشي",
+      "district": "بلجرشي",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Heritage&type=12"
+    },
+    {
+      "id": "museums-12",
+      "name": "متحف الديرة",
+      "category": "museums",
+      "address": "الباحة - المندق",
+      "district": "المندق",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Heritage&type=12"
+    },
+    {
+      "id": "museums-13",
+      "name": "متحف سعد بن ناصر فرحه",
+      "category": "museums",
+      "address": "الباحة - العقيق",
+      "district": "العقيق",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Heritage&type=12"
+    },
+    {
+      "id": "museums-14",
+      "name": "متحف مطير العيش",
+      "category": "museums",
+      "address": "الباحة - الحجرة",
+      "district": "الحجرة",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Heritage&type=12"
+    },
+    {
+      "id": "hotels-01",
+      "name": "الفاضل للوحدات السكنية",
+      "category": "hotels",
+      "address": "الباحة - بني سار",
+      "district": "الباحة",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=4"
+    },
+    {
+      "id": "hotels-02",
+      "name": "فندق مدينة السحاب",
+      "category": "hotels",
+      "address": "الباحة - الزرقاء",
+      "district": "الباحة",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=4"
+    },
+    {
+      "id": "hotels-03",
+      "name": "دار الفخامة",
+      "category": "hotels",
+      "address": "الباحة",
+      "district": "الباحة",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=4"
+    },
+    {
+      "id": "hotels-04",
+      "name": "فندق شهبة انترناشونال",
+      "category": "hotels",
+      "address": "الباحة - شهبة",
+      "district": "الباحة",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=4"
+    },
+    {
+      "id": "hotels-05",
+      "name": "فندق ساكورا سيتي",
+      "category": "hotels",
+      "address": "الباحة",
+      "district": "الباحة",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=4"
+    },
+    {
+      "id": "hotels-06",
+      "name": "فندق المنتزه الوطني",
+      "category": "hotels",
+      "address": "بلجرشي - طريق الملك عبدالعزيز",
+      "district": "بلجرشي",
+      "source": "https://bso.gov.sa/assets/tourist_guide_albaha_arabic_241f20cb54/tourist_guide_albaha_arabic_241f20cb54.pdf",
+      "coordinates": [
+        19.86,
+        41.56
+      ],
+      "map": "https://www.google.com/maps/search/?api=1&query=19.8600,41.5600",
+      "description": "فندق على طريق الملك عبدالعزيز في بلجرشي. يذكر الدليل السياحي للمنطقة وجود مطعم ومقهى فيه.",
+      "facts": [
+        [
+          "المحافظة",
+          "بلجرشي"
+        ],
+        [
+          "الموقع",
+          "طريق الملك عبدالعزيز"
+        ],
+        [
+          "الخدمات المنشورة",
+          "مطعم ومقهى (الدليل السياحي للمنطقة)"
+        ]
+      ]
+    },
+    {
+      "id": "hotels-07",
+      "name": "فندق ساف",
+      "category": "hotels",
+      "address": "الباحة - بلجرشي",
+      "district": "بلجرشي",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=4"
+    },
+    {
+      "id": "hotels-08",
+      "name": "غيوم للفلل الفندقية",
+      "category": "hotels",
+      "address": "الباحة - بلجرشي",
+      "district": "بلجرشي",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=4"
+    },
+    {
+      "id": "chalets-01",
+      "name": "المنتجع الريفي",
+      "category": "chalets",
+      "address": "الباحة",
+      "district": "الباحة",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=5"
+    },
+    {
+      "id": "chalets-02",
+      "name": "شاليهات اكليل الجبل - الكوخ الاول",
+      "category": "chalets",
+      "address": "الباحة - الأطاولة",
+      "district": "الباحة",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=5"
+    },
+    {
+      "id": "chalets-03",
+      "name": "شاليهات اكليل الجبل - الكوخ الثاني",
+      "category": "chalets",
+      "address": "الباحة - الأطاولة",
+      "district": "الباحة",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=5"
+    },
+    {
+      "id": "chalets-04",
+      "name": "شاليهات اكليل الجبل - الكوخ الثالث",
+      "category": "chalets",
+      "address": "الباحة - الأطاولة",
+      "district": "الباحة",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=5"
+    },
+    {
+      "id": "chalets-05",
+      "name": "شاليه كاردف - الاول",
+      "category": "chalets",
+      "address": "الباحة - بني سار",
+      "district": "الباحة",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=5"
+    },
+    {
+      "id": "chalets-06",
+      "name": "شاليه كاردف - الثاني",
+      "category": "chalets",
+      "address": "الباحة - بني سار",
+      "district": "الباحة",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=5"
+    },
+    {
+      "id": "chalets-07",
+      "name": "اكواخ سار الريفية",
+      "category": "chalets",
+      "address": "الباحة- بني سار",
+      "district": "الباحة",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=5"
+    },
+    {
+      "id": "chalets-08",
+      "name": "شاليه خيال فيلا",
+      "category": "chalets",
+      "address": "الباحة- بني سار",
+      "district": "الباحة",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=5"
+    },
+    {
+      "id": "chalets-09",
+      "name": "منتجع الأرض الخضراء",
+      "category": "chalets",
+      "address": "الباحة- بني سار",
+      "district": "الباحة",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=5"
+    },
+    {
+      "id": "chalets-10",
+      "name": "شاليه البدر",
+      "category": "chalets",
+      "address": "الباحة - بلجرشي",
+      "district": "بلجرشي",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=5"
+    },
+    {
+      "id": "chalets-11",
+      "name": "منتجع قاردن سيتي",
+      "category": "chalets",
+      "address": "الباحة - بلجرشي",
+      "district": "بلجرشي",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=5"
+    },
+    {
+      "id": "chalets-12",
+      "name": "شاليهات صن رايز الفندقية",
+      "category": "chalets",
+      "address": "الباحة - العقيق",
+      "district": "العقيق",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=5"
+    },
+    {
+      "id": "chalets-13",
+      "name": "فلل ومسابح بلو سكاي",
+      "category": "chalets",
+      "address": "الباحة - العقيق",
+      "district": "العقيق",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=5"
+    },
+    {
+      "id": "chalets-14",
+      "name": "موتيلات صن رايز",
+      "category": "chalets",
+      "address": "الباحة - العقيق",
+      "district": "العقيق",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=5"
+    },
+    {
+      "id": "chalets-15",
+      "name": "شاليه ثيرا",
+      "category": "chalets",
+      "address": "الباحة - العقيق",
+      "district": "العقيق",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=5"
+    },
+    {
+      "id": "chalets-16",
+      "name": "شاليه فيوليت",
+      "category": "chalets",
+      "address": "الباحة - العقيق",
+      "district": "العقيق",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=5"
+    },
+    {
+      "id": "restaurants-01",
+      "name": "فيفث سيزون",
+      "category": "restaurants",
+      "address": "الباحة",
+      "district": "الباحة",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?type=7"
+    },
+    {
+      "id": "restaurants-02",
+      "name": "مطعم البستان",
+      "category": "restaurants",
+      "address": "مدينة الباحة",
+      "district": "الباحة",
+      "source": "https://bso.gov.sa/assets/tourist_guide_albaha_arabic_241f20cb54/tourist_guide_albaha_arabic_241f20cb54.pdf",
+      "description": "أحد خيارات الطعام في مدينة الباحة، ويصنّفه الدليل السياحي ضمن المطاعم التي تقدّم أطباقًا لبنانية.",
+      "facts": [
+        [
+          "المدينة",
+          "الباحة"
+        ],
+        [
+          "التصنيف في الدليل",
+          "أطباق لبنانية"
+        ]
+      ]
+    },
+    {
+      "id": "restaurants-03",
+      "name": "ري ليش",
+      "category": "restaurants",
+      "address": "الباحة - الباهر",
+      "district": "الباحة",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?type=7"
+    },
+    {
+      "id": "restaurants-04",
+      "name": "أبو زيد",
+      "category": "restaurants",
+      "address": "الباحة",
+      "district": "الباحة",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?type=7"
+    },
+    {
+      "id": "restaurants-05",
+      "name": "دومينوز بيتزا",
+      "category": "restaurants",
+      "address": "الباحة",
+      "district": "الباحة",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?type=7"
+    },
+    {
+      "id": "restaurants-06",
+      "name": "ليتل سيزرز",
+      "category": "restaurants",
+      "address": "الباحة - طريق بلجرشي",
+      "district": "بلجرشي",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?type=7"
+    },
+    {
+      "id": "restaurants-07",
+      "name": "الطازج",
+      "category": "restaurants",
+      "address": "الباحة - طريق العقيق",
+      "district": "العقيق",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?type=7"
+    },
+    {
+      "id": "restaurants-08",
+      "name": "البيك",
+      "category": "restaurants",
+      "address": "الباحة",
+      "district": "الباحة",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?type=7"
+    },
+    {
+      "id": "restaurants-09",
+      "name": "مطعم ريدان",
+      "category": "restaurants",
+      "address": "الباحة",
+      "district": "الباحة",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?type=7"
+    },
+    {
+      "id": "restaurants-10",
+      "name": "قلتش",
+      "category": "restaurants",
+      "address": "الباحة",
+      "district": "الباحة",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?type=7"
+    },
+    {
+      "id": "restaurants-11",
+      "name": "لاتينو",
+      "category": "restaurants",
+      "address": "الباحة",
+      "district": "الباحة",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?type=7"
+    },
+    {
+      "id": "restaurants-12",
+      "name": "The pan",
+      "category": "restaurants",
+      "address": "الباحة",
+      "district": "الباحة",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?type=7"
+    },
+    {
+      "id": "restaurants-13",
+      "name": "نقاوة",
+      "category": "restaurants",
+      "address": "الباحة",
+      "district": "الباحة",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?type=7"
+    },
+    {
+      "id": "restaurants-14",
+      "name": "برقر65",
+      "category": "restaurants",
+      "address": "الباحة",
+      "district": "الباحة",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?type=7"
+    },
+    {
+      "id": "restaurants-15",
+      "name": "سول",
+      "category": "restaurants",
+      "address": "الباحة",
+      "district": "الباحة",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?type=7"
+    },
+    {
+      "id": "restaurants-16",
+      "name": "مشراق",
+      "category": "restaurants",
+      "address": "الباحة",
+      "district": "الباحة",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?type=7"
+    },
+    {
+      "id": "cafes-01",
+      "name": "ريشيو",
+      "category": "cafes",
+      "address": "الباحة",
+      "district": "الباحة",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=8"
+    },
+    {
+      "id": "cafes-02",
+      "name": "مقهى طاولة",
+      "category": "cafes",
+      "address": "الباحة",
+      "district": "الباحة",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=8"
+    },
+    {
+      "id": "cafes-03",
+      "name": "كالما",
+      "category": "cafes",
+      "address": "الباحة",
+      "district": "الباحة",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=8"
+    },
+    {
+      "id": "cafes-04",
+      "name": "مقهىpampa",
+      "category": "cafes",
+      "address": "الباحة",
+      "district": "الباحة",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=8"
+    },
+    {
+      "id": "cafes-05",
+      "name": "مقهى 8oz",
+      "category": "cafes",
+      "address": "الباحة",
+      "district": "الباحة",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=8"
+    },
+    {
+      "id": "cafes-06",
+      "name": "مقهى سينين",
+      "category": "cafes",
+      "address": "الباحة",
+      "district": "الباحة",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=8"
+    },
+    {
+      "id": "cafes-07",
+      "name": "مقهى شورت ستوب",
+      "category": "cafes",
+      "address": "الباحة",
+      "district": "الباحة",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=8"
+    },
+    {
+      "id": "cafes-08",
+      "name": "سول كافي",
+      "category": "cafes",
+      "address": "الباحة",
+      "district": "الباحة",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=8"
+    },
+    {
+      "id": "cafes-09",
+      "name": "اوروبيا كافيه",
+      "category": "cafes",
+      "address": "الباحة",
+      "district": "الباحة",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=8"
+    },
+    {
+      "id": "cafes-10",
+      "name": "باورو كافيه",
+      "category": "cafes",
+      "address": "الباحة",
+      "district": "الباحة",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=8"
+    },
+    {
+      "id": "cafes-11",
+      "name": "لاش كافية",
+      "category": "cafes",
+      "address": "الباحة",
+      "district": "الباحة",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=8"
+    },
+    {
+      "id": "cafes-12",
+      "name": "مقهى بوكا دي كافيه",
+      "category": "cafes",
+      "address": "الباحة",
+      "district": "الباحة",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=8"
+    },
+    {
+      "id": "cafes-13",
+      "name": "دوز",
+      "category": "cafes",
+      "address": "الباحة",
+      "district": "الباحة",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=8"
+    },
+    {
+      "id": "cafes-14",
+      "name": "فيرونا",
+      "category": "cafes",
+      "address": "الباحة",
+      "district": "الباحة",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=8"
+    },
+    {
+      "id": "cafes-15",
+      "name": "ليالي زمان",
+      "category": "cafes",
+      "address": "الباحة",
+      "district": "الباحة",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=8"
+    },
+    {
+      "id": "cafes-16",
+      "name": "هافين",
+      "category": "cafes",
+      "address": "الباحة",
+      "district": "الباحة",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=8"
+    },
+    {
+      "id": "cafes-17",
+      "name": "كولتشر كافيه",
+      "category": "cafes",
+      "address": "الباحة",
+      "district": "الباحة",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=8"
+    },
+    {
+      "id": "cafes-18",
+      "name": "Bauru Cafe",
+      "category": "cafes",
+      "address": "الباحة",
+      "district": "الباحة",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=8"
+    },
+    {
+      "id": "malls-01",
+      "name": "الباحة مول",
+      "category": "malls",
+      "address": "الباحة",
+      "district": "الباحة",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=9"
+    },
+    {
+      "id": "malls-02",
+      "name": "الغنيم مول",
+      "category": "malls",
+      "address": "الباحة",
+      "district": "الباحة",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=9"
+    },
+    {
+      "id": "malls-03",
+      "name": "الراية",
+      "category": "malls",
+      "address": "الباحة",
+      "district": "الباحة",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=9"
+    },
+    {
+      "id": "malls-04",
+      "name": "اسواق المزرعة",
+      "category": "malls",
+      "address": "الباحة",
+      "district": "الباحة",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=9"
+    },
+    {
+      "id": "malls-05",
+      "name": "العثيم",
+      "category": "malls",
+      "address": "الباحة",
+      "district": "الباحة",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=9"
+    },
+    {
+      "id": "malls-06",
+      "name": "العطية مول",
+      "category": "malls",
+      "address": "الباحة - بلجرشي",
+      "district": "بلجرشي",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=9"
+    },
+    {
+      "id": "malls-07",
+      "name": "بلجرشي مول",
+      "category": "malls",
+      "address": "الباحة - بلجرشي",
+      "district": "بلجرشي",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=9"
+    },
+    {
+      "id": "malls-08",
+      "name": "ابو الخير مول",
+      "category": "malls",
+      "address": "الباحة - بلجرشي",
+      "district": "بلجرشي",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=9"
+    },
+    {
+      "id": "malls-09",
+      "name": "عالم الباسم",
+      "category": "malls",
+      "address": "الباحة - القرى",
+      "district": "القرى",
+      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=9"
+    },
+    {
+      "id": "park-shorouq",
+      "name": "منتزه الشروق",
+      "category": "parks",
+      "address": "منطقة الباحة",
+      "district": "الباحة",
+      "source": "https://baha.gov.sa/ar/internalpages/page/الدليل-الإرشادي-والسياحي",
+      "coordinates": [
+        20.0679289,
+        41.5719682
+      ],
+      "map": "https://goo.gl/maps/PaynaJWfQzUUoGdC7",
+      "description": "نزهة تجمع بين المسطحات الخضراء والبحيرة والنوافير، مع مناطق لعب وخيارات للأكل والقهوة.",
+      "facts": [
+        [
+          "المساحة",
+          "265,059 م²"
+        ],
+        [
+          "المرافق",
+          "بحيرة ونوافير وألعاب أطفال ومطعم ومقاهٍ"
+        ]
+      ],
+      "trip": "park-shorouq"
+    },
+    {
+      "id": "khulb",
+      "name": "متنزه الخلب",
+      "category": "parks",
+      "address": "المندق - متنزه الخلب",
+      "district": "المندق",
+      "source": "https://bso.gov.sa/assets/tourist_guide_albaha_arabic_241f20cb54/tourist_guide_albaha_arabic_241f20cb54.pdf",
+      "photo": "khulb",
+      "trip": "khulb",
+      "coordinates": [
+        20.17887,
+        41.26408
+      ],
+      "map": "https://mapcarta.com/N4975923962",
+      "description": "متنزه في مرتفعات المندق، تطل غابته على الأودية. يمكن إضافته إلى مخطط الرحلة لوقفة تنزّه وتصوير.",
+      "facts": [
+        [
+          "المحافظة",
+          "المندق"
+        ],
+        [
+          "الوقت التقديري للزيارة",
+          "نحو 65 دقيقة (تقديرية)"
+        ],
+        [
+          "التجربة",
+          "وقفة تنزّه وتصوير وإطلالات على الأودية"
+        ]
+      ]
+    },
+    {
+      "id": "khairah-forest-park",
+      "name": "متنزه غابة خيرة",
+      "category": "parks",
+      "address": "بني حسن - متنزه غابة خيرة",
+      "district": "بني حسن",
+      "source": "https://baha.gov.sa/ar/Albums/ImageDetails/412",
+      "coordinates": [
+        20.0522376,
+        41.3977182
+      ],
+      "map": "https://maps.app.goo.gl/SJQLJA9rNo7JddNm9",
+      "description": "وجهة للتنزّه في غابة خيرة. وهي نقطة الوصول التي تنشرها الأمانة لزوار الشلال.",
+      "facts": [
+        [
+          "المحافظة",
+          "بني حسن"
+        ],
+        [
+          "نقطة الوصول",
+          "نقطة الوصول المنشورة لزوار شلال خيرة"
+        ],
+        [
+          "المرجع",
+          "أمانة منطقة الباحة"
+        ]
+      ],
+      "trip": "khairah-forest-park"
+    },
+    {
+      "id": "tuesday-market",
+      "name": "سوق الثلاثاء الشعبي",
+      "category": "heritage",
+      "address": "شرق مدينة المخواة",
+      "district": "المخواة",
+      "source": "https://bso.gov.sa/assets/tourist_guide_albaha_arabic_241f20cb54/tourist_guide_albaha_arabic_241f20cb54.pdf",
+      "description": "سوق أسبوعي شرق مدينة المخواة، يعرض فيه الباعة منتجات محلية ومصنوعات شعبية من تهامة.",
+      "facts": [
+        [
+          "المحافظة",
+          "المخواة"
+        ],
+        [
+          "الموعد الأسبوعي",
+          "ينعقد كل يوم ثلاثاء صباحًا"
+        ],
+        [
+          "المعروضات",
+          "منتجات محلية ومصنوعات شعبية من تهامة"
+        ]
+      ]
+    },
+    {
+      "id": "saturday-market",
+      "name": "سوق السبت التاريخي",
+      "category": "heritage",
+      "address": "بلجرشي - سوق السبت التاريخي",
+      "district": "بلجرشي",
+      "source": "https://saudipedia.com/أين-يقع-سوق-السبت-التاريخي؟",
+      "description": "سوق شعبي أسبوعي في بلجرشي، يبيع فيه التجار العسل والسمن والمنتجات الزراعية والمشغولات اليدوية.",
+      "facts": [
+        [
+          "المحافظة",
+          "بلجرشي"
+        ],
+        [
+          "الموعد الأسبوعي",
+          "ينعقد كل يوم سبت صباحًا"
+        ],
+        [
+          "المعروضات",
+          "العسل والسمن والمنتجات الزراعية والمشغولات اليدوية"
+        ]
+      ]
+    },
+    {
+      "id": "gamra-resort",
+      "name": "منتجع قمرة الجبلي",
+      "category": "hotels",
+      "address": "بني حسن - جبل خيرة",
+      "district": "بني حسن",
+      "source": "https://www.gamramountainresort.com/where-we-are/",
+      "coordinates": [
+        20.0555526,
+        41.3967222
+      ],
+      "map": "https://www.google.com/maps/search/?api=1&query=20.0555526,41.3967222",
+      "description": "منتجع على جبل خيرة يضم أجنحة جبلية تطل على الطبيعة المحيطة. يمكن الاستفسار لدى المنتجع عن خدمة النقل من مطار الملك سعود وإليه.",
+      "facts": [
+        [
+          "المحافظة",
+          "بني حسن"
+        ],
+        [
+          "الموقع",
+          "جبل خيرة"
+        ],
+        [
+          "الخدمات",
+          "أجنحة جبلية وإمكانية الاستفسار عن النقل من المطار وإليه"
+        ]
+      ],
+      "trip": "gamra-resort"
+    },
+    {
+      "id": "hala-restaurant",
+      "name": "مطعم هالة",
+      "category": "restaurants",
+      "address": "بني حسن - منتجع قمرة الجبلي",
+      "district": "بني حسن",
+      "source": "https://www.gamramountainresort.com/dining/hala-restaurant/",
+      "coordinates": [
+        20.0555526,
+        41.3967222
+      ],
+      "map": "https://www.google.com/maps/search/?api=1&query=20.0555526,41.3967222",
+      "description": "مطعم داخل منتجع قمرة الجبلي يقدّم الإفطار والغداء والعشاء، ويستخدم في أطباقه مكونات محلية من الباحة بحسب المشغّل.",
+      "facts": [
+        [
+          "الموقع",
+          "منتجع قمرة الجبلي — بني حسن"
+        ],
+        [
+          "ساعات الإفطار",
+          "7:00 ص – 10:00 ص"
+        ],
+        [
+          "ساعات الغداء والعشاء",
+          "12:00 م – 4:00 م | 5:00 م – 11:00 م"
+        ]
+      ],
+      "trip": "hala-restaurant"
+    }
+  ]
+}

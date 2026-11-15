@@ -1,0 +1,527 @@
+/* 2026-11-12: consolidated requested layout refinements. */
+#discover h2 { font-size: clamp(1.65rem, 3.2vw, 2.75rem); line-height: 1.22; }
+#officialPortalTitle { font-size: clamp(1.63rem, 2.75vw, 2.45rem); line-height: 1.24; }
+#experiences .section-top h2, #destinations .section-top h2 {
+  font-size: clamp(1.7rem, 3vw, 2.95rem); line-height: 1.22;
+}
+.intro-reel-card strong { font-size: clamp(.78rem, 1.05vw, 1.01rem); line-height: 1.23; }
+.heritage-divider { height: 15px; }
+.guide-embroidery-band { max-width: 16px; opacity: .75; }
+.guide-embroidered { overflow: hidden; }
+#mapPanel .street-marker { width: 29px; height: 29px; font-size: .72rem; border-width: 1.5px; }
+@media (max-width: 680px) {
+  #discover h2 { font-size: clamp(1.38rem, 6vw, 1.88rem); line-height: 1.28; }
+  #officialPortalTitle { font-size: clamp(1.35rem, 5.7vw, 1.75rem); }
+  #experiences .section-top h2, #destinations .section-top h2 { font-size: clamp(1.42rem, 5.8vw, 1.88rem); }
+  .intro-reel-card strong { font-size: clamp(.7rem, 2.7vw, .87rem); }
+  .heritage-divider { height: 11px; }
+  .guide-embroidery-band { max-width: 11px; }
+  .map-pin .terrain-pin-dot { r: 9; }
+  .map-pin text { font-size: 8.5px; }
+  #mapPanel .street-marker { width: 25px; height: 25px; font-size: .64rem; border-width: 1px; }
+}
+
+/* Compact desktop header with custom semantic SVG icons. No duplicated planner link. */
+#header .nav { gap: clamp(9px, 1.15vw, 19px); }
+#header .nav-links { gap: clamp(1px, .45vw, 7px); flex: 1; justify-content: center; }
+#header .nav-links a {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  padding: 7px clamp(6px, .7vw, 11px) !important;
+  white-space: nowrap; font-size: clamp(.78rem, .86vw, .87rem) !important;
+}
+#header .nav-links .nav-item-icon { width: 16px; height: 16px; color: var(--purple-deep); flex-shrink: 0; }
+#header .nav-actions { gap: 7px; flex-shrink: 0; }
+#header .nav-actions .nav-icon { width: 42px; height: 42px; flex-shrink: 0; }
+#header .header-plan-button {
+  display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+  height: 42px; min-height: 42px; padding: 0 13px; border-radius: 10px;
+  font-size: .79rem; line-height: 1; white-space: nowrap; flex-shrink: 0;
+}
+#header .header-plan-button .ic { width: 15px; height: 15px; }
+@media (max-width: 940px) {
+  #header .nav-links { display: none; }
+  #header .nav-actions [data-open="search"] { display: grid !important; }
+  #header .nav-actions > .header-plan-button { display: none !important; }
+  #header .nav-actions .menu-open { display: grid; }
+}
+@media (max-width: 680px) {
+  #header .nav { min-height: 60px; }
+  #header .nav-actions .nav-icon { width: 39px; height: 39px; }
+  #header .nav-actions { gap: 3px; }
+}
+
+/* 2026-11-12 R2 — refinements reviewed with the client. */
+/* Region name stays one line, without disturbing its SVG or the intro column. */
+#discover .intro-copy > .section-kicker {
+  display: inline-flex;
+  align-items: center;
+  width: max-content;
+  max-width: 100%;
+  gap: 7px;
+  white-space: nowrap;
+  font-size: clamp(.72rem, .93vw, .87rem);
+  line-height: 1.7;
+}
+#discover .intro-copy > .section-kicker span { white-space: nowrap; }
+#discover .intro-copy > .section-kicker .section-mark { width: 1.26em; height: 1.26em; }
+/* R3: use original divider geometry (22px guide, 18px experiences/app).
+   No overflow cropping: every stitch in the band remains fully visible. */
+/* Full-bleed embroidered strip aligned with the RIGHT edge of both cards in RTL. */
+.guide-flavors.guide-embroidered,
+#guideDaySection.guide-embroidered {
+  --guide-band-width: 19px;
+  padding-right: calc(var(--guide-card-pad) + var(--guide-band-width));
+  padding-left: var(--guide-card-pad);
+}
+.guide-flavors.guide-embroidered > .guide-embroidery-band,
+#guideDaySection.guide-embroidered > .guide-embroidery-band {
+  inset-inline-start: auto !important;
+  right: 0 !important;
+  left: auto !important;
+  width: var(--guide-band-width) !important;
+  max-width: none !important;
+  height: 100%;
+  opacity: 1 !important;
+  z-index: 0;
+}
+.guide-flavors.guide-embroidered > :not(.guide-embroidery-band),
+#guideDaySection.guide-embroidered > :not(.guide-embroidery-band) {
+  position: relative;
+  z-index: 1;
+}
+/* Embroidery retains the existing engraved depth/colours with denser repeating tile. */
+#experiences .heritage-texture,
+#app .heritage-texture { opacity: .78; }
+@media (max-width: 680px) {
+  #discover .intro-copy > .section-kicker {
+    font-size: clamp(.67rem, 2.65vw, .79rem);
+    gap: 5px;
+  }
+  .guide-flavors.guide-embroidered,
+  #guideDaySection.guide-embroidered { --guide-band-width: 17px; }
+}
+
+/* R9: cooler sapphire glaze for the embroidered dark sections.
+   Neutralizes the existing washed-out green spotlight and tames busy motifs,
+   while preserving shadowed/embossed thread detail and section contrast. */
+#experiences, #app, .guide-flavors, .guide-day {
+  background:
+    radial-gradient(ellipse at 83% 12%, rgba(36, 94, 143, .18), transparent 59%),
+    linear-gradient(135deg, #061a31 0%, #0b2c50 53%, #092845 100%) !important;
+}
+#experiences .heritage-texture,
+#app .heritage-texture {
+  opacity: .75;
+  filter: saturate(.83);
+}
+
+/* R10: streets-only interactive map, uncluttered mobile controls. */
+#mapPanel.is-live-map #terrainMap { visibility: hidden !important; pointer-events: none !important; }
+#mapPanel .map-top {
+  position: absolute !important; width: 1px !important; height: 1px !important;
+  margin: 0 !important; padding: 0 !important; border: 0 !important;
+  overflow: hidden !important; white-space: nowrap !important;
+  clip-path: inset(50%); pointer-events: none !important; box-shadow: none !important;
+}
+#mapPanel .map-layer-toggle { display: none !important; }
+#mapPanel .street-map-notice[hidden] { display: none !important; }
+#mapPanel .street-map-notice {
+  position: absolute; z-index: 8; inset: 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 10px; padding: 22px; text-align: center; direction: rtl;
+  color: #123c57; background: #e8f0f3;
+}
+.street-map-notice strong { font-size: clamp(.96rem, 2.6vw, 1.2rem); }
+.street-map-notice span { font-size: .83rem; line-height: 1.65; max-width: 270px; }
+.street-map-retry {
+  padding: 9px 17px; border: 1px solid #9fc4da; border-radius: 10px;
+  background: #fff; color: #0a4166; font-weight: 700; cursor: pointer;
+}
+#mapPanel .map-route-outline { stroke-width: 3.8; }
+#mapPanel .map-route-line { stroke-width: 1.9; }
+#routeSticky .map-approx-note {
+  display: block; margin: 1px 0 0; color: #648097;
+  font-size: .67rem; line-height: 1.4; text-align: right;
+}
+#routeSticky .map-approx-note[hidden] { display: none; }
+@media (max-width: 820px) {
+  #routeSticky {
+    height: auto;
+    min-height: 0;
+    grid-template-rows: clamp(335px, 52svh, 480px) auto;
+    row-gap: 16px;
+    background: #fff;
+  }
+  #routeSticky .route-side { padding-top: 11px; }
+  #mapPanel { min-height: 0; }
+}
+@media (max-width: 720px) {
+  #routeSticky { grid-template-rows: clamp(345px, 53svh, 510px) auto; row-gap: 18px; }
+  #routeSticky .route-side { padding-top: 12px; }
+}
+@media (max-height: 555px) and (max-width: 720px) {
+  #routeSticky { grid-template-rows: clamp(285px, 63svh, 360px) auto; }
+}
+
+
+/* R13 — guide section only: mint-sky backdrop and hero-inspired sapphire glass navigation.
+   Preserve the embroidered navy content cards, their motifs, and all other sections. */
+#visit-guide {
+  background:
+    radial-gradient(ellipse 67% 38% at 92% 9%, rgba(152, 213, 242, .42), transparent 78%),
+    radial-gradient(ellipse 69% 47% at 7% 64%, rgba(145, 224, 197, .34), transparent 75%),
+    linear-gradient(148deg, #eef8fd 0%, #e8f8f6 48%, #e7f3fa 100%) !important;
+  color: #16364e;
+}
+#visit-guide::before { content: none !important; }
+#visit-guide #visitGuideTitle,
+#visit-guide > .container > .section-top h2,
+#visit-guide .guide-heading h3 {
+  color: #0b2b46 !important;
+  text-shadow: none;
+}
+#visit-guide > .container > .section-top .lead {
+  color: #45687d !important;
+}
+#visit-guide > .container > .section-top .caption,
+#visit-guide .guide-heading .caption {
+  color: #087d76 !important;
+}
+#visit-guide > .container > .section-top .section-mark,
+#visit-guide .guide-heading .section-mark {
+  color: #087d76 !important;
+}
+#visit-guide .guide-index {
+  width: min(100%, 41rem);
+  gap: 7px;
+  padding: 6px;
+  background: rgba(9, 45, 72, .09) !important;
+  border: 1px solid rgba(49, 118, 143, .24) !important;
+  box-shadow: 0 12px 30px rgba(16, 65, 88, .08), inset 0 1px 0 rgba(255, 255, 255, .68) !important;
+  -webkit-backdrop-filter: blur(15px);
+  backdrop-filter: blur(15px);
+}
+#visit-guide .guide-index a {
+  min-height: 49px;
+  background: linear-gradient(125deg, rgba(6, 30, 57, .96), rgba(13, 62, 93, .90) 65%, rgba(9, 78, 83, .87)) !important;
+  border: 1px solid rgba(171, 228, 238, .24) !important;
+  color: #f8fcff !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.14), 0 5px 14px rgba(5, 36, 62, .15) !important;
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  transition: background .22s ease, border-color .22s ease, box-shadow .22s ease, transform .22s ease;
+}
+#visit-guide .guide-index a .ic { color: #b6eee4; }
+#visit-guide .guide-index a:is(:hover, :focus-visible) {
+  background: linear-gradient(125deg, rgba(12, 61, 96, .97), rgba(11, 91, 105, .92)) !important;
+  color: #ffffff !important;
+  border-color: rgba(110, 231, 183, .72) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.20), 0 8px 21px rgba(5, 36, 62, .22) !important;
+  transform: translateY(-1px);
+}
+#visit-guide .guide-index a:focus-visible { outline: 2px solid #087d76; outline-offset: 2px; }
+@media (max-width: 540px) {
+  #visit-guide .guide-index { gap: 5px; padding: 5px; }
+  #visit-guide .guide-index a { min-height: 47px; padding-inline: 5px; gap: 5px; font-size: .78rem; }
+}
+
+
+/* R14: Restore ONLY the daily itinerary card to the premium embossed sapphire
+   surface; R13's pale sky/mint guide section remains unchanged. */
+#visit-guide #guideDaySection {
+  background:
+    radial-gradient(ellipse 88% 84% at 84% 4%, rgba(40, 101, 139, .17), transparent 70%),
+    linear-gradient(138deg, #06182f 0%, #0a2645 53%, #092f51 100%) !important;
+  color: #f7fbff !important;
+  border: 1px solid rgba(102, 169, 192, .35) !important;
+  box-shadow: 0 18px 36px rgba(5, 31, 55, .20), inset 0 1px rgba(255, 255, 255, .09) !important;
+}
+#visit-guide #guideDaySection #guideDayTitle {
+  color: #f7fbff !important;
+  text-shadow: 0 1px 1px rgba(0, 12, 29, .18) !important;
+}
+#visit-guide #guideDaySection .caption,
+#visit-guide #guideDaySection .caption span,
+#visit-guide #guideDaySection .section-mark { color: #bcefe1 !important; }
+#visit-guide #guideDaySection .guide-day-options details {
+  color: #f7fbff;
+  background: rgba(8, 29, 50, .83) !important;
+  border-color: rgba(166, 211, 229, .25) !important;
+  box-shadow: inset 0 1px rgba(255, 255, 255, .07);
+}
+#visit-guide #guideDaySection .guide-day-options summary { color: #f7fbff !important; }
+#visit-guide #guideDaySection .guide-day-options summary .ic { color: #c0eee2 !important; }
+#visit-guide #guideDaySection .guide-day-options ol,
+#visit-guide #guideDaySection .guide-day-options li { color: #e4edf7 !important; }
+#visit-guide #guideDaySection .guide-day-content { color: #e4edf7; }
+
+/* === R16 MOTION, HERO VIDEO, KEN BURNS, CAROUSEL & MICRO-INTERACTIONS === */
+.hero-media {
+  overflow: hidden;
+  transform: translate3d(0, var(--hero-parallax, 0px), 0);
+  will-change: transform;
+}
+.hero-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 3;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.hero-video.is-active {
+  opacity: 1;
+}
+
+/* Kinetic Hero Copy */
+@keyframes hero-copy-in {
+  from { opacity: 0; transform: translate3d(0, 14px, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+html.js:not(.motion-paused) #home .hero-title {
+  animation: hero-copy-in .7s cubic-bezier(.22, 1, .36, 1) .04s both;
+}
+html.js:not(.motion-paused) #home #heroLead {
+  animation: hero-copy-in .7s cubic-bezier(.22, 1, .36, 1) .14s both;
+}
+html.js:not(.motion-paused) #home .action-row {
+  animation: hero-copy-in .7s cubic-bezier(.22, 1, .36, 1) .24s both;
+}
+
+/* Carousel Seamless Infinite Track & Card Hover Composition */
+#destCarousel .dest-card {
+  grid-area: 1 / 1;
+  justify-self: center;
+  min-width: 0;
+  transform: translate3d(var(--card-x, 0px), 0, 0) scale(var(--card-depth, 1));
+  translate: 0 0;
+  scale: 1;
+  z-index: var(--card-z, 2);
+  will-change: transform;
+  transition:
+    translate .38s cubic-bezier(.22, 1, .36, 1),
+    scale .38s cubic-bezier(.22, 1, .36, 1),
+    box-shadow .38s cubic-bezier(.22, 1, .36, 1),
+    border-color .32s ease !important;
+}
+#destCarousel .dest-card:hover,
+#destCarousel .dest-card:focus-visible {
+  translate: 0 -8px;
+  scale: 1.028;
+  z-index: 25 !important;
+  border-color: rgba(167, 243, 208, 0.65) !important;
+  box-shadow: 0 24px 46px rgba(6, 26, 51, 0.28), 0 0 0 1px rgba(15, 118, 110, 0.45) !important;
+}
+.carousel-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 8px;
+}
+.carousel-dots {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: #ffffff;
+  border: 1px solid #C8D8EA;
+  box-shadow: 0 4px 14px rgba(11, 79, 108, 0.08);
+}
+.carousel-dot {
+  width: 9px;
+  height: 9px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: #b8cadb;
+  cursor: pointer;
+  transition: width .32s cubic-bezier(.22, 1, .36, 1), background .24s ease, transform .2s ease;
+}
+.carousel-dot:hover {
+  background: #0f766e;
+  transform: scale(1.15);
+}
+.carousel-dot[aria-selected="true"] {
+  width: 28px;
+  background: linear-gradient(90deg, #006c35, #0f766e);
+}
+.caro-btns button {
+  transition: transform .25s cubic-bezier(.22, 1, .36, 1), background .22s ease, box-shadow .25s ease, border-color .22s ease !important;
+}
+.caro-btns button:hover {
+  transform: translateY(-2px) scale(1.06);
+  background: #006c35 !important;
+  color: #ffffff !important;
+  border-color: #006c35 !important;
+  box-shadow: 0 10px 22px rgba(0, 108, 53, 0.26);
+}
+.caro-btns button:active {
+  transform: scale(0.95);
+}
+
+/* Tactile Card, Image, Button, Accordion, & Ambient Interactions */
+.scenic-card {
+  position: relative;
+  transition: transform .42s cubic-bezier(.22, 1, .36, 1), box-shadow .42s cubic-bezier(.22, 1, .36, 1), border-color .32s ease !important;
+}
+.scenic-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(115deg, transparent 20%, rgba(255, 255, 255, 0.16) 48%, transparent 72%);
+  transform: translateX(130%);
+  transition: transform .85s cubic-bezier(.22, 1, .36, 1);
+}
+.scenic-card:hover::after,
+.scenic-card:focus-visible::after {
+  transform: translateX(-130%);
+}
+.scenic-card:not(.dest-card):hover,
+.scenic-card:not(.dest-card):focus-visible {
+  transform: translateY(-7px);
+  box-shadow: 0 22px 44px rgba(6, 26, 51, 0.22), 0 0 0 1px rgba(15, 118, 110, 0.35) !important;
+}
+.scenic-card .photo {
+  transition: transform .85s cubic-bezier(.22, 1, .36, 1), filter .5s ease !important;
+}
+.scenic-card:hover .photo,
+.scenic-card:focus-visible .photo {
+  transform: scale(1.075);
+  filter: brightness(1.09) saturate(1.12);
+}
+.scenic-card:hover .dest-card-action,
+.scenic-card:hover .card-action .ic {
+  transform: translateX(-5px);
+}
+
+/* Discover City Photo Ken Burns & Reel Highlight */
+@keyframes gentle-kenburns {
+  0% { transform: scale(1) translate3d(0, 0, 0); }
+  100% { transform: scale(1.075) translate3d(-1%, -0.8%, 0); }
+}
+html.js:not(.motion-paused) .intro-badge .photo,
+html.js:not(.motion-paused) .season-card .photo {
+  animation: gentle-kenburns 17s ease-in-out infinite alternate;
+}
+.intro-reel-card {
+  transition: transform .58s cubic-bezier(.22, 1, .36, 1), box-shadow .32s ease, border-color .32s ease !important;
+}
+.intro-reel-card img {
+  transition: transform .75s cubic-bezier(.22, 1, .36, 1) !important;
+}
+.intro-reel-card:hover img {
+  transform: scale(1.08);
+}
+.intro-reel-card.is-reel-lead {
+  box-shadow: inset 0 0 0 2px rgba(255, 224, 163, 0.72), 0 12px 26px rgba(6, 26, 51, 0.28);
+}
+
+/* Official Portal KPI Hover & Disclosure Animation */
+.kpi-card {
+  transition: transform .34s cubic-bezier(.22, 1, .36, 1), box-shadow .34s ease, border-color .3s ease !important;
+}
+.kpi-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 16px 32px rgba(11, 79, 108, 0.14);
+  border-color: #0f766e !important;
+}
+@keyframes disclosure-slide-in {
+  from { opacity: 0; transform: translate3d(0, -10px, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+details[open] > .official-detail-body,
+details[open] > .guide-day-content {
+  animation: disclosure-slide-in .36s cubic-bezier(.22, 1, .36, 1) both;
+}
+.official-disclosure summary {
+  transition: background .24s ease, color .22s ease !important;
+}
+
+/* Destination Directory & Guide Cards */
+.destination-area {
+  transition: transform .36s cubic-bezier(.22, 1, .36, 1), box-shadow .36s ease, border-color .3s ease !important;
+}
+.destination-area:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 16px 32px rgba(6, 26, 51, 0.18);
+  border-color: #0f766e;
+}
+.destination-area img {
+  transition: transform .7s cubic-bezier(.22, 1, .36, 1) !important;
+}
+.destination-area:hover img {
+  transform: scale(1.08);
+}
+.guide-index a {
+  transition: transform .28s cubic-bezier(.22, 1, .36, 1), box-shadow .28s ease, background .24s ease !important;
+}
+.guide-index a:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(7, 25, 44, 0.28);
+}
+
+/* Season Swap Pulse & Planner Gallery Motion */
+@keyframes season-swap-pulse {
+  from { opacity: 0.25; transform: translate3d(0, 8px, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+.is-season-updating {
+  animation: season-swap-pulse .42s cubic-bezier(.22, 1, .36, 1) both;
+}
+#routeGallery .photo {
+  transition: transform .9s cubic-bezier(.22, 1, .36, 1) !important;
+}
+#routeGallery:hover .photo {
+  transform: scale(1.055);
+}
+@keyframes active-ring-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(0, 108, 53, 0.35); }
+  50% { box-shadow: 0 0 0 6px rgba(0, 108, 53, 0); }
+}
+html.js:not(.motion-paused) .route-dots button[aria-current="true"],
+html.js:not(.motion-paused) .route-nav-btn[aria-current="true"] {
+  animation: active-ring-pulse 2.2s ease-in-out infinite;
+}
+
+/* Buttons & Phone Mockup Float */
+.btn, .btn-glass, .btn-dark, .btn-soft {
+  transition: transform .28s cubic-bezier(.22, 1, .36, 1), box-shadow .3s ease, background .25s ease, border-color .25s ease !important;
+}
+.btn:hover, .btn-glass:hover, .btn-dark:hover, .btn-soft:hover {
+  transform: translateY(-2px);
+}
+.btn:active, .btn-glass:active, .btn-dark:active, .btn-soft:active {
+  transform: translateY(0) scale(0.975);
+}
+@keyframes app-phone-float {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(-2deg); }
+  50% { transform: translate3d(0, -10px, 0) rotate(0deg); }
+}
+html.js:not(.motion-paused) .app-phone {
+  animation: app-phone-float 6.2s ease-in-out infinite;
+  transition: transform .42s cubic-bezier(.22, 1, .36, 1), filter .42s ease !important;
+}
+.app-phone:hover {
+  animation-play-state: paused !important;
+  transform: translate3d(0, -12px, 0) rotate(0deg) scale(1.025) !important;
+}
+.app-store-links a {
+  transition: transform .26s cubic-bezier(.22, 1, .36, 1), box-shadow .28s ease !important;
+}
+.app-store-links a:hover {
+  transform: translateY(-3px) scale(1.02);
+}
+
+@media (max-width: 640px) {
+  #home .hero-copy {
+    bottom: auto;
+  }
+}
+

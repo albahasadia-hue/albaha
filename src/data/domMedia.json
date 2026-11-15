@@ -1,0 +1,19 @@
+{
+  "goldLogo": "/media/dom-goldLogo.webp",
+  "brandWordmark": "/media/dom-brandWordmark.webp",
+  "heroOpeningPortrait": "/media/dom-heroOpeningPortrait.webp",
+  "heroOpeningWide": "/media/dom-heroOpeningWide.webp",
+  "terrainRelief": "/media/dom-terrainRelief.webp",
+  "googlePlayBadge": "/media/dom-googlePlayBadge.svg",
+  "appStoreBadge": "/media/dom-appStoreBadge.svg",
+  "appPhoneScreenshot": "/media/dom-appPhoneScreenshot.webp",
+  "cityCover": "/media/embedded-cityCover.webp",
+  "royal-visit": "/media/embedded-royal-visit.webp",
+  "khair": "/media/embedded-khair.webp",
+  "raghdan-market": "/media/embedded-raghdan-market.webp",
+  "honey-festival": "/media/embedded-honey-festival.webp",
+  "raghdan": "/media/embedded-raghdan.webp",
+  "ain": "/media/embedded-ain.webp",
+  "shada": "/media/embedded-shada.webp",
+  "hussam": "/media/embedded-hussam.webp"
+}

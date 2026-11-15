@@ -1,0 +1,69 @@
+const SEASONS = [
+  { key: 'spring', icon: '#i-season-spring', label: 'الربيع' },
+  { key: 'summer', icon: '#i-season-summer', label: 'الصيف' },
+  { key: 'autumn', icon: '#i-season-autumn', label: 'الخريف' },
+  { key: 'winter', icon: '#i-season-winter', label: 'الشتاء' },
+];
+
+export function VisitSeasonSection() {
+  return (
+    <section className="visit-season" id="visit-season" aria-labelledby="season-title">
+      <div className="container season-grid">
+        <div className="season-intro">
+          <div className="caption section-kicker">
+            <svg className="section-mark" aria-hidden="true">
+              <use href="#i-weather" />
+            </svg>
+            <span>أجواء الزيارة</span>
+          </div>
+          <h2 id="season-title">المناخ والفصول في السراة وتهامة</h2>
+          <div className="season-switch" id="seasonSwitch" role="group" aria-label="فصل الزيارة">
+            {SEASONS.map((s) => (
+              <button key={s.key} type="button" data-season={s.key}>
+                <svg className="season-tab-icon" aria-hidden="true" focusable="false">
+                  <use href={s.icon} />
+                </svg>
+                <span>{s.label}</span>
+              </button>
+            ))}
+          </div>
+          <div className="season-cities" id="seasonRegions" role="group" aria-label="منطقة الأجواء">
+            <button type="button" data-season-region="baha">
+              <svg className="ic tiny" aria-hidden="true">
+                <use href="#i-pin" />
+              </svg>{' '}
+              السراة · الباحة
+            </button>
+            <button type="button" data-season-region="makhwah">
+              <svg className="ic tiny" aria-hidden="true">
+                <use href="#i-pin" />
+              </svg>{' '}
+              تهامة · المخواة
+            </button>
+          </div>
+        </div>
+        <article className="season-card" aria-live="polite">
+          <img id="seasonPhoto" alt="" decoding="async" loading="lazy" />
+          <div className="season-card-copy">
+            <div className="season-card-top">
+              <div className="season-card-title">
+                <h3 id="seasonName">
+                  <svg className="ic" aria-hidden="true">
+                    <use id="seasonIcon" />
+                  </svg>
+                  <span id="seasonLabel" />
+                </h3>
+                <p id="seasonMonths" />
+              </div>
+              <p id="seasonWeather" hidden />
+            </div>
+            <div className="season-card-bottom">
+              <p id="seasonTip" />
+              <a id="seasonCity" href="#city/baha" />
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+  );
+}

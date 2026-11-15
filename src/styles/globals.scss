@@ -1,0 +1,10 @@
+/* Global SCSS partials imported in exact chronological cascade order matching source HTML */
+@use './partials/01-base' as base;
+@use './partials/02-sections-editorial' as editorial;
+@use './partials/03-official-portal' as official;
+@use './partials/04-royal-polish' as polish;
+@use './partials/05-r2-r16-motion' as motion;
+@use './partials/06-responsive-cards' as cards;
+@use './partials/07-r15-subpages-and-guide' as subpages;
+@use './partials/08-concierge-and-faq' as concierge;
+@use './partials/09-prd-guide-agent' as prdagent;

@@ -1,0 +1,1398 @@
+/* 2026-11-13: Responsive 1400-1500px layout, typography, slim header, aspect ratios, season clarity, app promo & Siraj polish. */
+#header .nav {
+  min-height: 54px !important;
+  gap: clamp(8px, 1vw, 16px) !important;
+}
+#header .nav-brand {
+  gap: 7px !important;
+}
+#header .nav-brand img#goldLogo {
+  width: 30px !important;
+  height: 36px !important;
+}
+#header .nav-brand .brand-wordmark {
+  width: clamp(54px, 4.6vw, 72px) !important;
+}
+#header .nav-links {
+  gap: clamp(1px, 0.4vw, 6px) !important;
+}
+#header .nav-links a {
+  font-size: clamp(0.75rem, 0.8vw, 0.84rem) !important;
+  padding: 5px clamp(5px, 0.58vw, 9px) !important;
+  gap: 5px !important;
+}
+#header .nav-links .nav-item-icon {
+  width: 15px !important;
+  height: 15px !important;
+}
+#header .nav-actions {
+  gap: 6px !important;
+}
+#header .nav-actions .nav-icon {
+  width: 34px !important;
+  height: 34px !important;
+  border-radius: 9px !important;
+}
+#header .header-plan-button {
+  height: 34px !important;
+  min-height: 34px !important;
+  padding: 0 11px !important;
+  border-radius: 9px !important;
+  font-size: 0.75rem !important;
+}
+@media (max-width: 680px) {
+  #header .nav { min-height: 48px !important; }
+  #header .nav-brand img#goldLogo { width: 25px !important; height: 31px !important; }
+  #header .nav-actions .nav-icon { width: 32px !important; height: 32px !important; }
+}
+
+/* Dynamic refined typography across desktop (1280-1920px) & mobile */
+#home .hero-title {
+  font-size: clamp(1.48rem, 2.32vw, 2.22rem) !important;
+  font-weight: 700 !important;
+  line-height: 1.24 !important;
+  letter-spacing: -0.01em !important;
+}
+#home .hero-copy p,
+#heroLead {
+  font-size: clamp(0.9rem, 1.04vw, 1.04rem) !important;
+  line-height: 1.68 !important;
+}
+#homeView h2:not(.footer-heading),
+#discover h2,
+#officialPortalTitle,
+#experiences .section-top h2,
+#destinations .section-top h2,
+.app-promo-copy h2,
+.official-title-box h2,
+.city-stories h2,
+.city-report h2 {
+  font-size: clamp(1.22rem, 1.62vw, 1.68rem) !important;
+  line-height: 1.32 !important;
+}
+#homeView #discover-title {
+  font-size: clamp(1.16rem, 1.5vw, 1.54rem) !important;
+  line-height: 1.34 !important;
+}
+#homeView h3,
+.section-card h3 {
+  font-size: clamp(0.98rem, 1.18vw, 1.18rem) !important;
+  line-height: 1.38 !important;
+}
+#homeView :is(h4, h5),
+#homeView .scenic-copy h3 {
+  font-size: clamp(0.92rem, 1.06vw, 1.05rem) !important;
+  line-height: 1.35 !important;
+}
+.lead,
+.section-top p:not(.caption),
+.intro-copy .lead,
+.season-intro .lead,
+.planner-heading .lead,
+.official-portal-header p {
+  font-size: clamp(0.84rem, 0.94vw, 0.96rem) !important;
+  line-height: 1.68 !important;
+}
+.section-kicker {
+  font-size: clamp(0.72rem, 0.78vw, 0.81rem) !important;
+}
+
+/* Experiences: crisp 16:10 rectangular cards across all widths + container above texture */
+#experiences > .container,
+#app > .container {
+  position: relative;
+  z-index: 1;
+}
+#experiences .experience {
+  aspect-ratio: 16 / 10 !important;
+  min-height: 0 !important;
+  height: auto !important;
+}
+
+/* Destinations: consistent 16:10 landscape aspect ratio across desktop & mobile */
+#destCarousel .dest-card {
+  aspect-ratio: 16 / 10 !important;
+  min-height: 0 !important;
+  height: auto !important;
+}
+
+/* Visit-Season: natural clear mountain sky (no upper navy haze) & 50/50 region buttons */
+.season-card {
+  background: #102a43 !important;
+}
+.season-card img,
+#seasonPhoto {
+  z-index: -2;
+  filter: contrast(1.05) saturate(1.14) brightness(1.03);
+}
+.season-card::after {
+  background: linear-gradient(
+    180deg,
+    rgba(6, 26, 51, 0) 0%,
+    rgba(6, 26, 51, 0) 34%,
+    rgba(6, 26, 51, 0.42) 56%,
+    rgba(6, 26, 51, 0.78) 78%,
+    rgba(6, 26, 51, 0.90) 100%
+  ) !important;
+}
+.season-card-copy {
+  text-shadow: 0 2px 12px rgba(4, 14, 28, 0.72);
+}
+.season-card-copy h3 {
+  font-size: clamp(1.16rem, 1.66vw, 1.6rem) !important;
+  line-height: 1.24 !important;
+}
+#seasonSwitch,
+#seasonRegions {
+  width: 100% !important;
+  max-width: 420px !important;
+}
+#seasonRegions {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 6px !important;
+  margin-block-start: 10px !important;
+}
+#seasonRegions button {
+  width: 100% !important;
+  min-width: 0 !important;
+  justify-content: center !important;
+}
+
+/* App promo: clean single-line tagline with store buttons directly underneath */
+.app-promo-layout {
+  grid-template-columns: minmax(0, 1.32fr) minmax(0, 0.68fr) !important;
+  gap: clamp(20px, 4vw, 60px) !important;
+}
+.app-promo-tagline {
+  margin: 0 0 18px !important;
+  font-size: clamp(0.78rem, 1.15vw, 1.14rem) !important;
+  font-weight: 600 !important;
+  line-height: 1.45 !important;
+  white-space: nowrap !important;
+  max-width: 100%;
+}
+@media (max-width: 720px) {
+  .app-promo-layout {
+    grid-template-columns: 1fr !important;
+    gap: 26px !important;
+    text-align: center;
+  }
+  .app-promo-tagline {
+    font-size: clamp(0.72rem, 3.25vw, 0.94rem) !important;
+    white-space: nowrap !important;
+  }
+}
+
+/* Siraj launcher & dynamic panel typography */
+body:has(#homeView:not([hidden])) #sirajLauncher,
+#sirajLauncher.bot {
+  bottom: clamp(16px, 2vw, 24px) !important;
+  left: clamp(16px, 2vw, 24px) !important;
+  width: clamp(46px, 3.25vw, 54px) !important;
+  height: clamp(46px, 3.25vw, 54px) !important;
+  border-radius: 15px 15px 14px 8px !important;
+}
+#sirajLauncher.bot svg {
+  display: block;
+  width: clamp(32px, 2.3vw, 38px) !important;
+  height: clamp(32px, 2.3vw, 38px) !important;
+}
+.concierge-avatar svg {
+  width: 38px !important;
+  height: 38px !important;
+}
+.concierge-identity h2,
+#conciergeTitle {
+  font-size: clamp(1.06rem, 1.25vw, 1.26rem) !important;
+  line-height: 1.25 !important;
+  color: #ffffff !important;
+}
+.concierge-identity p {
+  font-size: clamp(0.74rem, 0.8vw, 0.82rem) !important;
+}
+.concierge-welcome h3 {
+  font-size: clamp(1.04rem, 1.4vw, 1.28rem) !important;
+  line-height: 1.32 !important;
+}
+.concierge-shortcuts strong {
+  font-size: clamp(0.78rem, 0.84vw, 0.86rem) !important;
+}
+.concierge-message {
+  font-size: clamp(0.84rem, 0.9vw, 0.92rem) !important;
+  line-height: 1.62 !important;
+}
+
+/* === 2026-11-13 Cards, Intro Lead & Unified Single-Row Footer Refinements === */
+
+/* 1. Intro section: keep .intro-lead on a single crisp line matching the CTA button width */
+@media (min-width: 801px) {
+  #discover .intro-layout {
+    grid-template-columns: minmax(0, 1.38fr) minmax(0, 2.62fr);
+  }
+  #discover .intro-copy .intro-lead {
+    text-wrap: normal;
+    font-size: clamp(0.79rem, 0.93vw, 0.93rem);
+    line-height: 1.65;
+  }
+}
+@media (min-width: 1200px) {
+  #discover .intro-copy .intro-lead {
+    white-space: nowrap;
+  }
+}
+
+/* 2. Guide Dining: structured creamy-white hospitality card with icons & single-line copy */
+#dining.guide-dining {
+  align-items: stretch;
+}
+#dining .guide-flavors {
+  display: flex;
+  flex-direction: column;
+}
+#dining .guide-flavors dl {
+  margin: 14px 0 8px;
+}
+#dining .guide-flavors dd {
+  font-size: clamp(0.78rem, 0.88vw, 0.86rem);
+  line-height: 1.58;
+}
+#dining .guide-flavors .guide-links {
+  margin-top: auto;
+  padding-top: 8px;
+}
+#dining .guide-dining-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: clamp(18px, 2.6vw, 30px) !important;
+  background: linear-gradient(180deg, #FFFFFF 0%, #FCFBF7 100%) !important;
+  border: 1px solid #D6E1EA !important;
+}
+#dining .dining-list-head {
+  display: grid;
+  gap: 4px;
+}
+#dining .dining-list-head .section-kicker {
+  color: #006C35;
+}
+#dining .dining-list-head h4 {
+  margin: 0 !important;
+  color: #061A33;
+}
+#dining .dining-spots {
+  display: grid;
+  gap: 10px;
+}
+#dining .dining-spot {
+  display: grid;
+  gap: 7px;
+  padding: 13px 15px;
+  border: 1px solid #DCE6F0;
+  border-radius: 10px;
+  background: #FCFBF7;
+  transition: border-color .22s ease, box-shadow .22s ease, transform .22s ease;
+}
+#dining .dining-spot:hover {
+  border-color: #B4CBE0;
+  box-shadow: 0 6px 18px rgba(6, 26, 51, 0.06);
+}
+#dining .dining-spot-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+#dining .dining-spot-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+  flex: 1;
+  min-width: 0;
+}
+#dining .dining-spot-heading h5 {
+  margin: 0 !important;
+  font-size: clamp(0.98rem, 1.12vw, 1.08rem) !important;
+  line-height: 1.3 !important;
+  color: #061A33;
+}
+#dining .dining-spot p {
+  margin: 0;
+  font-size: clamp(0.8rem, 0.88vw, 0.87rem);
+  line-height: 1.55;
+  color: var(--muted);
+}
+#dining .dining-spot .guide-links {
+  gap: 6px;
+  padding-top: 2px;
+}
+#dining .guide-note {
+  margin: auto 0 0;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 12px;
+  border: 1px solid #E4DEC9;
+  border-radius: 8px;
+  background: #F5F1E6;
+  color: #425B6E;
+  font-size: 0.77rem;
+  line-height: 1.45;
+}
+#dining .guide-note .ic {
+  color: #006C35;
+  flex: none;
+}
+
+/* Shared icon badge, location pill & compact chip links for Dining + Camping */
+.guide-icon-badge {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  flex: none;
+  border: 1px solid #D3E0EC;
+  border-radius: 9px;
+  background: linear-gradient(135deg, #EDF4FA 0%, #ECF6F0 100%);
+  color: #006C35;
+}
+.guide-icon-badge .ic {
+  width: 18px;
+  height: 18px;
+}
+#dining .guide-tag,
+#camping .guide-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin: 0;
+  padding: 2px 9px;
+  border: 1px solid #D5E2EE;
+  border-radius: 999px;
+  background: #EDF4FA;
+  color: #093556;
+  font-size: 0.72rem;
+  font-weight: 600;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+#dining .guide-tag .ic,
+#camping .guide-tag .ic {
+  width: 12px;
+  height: 12px;
+  color: #006C35;
+}
+#dining .dining-spot .guide-links a,
+#camping .guide-camp-grid .guide-links a {
+  min-height: 30px;
+  padding: 3px 10px;
+  border: 1px solid #D5E1EC;
+  border-radius: 7px;
+  background: #FFFFFF;
+  color: #093556;
+  font-size: 0.75rem;
+  font-weight: 600;
+  gap: 5px;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: background .2s ease, border-color .2s ease, color .2s ease;
+}
+#dining .dining-spot .guide-links a:hover,
+#camping .guide-camp-grid .guide-links a:hover {
+  background: #EDF4FA;
+  border-color: #0B4F6C;
+  color: #061A33;
+  text-decoration: none;
+}
+
+/* 3. Camping & Stays: preserve creamy white cards, tighter height, icons & structured layout */
+#camping .guide-camp-grid {
+  gap: 13px;
+  align-items: stretch;
+}
+#camping .guide-camp-grid .guide-card {
+  padding: 13px 14px !important;
+  gap: 7px;
+  background: linear-gradient(180deg, #FFFFFF 0%, #FCFBF7 100%) !important;
+  border: 1px solid #D6E1EA !important;
+  box-shadow: 0 8px 22px rgba(6, 26, 51, 0.05) !important;
+  transition: transform .26s ease, box-shadow .26s ease, border-color .26s ease;
+}
+#camping .guide-camp-grid .guide-card:hover {
+  transform: translateY(-3px);
+  border-color: #B4CBE0 !important;
+  box-shadow: 0 12px 26px rgba(6, 26, 51, 0.09) !important;
+}
+#camping .guide-card-head {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+#camping .guide-card-titles {
+  display: grid;
+  justify-items: start;
+  gap: 3px;
+  min-width: 0;
+}
+#camping .guide-card-titles h4 {
+  margin: 0 !important;
+  font-size: clamp(0.95rem, 1.06vw, 1.04rem) !important;
+  line-height: 1.26 !important;
+  color: #061A33;
+}
+#camping .guide-camp-grid .guide-card p {
+  margin: 0;
+  font-size: clamp(0.76rem, 0.83vw, 0.83rem);
+  line-height: 1.45;
+  color: var(--muted);
+}
+#camping .guide-camp-grid .guide-card .guide-links {
+  margin-top: auto;
+  padding-top: 8px;
+  border-top: 1px solid #E8EFF5;
+  gap: 4px;
+}
+#camping .guide-camp-grid .guide-links a {
+  min-height: 27px;
+  padding: 2px 7px;
+  font-size: 0.69rem;
+  gap: 3px;
+  background: #F5F1E6;
+  border-color: #DFD7C3;
+}
+#camping .guide-camp-grid .guide-links a .ic.tiny {
+  width: 11px;
+  height: 11px;
+}
+#camping .guide-camp-grid .guide-links a:hover {
+  background: #FFFFFF;
+  border-color: #0B4F6C;
+}
+
+/* 4. Footer: all 4 columns in 1 single row, proportional compact logo & tight vertical lockup */
+.site-footer {
+  padding: clamp(20px, 2.4vw, 30px) 0 max(10px, env(safe-area-inset-bottom)) !important;
+}
+.site-footer .footer-grid {
+  grid-template-columns: minmax(0, 1fr) repeat(3, max-content) !important;
+  column-gap: clamp(20px, 2.8vw, 44px) !important;
+  row-gap: 18px !important;
+  align-items: start !important;
+}
+.site-footer .footer-identity {
+  display: grid !important;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 12px !important;
+  min-width: 0;
+  padding-top: 2px;
+}
+.site-footer .foot-brand-emblem {
+  display: flex;
+  align-items: center;
+  flex: none;
+}
+.site-footer .foot-logo {
+  height: 76px !important;
+  width: auto !important;
+  aspect-ratio: 300 / 367;
+  object-fit: contain;
+}
+.site-footer .footer-brand-copy {
+  display: flex !important;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  min-width: 0;
+  gap: 3px;
+  padding-block: 0;
+}
+.site-footer .foot-brand-wordmark {
+  display: inline-flex;
+  width: fit-content;
+}
+.site-footer .footer-brand-copy .brand-wordmark {
+  width: clamp(64px, 5.6vw, 80px) !important;
+  height: auto;
+  display: block;
+}
+.site-footer .footer-brand-copy p {
+  margin: 0;
+  font-size: clamp(0.75rem, 0.85vw, 0.84rem) !important;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+.site-footer .footer-contact-icons {
+  display: flex !important;
+  flex-wrap: nowrap;
+  width: auto !important;
+  max-width: none !important;
+  gap: 5px !important;
+  margin-top: 5px;
+}
+.site-footer .footer-contact-icons a {
+  inline-size: 32px !important;
+  block-size: 32px !important;
+  width: 32px !important;
+  height: 32px !important;
+  border-radius: 8px !important;
+}
+.site-footer .footer-contact-icons .ic {
+  width: 15px !important;
+  height: 15px !important;
+}
+.site-footer .foot-links {
+  display: flex;
+  flex-direction: column;
+}
+.site-footer .footer-heading {
+  margin: 0 0 6px !important;
+  line-height: 1.32 !important;
+}
+.site-footer .foot-links .footer-list {
+  display: grid;
+  align-content: start;
+  gap: 1px;
+}
+.site-footer .foot-links :is(a, button) {
+  min-height: 28px !important;
+  padding-block: 2px !important;
+  font-size: 0.85rem !important;
+  line-height: 1.35 !important;
+  gap: 7px;
+}
+.site-footer .footer-meta {
+  margin-top: clamp(12px, 1.5vw, 18px) !important;
+  padding-top: 6px !important;
+}
+.site-footer .footer-copyright {
+  padding-block: 7px !important;
+}
+.site-footer .footer-credits summary {
+  min-height: 34px !important;
+  padding-block: 5px !important;
+}
+
+@media (max-width: 1240px) {
+  .site-footer .footer-brand-copy p {
+    white-space: normal;
+  }
+}
+@media (max-width: 1020px) {
+  .site-footer .footer-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    row-gap: 16px !important;
+  }
+  .site-footer .footer-identity {
+    grid-column: 1 / -1;
+    align-items: center;
+    padding-block-end: 12px;
+    border-block-end: 1px solid var(--footer-line);
+  }
+  .site-footer .foot-logo {
+    height: 70px !important;
+  }
+  .site-footer .footer-contact-icons {
+    flex-wrap: wrap;
+    margin-top: 4px;
+  }
+}
+@media (max-width: 680px) {
+  .site-footer .footer-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 12px 16px !important;
+  }
+  .site-footer .footer-identity {
+    grid-column: 1 / -1;
+    gap: 11px !important;
+  }
+  .site-footer .foot-logo {
+    height: 58px !important;
+  }
+  .site-footer .footer-brand-copy {
+    gap: 3px;
+  }
+  .site-footer .footer-brand-copy p {
+    font-size: 0.72rem !important;
+  }
+  .site-footer .footer-help {
+    grid-column: 1 / -1;
+    padding-top: 10px;
+    border-top: 1px solid var(--footer-line);
+  }
+  .site-footer .footer-help .footer-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2px 12px;
+  }
+}
+
+/* 5. Header Menu Clarity: airy glass transparency over Hero + solid frosted bar on scroll */
+#header,
+#header.visible {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.42) 0%, rgba(252, 251, 247, 0.24) 100%) !important;
+  backdrop-filter: blur(14px) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(14px) saturate(160%) !important;
+  border-bottom: 0 !important;
+  box-shadow: none !important;
+  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease !important;
+}
+#header.is-scrolled,
+#header.visible.is-scrolled {
+  background: rgba(255, 255, 255, 0.96) !important;
+  backdrop-filter: blur(20px) saturate(170%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(170%) !important;
+  border-bottom: 1px solid rgba(9, 53, 86, 0.18) !important;
+  box-shadow: 0 8px 26px rgba(6, 26, 51, 0.10) !important;
+}
+#header .nav {
+  min-height: 52px !important;
+}
+#header .nav-brand img#goldLogo {
+  width: 28px !important;
+  height: 34px !important;
+}
+#header .nav-brand .brand-wordmark {
+  width: clamp(58px, 4.8vw, 76px) !important;
+}
+#header .nav-links {
+  gap: clamp(4px, 0.75vw, 12px) !important;
+}
+#header .nav-links a {
+  color: #061A33 !important;
+  font-weight: 700 !important;
+  font-size: clamp(0.84rem, 0.92vw, 0.94rem) !important;
+  line-height: 1.3 !important;
+  padding: 6px clamp(9px, 0.95vw, 14px) !important;
+  gap: 6px !important;
+  border-radius: 8px !important;
+  border: 1px solid transparent;
+  text-shadow: none !important;
+  transition: background .2s ease, border-color .2s ease, color .2s ease !important;
+}
+#header.is-scrolled .nav-links a {
+  text-shadow: none !important;
+}
+#header .nav-links a:hover,
+#header .nav-links a:focus-visible {
+  background: rgba(255, 255, 255, 0.56) !important;
+  border-color: rgba(9, 53, 86, 0.14);
+  color: #093556 !important;
+}
+#header.is-scrolled .nav-links a:hover,
+#header.is-scrolled .nav-links a:focus-visible {
+  background: #EDF4FA !important;
+}
+#header .nav-links .nav-item-icon {
+  width: 17px !important;
+  height: 17px !important;
+  color: #B48440 !important;
+  transition: color .2s ease !important;
+}
+#header .nav-links a:is(:hover, :focus-visible, [aria-current="page"]) .nav-item-icon {
+  color: #9A6D2D !important;
+}
+#header .nav-actions .nav-icon {
+  width: 36px !important;
+  height: 36px !important;
+  border: 1px solid rgba(9, 53, 86, 0.14) !important;
+  background: rgba(255, 255, 255, 0.52) !important;
+  backdrop-filter: blur(10px);
+  color: #B48440 !important;
+  transition: background .2s ease, border-color .2s ease, color .2s ease !important;
+}
+#header.is-scrolled .nav-actions .nav-icon {
+  border-color: rgba(9, 53, 86, 0.15) !important;
+  background: rgba(255, 255, 255, 0.90) !important;
+}
+#header .nav-actions .nav-icon:hover {
+  background: rgba(255, 255, 255, 0.78) !important;
+  border-color: rgba(180, 132, 64, 0.42) !important;
+  color: #8F6427 !important;
+}
+#header.is-scrolled .nav-actions .nav-icon:hover {
+  background: #EDF4FA !important;
+}
+#header .header-plan-button {
+  height: 36px !important;
+  min-height: 36px !important;
+  padding: 0 14px !important;
+  font-size: 0.82rem !important;
+  font-weight: 700 !important;
+  background: linear-gradient(135deg, #061A33 0%, #0A2E5C 100%) !important;
+  border: 1px solid rgba(192, 144, 85, 0.44) !important;
+}
+#header .header-plan-button:hover {
+  background: linear-gradient(135deg, #0A2E5C 0%, #12407A 100%) !important;
+  border-color: rgba(233, 180, 81, 0.72) !important;
+}
+#header .header-plan-button .ic {
+  color: #E2B56B !important;
+}
+#menuPanel .menu-list a .ic {
+  color: #B48440 !important;
+}
+@media (max-width: 680px) {
+  #header .nav { min-height: 48px !important; }
+  #header .nav-brand img#goldLogo { width: 25px !important; height: 31px !important; }
+  #header .nav-actions .nav-icon { width: 34px !important; height: 34px !important; }
+}
+
+/* 6. Visit-Season (#visit-season): shorter landscape frame, structured 2-row overlay, no link underline */
+#visit-season {
+  padding-block: clamp(46px, 5vw, 74px) !important;
+}
+#visit-season .season-grid {
+  grid-template-columns: minmax(0, clamp(336px, 27vw, 396px)) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(20px, 3vw, 48px);
+}
+#visit-season .season-card {
+  min-height: clamp(232px, 18.8vw, 274px) !important;
+  border-radius: 14px !important;
+  box-shadow: 0 18px 40px -22px rgba(6, 26, 51, 0.45);
+}
+#visit-season .season-card::after {
+  background: linear-gradient(
+    180deg,
+    rgba(6, 26, 51, 0) 0%,
+    rgba(6, 26, 51, 0) 28%,
+    rgba(6, 26, 51, 0.44) 52%,
+    rgba(6, 26, 51, 0.84) 76%,
+    rgba(6, 26, 51, 0.94) 100%
+  ) !important;
+}
+#visit-season .season-card-copy {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: clamp(14px, 1.7vw, 20px) clamp(16px, 2vw, 22px) !important;
+  text-shadow: 0 1px 8px rgba(4, 14, 28, 0.65);
+}
+#visit-season .season-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+}
+#visit-season .season-card-title {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 10px;
+}
+#visit-season #seasonName {
+  margin: 0 !important;
+  font-size: clamp(1.12rem, 1.35vw, 1.36rem) !important;
+  font-weight: 700 !important;
+  line-height: 1.2 !important;
+  color: #FFFFFF !important;
+  gap: 7px;
+}
+#visit-season #seasonName .ic {
+  width: 1em;
+  height: 1em;
+  color: #FFE1A7;
+}
+#visit-season #seasonMonths {
+  margin: 0 !important;
+  padding: 3px 10px;
+  border-radius: 7px;
+  background: rgba(6, 26, 51, 0.56);
+  border: 1px solid rgba(255, 221, 162, 0.30);
+  color: #F7E8C8 !important;
+  font-size: 0.76rem;
+  font-weight: 600;
+  line-height: 1.35;
+  backdrop-filter: blur(8px);
+}
+#visit-season #seasonWeather {
+  margin: 0 !important;
+  margin-inline-start: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 4px 11px;
+  border-radius: 7px;
+  background: rgba(6, 26, 51, 0.64);
+  border: 1px solid rgba(167, 243, 208, 0.30);
+  color: #E6F6F2 !important;
+  font-size: 0.78rem;
+  font-weight: 600;
+  line-height: 1.35;
+  white-space: nowrap;
+  backdrop-filter: blur(10px);
+}
+#visit-season #seasonWeather::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #34D399;
+  box-shadow: 0 0 0 2px rgba(52, 211, 153, 0.22);
+  flex: none;
+}
+#visit-season #seasonWeather[hidden] {
+  display: none !important;
+}
+#visit-season .season-card-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 14px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
+}
+#visit-season #seasonTip {
+  margin: 0 !important;
+  flex: 1 1 auto;
+  min-width: 0;
+  max-width: none !important;
+  color: rgba(248, 251, 255, 0.94) !important;
+  font-size: clamp(0.77rem, 0.85vw, 0.87rem) !important;
+  line-height: 1.46 !important;
+}
+#visit-season #seasonCity,
+#visit-season .season-card-copy a {
+  flex: 0 0 auto;
+  display: inline-flex !important;
+  align-items: center;
+  gap: 6px;
+  min-height: 34px !important;
+  padding: 0 13px !important;
+  border-radius: 8px;
+  background: rgba(255, 221, 162, 0.14);
+  border: 1px solid rgba(255, 221, 162, 0.34);
+  color: #FFDDA2 !important;
+  font-size: 0.8rem !important;
+  font-weight: 700 !important;
+  line-height: 1.2 !important;
+  text-decoration: none !important;
+  text-shadow: none;
+  white-space: nowrap;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+#visit-season #seasonCity:hover,
+#visit-season #seasonCity:focus-visible,
+#visit-season .season-card-copy a:hover,
+#visit-season .season-card-copy a:focus-visible {
+  background: rgba(255, 221, 162, 0.24);
+  border-color: rgba(255, 221, 162, 0.58);
+  color: #FFF4DA !important;
+  text-decoration: none !important;
+}
+@media (max-width: 820px) {
+  #visit-season .season-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+  }
+}
+@media (max-width: 680px) {
+  #visit-season .season-card {
+    min-height: clamp(232px, 56vw, 254px) !important;
+  }
+  #visit-season .season-card-copy {
+    padding: 12px 14px !important;
+    gap: 7px;
+  }
+  #visit-season #seasonWeather {
+    position: absolute;
+    inset-block-start: 12px;
+    inset-inline-end: 12px;
+    margin-inline-start: 0 !important;
+    font-size: 0.72rem;
+    padding: 3px 9px;
+  }
+  #visit-season #seasonMonths {
+    font-size: 0.72rem;
+    padding: 2px 9px;
+  }
+  #visit-season .season-card-bottom {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+    padding-top: 7px;
+  }
+  #visit-season #seasonTip {
+    font-size: 0.79rem !important;
+  }
+  #visit-season #seasonCity,
+  #visit-season .season-card-copy a {
+    align-self: flex-start;
+  }
+}
+
+/* 7. Links Without Underlines: tactile pill wash, color shift & directional icon motion on hover */
+:is(
+  .foot-links a,
+  .foot-links button,
+  .footer-credits a,
+  .guide-links a,
+  .planner-cities a,
+  .season-cities a,
+  .route-weather a,
+  .official-detail-card a,
+  .eservice-item a,
+  .project-meta a,
+  .city-story-open,
+  .place-trail a,
+  .place-extra .place-source,
+  .tour-guide-reset,
+  .tour-guide-source,
+  .tour-guide-back,
+  .map-credit a,
+  .concierge-composer-meta button
+),
+:is(
+  .foot-links a,
+  .foot-links button,
+  .footer-credits a,
+  .guide-links a,
+  .planner-cities a,
+  .season-cities a,
+  .route-weather a,
+  .official-detail-card a,
+  .eservice-item a,
+  .project-meta a,
+  .city-story-open,
+  .place-trail a,
+  .place-extra .place-source,
+  .tour-guide-reset,
+  .tour-guide-source,
+  .tour-guide-back,
+  .map-credit a,
+  .concierge-composer-meta button
+):is(:hover, :focus-visible),
+.intro-reel-card:is(:hover, :focus-visible) strong {
+  text-decoration: none !important;
+}
+
+/* Footer text links: smooth RTL slide + warm gold illumination instead of underline */
+.site-footer .foot-links :is(a, button) {
+  transition: color 0.2s ease, transform 0.22s cubic-bezier(0.22, 1, 0.36, 1) !important;
+}
+.site-footer .foot-links :is(a, button) .ic {
+  transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1), color 0.2s ease;
+}
+.site-footer .foot-links :is(a, button):is(:hover, :focus-visible) {
+  color: #FFE4AD !important;
+  transform: translateX(-4px);
+}
+.site-footer .foot-links :is(a, button):is(:hover, :focus-visible) .ic {
+  color: #FFF4D6 !important;
+  transform: scale(1.12);
+}
+.site-footer .footer-credits a {
+  border-radius: 4px;
+  transition: color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+.site-footer .footer-credits a:is(:hover, :focus-visible) {
+  color: #FFE4AD !important;
+  background: rgba(255, 221, 162, 0.14);
+  box-shadow: 0 0 0 4px rgba(255, 221, 162, 0.14);
+}
+
+/* Dark-surface guide links (#dining .guide-flavors & #guideDaySection) */
+#dining .guide-flavors .guide-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 34px;
+  padding: 4px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 221, 162, 0.34);
+  background: rgba(255, 221, 162, 0.11);
+  color: #FFE6B9 !important;
+  font-weight: 700;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.22s ease;
+}
+#dining .guide-flavors .guide-links a .ic,
+#guideDaySection .guide-links a .ic,
+#visit-season #seasonCity .ic {
+  transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+}
+#dining .guide-flavors .guide-links a:is(:hover, :focus-visible),
+#guideDaySection .guide-links a:is(:hover, :focus-visible) {
+  background: rgba(255, 221, 162, 0.24) !important;
+  border-color: rgba(255, 221, 162, 0.62) !important;
+  color: #FFF6DF !important;
+  transform: translateY(-2px);
+}
+#dining .guide-flavors .guide-links a:is(:hover, :focus-visible) .ic,
+#guideDaySection .guide-links a:is(:hover, :focus-visible) .ic,
+#visit-season #seasonCity:is(:hover, :focus-visible) .ic {
+  transform: translateX(-3px);
+}
+
+/* Editorial reel card title hover */
+.intro-reel-card strong {
+  transition: color 0.22s ease, transform 0.22s ease;
+}
+.intro-reel-card:is(:hover, :focus-visible) strong {
+  color: #FFE1A7 !important;
+  transform: translateX(-3px);
+}
+
+/* Light-surface inline & card links: subtle emerald wash halo + icon glide (no layout shift) */
+:is(
+  .planner-cities a,
+  .season-cities a,
+  .route-weather a,
+  .official-detail-card a,
+  .eservice-item a,
+  .project-meta a,
+  .place-trail a,
+  .place-extra .place-source,
+  .tour-guide-reset,
+  .tour-guide-source,
+  .tour-guide-back,
+  .city-story-open,
+  .map-credit a,
+  .concierge-composer-meta button
+) {
+  border-radius: 6px;
+  transition: color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+:is(
+  .planner-cities a,
+  .season-cities a,
+  .route-weather a,
+  .official-detail-card a,
+  .eservice-item a,
+  .project-meta a,
+  .place-trail a,
+  .place-extra .place-source,
+  .tour-guide-reset,
+  .tour-guide-source,
+  .tour-guide-back,
+  .city-story-open:not(.city-story--lead .city-story-open),
+  .map-credit a,
+  .concierge-composer-meta button
+):is(:hover, :focus-visible) {
+  color: #006C35 !important;
+  background: rgba(0, 108, 53, 0.09);
+  box-shadow: 0 0 0 5px rgba(0, 108, 53, 0.09);
+}
+.city-story--lead .city-story-open:is(:hover, :focus-visible) {
+  color: #FFF6DF !important;
+  background: rgba(255, 221, 162, 0.16);
+  box-shadow: 0 0 0 5px rgba(255, 221, 162, 0.16);
+}
+:is(
+  .planner-cities a,
+  .season-cities a,
+  .official-detail-card a,
+  .eservice-item a,
+  .tour-guide-source,
+  .tour-guide-back,
+  .city-story-open
+) .ic {
+  transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+}
+:is(
+  .planner-cities a,
+  .season-cities a,
+  .official-detail-card a,
+  .eservice-item a,
+  .tour-guide-source,
+  .tour-guide-back,
+  .city-story-open
+):is(:hover, :focus-visible) .ic {
+  transform: translateX(-3px);
+}
+@media (prefers-reduced-motion: reduce) {
+  .site-footer .foot-links :is(a, button):is(:hover, :focus-visible),
+  .site-footer .foot-links :is(a, button):is(:hover, :focus-visible) .ic,
+  #dining .guide-flavors .guide-links a:is(:hover, :focus-visible),
+  #guideDaySection .guide-links a:is(:hover, :focus-visible),
+  .intro-reel-card:is(:hover, :focus-visible) strong,
+  :is(#dining .guide-flavors .guide-links a, #guideDaySection .guide-links a, #visit-season #seasonCity, .planner-cities a, .official-detail-card a, .eservice-item a, .tour-guide-source, .tour-guide-back, .city-story-open):is(:hover, :focus-visible) .ic {
+    transform: none !important;
+  }
+  #sirajLauncher.bot {
+    transition: none !important;
+  }
+}
+
+/* 2026-11-13: Hero bottom docking + Siraj elevation above buttons + uniform 16:10/16:9 image framing */
+#home {
+  padding-bottom: max(clamp(16px, 2.4svh, 26px), calc(env(safe-area-inset-bottom) + 14px));
+}
+#sirajLauncher.bot {
+  transition: transform .22s var(--ease), box-shadow .22s, bottom .28s var(--ease);
+}
+body:has(#homeView:not([hidden])) #sirajLauncher.is-hero-docked {
+  bottom: var(--siraj-hero-bottom, clamp(136px, 18svh, 178px)) !important;
+}
+@media (max-width: 640px) {
+  body:has(#homeView:not([hidden])) #sirajLauncher {
+    left: max(12px, env(safe-area-inset-left)) !important;
+  }
+  body:has(#homeView:not([hidden])) #sirajLauncher:not(.is-hero-docked) {
+    bottom: max(14px, env(safe-area-inset-bottom)) !important;
+  }
+}
+
+/* Preserve natural portrait framing on culture experience card in 16:10 aspect ratio */
+#experiences .experience-culture .photo {
+  object-position: 56% 30%;
+}
+#experiences .experience .photo[data-photo="mountainCover"] {
+  object-position: 50% 42%;
+}
+#experiences .experience .photo[data-photo="hussamCover"] {
+  object-position: 50% 48%;
+}
+@media (min-width: 721px) and (max-width: 1020px) {
+  #experiences .scenic-copy {
+    padding: 12px 14px;
+  }
+  #experiences .card-action {
+    margin-top: 6px;
+  }
+}
+@media (max-width: 720px) {
+  #destCarousel .scenic-copy {
+    padding: 14px 16px 15px;
+  }
+  #destCarousel .dest-card-action {
+    width: 38px;
+    height: 38px;
+  }
+}
+
+/* Standardize non-hero imagery across sections & sub-views to 16:10 / 16:9 rectangles */
+#discover .intro-visuals {
+  height: auto !important;
+  align-items: stretch;
+}
+#discover .intro-badge {
+  aspect-ratio: 16 / 10;
+  min-height: 0;
+  height: auto;
+}
+#discover .intro-reel {
+  min-height: 100%;
+}
+@media (max-width: 640px) {
+  #discover .intro-visuals {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+  }
+  #discover .intro-reel {
+    aspect-ratio: 8 / 9;
+    min-height: 0;
+  }
+  #visit-guide .guide-camp-banner {
+    aspect-ratio: 16 / 10;
+    min-height: 0;
+    height: auto;
+  }
+}
+#discover .intro-reel-card img {
+  object-position: center 26%;
+}
+#discover .intro-reel-card[data-kind="archive"] img {
+  object-position: 45% 24%;
+}
+.destination-area {
+  aspect-ratio: 16 / 10;
+  min-height: 0;
+}
+#visit-season .season-card {
+  aspect-ratio: 16 / 10 !important;
+  min-height: 0 !important;
+  height: auto !important;
+}
+@media (max-width: 820px) {
+  #visit-season .season-card {
+    aspect-ratio: 16 / 10 !important;
+    min-height: clamp(216px, 56vw, 248px) !important;
+  }
+}
+#routeSticky .route-image {
+  aspect-ratio: 16 / 10 !important;
+  min-height: 0 !important;
+  height: auto !important;
+}
+.place-hero figure {
+  aspect-ratio: 16 / 10 !important;
+  min-height: 0;
+  height: auto;
+}
+.city-story-grid[data-single] .city-story-media,
+.tour-guide-card-media,
+.tour-guide-detail-media,
+.directory-feature-photo,
+.directory-thumbnails button {
+  aspect-ratio: 16 / 10 !important;
+  min-height: 0;
+}
+
+/* Original deep sapphire dark-blue gradient (R9/R14) restored exclusively on embroidered sections/cards */
+#experiences,
+#app.app-promo {
+  background:
+    radial-gradient(ellipse at 83% 12%, rgba(36, 94, 143, .18), transparent 59%),
+    linear-gradient(135deg, #061a31 0%, #0b2c50 53%, #092845 100%) !important;
+  color: #ffffff !important;
+}
+#experiences .heritage-texture,
+#app .heritage-texture {
+  opacity: .56 !important;
+  mask-image: none !important;
+  -webkit-mask-image: none !important;
+  filter: none !important;
+}
+#experiences > .container > .section-top > div,
+#app .app-promo-copy {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+}
+#experiences > .container > .section-top .caption,
+#experiences > .container > .section-top .section-mark,
+#app .app-promo-copy .caption,
+#app .app-promo-copy .section-mark {
+  color: #99f6e4 !important;
+  font-weight: 700 !important;
+  text-shadow: 0 1px 3px rgba(2, 12, 30, .92), 0 2px 10px rgba(2, 12, 30, .82) !important;
+}
+#experiences > .container > .section-top h2,
+#app #app-title,
+#app .app-promo-copy h2 {
+  color: #ffffff !important;
+  text-shadow: 0 2px 4px rgba(2, 12, 30, .90), 0 4px 18px rgba(2, 12, 30, .78) !important;
+}
+#experiences > .container > .section-top h2 em,
+#app .app-promo-copy h2 em {
+  color: #86efac !important;
+}
+#experiences .lead,
+#app .app-promo-tagline {
+  color: #f3f9ff !important;
+  font-weight: 600 !important;
+  text-shadow: 0 1px 3px rgba(2, 12, 30, .94), 0 2px 12px rgba(2, 12, 30, .86) !important;
+}
+#app .app-phone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#app .app-phone-frame {
+  width: 100%;
+  box-shadow: 0 24px 52px rgba(2, 10, 24, .52), 0 0 0 2px #191119 !important;
+}
+#app .app-phone figcaption {
+  display: inline-block;
+  margin-block-start: 18px;
+  padding: 6px 16px;
+  border-radius: 999px;
+  background: rgba(6, 22, 44, .90) !important;
+  border: 1px solid rgba(153, 246, 228, .30) !important;
+  box-shadow: 0 8px 20px rgba(2, 10, 24, .38);
+  color: #ffffff !important;
+  font-weight: 600 !important;
+  text-shadow: none !important;
+}
+#experiences .experience.scenic-card {
+  border: 1px solid rgba(173, 225, 245, .30) !important;
+  box-shadow: 0 16px 34px rgba(2, 10, 24, .44) !important;
+}
+#app .app-store-links a {
+  background: rgba(6, 22, 44, .88) !important;
+  border: 1px solid rgba(153, 246, 228, .34) !important;
+  color: #ffffff !important;
+  box-shadow: 0 12px 24px rgba(2, 10, 24, .34) !important;
+}
+#app .app-store-links a:is(:hover, :focus-visible) {
+  background: linear-gradient(125deg, #0a2e5c 0%, #006c35 100%) !important;
+  border-color: #99f6e4 !important;
+}
+#app .app-store-links small {
+  color: #d7edf7 !important;
+}
+
+/* Embroidered cards inside #visit-guide (.guide-flavors & #guideDaySection) restored to original dark sapphire */
+#visit-guide #dining .guide-flavors {
+  background:
+    radial-gradient(ellipse at 83% 12%, rgba(36, 94, 143, .18), transparent 59%),
+    linear-gradient(135deg, #061a31 0%, #0b2c50 53%, #092845 100%) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(102, 169, 192, .35) !important;
+  box-shadow: 0 18px 36px rgba(5, 31, 55, .20), inset 0 1px rgba(255, 255, 255, .09) !important;
+}
+#visit-guide #guideDaySection {
+  background:
+    radial-gradient(ellipse 88% 84% at 84% 4%, rgba(40, 101, 139, .17), transparent 70%),
+    linear-gradient(138deg, #06182f 0%, #0a2645 53%, #092f51 100%) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(102, 169, 192, .35) !important;
+  box-shadow: 0 18px 36px rgba(5, 31, 55, .20), inset 0 1px rgba(255, 255, 255, .09) !important;
+}
+#visit-guide #dining .guide-flavors :is(.caption, .caption span, .section-mark),
+#visit-guide #guideDaySection :is(.caption, .caption span, .section-mark) {
+  color: #bcefe1 !important;
+}
+#visit-guide #dining .guide-flavors h3,
+#visit-guide #guideDaySection #guideDayTitle,
+#visit-guide #guideDaySection h3 {
+  color: #ffffff !important;
+  text-shadow: 0 1px 1px rgba(0, 12, 29, .18) !important;
+}
+#visit-guide #dining .guide-flavors dl div {
+  border-block-end: 1px solid rgba(255, 255, 255, .18) !important;
+}
+#visit-guide #dining .guide-flavors dt {
+  color: #ffe7b8 !important;
+}
+#visit-guide #dining .guide-flavors dd {
+  color: #e2effa !important;
+}
+#visit-guide #guideDaySection .guide-day-options details {
+  background: rgba(8, 29, 50, .83) !important;
+  border: 1px solid rgba(166, 211, 229, .25) !important;
+  color: #f7fbff !important;
+  box-shadow: inset 0 1px rgba(255, 255, 255, .07) !important;
+}
+#visit-guide #guideDaySection .guide-day-options summary {
+  color: #f7fbff !important;
+}
+#visit-guide #guideDaySection .guide-day-options summary:is(:hover, :focus-visible),
+#visit-guide #guideDaySection .guide-day-options details[open] summary {
+  background: rgba(255, 255, 255, .09) !important;
+}
+#visit-guide #guideDaySection .guide-day-options summary .ic,
+#visit-guide #guideDaySection .guide-day-chevron {
+  color: #c0eee2 !important;
+  border-color: rgba(153, 246, 228, .30) !important;
+  background: rgba(153, 246, 228, .10) !important;
+}
+#visit-guide #guideDaySection .guide-day-content {
+  border-block-start: 1px solid rgba(255, 255, 255, .14) !important;
+  color: #e4edf7 !important;
+}
+#visit-guide #guideDaySection .guide-day-options ol,
+#visit-guide #guideDaySection .guide-day-options li {
+  color: #e4edf7 !important;
+}
+#visit-guide #dining .guide-flavors .guide-links a,
+#visit-guide #guideDaySection .guide-links a {
+  background: rgba(255, 255, 255, .12) !important;
+  border: 1px solid rgba(153, 246, 228, .36) !important;
+  color: #ffffff !important;
+}
+#visit-guide #dining .guide-flavors .guide-links a:is(:hover, :focus-visible),
+#visit-guide #guideDaySection .guide-links a:is(:hover, :focus-visible) {
+  background: rgba(153, 246, 228, .22) !important;
+  border-color: #99f6e4 !important;
+  color: #ffffff !important;
+}
+#visit-guide .guide-embroidery-band {
+  background: linear-gradient(180deg, #05162b 0%, #0a2b4d 50%, #05162b 100%) !important;
+}
+
