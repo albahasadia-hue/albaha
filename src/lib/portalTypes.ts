@@ -313,6 +313,8 @@ export interface ConciergeContextState {
   locked: string | null;
   lockedIds: string[];
   completedIds: string[];
+  excludedIds?: string[];
+  lastGuideItemId?: number | null;
   interests: string[];
   withChildren: boolean;
   lessWalking: boolean;

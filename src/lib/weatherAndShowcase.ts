@@ -116,46 +116,23 @@ export function renderWeatherCard(element: HTMLElement | null, cityKey: string):
       <div class="weather-strip-main">
         <div class="weather-reading">
           <strong dir="ltr">${Math.round(current.temperature_2m)}°C</strong>
-          <div>
+          <div class="weather-reading-meta">
             <span class="weather-cond">${weatherNames(current.weather_code)}</span>
-            <p class="time-note">${sample ? '<strong>بيانات عرض توضيحية</strong> | درجات وتوقعات افتراضية لساعة المحاكاة <bdi>14:00</bdi>' : `آخر قراءة <bdi>${current.time.slice(0, 10)} | ${current.time.slice(11)}</bdi>`} بتوقيت السعودية.</p>
+            <p class="time-note">${sample ? 'بيانات معاينة افتراضية' : `آخر تحديث <bdi dir="ltr">${current.time.slice(11)}</bdi> بتوقيت السعودية`}</p>
           </div>
         </div>
-        ${next.length ? `<ul class="weather-hours" aria-label="${sample ? 'توقعات نموذج العرض' : 'الساعات القادمة'}">${next.map((hour) => `<li><bdi>${hour.time.slice(11)}</bdi><strong dir="ltr">${Math.round(hour.temp)}°</strong><small>هطول ${hour.rain}٪</small></li>`).join('')}</ul>` : ''}
-      </div>
-      ${sample ? '' : `<a class="place-source" href="${weatherSource}" target="_blank" rel="noopener">توقعات ${city.name} من Open-Meteo</a>`}`;
+        ${next.length ? `<ul class="weather-hours" aria-label="توقعات الساعات القادمة">${next.map((hour) => `<li><bdi dir="ltr">${hour.time.slice(11)}</bdi><strong dir="ltr">${Math.round(hour.temp)}°</strong><small>هطول ${hour.rain}%</small></li>`).join('')}</ul>` : ''}
+      </div>`;
   }
 
-  element.innerHTML = '<span class="weather-loading">جاري جلب الطقس…</span>';
+  element.innerHTML = '<span class="weather-loading">جارٍ تحديث حالة الطقس…</span>';
   forecast(cityKey).then((data) => {
     if (!element.isConnected) return;
     if (data) {
       display(data);
       return;
     }
-    element.innerHTML = `<div class="weather-offline-row"><p class="weather-offline-msg">تعذّر جلب الطقس الحالي. إرشادات الموسم متاحة أدناه.</p>
-      <div class="seraj-city-actions"><button type="button" class="concierge-choice" data-weather-sample>اعرض نموذج الطقس</button>
-      <a class="place-source" href="${weatherSource}" target="_blank" rel="noopener">مصدر توقعات الطقس</a></div></div>`;
-    element.querySelector('[data-weather-sample]')?.addEventListener(
-      'click',
-      () => {
-        const temp = cityKey === 'baha' ? 22 : 28;
-        const sampleDate = '2000-01-01T';
-        display(
-          {
-            current: { time: sampleDate + '14:00', temperature_2m: temp, weather_code: 2 },
-            hours: [15, 16, 17, 18].map((hour, i) => ({
-              time: sampleDate + hour + ':00',
-              temp: temp - i,
-              code: 2,
-              rain: i >= 2 ? 65 : 10,
-            })),
-          },
-          true
-        );
-      },
-      { once: true }
-    );
+    element.innerHTML = `<div class="weather-offline-row"><p class="weather-offline-msg">تتعذر قراءة الطقس المباشر حاليًا، ويمكنك تخطيط المسار وفق أجواء الموسم.</p></div>`;
   });
 }
 
@@ -163,31 +140,19 @@ export function localWeatherMarkup(
   cityKey: string,
   id: string,
   currentSeason: SeasonKey,
-  selectedSeason: SeasonKey
+  _selectedSeason: SeasonKey
 ): string {
-  const city = climateCities[cityKey];
-  const season = seasons[selectedSeason];
-  const currentTip =
-    city.tips?.[currentSeason] || 'راجع توقعات المحطة واختر وقت الزيارة المناسب للأجواء.';
   return `<section class="place-weather-strip" aria-labelledby="weatherTitle">
     <div class="place-weather-head">
       <div class="place-weather-title">
-        <span class="place-weather-badge">${glyph('weather', 'ic tiny')}<span>أجواء الزيارة · ${city.name}</span></span>
-        <h2 id="weatherTitle">الأحوال والطقس (${seasons[currentSeason].name})</h2>
+        <h2 id="weatherTitle">${glyph('weather', 'ic place-weather-ic')}<span>الأحوال والطقس (${seasons[currentSeason].name})</span></h2>
       </div>
       <div class="seraj-city-actions">
         <button type="button" class="btn btn-dark" data-weather-plan="${cityKey}" data-visit-id="${id}">خطّط حسب الأجواء ${glyph('route')}</button>
-        ${id === 'ain' ? '<button type="button" class="btn btn-soft" data-demo-rain>جرّب سيناريو المطر</button>' : ''}
-        <a class="place-source" href="${city.source}" target="_blank" rel="noopener">مرجع الوجهة ${glyph('external', 'ic tiny')}</a>
       </div>
     </div>
     <div class="place-weather-body">
       <div id="placeWeather" aria-live="polite"></div>
-      <div class="weather-tips-grid">
-        <div class="weather-tip-item"><small>إرشاد ${seasons[currentSeason].name}</small><p>${currentTip}</p></div>
-        ${selectedSeason !== currentSeason && city.tips ? `<div class="weather-tip-item"><small>وقت زيارتك · ${season.name}</small><p>${city.tips[selectedSeason]}</p></div>` : ''}
-        ${city.climate ? `<div class="weather-tip-item"><small>المناخ المعتاد</small><p>${city.climate}</p></div>` : ''}
-      </div>
     </div>
   </section>`;
 }

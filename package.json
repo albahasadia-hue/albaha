@@ -6,7 +6,9 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "guide:validate": "node scripts/import-guide-data.mjs --check",
+    "guide:import": "node scripts/import-guide-data.mjs"
   },
   "dependencies": {
     "next": "^15.3.0",

@@ -22,7 +22,7 @@ export function AppPromoSection() {
             </svg>
             <span>تطبيق أمانة منطقة الباحة</span>
           </p>
-          <h2 id="app-title">تطبيق الباحة الآن</h2>
+          <h2 id="app-title">تحميل تطبيق الباحة</h2>
           <p className="app-promo-tagline">الخدمات البلدية والسياحية في منصة رقمية موحدة</p>
           <div className="app-store-links" role="group" aria-label="متاجر تطبيق الباحة">
             <a

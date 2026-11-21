@@ -16,7 +16,7 @@ export function VisitSeasonSection() {
             </svg>
             <span>أجواء الزيارة</span>
           </div>
-          <h2 id="season-title">المناخ والفصول في السراة وتهامة</h2>
+          <h2 id="season-title">المناخ والفصول</h2>
           <div className="season-switch" id="seasonSwitch" role="group" aria-label="فصل الزيارة">
             {SEASONS.map((s) => (
               <button key={s.key} type="button" data-season={s.key}>
@@ -41,6 +41,7 @@ export function VisitSeasonSection() {
               تهامة · المخواة
             </button>
           </div>
+          <dl className="season-facts-grid" id="seasonFacts" aria-label="معلومات المناخ والتجهيز" />
         </div>
         <article className="season-card" aria-live="polite">
           <img id="seasonPhoto" alt="" decoding="async" loading="lazy" />

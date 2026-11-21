@@ -1714,7 +1714,7 @@ function miniRoute(plan: TripPlan): HTMLElement {
   figure.innerHTML = `<svg viewBox="${cx - width / 2} ${cy - height / 2} ${width} ${height}" preserveAspectRatio="xMidYMid meet" role="img" aria-label="معاينة مسار المحطات على خريطة الباحة">
       <path d="${path}" class="map-route-outline"/><path d="${path}" class="map-route-line"/>
       ${pins.map(([x, y], i) => `<g class="map-pin ${ids[i] === plan.timing.locked ? 'is-locked' : ''}" transform="translate(${x} ${y})"><circle r="11"/><text>${i + 1}</text></g>`).join('')}
-      </svg><figcaption>مسار تجريبي | ${plan.timing.locked ? `محطة مثبّتة | ${places.get(plan.timing.locked)!.name}` : 'توقيت السعودية'}</figcaption>`;
+      </svg><figcaption>مسار الرحلة | ${plan.timing.locked ? `محطة مثبّتة | ${places.get(plan.timing.locked)!.name}` : 'توقيت السعودية'}</figcaption>`;
   const svg = figure.querySelector('svg');
   if (svg && terrainSource) {
     const terrain = terrainSource.cloneNode() as Element;

@@ -12,7 +12,7 @@ const NAV_LINKS: NavLinkItem[] = [
   { href: '#experiences', icon: '#i-nav-experience', label: 'التجارب' },
   { href: '#destinations', icon: '#i-nav-destination', label: 'الوجهات' },
   { href: '#guide', icon: '#i-nav-guide', label: 'الدليل', isGuide: true },
-  { href: '#faq', icon: '#i-foot-faq', label: 'الأسئلة الشائعة' },
+  { href: '#invest', icon: '#i-nav-invest', label: 'الاستثمار' },
 ];
 
 export function SiteHeader() {

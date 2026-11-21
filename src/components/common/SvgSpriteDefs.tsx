@@ -207,6 +207,7 @@ export function SvgSpriteDefs() {
     <symbol id="i-nav-experience" viewBox="0 0 24 24"><path d="M2.5 19.5 8.6 7.8l4.3 6.3 3.1-4.4 5.5 9.8H2.5Z"/><path d="m6.9 11.1 2.1 1.6 1.5-1.2M16.1 4.1v2.7m-1.4-1.4h2.8"/></symbol>
     <symbol id="i-nav-destination" viewBox="0 0 24 24"><path d="M19.2 10c0 5.1-7.2 10.9-7.2 10.9S4.8 15.1 4.8 10a7.2 7.2 0 0 1 14.4 0Z"/><circle cx="12" cy="10" r="2.5"/></symbol>
     <symbol id="i-nav-guide" viewBox="0 0 24 24"><path d="m3.2 5.4 5.9-1.9 6 2 5.7-1.9v15.1l-5.8 1.9-6-2-5.8 1.9V5.4Z"/><path d="M9.1 3.5v15.1m6-13.1v15.1"/><path d="m11.2 11.8 2-2.3-.4 3.3-2.1 1.8.5-2.8Z"/></symbol>
+    <symbol id="i-nav-invest" viewBox="0 0 24 24"><path d="M4 19.2h16"/><path d="M5.5 15.2 9.7 11l3.1 2.7 5.7-6.7"/><path d="M14.8 7h3.7v3.7"/></symbol>
     <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></symbol>
     <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h10"/></symbol>
     <symbol id="i-x" viewBox="0 0 24 24"><path d="M5 5 19 19M19 5 5 19"/></symbol>

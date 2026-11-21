@@ -10,14 +10,14 @@ export function SirajLauncher() {
       className="bot"
       id="sirajLauncher"
       data-open="agent"
-      aria-label="اسأل المرشد"
-      title="اسأل المرشد"
+      aria-label="افتح المرشد الذكي"
+      title="المرشد الذكي"
       aria-haspopup="dialog"
       aria-controls="agentPanel"
     >
       <GuideCharacter pose="idle" size={44} className="guide-launcher-avatar" />
       <span className="siraj-tooltip" aria-hidden="true">
-        اسأل المرشد
+        المرشد الذكي
       </span>
     </button>
   );

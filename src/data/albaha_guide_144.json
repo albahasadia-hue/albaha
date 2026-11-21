@@ -1,0 +1,3242 @@
+{
+  "metadata": {
+    "title": "دليل منطقة الباحة السياحي الشامل",
+    "region": "منطقة الباحة - المملكة العربية السعودية",
+    "total_entries": 144,
+    "generated_at": "2026-11-20",
+    "source_spreadsheet_url": "https://docs.google.com/spreadsheets/d/1QPljMCzn6sEmnSCw7MzHYmHv2wSI3vGCfTZSsXK-OOY/edit",
+    "categories_summary": [
+      {
+        "category_key": "hotels_resorts",
+        "category_ar": "فنادق ومنتجعات الباحة",
+        "count": 37
+      },
+      {
+        "category_key": "restaurants_cafes",
+        "category_ar": "المطاعم والمقاهي",
+        "count": 27
+      },
+      {
+        "category_key": "forests_parks_waterfalls",
+        "category_ar": "الغابات والمنتزهات والشلالات",
+        "count": 35
+      },
+      {
+        "category_key": "heritage_villages_museums",
+        "category_ar": "القرى التراثية والمتاحف",
+        "count": 16
+      },
+      {
+        "category_key": "souqs_shopping_entertainment",
+        "category_ar": "الأسواق والتسوق والترفيه",
+        "count": 11
+      },
+      {
+        "category_key": "farms_local_products",
+        "category_ar": "المزارع والمنتجات المحلية",
+        "count": 13
+      },
+      {
+        "category_key": "travel_car_rentals",
+        "category_ar": "السفر وتأجير السيارات",
+        "count": 5
+      }
+    ]
+  },
+  "items": [
+    {
+      "id": 1,
+      "category_key": "hotels_resorts",
+      "category_ar": "فنادق ومنتجعات الباحة",
+      "name": "فندق مدينة السحاب (Cloud City Hotel)",
+      "governorate": "مدينة الباحة",
+      "type": "فندق",
+      "rating": 4.2,
+      "reviews_count": 2458,
+      "rating_raw": "4.2 (2458 تقييم)",
+      "address": "2930 طريق الملك عبدالعزيز، الباهر، الباحة 65525",
+      "description": "فندق أنيق في قلب مدينة الباحة قريب من منتزه الأمير حسام (2.1 كم) وغابة رغدان (3.2 كم) ومطار العقيق (45.3 كم). يضم مطعمين، مركز أعمال وقاعات اجتماعات، نادياً رياضياً، إفطاراً متنوعاً، واي فاي ومواقف مجانية. رقم الترخيص السياحي: 10006537. تسجيل الوصول 14:00، المغادرة 12:00.",
+      "contact_and_booking": "هاتف: 966-17-723-0330 | حجز مباشر عبر الموقع الرسمي أو الهاتف أو المسافر / Trip.com (نقداً أو بالبطاقة)",
+      "links": {
+        "official_website": {
+          "label": "الموقع الرسمي",
+          "url": "http://www.cloudcityhotels.com/"
+        },
+        "booking_and_photos": {
+          "label": "حجز المسافر",
+          "url": "https://www.almosafer.com/ar/hotel/details/atg/%D9%81%D9%86%D8%AF%D9%82-%D9%83%D9%84%D8%A7%D9%88%D8%AF-%D8%B3%D9%8A%D8%AA%D9%8A-2381491"
+        },
+        "social_or_source": {
+          "label": "صفحة Trip.com",
+          "url": "https://sa.trip.com/hotels/al-baha-hotel-detail-124029739/cloud-city-hotel/"
+        }
+      }
+    },
+    {
+      "id": 2,
+      "category_key": "hotels_resorts",
+      "category_ar": "فنادق ومنتجعات الباحة",
+      "name": "فندق ساكورا سيتي الفندقية (Sakura City Hotel)",
+      "governorate": "مدينة الباحة",
+      "type": "فندق",
+      "rating": 4.3,
+      "reviews_count": 355,
+      "rating_raw": "4.3 (355 تقييم)",
+      "address": "شارع الشيخ إبراهيم الإبراهيم، الباهر، الباحة 65525",
+      "description": "فندق حديث بموقع مركزي يبعد 0.9 كم عن حديقة الحسام و4.9 كم عن غابة رغدان. يوفر مطعماً ومقهى، قاعة مناسبات واجتماعات، مركز لياقة، خدمة توصيل للمطار، مواقف مجانية، وواي فاي مجاني. تسجيل الوصول 16:00، المغادرة 12:00.",
+      "contact_and_booking": "هاتف: 966-17-722-0692 | حجز مباشر عبر الموقع الرسمي أو واتساب/الهاتف أو المسافر وTrip.com",
+      "links": {
+        "official_website": {
+          "label": "الموقع الرسمي",
+          "url": "https://sakuracityhotel.com/"
+        },
+        "booking_and_photos": {
+          "label": "حجز المسافر",
+          "url": "https://global.almosafer.com/ar/hotel/details/atg/%D8%B3%D8%A7%D9%83%D9%88%D8%B1%D8%A7-%D8%B3%D9%8A%D8%AA%D9%8A-%D9%87%D9%88%D8%AA%D9%84-3955893"
+        },
+        "social_or_source": {
+          "label": "أمانة منطقة الباحة",
+          "url": "https://baha.gov.sa/ar/Albums/ImageDetails/%D9%81%D9%86%D8%AF%D9%82-%D8%B3%D8%A7%D9%83%D9%88%D8%B1%D8%A7-%D8%B3%D9%8A%D8%AA%D9%8A"
+        }
+      }
+    },
+    {
+      "id": 3,
+      "category_key": "hotels_resorts",
+      "category_ar": "فنادق ومنتجعات الباحة",
+      "name": "فندق ذا هاي ڤيو (The High View Hotel)",
+      "governorate": "مدينة الباحة",
+      "type": "فندق",
+      "rating": 4.6,
+      "reviews_count": 406,
+      "rating_raw": "4.6 (406 تقييم)",
+      "address": "2F46+6W، طريق الملك فهد، وسط المدينة، الباحة 65526",
+      "description": "فندق بإطلالات مميزة في وسط الباحة محاط بالمحلات والمطاعم، مناسب للعائلات. يوفر تراساً ومطعماً ومركز لياقة وإفطاراً كونتيننتال وواي فاي ومواقف مجانية، وغرفاً مجهزة بثلاجة وغلاية. رقم الترخيص: 10010775. تسجيل الوصول 16:00، المغادرة 12:00.",
+      "contact_and_booking": "هاتف: 966-53-385-7879 / 966-17-722-6672 | حجز إلكتروني عبر Booking.com (بطاقات بنكية) أو واتساب/هاتف",
+      "links": {
+        "official_website": null,
+        "booking_and_photos": {
+          "label": "حجز بوكينج",
+          "url": "https://www.booking.com/hotel/sa/the-high-view-al-bahah.ar.html"
+        },
+        "social_or_source": {
+          "label": "Booking.com",
+          "url": "https://www.booking.com/hotel/sa/the-high-view-al-bahah.ar.html"
+        }
+      }
+    },
+    {
+      "id": 4,
+      "category_key": "hotels_resorts",
+      "category_ar": "فنادق ومنتجعات الباحة",
+      "name": "فندق قمم بارك الباحة 7 (7 Qimam Park Hotel)",
+      "governorate": "مدينة الباحة",
+      "type": "فندق",
+      "rating": 4.2,
+      "reviews_count": 442,
+      "rating_raw": "4.2 (442 تقييم)",
+      "address": "2FGG+63QJ، الباهر، الباحة 65525",
+      "description": "يقع في قلب منطقة الممشى بالباحة على بُعد 2.6 كم من حديقة الحسام و7 كم من غابة رغدان. يتميز بالهدوء والنظافة ويضم منتجعاً صحياً (سبا)، خدمة غرف، مواقف مجانية، وواي فاي مجاني ومرافق لذوي الاحتياجات الخاصة. رقم الترخيص: 10008383. تسجيل الوصول 16:00، المغادرة 14:00.",
+      "contact_and_booking": "هاتف: 966-9200-16249 | حجز مباشر عبر بوابة BookMyStay أو واتساب أو منصة المسافر",
+      "links": {
+        "official_website": {
+          "label": "الموقع الرسمي",
+          "url": "https://7qimamparkhotel.bookmystay.io/?utm_source=webShare"
+        },
+        "booking_and_photos": {
+          "label": "حجز المسافر",
+          "url": "https://www.almosafer.com/ar/hotel/details/atg/%D9%81%D9%86%D8%AF%D9%82-%D9%82%D9%85%D9%85-%D8%A8%D8%A7%D8%B1%D9%83-7-3232316"
+        },
+        "social_or_source": {
+          "label": "بوابة BookMyStay",
+          "url": "https://7qimamparkhotel.bookmystay.io/?utm_source=webShare"
+        }
+      }
+    },
+    {
+      "id": 5,
+      "category_key": "hotels_resorts",
+      "category_ar": "فنادق ومنتجعات الباحة",
+      "name": "منتجع ماكامايا (Makamaya Resort)",
+      "governorate": "مدينة الباحة",
+      "type": "منتجع سياحي",
+      "rating": 3.9,
+      "reviews_count": 405,
+      "rating_raw": "3.9 (405 تقييم)",
+      "address": "الشفا 54، BAGC8129، قرب غابة رغدان، الباحة",
+      "description": "منتجع جبلي وسط الغابات الكثيفة على بُعد 500 م من رغدان، يجمع بين الطابع الريفي والراحة العصرية عبر كبائن ووحدات بمطبخ صغير خاص وممرات طبيعية وإطلالات بانورامية، مع مواقف مجانية وخدمة نقل المطار.",
+      "contact_and_booking": "هاتف: 966-55-844-5301 | حجز مباشر عبر الموقع الرسمي أو Booking.com أو الهاتف",
+      "links": {
+        "official_website": {
+          "label": "الموقع الرسمي",
+          "url": "https://makamaya.com/makamaya-contact/"
+        },
+        "booking_and_photos": {
+          "label": "حجز بوكينج",
+          "url": "https://www.booking.com/hotel/sa/mntj-mkmy-makamaya-resort.ar.html"
+        },
+        "social_or_source": {
+          "label": "روح السعودية",
+          "url": "https://www.visitsaudi.com/ar/al-baha/attractions/makamaya-resorts"
+        }
+      }
+    },
+    {
+      "id": 6,
+      "category_key": "hotels_resorts",
+      "category_ar": "فنادق ومنتجعات الباحة",
+      "name": "تولين الذهبية للشقق الفندقية",
+      "governorate": "مدينة الباحة",
+      "type": "شقق فندقية",
+      "rating": 4.5,
+      "reviews_count": 259,
+      "rating_raw": "4.5 (259 تقييم)",
+      "address": "6770 طريق الملك سعود، الباحة 65526",
+      "description": "شقق فندقية حديثة وواسعة في وسط مدينة الباحة على بُعد دقائق بالسيارة من أبرز المعالم والخدمات، تتميز بالنظافة والإطلالة الجيدة وتناسب العائلات.",
+      "contact_and_booking": "هاتف: 966-50-662-6619 | حجز مباشر عبر الهاتف أو منصات الحجز (المسافر / Booking)",
+      "links": {
+        "official_website": null,
+        "booking_and_photos": {
+          "label": "حجز المسافر",
+          "url": "https://www.almosafer.com/ar/%D9%81%D9%86%D8%A7%D8%AF%D9%82/%D8%B3%D8%A7%D9%81%D8%B1/sa-%D9%81%D9%86%D8%A7%D8%AF%D9%82-%D8%A7%D9%84%D8%A8%D8%A7%D8%AD%D8%A9"
+        },
+        "social_or_source": {
+          "label": "التواصل عبر الهاتف وخرائط جوجل",
+          "url": null
+        }
+      }
+    },
+    {
+      "id": 7,
+      "category_key": "hotels_resorts",
+      "category_ar": "فنادق ومنتجعات الباحة",
+      "name": "شاليهات أبيات الفندقية (Abyat Stay)",
+      "governorate": "مدينة الباحة",
+      "type": "شاليهات فندقية",
+      "rating": 4.6,
+      "reviews_count": 161,
+      "rating_raw": "4.6 (161 تقييم)",
+      "address": "شارع المرتفع، الباحة 65725",
+      "description": "شاليهات فندقية راقية بتقييم مرتفع (4.6) توفر خصوصية عالية وموقعاً هادئاً في الباحة، مناسبة للعائلات والإجازات القصيرة.",
+      "contact_and_booking": "هاتف: 966-53-525-6166 | حجز مباشر عبر الموقع الإلكتروني أو الهاتف",
+      "links": {
+        "official_website": {
+          "label": "الموقع الرسمي",
+          "url": "https://abyat-stay-gold.base44.app/"
+        },
+        "booking_and_photos": {
+          "label": "رابط الحجز",
+          "url": "https://abyat-stay-gold.base44.app/"
+        },
+        "social_or_source": {
+          "label": "الموقع الإلكتروني",
+          "url": "https://abyat-stay-gold.base44.app/"
+        }
+      }
+    },
+    {
+      "id": 8,
+      "category_key": "hotels_resorts",
+      "category_ar": "فنادق ومنتجعات الباحة",
+      "name": "الفاضل للشقق المخدومة",
+      "governorate": "مدينة الباحة",
+      "type": "شقق مخدومة",
+      "rating": 4.1,
+      "reviews_count": 860,
+      "rating_raw": "4.1 (860 تقييم)",
+      "address": "طريق الملك عبدالعزيز، بني سار، جوار محطة الفحص الدوري، الباحة",
+      "description": "وحدات سكنية مخدومة تعمل على مدار 24 ساعة في بني سار شمال الباحة، مزودة بواي فاي وخدمة غسيل ومواقف، وتُعد خياراً عملياً واقتصادياً للمسافرين. رقم الترخيص: 10009614.",
+      "contact_and_booking": "هاتف: 966-54-072-3240 | حجز عبر منصة المسافر أو الهاتف على مدار 24 ساعة",
+      "links": {
+        "official_website": null,
+        "booking_and_photos": {
+          "label": "حجز المسافر",
+          "url": "https://www.almosafer.com/ar/hotel/details/atg/%D8%A7%D9%84%D9%81%D8%A7%D8%B6%D9%84-%D9%84%D9%84%D8%B4%D9%82%D9%82-%D8%A7%D9%84%D9%85%D8%AE%D8%AF%D9%88%D9%85%D8%A9---%D8%A7%D9%82%D8%AA%D8%B5%D8%A7%D8%AF%D9%8A-2626456?lang=ar"
+        },
+        "social_or_source": {
+          "label": "أمانة منطقة الباحة",
+          "url": "https://baha.gov.sa/ar/Albums/Sites?type=4&category=Entertainment"
+        }
+      }
+    },
+    {
+      "id": 9,
+      "category_key": "hotels_resorts",
+      "category_ar": "فنادق ومنتجعات الباحة",
+      "name": "المرجانة للشقق المفروشة",
+      "governorate": "مدينة الباحة",
+      "type": "شقق فندقية",
+      "rating": 4.0,
+      "reviews_count": 1203,
+      "rating_raw": "4.0 (1203 تقييم)",
+      "address": "5845 طريق الجنوب، حي الأزهر، الباحة 65732",
+      "description": "شقق مفروشة عائلية على طريق الجنوب تعمل 24 ساعة وتوفر واي فاي ومواقف مجانية وخدمة غسيل، مناسبة للعائلات بأسعار اقتصادية. تسجيل الوصول 16:00، المغادرة 14:00.",
+      "contact_and_booking": "هاتف: 966-17-736-0990 | حجز مباشر عبر الهاتف أو منصات الحجز",
+      "links": {
+        "official_website": null,
+        "booking_and_photos": {
+          "label": "دليل بيوت",
+          "url": "https://www.bayut.sa/blog/%D8%A7%D9%83%D8%AA%D8%B4%D9%81-%D8%A7%D9%84%D8%B3%D8%B9%D9%88%D8%AF%D9%8A%D8%A9/%D9%81%D9%86%D8%A7%D8%AF%D9%82-%D8%A7%D9%84%D8%A8%D8%A7%D8%AD%D8%A9/"
+        },
+        "social_or_source": {
+          "label": "التواصل المباشر بالهاتف",
+          "url": null
+        }
+      }
+    },
+    {
+      "id": 10,
+      "category_key": "hotels_resorts",
+      "category_ar": "فنادق ومنتجعات الباحة",
+      "name": "فندق المنتزه الوطني (National Park Hotel)",
+      "governorate": "بلجرشي",
+      "type": "فندق",
+      "rating": 4.2,
+      "reviews_count": 2400,
+      "rating_raw": "4.2 (2400 تقييم)",
+      "address": "RHVQ+8X7، طريق الملك عبدالعزيز، بلجرشي 65652",
+      "description": "أبرز فنادق محافظة بلجرشي (4 نجوم)، يضم مسبحاً داخلياً، مركز عافية وسبا، نادياً رياضياً، مطعماً ومقهى عائلياً، حديقة بإطلالات جبلية، غرفاً وأجنحة حتى 70 م²، وخدمة نقل للمطار. رقم الترخيص: 10001792. تسجيل الوصول 15:00، المغادرة 12:00.",
+      "contact_and_booking": "هاتف: 966-17-722-2277 | حجز مباشر عبر الموقع الرسمي أو Booking.com أو إقامتي",
+      "links": {
+        "official_website": {
+          "label": "الموقع الرسمي",
+          "url": "http://www.nationalparkgroup.com/"
+        },
+        "booking_and_photos": {
+          "label": "حجز بوكينج",
+          "url": "https://www.booking.com/hotel/sa/swiss-international-park.ar.html"
+        },
+        "social_or_source": {
+          "label": "منصة إقامتي",
+          "url": "https://iqamti.com/hotel-details/370"
+        }
+      }
+    },
+    {
+      "id": 11,
+      "category_key": "hotels_resorts",
+      "category_ar": "فنادق ومنتجعات الباحة",
+      "name": "فندق ورويك الباحة (Warwick Al Baha Hotel)",
+      "governorate": "بلجرشي",
+      "type": "فندق",
+      "rating": 4.8,
+      "reviews_count": 411,
+      "rating_raw": "4.8 (411 تقييم)",
+      "address": "طريق الملك عبدالعزيز، بلجرشي 65629",
+      "description": "فندق حديث تابع لسلسلة Warwick العالمية على الطريق الرئيسي بين الطائف وأبها في بلجرشي. حاصل على تقييم 9.5+ في النظافة والموقع والراحة على Booking.com؛ يوفر غرفاً وأجنحة تنفيذية حتى 100 م² وإفطاراً كونتيننتال ومواقف مجانية. رقم الترخيص: 10013342. تسجيل الوصول 14:00، المغادرة 12:00.",
+      "contact_and_booking": "هاتف: 966-17-512-2070 | حجز مباشر عبر موقع Warwick الرسمي أو Booking.com (نقداً أو بالبطاقة)",
+      "links": {
+        "official_website": {
+          "label": "الموقع الرسمي",
+          "url": "https://www.warwickhotels.com/"
+        },
+        "booking_and_photos": {
+          "label": "حجز بوكينج",
+          "url": "https://www.booking.com/hotel/sa/warwick-al-baha.ar.html"
+        },
+        "social_or_source": {
+          "label": "مجموعة Warwick",
+          "url": "https://www.warwickhotels.com/"
+        }
+      }
+    },
+    {
+      "id": 12,
+      "category_key": "hotels_resorts",
+      "category_ar": "فنادق ومنتجعات الباحة",
+      "name": "غيوم للفلل الفندقية",
+      "governorate": "بلجرشي",
+      "type": "فلل فندقية",
+      "rating": 4.5,
+      "reviews_count": 155,
+      "rating_raw": "4.5 (155 تقييم)",
+      "address": "خلف الساحة الشعبية، طريق الملك عبدالعزيز، المحمدية، بلجرشي 65629",
+      "description": "فلل فندقية فاخرة وهادئة ببلجرشي تعمل 24 ساعة، تحظى بتقييم مرتفع من العائلات لخصوصيتها وموقعها القريب من الخدمات.",
+      "contact_and_booking": "هاتف: 966-50-825-5464 | حجز مباشر عبر الهاتف أو الواتساب (24 ساعة)",
+      "links": {
+        "official_website": null,
+        "booking_and_photos": {
+          "label": "أمانة منطقة الباحة",
+          "url": "https://baha.gov.sa/ar/Albums/Sites?type=4&category=Entertainment"
+        },
+        "social_or_source": {
+          "label": "أمانة منطقة الباحة",
+          "url": "https://baha.gov.sa/ar/Albums/Sites?type=4&category=Entertainment"
+        }
+      }
+    },
+    {
+      "id": 13,
+      "category_key": "hotels_resorts",
+      "category_ar": "فنادق ومنتجعات الباحة",
+      "name": "فندق ديار هوم (Diyar Home Hotel)",
+      "governorate": "بلجرشي",
+      "type": "فندق",
+      "rating": 4.2,
+      "reviews_count": 311,
+      "rating_raw": "4.2 (311 تقييم)",
+      "address": "15 حي المحمدية، بلجرشي 65651",
+      "description": "فندق واسع ونظيف بموقع مركزي في بلجرشي قريب من الخدمات، يوفر إفطاراً، مركز لياقة، خدمة نقل للمطار، ومواقف وواي فاي مجانية.",
+      "contact_and_booking": "هاتف: 966-55-084-1499 | حجز عبر بوابة إقامة بلس أو واتساب/الهاتف",
+      "links": {
+        "official_website": {
+          "label": "الموقع الرسمي",
+          "url": "http://www.iqamaplus.com.sa/"
+        },
+        "booking_and_photos": {
+          "label": "بوابة إقامة بلس",
+          "url": "http://www.iqamaplus.com.sa/"
+        },
+        "social_or_source": {
+          "label": "إقامة بلس",
+          "url": "http://www.iqamaplus.com.sa/"
+        }
+      }
+    },
+    {
+      "id": 14,
+      "category_key": "hotels_resorts",
+      "category_ar": "فنادق ومنتجعات الباحة",
+      "name": "مساكن ميرا للأجنحة الفندقية (Mera Houses)",
+      "governorate": "بلجرشي",
+      "type": "أجنحة وشقق فندقية",
+      "rating": 4.0,
+      "reviews_count": 1634,
+      "rating_raw": "4.0 (1634 تقييم)",
+      "address": "طريق الملك خالد، بلجرشي",
+      "description": "أجنحة فندقية معروفة في بلجرشي تعمل 24 ساعة، مناسبة للإقامات العائلية والقصيرة مع تقييم مستقر وعدد مراجعات كبير.",
+      "contact_and_booking": "هاتف: 966-17-722-2216 | حجز إلكتروني عبر Booking.com أو الهاتف (24 ساعة)",
+      "links": {
+        "official_website": null,
+        "booking_and_photos": {
+          "label": "حجز بوكينج",
+          "url": "https://www.booking.com/hotel/sa/myr-hws-bljrshy.ar.html"
+        },
+        "social_or_source": {
+          "label": "Booking.com",
+          "url": "https://www.booking.com/hotel/sa/myr-hws-bljrshy.ar.html"
+        }
+      }
+    },
+    {
+      "id": 15,
+      "category_key": "hotels_resorts",
+      "category_ar": "فنادق ومنتجعات الباحة",
+      "name": "شركة المكان الأفضل للخدمات الفندقية (Best Place Hotel)",
+      "governorate": "العقيق",
+      "type": "فندق",
+      "rating": 4.4,
+      "reviews_count": 119,
+      "rating_raw": "4.4 (119 تقييم)",
+      "address": "حي الزهراء، العقيق 65812",
+      "description": "خيار مثالي للمسافرين عبر مطار الملك سعود بالعقيق؛ يضم مسبحاً داخلياً، جاكوزي، مركز لياقة، مطعماً، خدمة نقل للمطار، ومواقف مجانية. تسجيل الوصول 14:00، المغادرة 12:00.",
+      "contact_and_booking": "هاتف: 966-55-519-3614 | حجز مباشر عبر الموقع الرسمي أو واتساب/الهاتف",
+      "links": {
+        "official_website": {
+          "label": "الموقع الرسمي",
+          "url": "https://www.bestplacehotel.com/"
+        },
+        "booking_and_photos": {
+          "label": "رابط الحجز",
+          "url": "https://www.bestplacehotel.com/"
+        },
+        "social_or_source": {
+          "label": "الموقع الرسمي",
+          "url": "https://www.bestplacehotel.com/"
+        }
+      }
+    },
+    {
+      "id": 16,
+      "category_key": "hotels_resorts",
+      "category_ar": "فنادق ومنتجعات الباحة",
+      "name": "دار عوضة التراثية (نزل ريفي وتجربة ثقافية)",
+      "governorate": "القرى",
+      "type": "نزل ريفي وتراثي",
+      "rating": 4.7,
+      "reviews_count": 106,
+      "rating_raw": "4.7 (106 تقييم)",
+      "address": "قرية الأطاولة التراثية، BAWA9746، محافظة القرى",
+      "description": "بيت تراثي ونزل ريفي فريد في قرية الأطاولة يقدّم تجربة ثقافية أصيلة تشمل العمارة الحجرية الباحية، الحرف اليدوية، الأطباق الشعبية، والفعاليات الصيفية.",
+      "contact_and_booking": "هاتف: 966-55-506-5440 | حجز واستفسار مباشر عبر الهاتف",
+      "links": {
+        "official_website": {
+          "label": "الموقع والتقرير",
+          "url": "https://rahhal.wego.com/blog/%D8%AF%D8%A7%D8%B1-%D8%B9%D9%88%D8%B6%D8%A9-%D8%A7%D9%84%D8%A7%D8%B7%D8%A7%D9%88%D9%84%D8%A9-%D8%A7%D9%84%D8%A8%D8%A7%D8%AD%D8%A9/"
+        },
+        "booking_and_photos": {
+          "label": "تقرير رحّال ويجو",
+          "url": "https://rahhal.wego.com/blog/%D8%AF%D8%A7%D8%B1-%D8%B9%D9%88%D8%B6%D8%A9-%D8%A7%D9%84%D8%A7%D8%B7%D8%A7%D9%88%D9%84%D8%A9-%D8%A7%D9%84%D8%A8%D8%A7%D8%AD%D8%A9/"
+        },
+        "social_or_source": {
+          "label": "ويجو مدونة رحّال",
+          "url": "https://rahhal.wego.com/blog/%D8%AF%D8%A7%D8%B1-%D8%B9%D9%88%D8%B6%D8%A9-%D8%A7%D9%84%D8%A7%D8%B7%D8%A7%D9%88%D9%84%D8%A9-%D8%A7%D9%84%D8%A8%D8%A7%D8%AD%D8%A9/"
+        }
+      }
+    },
+    {
+      "id": 17,
+      "category_key": "hotels_resorts",
+      "category_ar": "فنادق ومنتجعات الباحة",
+      "name": "منتجع قمرة الجبلي من مانتس (GAMRA Mountain Resort by Mantis)",
+      "governorate": "بني حسن",
+      "type": "منتجع جبلي وسياحي",
+      "rating": 4.5,
+      "reviews_count": 231,
+      "rating_raw": "4.5 (231 تقييم)",
+      "address": "طريق منتزه غابة خيرة، بني حسن، الباحة 65735",
+      "description": "منتجع جبلي فاخر 4 نجوم من تطوير شركة أسفار (صندوق الاستثمارات العامة) وتشغيل Mantis / Accor وسط غابة خيرة. يوفر إطلالات جبلية ساحرة، مطعماً يقدم المأكولات المحلية (مثل الدغابيس)، خدمة نقل للمطار، مواقف وواي فاي مجاني، وتجارب استجمام فاخرة. تسجيل الوصول 15:00، المغادرة 12:00.",
+      "contact_and_booking": "هاتف: 966-17-727-7740 | حجز مباشر عبر منصة Accor الرسمية أو Booking.com",
+      "links": {
+        "official_website": {
+          "label": "الموقع الرسمي",
+          "url": "https://all.accor.com/lien_externe.svlt?goto=fiche_hotel&code_hotel=C1N5&merchantid=seo-maps-SA-C1N5&sourceid=aw-cen&utm_medium=seo%20maps&utm_source=google%20Maps&utm_campaign=seo%20maps"
+        },
+        "booking_and_photos": {
+          "label": "حجز بوكينج",
+          "url": "https://www.booking.com/city/sa/al-bahah.ar.html"
+        },
+        "social_or_source": {
+          "label": "منصة Accor / Mantis الرسمية",
+          "url": null
+        }
+      }
+    },
+    {
+      "id": 18,
+      "category_key": "hotels_resorts",
+      "category_ar": "فنادق ومنتجعات الباحة",
+      "name": "شقق موسم الرخاء المفروشة",
+      "governorate": "بني حسن",
+      "type": "شقق فندقية ومخدومة",
+      "rating": 4.2,
+      "reviews_count": 57,
+      "rating_raw": "4.2 (57 تقييم)",
+      "address": "حي الضباب، قرن ظبي، بني حسن، الباحة 65731",
+      "description": "شقق مفروشة ومخدومة للعوائل والسياح في قرن ظبي ببني حسن، توفر تأثيثاً حديثاً، غسالة داخل الوحدة، مواقف مجانية، وواي فاي بأسعار مناسبة.",
+      "contact_and_booking": "هاتف: 966-55-951-6261 | حجز مباشر عبر الهاتف أو الرسائل النصية",
+      "links": {
+        "official_website": null,
+        "booking_and_photos": {
+          "label": "فيديو الشقق",
+          "url": "https://youtube.com/@fsb.alzahrani55505?si=6y7EcnFXLYQGJzdi"
+        },
+        "social_or_source": {
+          "label": "قناة يوتيوب الرسمية",
+          "url": "https://youtube.com/@fsb.alzahrani55505?si=6y7EcnFXLYQGJzdi"
+        }
+      }
+    },
+    {
+      "id": 19,
+      "category_key": "hotels_resorts",
+      "category_ar": "فنادق ومنتجعات الباحة",
+      "name": "الباحة دومز (Al Baha Domes)",
+      "governorate": "المندق",
+      "type": "قباب تخييم وكرفانات",
+      "rating": 4.4,
+      "reviews_count": 141,
+      "rating_raw": "4.4 (141 تقييم)",
+      "address": "محافظة المندق 65572، منطقة الباحة",
+      "description": "تجربة تخييم فاخر (Glamping) داخل قباب جبلية هادئة في المندق، مناسبة للعائلات وتتيح حجز القبتين معاً لخصوصية كاملة في أجواء ليلية باردة وآمنة.",
+      "contact_and_booking": "هاتف: 966-50-921-5009 | حجز مباشر عبر الهاتف والواتساب",
+      "links": {
+        "official_website": null,
+        "booking_and_photos": {
+          "label": "التواصل عبر خرائط جوجل والواتساب",
+          "url": null
+        },
+        "social_or_source": {
+          "label": "حجز وتنسيق مباشر بالهاتف",
+          "url": null
+        }
+      }
+    },
+    {
+      "id": 20,
+      "category_key": "hotels_resorts",
+      "category_ar": "فنادق ومنتجعات الباحة",
+      "name": "زهرة الفراشة للوحدات المخدومة",
+      "governorate": "المندق",
+      "type": "شقق فندقية ومخدومة",
+      "rating": 3.0,
+      "reviews_count": 30,
+      "rating_raw": "3.0 (30 تقييم)",
+      "address": "حي البدر، الوادي الأخضر، المندق 65749",
+      "description": "وحدات سكنية مخدومة في محافظة المندق مناسبة للإقامات السريعة والتنقل بين منتزهات المندق.",
+      "contact_and_booking": "هاتف: 966-54-553-1140 | حجز مباشر عبر الهاتف",
+      "links": {
+        "official_website": null,
+        "booking_and_photos": {
+          "label": "التواصل عبر الهاتف وخرائط جوجل",
+          "url": null
+        },
+        "social_or_source": {
+          "label": "التواصل المباشر بالهاتف",
+          "url": null
+        }
+      }
+    },
+    {
+      "id": 21,
+      "category_key": "hotels_resorts",
+      "category_ar": "فنادق ومنتجعات الباحة",
+      "name": "منتجع الكهوف بجبل شدا الأسفل",
+      "governorate": "المخواة",
+      "type": "منتجع كهوف",
+      "rating": 4.5,
+      "reviews_count": 293,
+      "rating_raw": "4.5 (293 تقييم)",
+      "address": "جبل شدا الأسفل، محافظة المخواة، منطقة الباحة",
+      "description": "تجربة إقامة استثنائية داخل كهوف صخرية طبيعية في جبل شدا الأسفل؛ يضم مجلساً داخل الكهف و4 غرف نوم ومطبخاً و5 دورات مياه وجلسات خارجية وسط مزارع البن الشدوي والفواكه. يُنصح بالحجز المسبق.",
+      "contact_and_booking": "هاتف: 966-50-115-2935 | حجز مسبق عبر الهاتف (يقبل بطاقات الصراف)",
+      "links": {
+        "official_website": null,
+        "booking_and_photos": {
+          "label": "روح السعودية",
+          "url": "https://www.visitsaudi.com/ar/al-baha"
+        },
+        "social_or_source": {
+          "label": "تجربة موثقة ضمن دليل روح السعودية للباحة",
+          "url": null
+        }
+      }
+    },
+    {
+      "id": 22,
+      "category_key": "hotels_resorts",
+      "category_ar": "فنادق ومنتجعات الباحة",
+      "name": "فندق وشقق مواسم جنوبية 1",
+      "governorate": "المخواة",
+      "type": "شقق فندقية ومخدومة",
+      "rating": 3.4,
+      "reviews_count": 154,
+      "rating_raw": "3.4 (154 تقييم)",
+      "address": "مجمع ومحطة العجران، محافظة المخواة",
+      "description": "فندق وشقق فندقية في قلب المخواة (قطاع تهامة)، قريب من الخدمات والمطاعم وطريق قرية ذي عين وجبل شدا.",
+      "contact_and_booking": "هاتف: 966-17-722-0996 | حجز مباشر عبر الهاتف أو الاستقبال",
+      "links": {
+        "official_website": null,
+        "booking_and_photos": {
+          "label": "حجز بوكينج",
+          "url": "https://www.booking.com/city/sa/al-makhwah.ar.html"
+        },
+        "social_or_source": {
+          "label": "دليل فنادق المخواة على Booking.com",
+          "url": null
+        }
+      }
+    },
+    {
+      "id": 23,
+      "category_key": "hotels_resorts",
+      "category_ar": "فنادق ومنتجعات الباحة",
+      "name": "شاليه ملاذ الباحة بالعقبة",
+      "governorate": "المخواة",
+      "type": "شاليهات وفلل فندقية",
+      "rating": 4.2,
+      "reviews_count": 185,
+      "rating_raw": "4.2 (185 تقييم)",
+      "address": "منتصف عقبة الباحة (بعد نفق رقم 6)، طريق الباحة - المخواة 65523",
+      "description": "شاليه بأجواء دافئة ومسبح مطل على جبال غابة رغدان، يبعد 15 دقيقة نزولاً من مدينة الباحة، مناسب للعائلات والتنزه والرحلات الشتوية (الدفع نقداً). تسجيل الوصول 15:00، المغادرة 12:00.",
+      "contact_and_booking": "هاتف: 966-50-188-0565 | حجز مباشر عبر الهاتف (الدفع نقداً)",
+      "links": {
+        "official_website": null,
+        "booking_and_photos": {
+          "label": "التواصل عبر الهاتف وخرائط جوجل",
+          "url": null
+        },
+        "social_or_source": {
+          "label": "التواصل المباشر بالهاتف",
+          "url": null
+        }
+      }
+    },
+    {
+      "id": 24,
+      "category_key": "hotels_resorts",
+      "category_ar": "فنادق ومنتجعات الباحة",
+      "name": "منتجع الكهوف المعلقة",
+      "governorate": "غامد الزناد",
+      "type": "منتجع كهوف",
+      "rating": 4.6,
+      "reviews_count": 63,
+      "rating_raw": "4.6 (63 تقييم)",
+      "address": "P9Q4+F7، محافظة غامد الزناد 65315",
+      "description": "منتجع كهوف جبلية معلّقة وسط طبيعة صخرية هادئة وساحرة في غامد الزناد، مناسب للعائلات ومحبي الهدوء والطبيعة. يُنصح بالحجز المسبق.",
+      "contact_and_booking": "هاتف: 966-53-665-1050 | حجز تذاكر وإقامة مسبقاً عبر الهاتف",
+      "links": {
+        "official_website": null,
+        "booking_and_photos": {
+          "label": "التواصل عبر الهاتف وخرائط جوجل",
+          "url": null
+        },
+        "social_or_source": {
+          "label": "حجز وتنسيق مباشر بالهاتف",
+          "url": null
+        }
+      }
+    },
+    {
+      "id": 25,
+      "category_key": "hotels_resorts",
+      "category_ar": "فنادق ومنتجعات الباحة",
+      "name": "منتجع كهوف الغروب",
+      "governorate": "غامد الزناد",
+      "type": "منتجع كهوف",
+      "rating": 4.7,
+      "reviews_count": 85,
+      "rating_raw": "4.7 (85 تقييم)",
+      "address": "Q963+34، محافظة غامد الزناد 65318",
+      "description": "منتجع جبلي منحوت بتكوين طبيعي فريد وإطلالات غروب ساحرة، يضم عدة غرف مناسبة للمجموعات والعائلات (يُنصح بإحضار مستلزمات الطبخ لكونه بعيداً عن الخدمات التجارية).",
+      "contact_and_booking": "هاتف: 966-55-577-5447 | حجز مباشر عبر الهاتف",
+      "links": {
+        "official_website": null,
+        "booking_and_photos": {
+          "label": "التواصل عبر الهاتف وخرائط جوجل",
+          "url": null
+        },
+        "social_or_source": {
+          "label": "حجز وتنسيق مباشر بالهاتف",
+          "url": null
+        }
+      }
+    },
+    {
+      "id": 26,
+      "category_key": "hotels_resorts",
+      "category_ar": "فنادق ومنتجعات الباحة",
+      "name": "استراحة أجمل كهف بقرية الدهنة",
+      "governorate": "غامد الزناد",
+      "type": "منتجع كهوف",
+      "rating": 4.5,
+      "reviews_count": 28,
+      "rating_raw": "4.5 (28 تقييم)",
+      "address": "قرية الدهنة، P9GF+QV7، محافظة غامد الزناد 65316",
+      "description": "استراحة ومنتجع كهف عائلي هادئ في قرية الدهنة بغامد الزناد بعيد عن الازدحام، مناسب لتجربة إقامة ريفية وجبلية خاصة.",
+      "contact_and_booking": "هاتف: 966-50-052-9461 | حجز مباشر عبر الهاتف",
+      "links": {
+        "official_website": null,
+        "booking_and_photos": {
+          "label": "التواصل عبر الهاتف وخرائط جوجل",
+          "url": null
+        },
+        "social_or_source": {
+          "label": "حجز وتنسيق مباشر بالهاتف",
+          "url": null
+        }
+      }
+    },
+    {
+      "id": 27,
+      "category_key": "hotels_resorts",
+      "category_ar": "فنادق ومنتجعات الباحة",
+      "name": "مزرعة وأكواخ ريف الأزهر",
+      "governorate": "القرى",
+      "type": "مزرعة سياحية",
+      "rating": 4.6,
+      "reviews_count": 243,
+      "rating_raw": "4.6 (243 تقييم)",
+      "address": "4597 محمد سعيد حسن كمال، محافظة القرى 65942",
+      "description": "مزرعة سياحية متكاملة تضم أشجاراً مثمرة وأشجار الجاكرندا، أكواخاً سكنية مجهزة للمبيت، مسابح، ملاعب كرة قدم وبادل، كوفي شوب، وجلسات عائلية ومسجد ومرافق لذوي الاحتياجات الخاصة.",
+      "contact_and_booking": "هاتف: 966-50-127-7400 | حجز مباشر عبر الواتساب أو الهاتف",
+      "links": {
+        "official_website": null,
+        "booking_and_photos": {
+          "label": "التواصل عبر الواتساب وخرائط جوجل",
+          "url": null
+        },
+        "social_or_source": {
+          "label": "حجز مباشر عبر الواتساب",
+          "url": null
+        }
+      }
+    },
+    {
+      "id": 28,
+      "category_key": "hotels_resorts",
+      "category_ar": "فنادق ومنتجعات الباحة",
+      "name": "فلل ومسابح بلو سكاي (Blue Sky)",
+      "governorate": "العقيق",
+      "type": "شاليهات وفلل فندقية",
+      "rating": 4.4,
+      "reviews_count": 27,
+      "rating_raw": "4.4 (27 تقييم)",
+      "address": "طريق الرياض، محافظة العقيق 65926",
+      "description": "فلل ومسابح خاصة بخدمة فندقية في العقيق، تشمل خدمة تجهيز عرسان وقائمة طعام من مطعم شهير بالمنطقة ومرافق لذوي الاحتياجات الخاصة.",
+      "contact_and_booking": "هاتف: 966-50-345-7252 | حجز مباشر عبر الواتساب أو الهاتف",
+      "links": {
+        "official_website": null,
+        "booking_and_photos": {
+          "label": "حجز المسافر",
+          "url": "https://www.almosafer.com/ar/%D8%A7%D9%84%D8%A8%D8%A7%D8%AD%D8%A9/%D8%B4%D8%A7%D9%84%D9%8A%D9%87%D8%A7%D8%AA/%D8%B3%D8%A7%D9%81%D8%B1/sa-%D8%B4%D8%A7%D9%84%D9%8A%D9%87%D8%A7%D8%AA-%D8%A7%D9%84%D8%B9%D9%82%D9%8A%D9%82"
+        },
+        "social_or_source": {
+          "label": "عبر الواتساب ودليل شاليهات العقيق بالمسافر",
+          "url": null
+        }
+      }
+    },
+    {
+      "id": 29,
+      "category_key": "hotels_resorts",
+      "category_ar": "فنادق ومنتجعات الباحة",
+      "name": "شاليهات ميرو",
+      "governorate": "العقيق",
+      "type": "شاليهات وفلل فندقية",
+      "rating": 4.1,
+      "reviews_count": 28,
+      "rating_raw": "4.1 (28 تقييم)",
+      "address": "محافظة العقيق 65914، منطقة الباحة",
+      "description": "شاليهات مكيفة في العقيق تضم حديقة ومسبحاً خارجياً، مناسبة للعائلات والقادمين عبر مطار الملك سعود.",
+      "contact_and_booking": "هاتف: 966-53-390-9383 | حجز إلكتروني عبر Booking.com أو الهاتف",
+      "links": {
+        "official_website": null,
+        "booking_and_photos": {
+          "label": "حجز بوكينج",
+          "url": "https://www.booking.com/hotel/sa/shlyht-myrw.ar.html"
+        },
+        "social_or_source": {
+          "label": "صفحة Booking.com الرسمية",
+          "url": null
+        }
+      }
+    },
+    {
+      "id": 30,
+      "category_key": "hotels_resorts",
+      "category_ar": "فنادق ومنتجعات الباحة",
+      "name": "منتجع الريف للفلل الفندقية",
+      "governorate": "بلجرشي",
+      "type": "شاليهات وفلل فندقية",
+      "rating": 4.3,
+      "reviews_count": 124,
+      "rating_raw": "4.3 (124 تقييم)",
+      "address": "RHPM+4W، محافظة بلجرشي 65636",
+      "description": "منتجع فلل فندقية مستقلة ببلجرشي، يوفر خصوصية عالية وخدمة حجز سريعة عبر الواتساب، مناسب للعائلات الكبيرة.",
+      "contact_and_booking": "هاتف: 966-50-517-5202 | حجز مباشر عبر الواتساب أو الهاتف",
+      "links": {
+        "official_website": null,
+        "booking_and_photos": {
+          "label": "حجز المسافر",
+          "url": "https://www.almosafer.com/ar/%D8%A7%D9%84%D8%A8%D8%A7%D8%AD%D8%A9/%D8%B4%D8%A7%D9%84%D9%8A%D9%87%D8%A7%D8%AA/%D8%B3%D8%A7%D9%81%D8%B1/sa-%D8%B4%D8%A7%D9%84%D9%8A%D9%87%D8%A7%D8%AA-%D8%A8%D9%84%D8%AC%D8%B1%D8%B4%D9%8A"
+        },
+        "social_or_source": {
+          "label": "عبر الواتساب ودليل شاليهات بلجرشي",
+          "url": null
+        }
+      }
+    },
+    {
+      "id": 31,
+      "category_key": "hotels_resorts",
+      "category_ar": "فنادق ومنتجعات الباحة",
+      "name": "شاليهات مدينة الحدائق (قاردن سيتي)",
+      "governorate": "بلجرشي",
+      "type": "شاليهات وفلل فندقية",
+      "rating": 4.2,
+      "reviews_count": 622,
+      "rating_raw": "4.2 (622 تقييم)",
+      "address": "محافظة بلجرشي 65652، منطقة الباحة",
+      "description": "شاليهات عائلية شهيرة بموقع مرتفع في بلجرشي؛ كل فيلا تضم غرفتين ومطبخاً وصالة ومنطقة ألعاب أطفال، وبعض الفلل مزودة بمسبح مدفأ للأطفال وقريبة من الخدمات والمسجد.",
+      "contact_and_booking": "هاتف: 966-55-418-1234 | حجز مباشر عبر الواتساب أو الهاتف",
+      "links": {
+        "official_website": null,
+        "booking_and_photos": {
+          "label": "حجز جاذر إن",
+          "url": "https://gathern.co/property/albaha-chalets"
+        },
+        "social_or_source": {
+          "label": "عبر الواتساب ومنصة جاذر إن",
+          "url": null
+        }
+      }
+    },
+    {
+      "id": 32,
+      "category_key": "hotels_resorts",
+      "category_ar": "فنادق ومنتجعات الباحة",
+      "name": "كيان شدا الباحة",
+      "governorate": "بلجرشي",
+      "type": "منتجع جبلي وسياحي",
+      "rating": 4.1,
+      "reviews_count": 289,
+      "rating_raw": "4.1 (289 تقييم)",
+      "address": "بني كبير، بلجرشي 22888، منطقة الباحة",
+      "description": "منتجع وفندق هادئ في بني كبير ببلجرشي يتميز بإطلالات جبلية خلابة، مسبح داخلي، نادٍ رياضي، مطعم وإفطار مجاني، وواي فاي ومواقف مجانية.",
+      "contact_and_booking": "هاتف: 966-53-069-4448 | حجز مباشر عبر الواتساب أو الهاتف",
+      "links": {
+        "official_website": null,
+        "booking_and_photos": {
+          "label": "التواصل عبر الواتساب وخرائط جوجل",
+          "url": null
+        },
+        "social_or_source": {
+          "label": "حجز وتنسيق مباشر بالواتساب",
+          "url": null
+        }
+      }
+    },
+    {
+      "id": 33,
+      "category_key": "hotels_resorts",
+      "category_ar": "فنادق ومنتجعات الباحة",
+      "name": "فندق رحاب أركان المجد للخدمات الفندقية",
+      "governorate": "مدينة الباحة",
+      "type": "فندق",
+      "rating": 4.9,
+      "reviews_count": 525,
+      "rating_raw": "4.9 (525 تقييم)",
+      "address": "شارع شهيد الوطن عيضة الزهراني، الباحة 65787",
+      "description": "من أعلى الشقق الفندقية تقييماً في الباحة (4.9 من 5 عبر 525 مراجعة)؛ شقق حديثة ونظيفة جداً بأسعار مناسبة وتعامل احترافي.",
+      "contact_and_booking": "هاتف: 966-50-770-8433 | حجز مباشر عبر الموقع الرسمي أو الهاتف",
+      "links": {
+        "official_website": {
+          "label": "الموقع الرسمي",
+          "url": "http://rehabarkanalmajd.com/"
+        },
+        "booking_and_photos": {
+          "label": "رابط الحجز",
+          "url": "http://rehabarkanalmajd.com/"
+        },
+        "social_or_source": {
+          "label": "الموقع الإلكتروني الرسمي",
+          "url": null
+        }
+      }
+    },
+    {
+      "id": 34,
+      "category_key": "hotels_resorts",
+      "category_ar": "فنادق ومنتجعات الباحة",
+      "name": "أبات بارك للأجنحة الفندقية",
+      "governorate": "مدينة الباحة",
+      "type": "شقق فندقية ومخدومة",
+      "rating": 4.3,
+      "reviews_count": 709,
+      "rating_raw": "4.3 (709 تقييم)",
+      "address": "طريق الملك عبدالعزيز، حي الباهر (أمام إمارة الباحة)، الباحة 65525",
+      "description": "أجنحة فندقية مجددة في موقع مركزي مميز أمام إمارة الباحة بإطلالة رائعة وغرف نظيفة وأثاث جديد وخدمة استقبال متميزة.",
+      "contact_and_booking": "هاتف: 966-55-602-2444 | حجز مباشر عبر الواتساب أو الهاتف",
+      "links": {
+        "official_website": null,
+        "booking_and_photos": {
+          "label": "حجز تريفاجو",
+          "url": "https://ar.trivago.com/ar-145/odr/%D9%81%D9%86%D8%AF%D9%82-%D8%A7%D9%84%D8%A8%D8%A7%D8%AD%D8%A9-%D8%A7%D9%84%D9%85%D9%85%D9%84%D9%83%D8%A9-%D8%A7%D9%84%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9-%D8%A7%D9%84%D8%B3%D8%B9%D9%88%D8%AF%D9%8A%D8%A9?search=200-424477"
+        },
+        "social_or_source": {
+          "label": "عبر الواتساب وموقع Trivago",
+          "url": null
+        }
+      }
+    },
+    {
+      "id": 35,
+      "category_key": "hotels_resorts",
+      "category_ar": "فنادق ومنتجعات الباحة",
+      "name": "أكواخ سار الريفية",
+      "governorate": "مدينة الباحة",
+      "type": "أكواخ ونزل ريفية",
+      "rating": 4.4,
+      "reviews_count": 474,
+      "rating_raw": "4.4 (474 تقييم)",
+      "address": "طريق الملك عبدالعزيز، بني سار 65723، الباحة",
+      "description": "أكواخ ريفية عائلية على بُعد 15 دقيقة من غابة رغدان، تضم مسبحاً داخلياً وجاكوزي وحديقة ومطبخاً مجهزاً ومواقف مجانية، مع حجز مباشر عبر رابط الواتساب. تسجيل الوصول 16:00، المغادرة 12:00.",
+      "contact_and_booking": "هاتف: 966-53-202-9133 | حجز مباشر فوري عبر رابط الواتساب الرسمي",
+      "links": {
+        "official_website": {
+          "label": "واتساب الحجز",
+          "url": "https://api.whatsapp.com/send/?phone=966532029133&text&app_absent=0"
+        },
+        "booking_and_photos": {
+          "label": "حجز واتساب",
+          "url": "https://api.whatsapp.com/send/?phone=966532029133&text&app_absent=0"
+        },
+        "social_or_source": {
+          "label": "رابط الواتساب المباشر للحجز",
+          "url": null
+        }
+      }
+    },
+    {
+      "id": 36,
+      "category_key": "hotels_resorts",
+      "category_ar": "فنادق ومنتجعات الباحة",
+      "name": "أكواخ ذا هيلز (The Hills)",
+      "governorate": "مدينة الباحة",
+      "type": "أكواخ ونزل ريفية",
+      "rating": 4.8,
+      "reviews_count": 58,
+      "rating_raw": "4.8 (58 تقييم)",
+      "address": "طريق الملك عبدالعزيز، الباحة 65734",
+      "description": "أكواخ وشاليهات جبلية بتقييم مرتفع (4.8) تشتهر بإطلالاتها الساحرة خاصة وقت الأمطار والضباب ومستوى النظافة العالي.",
+      "contact_and_booking": "هاتف: 966-55-960-4950 | حجز مباشر عبر الهاتف",
+      "links": {
+        "official_website": null,
+        "booking_and_photos": {
+          "label": "التواصل عبر الهاتف وخرائط جوجل",
+          "url": null
+        },
+        "social_or_source": {
+          "label": "حجز وتنسيق مباشر بالهاتف",
+          "url": null
+        }
+      }
+    },
+    {
+      "id": 37,
+      "category_key": "hotels_resorts",
+      "category_ar": "فنادق ومنتجعات الباحة",
+      "name": "كرفان فاميليا موترهوم",
+      "governorate": "مدينة الباحة",
+      "type": "قباب تخييم وكرفانات",
+      "rating": 4.5,
+      "reviews_count": 15,
+      "rating_raw": "4.5 (15 تقييم)",
+      "address": "منتزه الأمير متعب، الغوقة 65524، الباحة",
+      "description": "تجربة إقامة مبتكرة داخل كرفان سياحي مجهز (Motorhome) في منطقة منتزه الأمير متعب، مثالية لعشاق التخييم والتجارب الفريدة وسط الطبيعة.",
+      "contact_and_booking": "هاتف: 966-57-201-7707 | حجز مباشر عبر الواتساب أو الهاتف",
+      "links": {
+        "official_website": null,
+        "booking_and_photos": {
+          "label": "التواصل عبر الواتساب وخرائط جوجل",
+          "url": null
+        },
+        "social_or_source": {
+          "label": "حجز مباشر عبر الواتساب",
+          "url": null
+        }
+      }
+    },
+    {
+      "id": 38,
+      "category_key": "restaurants_cafes",
+      "category_ar": "المطاعم والمقاهي",
+      "name": "مطعم جبلة (Jiblah Restaurant)",
+      "governorate": "بلجرشي",
+      "type": "مطعم شعبي وعوائل",
+      "rating": 4.3,
+      "reviews_count": 427,
+      "rating_raw": "4.3 (427 تقييم)",
+      "price_range": "20–100 ر.س",
+      "address": "مدخل الحمران، مقابل فندق المنتزه، بلجرشي",
+      "description": "مطعم عوائل وأفراد يقدم الأكلات الشعبية الباحية الأصيلة (الدغابيس، العصيدة، الخبزة، العريكة الجنوبية، المندي والمضغوط) للفطور والغداء والعشاء مع صالة ألعاب أطفال ومواقف مجانية.",
+      "contact_and_booking": "هاتف: 966-50-065-5864 (واتساب وحجوزات)",
+      "links": {
+        "official_or_social": null,
+        "source": {
+          "label": "خرائط جوجل",
+          "url": null
+        }
+      }
+    },
+    {
+      "id": 39,
+      "category_key": "restaurants_cafes",
+      "category_ar": "المطاعم والمقاهي",
+      "name": "مطعم ومطبخ المزهر",
+      "governorate": "بلجرشي",
+      "type": "مطعم شعبي وولائم",
+      "rating": 4.0,
+      "reviews_count": 1870,
+      "rating_raw": "4.0 (1870 تقييم)",
+      "price_range": "متوسط",
+      "address": "طريق الملك سعود، مقابل البنك الأهلي، بلجرشي",
+      "description": "من أقدم وأشهر مطاعم الولائم والمأكولات الشعبية في الباحة منذ 1982م؛ يشتهر بالطبخ على الحطب، المندي، المظبي، الحنيذ، والمدفون.",
+      "contact_and_booking": "هاتف: 966-17-722-8717",
+      "links": {
+        "official_or_social": null,
+        "source": {
+          "label": "خرائط جوجل",
+          "url": null
+        }
+      }
+    },
+    {
+      "id": 40,
+      "category_key": "restaurants_cafes",
+      "category_ar": "المطاعم والمقاهي",
+      "name": "سلسلة مطاعم ديرة بيت المندي",
+      "governorate": "بلجرشي",
+      "type": "مطعم شعبي ومندي",
+      "rating": 3.8,
+      "reviews_count": 446,
+      "rating_raw": "3.8 (446 تقييم)",
+      "price_range": "20–40 ر.س",
+      "address": "شارع المطاعم، طريق الملك عبدالعزيز، بلجرشي",
+      "description": "أول مطعم مندي في بلجرشي؛ يقدم لحم ودجاج مندي، حنيذ، مضغوط، عصيدة ومرق، وطبخ الولائم.",
+      "contact_and_booking": "هاتف: 966-55-687-1707",
+      "links": {
+        "official_or_social": {
+          "label": "رابط Linktree الرسمي",
+          "url": "https://linktr.ee/baytmandi.sa"
+        },
+        "source": {
+          "label": "Linktree الرسمي",
+          "url": null
+        }
+      }
+    },
+    {
+      "id": 41,
+      "category_key": "restaurants_cafes",
+      "category_ar": "المطاعم والمقاهي",
+      "name": "مطعم فيفث سيزون (Fifth Season)",
+      "governorate": "مدينة الباحة / بلجرشي",
+      "type": "مطعم عائلي وشرقي",
+      "rating": 4.0,
+      "reviews_count": 11151,
+      "rating_raw": "4.0 (11151 تقييم)",
+      "price_range": "متوسط – راقٍ",
+      "address": "طريق الملك سعود بالباحة / طريق الملك عبدالعزيز بالمحمدية ببلجرشي",
+      "description": "من أشهر مطاعم المنطقة للعائلات والمجموعات؛ يقدم مأكولات شرقية ولبنانية ومغربية ومشاوي وبوفيهات مع غرف VIP وجلسات مغلقة.",
+      "contact_and_booking": "هاتف: 966-53-489-6665 / 966-50-970-3322",
+      "links": {
+        "official_or_social": {
+          "label": "موقع فيفث سيزون",
+          "url": "https://www.sggroup-ksa.com/fifthseason"
+        },
+        "source": {
+          "label": "دليل وينجي",
+          "url": "https://sa.wingie.com/blog/%D8%A3%D9%81%D8%B6%D9%84-10-%D9%85%D8%B7%D8%A7%D8%B9%D9%85-%D9%81%D9%8A-%D8%A7%D9%84%D8%A8%D8%A7%D8%AD%D8%A9/"
+        }
+      }
+    },
+    {
+      "id": 42,
+      "category_key": "restaurants_cafes",
+      "category_ar": "المطاعم والمقاهي",
+      "name": "مطعم لاتينو (LATINO)",
+      "governorate": "مدينة الباحة",
+      "type": "مطعم لاتيني ومكسيكي",
+      "rating": 4.4,
+      "reviews_count": 1343,
+      "rating_raw": "4.4 (1343 تقييم)",
+      "price_range": "20–120 ر.س",
+      "address": "حي شهبة، شارع الشيخ إبراهيم الإبراهيم، الباحة",
+      "description": "مطعم عصري شهير للمأكولات المكسيكية واللاتينية (التاكو، الكاساديا، البوريتو، شيبوتلي) بخدمة سريعة وأجواء شبابية.",
+      "contact_and_booking": "هاتف: 966-56-268-8455 (واتساب)",
+      "links": {
+        "official_or_social": {
+          "label": "حساب إنستقرام",
+          "url": "https://instagram.com/latino.sa"
+        },
+        "source": {
+          "label": "مدونة دايركت",
+          "url": "https://blog.directksa.com/%D8%A7%D9%81%D8%B6%D9%84-%D9%85%D8%B7%D8%A7%D8%B9%D9%85-%D8%A7%D9%84%D8%A8%D8%A7%D8%AD%D8%A9/"
+        }
+      }
+    },
+    {
+      "id": 43,
+      "category_key": "restaurants_cafes",
+      "category_ar": "المطاعم والمقاهي",
+      "name": "مطعم باب اليمن للمأكولات الشعبية",
+      "governorate": "مدينة الباحة",
+      "type": "مطعم شعبي يمني",
+      "rating": 3.6,
+      "reviews_count": 2320,
+      "rating_raw": "3.6 (2320 تقييم)",
+      "price_range": "20–100 ر.س",
+      "address": "طريق الملك عبدالعزيز، الأزهر، بجانب الكبري الجديد، الباحة",
+      "description": "مطعم شعبي معروف يقدم الفحسة والمندي والحنيذ والكبدة والمقلقل مع خبز التنور الطازج وجلسات عائلية.",
+      "contact_and_booking": "هاتف: 966-55-677-5111",
+      "links": {
+        "official_or_social": null,
+        "source": {
+          "label": "دليل وينجي",
+          "url": "https://sa.wingie.com/blog/%D8%A3%D9%81%D8%B6%D9%84-10-%D9%85%D8%B7%D8%A7%D8%B9%D9%85-%D9%81%D9%8A-%D8%A7%D9%84%D8%A8%D8%A7%D8%AD%D8%A9/"
+        }
+      }
+    },
+    {
+      "id": 44,
+      "category_key": "restaurants_cafes",
+      "category_ar": "المطاعم والمقاهي",
+      "name": "مطعم مشويات بلجرشي",
+      "governorate": "بلجرشي",
+      "type": "مشويات وعائلي",
+      "rating": 3.9,
+      "reviews_count": 1942,
+      "rating_raw": "3.9 (1942 تقييم)",
+      "price_range": "20–120 ر.س",
+      "address": "طريق الملك عبدالعزيز، بلجرشي",
+      "description": "يقدم المشويات الطازجة اليومية، الشاورما، الفطائر، الباستا، والطواجن مع صالة عوائل وجلسات خارجية.",
+      "contact_and_booking": "هاتف: 966-50-961-2569",
+      "links": {
+        "official_or_social": null,
+        "source": {
+          "label": "خرائط جوجل",
+          "url": null
+        }
+      }
+    },
+    {
+      "id": 45,
+      "category_key": "restaurants_cafes",
+      "category_ar": "المطاعم والمقاهي",
+      "name": "مطعم لوكيشن (Location)",
+      "governorate": "مدينة الباحة",
+      "type": "مطعم هندي وعربي",
+      "rating": 4.1,
+      "reviews_count": 1709,
+      "rating_raw": "4.1 (1709 تقييم)",
+      "price_range": "متوسط",
+      "address": "طريق الملك عبدالعزيز، وسط الباحة",
+      "description": "مطعم مركزي للعائلات يركز على الأطباق الهندية والعربية المتنوعة ويعمل حتى ساعات متأخرة.",
+      "contact_and_booking": "هاتف: 966-17-724-3322",
+      "links": {
+        "official_or_social": null,
+        "source": {
+          "label": "مدونة دايركت",
+          "url": "https://blog.directksa.com/%D8%A7%D9%81%D8%B6%D9%84-%D9%85%D8%B7%D8%A7%D8%B9%D9%85-%D8%A7%D9%84%D8%A8%D8%A7%D8%AD%D8%A9/"
+        }
+      }
+    },
+    {
+      "id": 46,
+      "category_key": "restaurants_cafes",
+      "category_ar": "المطاعم والمقاهي",
+      "name": "مطعم شرمب آند كراب (Shrimp & Crab)",
+      "governorate": "مدينة الباحة",
+      "type": "مأكولات بحرية",
+      "rating": 4.2,
+      "reviews_count": 406,
+      "rating_raw": "4.2 (406 تقييم)",
+      "price_range": "متوسط",
+      "address": "شارع سوق الغنيم، الباحة",
+      "description": "مطعم متخصص بالمأكولات البحرية الطازجة (شرمب مقلي، أسماك مشوية، باستا بحرية) بأجواء هادئة للعائلات.",
+      "contact_and_booking": "هاتف: 966-55-586-2729",
+      "links": {
+        "official_or_social": null,
+        "source": {
+          "label": "دليل وينجي",
+          "url": "https://sa.wingie.com/blog/%D8%A3%D9%81%D8%B6%D9%84-10-%D9%85%D8%B7%D8%A7%D8%B9%D9%85-%D9%81%D9%8A-%D8%A7%D9%84%D8%A8%D8%A7%D8%AD%D8%A9/"
+        }
+      }
+    },
+    {
+      "id": 47,
+      "category_key": "restaurants_cafes",
+      "category_ar": "المطاعم والمقاهي",
+      "name": "كولتشر كافيه (Culture Cafe)",
+      "governorate": "مدينة الباحة",
+      "type": "مقهى قهوة مختصة",
+      "rating": 4.8,
+      "reviews_count": 2217,
+      "rating_raw": "4.8 (2217 تقييم)",
+      "price_range": "20–40 ر.س",
+      "address": "بجوار أسواق المزرعة، الباحة",
+      "description": "من أعلى المقاهي تقييماً في الباحة؛ قهوة مختصة، فرنش توست، كركديه، وأجواء هادئة مع أنشطة فنية وتلوين فخار للعائلات.",
+      "contact_and_booking": "هاتف: 966-50-238-6000 (واتساب)",
+      "links": {
+        "official_or_social": {
+          "label": "Linktree الرسمي",
+          "url": "https://linktr.ee/colturesa"
+        },
+        "source": {
+          "label": "Linktree الرسمي",
+          "url": null
+        }
+      }
+    },
+    {
+      "id": 48,
+      "category_key": "restaurants_cafes",
+      "category_ar": "المطاعم والمقاهي",
+      "name": "مقهى بوكا دي كافيه (Bocca Di Cafe)",
+      "governorate": "مدينة الباحة",
+      "type": "مقهى وإفطار وحلويات",
+      "rating": 4.4,
+      "reviews_count": 3856,
+      "rating_raw": "4.4 (3856 تقييم)",
+      "price_range": "20–120 ر.س",
+      "address": "شارع الممشى، حي الباهر، الباحة",
+      "description": "مقهى واسع وراقٍ في الممشى بجلسات داخلية وخارجية بإطلالة علوية، يقدم قهوة مختصة وإفطاراً أمريكياً وحلويات بلجيكية.",
+      "contact_and_booking": "هاتف: 966-55-207-1139",
+      "links": {
+        "official_or_social": {
+          "label": "Linktree الرسمي",
+          "url": "https://linktr.ee/boccadicaffe"
+        },
+        "source": {
+          "label": "روح السعودية",
+          "url": "https://www.visitsaudi.com/ar/al-baha/stories/top-5-things-to-do-in-al-baha"
+        }
+      }
+    },
+    {
+      "id": 49,
+      "category_key": "restaurants_cafes",
+      "category_ar": "المطاعم والمقاهي",
+      "name": "باورو الغابة (Bauru Cafe)",
+      "governorate": "مدينة الباحة",
+      "type": "مقهى بإطلالة غابة",
+      "rating": 4.1,
+      "reviews_count": 640,
+      "rating_raw": "4.1 (640 تقييم)",
+      "price_range": "20–100 ر.س",
+      "address": "داخل غابة رغدان، الباحة 65541",
+      "description": "مقهى قهوة مختصة بموقع استثنائي وسط غابة رغدان وإطلالات طبيعية ساحرة، يقدم V60 وسبانش لاتيه وتيراميسو.",
+      "contact_and_booking": "هاتف: 966-50-141-0436 (واتساب)",
+      "links": {
+        "official_or_social": {
+          "label": "إنستقرام باورو",
+          "url": "https://instagram.com/baurucafe?igshid=1o7x5re3rfhbq"
+        },
+        "source": {
+          "label": "إنستقرام الرسمي",
+          "url": null
+        }
+      }
+    },
+    {
+      "id": 50,
+      "category_key": "restaurants_cafes",
+      "category_ar": "المطاعم والمقاهي",
+      "name": "كون آرت كافيه (Koon Cafe)",
+      "governorate": "مدينة الباحة",
+      "type": "مقهى بإطلالة على الممشى",
+      "rating": 4.1,
+      "reviews_count": 1069,
+      "rating_raw": "4.1 (1069 تقييم)",
+      "price_range": "20–100 ر.س",
+      "address": "حي الباهر، مطل على الممشى، الباحة",
+      "description": "مقهى مرتفع بإطلالة بانورامية على الممشى وجلسات خارجية وداخلية، يقدم القهوة المختصة والحلويات.",
+      "contact_and_booking": "هاتف: 966-54-590-4014",
+      "links": {
+        "official_or_social": {
+          "label": "إنستقرام كون كافيه",
+          "url": "https://www.instagram.com/koon__cafe?igsh=cW9memxtdWxwOHd4"
+        },
+        "source": {
+          "label": "إنستقرام الرسمي",
+          "url": null
+        }
+      }
+    },
+    {
+      "id": 51,
+      "category_key": "restaurants_cafes",
+      "category_ar": "المطاعم والمقاهي",
+      "name": "كالما كافيه (CALMA Cafe)",
+      "governorate": "مدينة الباحة",
+      "type": "مقهى وإفطار",
+      "rating": 4.0,
+      "reviews_count": 1875,
+      "rating_raw": "4.0 (1875 تقييم)",
+      "price_range": "1–40 ر.س",
+      "address": "طريق الملك فهد، حي النزهة، الباحة",
+      "description": "مقهى هادئ بجلسات خارجية واسعة، يقدم قهوة مختصة ومخبوزات فرنسية وأطباق فطور متنوعة.",
+      "contact_and_booking": "هاتف: 966-53-669-5155 (واتساب)",
+      "links": {
+        "official_or_social": {
+          "label": "منيو كالما الرسمي",
+          "url": "https://easymenu.site/restaurants/Calma/contact_us"
+        },
+        "source": {
+          "label": "المنيو والموقع الرسمي",
+          "url": null
+        }
+      }
+    },
+    {
+      "id": 52,
+      "category_key": "restaurants_cafes",
+      "category_ar": "المطاعم والمقاهي",
+      "name": "لابيلا كافيه (LABÊLLA CAFÉ)",
+      "governorate": "بلجرشي",
+      "type": "مقهى قهوة مختصة",
+      "rating": 4.7,
+      "reviews_count": 1422,
+      "rating_raw": "4.7 (1422 تقييم)",
+      "price_range": "1–20 ر.س",
+      "address": "حي المستشفى، بلجرشي 65635",
+      "description": "من أشهر وأرقى مقاهي بلجرشي، يتميز بالقهوة المختصة الباردة والساخنة وكيك الشوكولاتة وأجواء العمل واللقاءات الهادئة.",
+      "contact_and_booking": "هاتف: 966-53-441-3695",
+      "links": {
+        "official_or_social": {
+          "label": "إنستقرام لابيلا",
+          "url": "https://instagram.com/labella.cafe.sa?utm_medium=copy_link"
+        },
+        "source": {
+          "label": "إنستقرام الرسمي",
+          "url": null
+        }
+      }
+    },
+    {
+      "id": 53,
+      "category_key": "restaurants_cafes",
+      "category_ar": "المطاعم والمقاهي",
+      "name": "ذي هيلز قهوة مختصة (Hills)",
+      "governorate": "المندق",
+      "type": "مقهى قهوة مختصة",
+      "rating": 4.8,
+      "reviews_count": 119,
+      "rating_raw": "4.8 (119 تقييم)",
+      "price_range": "1–20 ر.س",
+      "address": "طريق الملك عبدالعزيز، حي الرضوان، المندق",
+      "description": "أبرز مقاهي القهوة المختصة في المندق بأجواء هادئة وإسبريسو محضّر باحترافية.",
+      "contact_and_booking": "هاتف: 966-55-928-2986",
+      "links": {
+        "official_or_social": null,
+        "source": {
+          "label": "خرائط جوجل",
+          "url": null
+        }
+      }
+    },
+    {
+      "id": 54,
+      "category_key": "restaurants_cafes",
+      "category_ar": "المطاعم والمقاهي",
+      "name": "مطعم ومقهى سول (Soul)",
+      "governorate": "مدينة الباحة",
+      "type": "مطعم ومقهى راقٍ",
+      "rating": 4.1,
+      "reviews_count": 8597,
+      "rating_raw": "4.1 (8597 تقييم)",
+      "price_range": "متوسط إلى مرتفع",
+      "address": "وسط المدينة، الباحة 65522",
+      "description": "مطعم ومقهى واسع بجلسات داخلية وخارجية يقدم أطباقاً إيطالية وهندية ومقبلات وقهوة مختصة وحلويات.",
+      "contact_and_booking": "هاتف: 966-50-880-0004",
+      "links": {
+        "official_or_social": {
+          "label": "موقع سول الرسمي",
+          "url": "https://www.sggroup-ksa.com/soulalbaha"
+        },
+        "source": {
+          "label": "روح السعودية",
+          "url": "https://www.visitsaudi.com/ar/al-baha/stories/top-5-things-to-do-in-al-baha"
+        }
+      }
+    },
+    {
+      "id": 55,
+      "category_key": "restaurants_cafes",
+      "category_ar": "المطاعم والمقاهي",
+      "name": "مطعم مكبوس زمان",
+      "governorate": "العقيق",
+      "type": "مطعم تراثي وخليجي",
+      "rating": 4.4,
+      "reviews_count": 460,
+      "rating_raw": "4.4 (460 تقييم)",
+      "price_range": "متوسط",
+      "address": "طريق المطار، العقيق 65921",
+      "description": "مطعم بطابع تراثي جميل وجلسات مريحة وإطلالة مميزة قرب طريق مطار الباحة.",
+      "contact_and_booking": "التواصل عبر الواتساب وخرائط جوجل",
+      "links": {
+        "official_or_social": null,
+        "source": {
+          "label": "خرائط جوجل",
+          "url": null
+        }
+      }
+    },
+    {
+      "id": 56,
+      "category_key": "restaurants_cafes",
+      "category_ar": "المطاعم والمقاهي",
+      "name": "مطعم وحنيذ الوادي",
+      "governorate": "المخواة",
+      "type": "مطعم شعبي وحنيذ",
+      "rating": 4.0,
+      "reviews_count": 347,
+      "rating_raw": "4.0 (347 تقييم)",
+      "price_range": "متوسط",
+      "address": "طريق الملك فهد، مدخل الحصبة، المخواة 65613",
+      "description": "مطعم شعبي عريق في المخواة مشهور بالحنيذ والعصيدة والكبدة وجلسات داخلية وخارجية.",
+      "contact_and_booking": "هاتف: 966-55-383-7098",
+      "links": {
+        "official_or_social": null,
+        "source": {
+          "label": "خرائط جوجل",
+          "url": null
+        }
+      }
+    },
+    {
+      "id": 57,
+      "category_key": "restaurants_cafes",
+      "category_ar": "المطاعم والمقاهي",
+      "name": "كيلة مطعم وكافيه (Kaila)",
+      "governorate": "المخواة",
+      "type": "مطعم وكافيه",
+      "rating": 3.7,
+      "reviews_count": 406,
+      "rating_raw": "3.7 (406 تقييم)",
+      "price_range": "متوسط",
+      "address": "المخواة 65616",
+      "description": "كافيه ومطعم عصري في المخواة يقدم الفطور والعشاء والقهوة والحلويات بجلسات هادئة.",
+      "contact_and_booking": "هاتف: 966-56-118-1952 (واتساب)",
+      "links": {
+        "official_or_social": {
+          "label": "إنستقرام كيلة",
+          "url": "https://instagram.com/kaila.c.k?igshid=YmMyMTA2M2Y="
+        },
+        "source": {
+          "label": "إنستقرام الرسمي",
+          "url": null
+        }
+      }
+    },
+    {
+      "id": 58,
+      "category_key": "restaurants_cafes",
+      "category_ar": "المطاعم والمقاهي",
+      "name": "مطعم ون بايت (ONE BITE)",
+      "governorate": "مدينة الباحة",
+      "type": "برجر وباستا",
+      "rating": 4.5,
+      "reviews_count": 841,
+      "rating_raw": "4.5 (841 تقييم)",
+      "price_range": "متوسط",
+      "address": "طريق الملك عبدالله، الزرقاء، مقابل إشارة رغدان",
+      "description": "مطعم مميز للبرجر والباستا والنودلز وورق العنب مع جلسات عائلية مغلقة.",
+      "contact_and_booking": "هاتف: 966-50-830-7161",
+      "links": {
+        "official_or_social": null,
+        "source": {
+          "label": "مدونة دايركت",
+          "url": "https://blog.directksa.com/%D8%A7%D9%81%D8%B6%D9%84-%D9%85%D8%B7%D8%A7%D8%B9%D9%85-%D8%A7%D9%84%D8%A8%D8%A7%D8%AD%D8%A9/"
+        }
+      }
+    },
+    {
+      "id": 59,
+      "category_key": "restaurants_cafes",
+      "category_ar": "المطاعم والمقاهي",
+      "name": "بشاميلا واو",
+      "governorate": "مدينة الباحة",
+      "type": "مكرونة وبشاميل",
+      "rating": 4.6,
+      "reviews_count": 358,
+      "rating_raw": "4.6 (358 تقييم)",
+      "price_range": "اقتصادي إلى متوسط",
+      "address": "طريق الملك سعود، وسط المدينة، الباحة",
+      "description": "مطعم متخصص بأطباق البشاميل واللازانيا والصواني بجودة عالية وأسعار مناسبة.",
+      "contact_and_booking": "هاتف: 966-54-816-7268",
+      "links": {
+        "official_or_social": null,
+        "source": {
+          "label": "مدونة دايركت",
+          "url": "https://blog.directksa.com/%D8%A7%D9%81%D8%B6%D9%84-%D9%85%D8%B7%D8%A7%D8%B9%D9%85-%D8%A7%D9%84%D8%A8%D8%A7%D8%AD%D8%A9/"
+        }
+      }
+    },
+    {
+      "id": 60,
+      "category_key": "restaurants_cafes",
+      "category_ar": "المطاعم والمقاهي",
+      "name": "مطعم أسماك النورس",
+      "governorate": "مدينة الباحة",
+      "type": "مأكولات بحرية",
+      "rating": 3.8,
+      "reviews_count": 3113,
+      "rating_raw": "3.8 (3113 تقييم)",
+      "price_range": "متوسط",
+      "address": "طريق الملك سعود، الباحة",
+      "description": "من أقدم مطاعم الأسماك في الباحة (أكثر من 15 عاماً)، مشهور بالسمك المشوي والسلمون بالكريمة.",
+      "contact_and_booking": "هاتف: 966-56-538-0005",
+      "links": {
+        "official_or_social": null,
+        "source": {
+          "label": "دليل وينجي",
+          "url": "https://sa.wingie.com/blog/%D8%A3%D9%81%D8%B6%D9%84-10-%D9%85%D8%B7%D8%A7%D8%B9%D9%85-%D9%81%D9%8A-%D8%A7%D9%84%D8%A8%D8%A7%D8%AD%D8%A9/"
+        }
+      }
+    },
+    {
+      "id": 61,
+      "category_key": "restaurants_cafes",
+      "category_ar": "المطاعم والمقاهي",
+      "name": "مطعم البستان",
+      "governorate": "مدينة الباحة",
+      "type": "مشويات ولبناني",
+      "rating": 3.4,
+      "reviews_count": 2108,
+      "rating_raw": "3.4 (2108 تقييم)",
+      "price_range": "متوسط",
+      "address": "رغدان، الباحة",
+      "description": "مطعم لبناني ومشويات ومقبلات وطواجن قرب غابة رغدان يعمل يومياً حتى منتصف الليل.",
+      "contact_and_booking": "هاتف: 966-17-724-1007",
+      "links": {
+        "official_or_social": null,
+        "source": {
+          "label": "دليل وينجي",
+          "url": "https://sa.wingie.com/blog/%D8%A3%D9%81%D8%B6%D9%84-10-%D9%85%D8%B7%D8%A7%D8%B9%D9%85-%D9%81%D9%8A-%D8%A7%D9%84%D8%A8%D8%A7%D8%AD%D8%A9/"
+        }
+      }
+    },
+    {
+      "id": 62,
+      "category_key": "restaurants_cafes",
+      "category_ar": "المطاعم والمقاهي",
+      "name": "برجر سكستي (Sixty Burger)",
+      "governorate": "مدينة الباحة",
+      "type": "برجر ومطبخ مفتوح",
+      "rating": 4.1,
+      "reviews_count": 2230,
+      "rating_raw": "4.1 (2230 تقييم)",
+      "price_range": "متوسط",
+      "address": "طريق الملك فيصل، الباحة",
+      "description": "مطعم برجر شهير منذ 2016 بمطبخ مفتوح يقدم بوكس الشواء وتشيلي فرايز ويعمل حتى الفجر.",
+      "contact_and_booking": "هاتف: 966-55-866-0065",
+      "links": {
+        "official_or_social": null,
+        "source": {
+          "label": "دليل وينجي",
+          "url": "https://sa.wingie.com/blog/%D8%A3%D9%81%D8%B6%D9%84-10-%D9%85%D8%B7%D8%A7%D8%B9%D9%85-%D9%81%D9%8A-%D8%A7%D9%84%D8%A8%D8%A7%D8%AD%D8%A9/"
+        }
+      }
+    },
+    {
+      "id": 63,
+      "category_key": "restaurants_cafes",
+      "category_ar": "المطاعم والمقاهي",
+      "name": "مقهى باك يارد (Backyard)",
+      "governorate": "مدينة الباحة",
+      "type": "مقهى وحديقة",
+      "rating": 4.2,
+      "reviews_count": 836,
+      "rating_raw": "4.2 (836 تقييم)",
+      "price_range": "متوسط",
+      "address": "حي الظفير، الباحة 65526",
+      "description": "مقهى قهوة مختصة بحديقة خارجية وجلسات عائلية وأفراد مع متجر لأدوات الباريستا.",
+      "contact_and_booking": "هاتف: 966-58-353-3893 (واتساب)",
+      "links": {
+        "official_or_social": {
+          "label": "موقع باك يارد",
+          "url": "http://www.byco.sa/"
+        },
+        "source": {
+          "label": "الموقع الرسمي",
+          "url": null
+        }
+      }
+    },
+    {
+      "id": 64,
+      "category_key": "restaurants_cafes",
+      "category_ar": "المطاعم والمقاهي",
+      "name": "جلسة دكة",
+      "governorate": "مدينة الباحة",
+      "type": "مقهى وإفطار طازج",
+      "rating": 4.2,
+      "reviews_count": 1073,
+      "rating_raw": "4.2 (1073 تقييم)",
+      "price_range": "اقتصادي إلى متوسط",
+      "address": "حي الظفير، شارع أنس بن مالك، الباحة",
+      "description": "مقهى ومخبز بفرن طازج يقدم وجبات الإفطار طوال اليوم والشاي الكرك والقهوة بإطلالة جميلة.",
+      "contact_and_booking": "هاتف: 966-55-855-4916",
+      "links": {
+        "official_or_social": null,
+        "source": {
+          "label": "خرائط جوجل",
+          "url": null
+        }
+      }
+    },
+    {
+      "id": 65,
+      "category_key": "forests_parks_waterfalls",
+      "category_ar": "الغابات والمنتزهات والشلالات",
+      "name": "منتزه غابة رغدان",
+      "governorate": "مدينة الباحة",
+      "type": "غابة ومنتزه رئيسي",
+      "rating": 4.4,
+      "reviews_count": 41030,
+      "rating_raw": "4.4 (41030 تقييم)",
+      "address": "طريق الملك عبدالعزيز، رغدان، ارتفاع 1700م",
+      "description": "أشهر معلم طبيعي في الباحة مطل على عقبة الملك فهد؛ يضم مسطحات خضراء، جسر معلق (25 ر.س)، دراجة معلقة (60 ر.س)، انزلاق حر (Zipline)، مقاهي، مناطق شواء، ألعاب أطفال ومسجد.",
+      "contact_and_booking": "دخول مجاني (رسوم للأنشطة الترفيهية)",
+      "links": {
+        "source": {
+          "label": "بوابة روح السعودية",
+          "url": "https://www.visitsaudi.com/ar/al-baha"
+        }
+      }
+    },
+    {
+      "id": 66,
+      "category_key": "forests_parks_waterfalls",
+      "category_ar": "الغابات والمنتزهات والشلالات",
+      "name": "حديقة الشلال بقرية جدر (غابة خيرة)",
+      "governorate": "بني حسن",
+      "type": "شلال ومنتزه طبيعي",
+      "rating": 4.4,
+      "reviews_count": 1145,
+      "rating_raw": "4.4 (1145 تقييم)",
+      "address": "طريق منتزه غابة خيرة، قرية جدر 65735",
+      "description": "منتزه طبيعي أخضر يضم شلالاً طبيعياً وصناعياً، جسراً زجاجياً ومعلقاً مطلاً على الشلال، ألعاب أطفال ومواقف ومصلى.",
+      "contact_and_booking": "دخول مجاني للحديقة (تذاكر للجسر المعلق ~35 ر.س للكبار)",
+      "links": {
+        "source": {
+          "label": "دليل روح السعودية",
+          "url": "https://www.visitsaudi.com/ar/al-baha/stories/top-5-things-to-do-in-al-baha"
+        }
+      }
+    },
+    {
+      "id": 67,
+      "category_key": "forests_parks_waterfalls",
+      "category_ar": "الغابات والمنتزهات والشلالات",
+      "name": "شلال وادي جدر",
+      "governorate": "بني حسن",
+      "type": "شلال ووادي",
+      "rating": 4.5,
+      "reviews_count": 793,
+      "rating_raw": "4.5 (793 تقييم)",
+      "address": "طريق غابة خيرة، حي ج2، 65735",
+      "description": "وادٍ خلاب بشلالات مرتفعة وجسر خشبي وممشى سهل وسط الأشجار الكثيفة والهواء البارد.",
+      "contact_and_booking": "دخول برسوم رمزية لبعض المرافق",
+      "links": {
+        "source": {
+          "label": "روح السعودية",
+          "url": "https://www.visitsaudi.com/ar/al-baha"
+        }
+      }
+    },
+    {
+      "id": 68,
+      "category_key": "forests_parks_waterfalls",
+      "category_ar": "الغابات والمنتزهات والشلالات",
+      "name": "شلال جدر (غابة خيرة)",
+      "governorate": "بني حسن",
+      "type": "شلال ومطل جبلي",
+      "rating": 4.3,
+      "reviews_count": 1591,
+      "rating_raw": "4.3 (1591 تقييم)",
+      "address": "طريق منتزه غابة خيرة 65735",
+      "description": "شلال موسمي شهير محاط بغابة كثيفة الأشجار مع جلسات ومطل أعلى الشلال وحدائق واسعة للتنزه والتخييم.",
+      "contact_and_booking": "دخول مجاني",
+      "links": {
+        "source": {
+          "label": "سعوديبيديا",
+          "url": "https://saudipedia.com/%D8%A7%D9%84%D8%B3%D9%8A%D8%A7%D8%AD%D8%A9-%D9%81%D9%8A-%D9%85%D9%86%D8%B7%D9%82%D8%A9-%D8%A7%D9%84%D8%A8%D8%A7%D8%AD%D8%A9"
+        }
+      }
+    },
+    {
+      "id": 69,
+      "category_key": "forests_parks_waterfalls",
+      "category_ar": "الغابات والمنتزهات والشلالات",
+      "name": "منتزه غابة شهبة",
+      "governorate": "مدينة الباحة",
+      "type": "غابة ومنتزه عائلي",
+      "rating": 4.0,
+      "reviews_count": 701,
+      "rating_raw": "4.0 (701 تقييم)",
+      "address": "حي شهبة، الباحة 65724",
+      "description": "منتزه غابي هادئ مناسب للعائلات يضم مسارات مشي ودراجات، ملاعب كرة قدم، ألعاب أطفال، مناطق تنزه ومسجد.",
+      "contact_and_booking": "دخول مجاني",
+      "links": {
+        "source": {
+          "label": "سعوديبيديا",
+          "url": "https://saudipedia.com/%D8%A7%D9%84%D8%B3%D9%8A%D8%A7%D8%AD%D8%A9-%D9%81%D9%8A-%D9%85%D9%86%D8%B7%D9%82%D8%A9-%D8%A7%D9%84%D8%A8%D8%A7%D8%AD%D8%A9"
+        }
+      }
+    },
+    {
+      "id": 70,
+      "category_key": "forests_parks_waterfalls",
+      "category_ar": "الغابات والمنتزهات والشلالات",
+      "name": "شلال ووادي قرية الحمدة",
+      "governorate": "مدينة الباحة",
+      "type": "شلال ووادي مائي",
+      "rating": 4.0,
+      "reviews_count": 2160,
+      "rating_raw": "4.0 (2160 تقييم)",
+      "address": "حي النزهة، الباحة 65711",
+      "description": "مجرى مائي وشلال طبيعي محاط بالأشجار الكثيفة والجلسات قرب سد الباحة، وجهة مفضلة للتصوير والاسترخاء.",
+      "contact_and_booking": "دخول مجاني",
+      "links": {
+        "source": {
+          "label": "روح السعودية",
+          "url": "https://www.visitsaudi.com/ar/al-baha"
+        }
+      }
+    },
+    {
+      "id": 71,
+      "category_key": "forests_parks_waterfalls",
+      "category_ar": "الغابات والمنتزهات والشلالات",
+      "name": "شلال قرية بشير (أم الدقيق)",
+      "governorate": "مدينة الباحة",
+      "type": "شلال ومغامرة مشي",
+      "rating": 3.8,
+      "reviews_count": 157,
+      "rating_raw": "3.8 (157 تقييم)",
+      "address": "حي النزهة، 2FHP+PP، الباحة 65711",
+      "description": "وادٍ كثيف الأشجار يضم شلالات مائية متعددة ومسار مشي استكشافي لمحبي المغامرة والطبيعة البكر.",
+      "contact_and_booking": "هاتف: 966-57-322-9729",
+      "links": {
+        "source": {
+          "label": "خرائط جوجل",
+          "url": null
+        }
+      }
+    },
+    {
+      "id": 72,
+      "category_key": "forests_parks_waterfalls",
+      "category_ar": "الغابات والمنتزهات والشلالات",
+      "name": "محمية ومنتزه جبل شدا الأعلى",
+      "governorate": "المخواة / قلوة",
+      "type": "محمية جبلية وتخييم",
+      "rating": 4.5,
+      "reviews_count": 770,
+      "rating_raw": "4.5 (770 تقييم)",
+      "address": "R8RF+85X، بين المخواة وقلوة",
+      "description": "مرتفع جبلي ومحمية طبيعية شهيرة بالتكوينات الصخرية والكهوف ومزارع البن الشدوي، مثالية للهايكنج والتخييم بإطلالات بانورامية وطقس معتدل صيفاً.",
+      "contact_and_booking": "دخول مجاني (طريق معبد للقمة)",
+      "links": {
+        "source": {
+          "label": "روح السعودية",
+          "url": "https://www.visitsaudi.com/ar/al-baha"
+        }
+      }
+    },
+    {
+      "id": 73,
+      "category_key": "forests_parks_waterfalls",
+      "category_ar": "الغابات والمنتزهات والشلالات",
+      "name": "منتزه الأمير حسام",
+      "governorate": "مدينة الباحة",
+      "type": "منتزه رئيسي ومغامرات",
+      "rating": 4.3,
+      "reviews_count": 10014,
+      "rating_raw": "4.3 (10014 تقييم)",
+      "address": "حي الزرقاء، الباحة 65522",
+      "description": "منتزه جبلي ضخم يضم مسطحات خضراء، نافورة راقصة، جسراً زجاجياً ومعلقاً، انزلاقاً حراً، زحليقة، 500 موقف، مقاهي، ومسجداً.",
+      "contact_and_booking": "دخول مجاني (رسوم للألعاب والمغامرات)",
+      "links": {
+        "source": {
+          "label": "روح السعودية",
+          "url": "https://www.visitsaudi.com/ar/al-baha"
+        }
+      }
+    },
+    {
+      "id": 74,
+      "category_key": "forests_parks_waterfalls",
+      "category_ar": "الغابات والمنتزهات والشلالات",
+      "name": "حديقة الحسام (حديقة شهبة)",
+      "governorate": "مدينة الباحة",
+      "type": "حديقة عائلية وممشى",
+      "rating": 4.1,
+      "reviews_count": 2274,
+      "rating_raw": "4.1 (2274 تقييم)",
+      "address": "حي شهبة، الباحة 65525",
+      "description": "حدائق على سفح تل تضم نوافير وممشى وملاعب كرة قدم وألعاب أطفال وأكشاك طعام بإطلالة على المدينة.",
+      "contact_and_booking": "دخول مجاني",
+      "links": {
+        "source": {
+          "label": "خرائط جوجل",
+          "url": null
+        }
+      }
+    },
+    {
+      "id": 75,
+      "category_key": "forests_parks_waterfalls",
+      "category_ar": "الغابات والمنتزهات والشلالات",
+      "name": "حديقة الأمير محمد بن سعود",
+      "governorate": "مدينة الباحة",
+      "type": "حديقة ومطل جبلي",
+      "rating": 4.2,
+      "reviews_count": 2066,
+      "rating_raw": "4.2 (2066 تقييم)",
+      "address": "جبل الجوهر، قرب رغدان، الباحة 65521",
+      "description": "حديقة عائلية مطلة على عقبة الملك فهد تضم جلسات خاصة وألعاب أطفال وأركان أسر منتجة للأكلات الشعبية.",
+      "contact_and_booking": "دخول مجاني",
+      "links": {
+        "source": {
+          "label": "خرائط جوجل",
+          "url": null
+        }
+      }
+    },
+    {
+      "id": 76,
+      "category_key": "forests_parks_waterfalls",
+      "category_ar": "الغابات والمنتزهات والشلالات",
+      "name": "منتزه الأمير مشاري",
+      "governorate": "بني حسن",
+      "type": "منتزه جبلي عائلي",
+      "rating": 4.2,
+      "reviews_count": 3312,
+      "rating_raw": "4.2 (3312 تقييم)",
+      "address": "بني حسن، 65735",
+      "description": "منتزه جبلي بارد بين الغيوم يضم مسطحات خضراء وألعاب أطفال وزحليقة طويلة ومناطق تنزه عائلية.",
+      "contact_and_booking": "هاتف: 966-17-646-6436",
+      "links": {
+        "source": {
+          "label": "خرائط جوجل",
+          "url": null
+        }
+      }
+    },
+    {
+      "id": 77,
+      "category_key": "forests_parks_waterfalls",
+      "category_ar": "الغابات والمنتزهات والشلالات",
+      "name": "منتزه الخلب (حديقة البرج والكهف)",
+      "governorate": "المندق",
+      "type": "منتزه ومطل جبلي",
+      "rating": 4.0,
+      "reviews_count": 4198,
+      "rating_raw": "4.0 (4198 تقييم)",
+      "address": "محافظة المندق 65585 (ارتفاع 2200م)",
+      "description": "منتزه جبلي مرتفع مشهور بالضباب الصباحي، مسارات هايكنج، كهوف طبيعية، مسرح، مقهى ومناطق ألعاب أطفال.",
+      "contact_and_booking": "دخول مجاني (7 ص – 12 ظ)",
+      "links": {
+        "source": {
+          "label": "خرائط جوجل",
+          "url": null
+        }
+      }
+    },
+    {
+      "id": 78,
+      "category_key": "forests_parks_waterfalls",
+      "category_ar": "الغابات والمنتزهات والشلالات",
+      "name": "منتزه الثروة الوطني",
+      "governorate": "القرى",
+      "type": "منتزه وطني عائلي",
+      "rating": 4.0,
+      "reviews_count": 1223,
+      "rating_raw": "4.0 (1223 تقييم)",
+      "address": "محافظة القرى 65788",
+      "description": "منتزه جبلي واسع بمسطحات خضراء ومظلات وممرات دراجات ومسارح مفتوحة ومواقف واسعة.",
+      "contact_and_booking": "دخول مجاني",
+      "links": {
+        "source": {
+          "label": "خرائط جوجل",
+          "url": null
+        }
+      }
+    },
+    {
+      "id": 79,
+      "category_key": "forests_parks_waterfalls",
+      "category_ar": "الغابات والمنتزهات والشلالات",
+      "name": "منتزه سد وادي الجنابين",
+      "governorate": "بلجرشي",
+      "type": "سد ومنتزه مائي",
+      "rating": 4.3,
+      "reviews_count": 1008,
+      "rating_raw": "4.3 (1008 تقييم)",
+      "address": "قرية الحميد، بلجرشي 65665",
+      "description": "أحد أكبر سدود المنطقة (سعة 17 مليون م³) بجانبه حديقة مطلة على البحيرة وممشى ومظلات وألعاب أطفال.",
+      "contact_and_booking": "دخول مجاني",
+      "links": {
+        "source": {
+          "label": "خرائط جوجل",
+          "url": null
+        }
+      }
+    },
+    {
+      "id": 80,
+      "category_key": "forests_parks_waterfalls",
+      "category_ar": "الغابات والمنتزهات والشلالات",
+      "name": "سد وادي بيدة",
+      "governorate": "القرى",
+      "type": "سد ووادي طبيعي",
+      "rating": 3.9,
+      "reviews_count": 76,
+      "rating_raw": "3.9 (76 تقييم)",
+      "address": "وادي بيدة، محافظة القرى 65788",
+      "description": "سد مائي في وادي بيدة الزراعي الشهير بمزارع الرمان والمناظر الطبيعية الهادئة.",
+      "contact_and_booking": "دخول مجاني",
+      "links": {
+        "source": {
+          "label": "خرائط جوجل",
+          "url": null
+        }
+      }
+    },
+    {
+      "id": 81,
+      "category_key": "forests_parks_waterfalls",
+      "category_ar": "الغابات والمنتزهات والشلالات",
+      "name": "سد وادي المرزوق",
+      "governorate": "بلجرشي",
+      "type": "سد وحديقة",
+      "rating": 4.1,
+      "reviews_count": 47,
+      "rating_raw": "4.1 (47 تقييم)",
+      "address": "بني كبير، بلجرشي 65647",
+      "description": "حديقة خضراء بمظلات مطلة مباشرة على بحيرة سد قرية المرزوق.",
+      "contact_and_booking": "دخول مجاني",
+      "links": {
+        "source": {
+          "label": "خرائط جوجل",
+          "url": null
+        }
+      }
+    },
+    {
+      "id": 82,
+      "category_key": "forests_parks_waterfalls",
+      "category_ar": "الغابات والمنتزهات والشلالات",
+      "name": "منتزه الشكران",
+      "governorate": "بلجرشي",
+      "type": "منتزه غابي وتخييم",
+      "rating": 4.0,
+      "reviews_count": 3026,
+      "rating_raw": "4.0 (3026 تقييم)",
+      "address": "بالشهم، بلجرشي 65662",
+      "description": "منتزه طبيعي واسع للتخييم والشواء والعائلات يضم ممشى وملاعب وملاهي ومسجداً.",
+      "contact_and_booking": "دخول مجاني",
+      "links": {
+        "source": {
+          "label": "خرائط جوجل",
+          "url": null
+        }
+      }
+    },
+    {
+      "id": 83,
+      "category_key": "forests_parks_waterfalls",
+      "category_ar": "الغابات والمنتزهات والشلالات",
+      "name": "منتزه شكران الوطني",
+      "governorate": "بلجرشي",
+      "type": "منتزه وطني",
+      "rating": 3.9,
+      "reviews_count": 713,
+      "rating_raw": "3.9 (713 تقييم)",
+      "address": "مقابل فندق المنتزه، بلجرشي 65636",
+      "description": "منتزه وطني منظم ومخدوم بدورات المياه والمقاهي والأكشاك في قلب بلجرشي.",
+      "contact_and_booking": "دخول مجاني",
+      "links": {
+        "source": {
+          "label": "خرائط جوجل",
+          "url": null
+        }
+      }
+    },
+    {
+      "id": 84,
+      "category_key": "forests_parks_waterfalls",
+      "category_ar": "الغابات والمنتزهات والشلالات",
+      "name": "منتزه بلجرشي الوطني",
+      "governorate": "بلجرشي",
+      "type": "منتزه غابي ومطلات",
+      "rating": 4.1,
+      "reviews_count": 3070,
+      "rating_raw": "4.1 (3070 تقييم)",
+      "address": "بلجرشي 65636",
+      "description": "منتزه جبلي فسيح بجلسات مستقلة مظللة ومكشوفة ومواقف قريبة وملعب كرة قدم ومناطق شواء.",
+      "contact_and_booking": "دخول مجاني",
+      "links": {
+        "source": {
+          "label": "خرائط جوجل",
+          "url": null
+        }
+      }
+    },
+    {
+      "id": 85,
+      "category_key": "forests_parks_waterfalls",
+      "category_ar": "الغابات والمنتزهات والشلالات",
+      "name": "منتزه سد القمع (القمم)",
+      "governorate": "بلجرشي",
+      "type": "منتزه وسد وغابة",
+      "rating": 4.3,
+      "reviews_count": 49,
+      "rating_raw": "4.3 (49 تقييم)",
+      "address": "بلجرشي 65675",
+      "description": "من أكبر منتزهات بلجرشي بأشجار العرعر والطلح المعمرة وسد مائي ومظلات وألعاب أطفال.",
+      "contact_and_booking": "دخول مجاني",
+      "links": {
+        "source": {
+          "label": "خرائط جوجل",
+          "url": null
+        }
+      }
+    },
+    {
+      "id": 86,
+      "category_key": "forests_parks_waterfalls",
+      "category_ar": "الغابات والمنتزهات والشلالات",
+      "name": "حديقة وممشى دانة",
+      "governorate": "بلجرشي",
+      "type": "حديقة وممشى عائلي",
+      "rating": 4.2,
+      "reviews_count": 1005,
+      "rating_raw": "4.2 (1005 تقييم)",
+      "address": "حي المحمدية، بلجرشي 65644",
+      "description": "حديقة وممشى حيوي بجوار مهرجان بلجرشي تضم أركان أسر منتجة وفود تركس ومواقف لأكثر من 500 سيارة.",
+      "contact_and_booking": "دخول مجاني",
+      "links": {
+        "source": {
+          "label": "خرائط جوجل",
+          "url": null
+        }
+      }
+    },
+    {
+      "id": 87,
+      "category_key": "forests_parks_waterfalls",
+      "category_ar": "الغابات والمنتزهات والشلالات",
+      "name": "منتزه حديقة السلام",
+      "governorate": "بلجرشي",
+      "type": "حديقة هادئة",
+      "rating": 3.9,
+      "reviews_count": 400,
+      "rating_raw": "3.9 (400 تقييم)",
+      "address": "بلجرشي 65656",
+      "description": "حديقة هادئة على طريق السفر تضم مسطحات ومظلات وألعاب أطفال ومسجداً.",
+      "contact_and_booking": "دخول مجاني",
+      "links": {
+        "source": {
+          "label": "خرائط جوجل",
+          "url": null
+        }
+      }
+    },
+    {
+      "id": 88,
+      "category_key": "forests_parks_waterfalls",
+      "category_ar": "الغابات والمنتزهات والشلالات",
+      "name": "حديقة المخواة المركزية",
+      "governorate": "المخواة",
+      "type": "حديقة مركزية",
+      "rating": 4.0,
+      "reviews_count": 121,
+      "rating_raw": "4.0 (121 تقييم)",
+      "address": "محافظة المخواة 65553",
+      "description": "حديقة عائلية وسط المخواة مناسبة للجلسات المسائية والتنزه الشتوي.",
+      "contact_and_booking": "دخول مجاني",
+      "links": {
+        "source": {
+          "label": "خرائط جوجل",
+          "url": null
+        }
+      }
+    },
+    {
+      "id": 89,
+      "category_key": "forests_parks_waterfalls",
+      "category_ar": "الغابات والمنتزهات والشلالات",
+      "name": "منتزه المخواة العام",
+      "governorate": "المخواة",
+      "type": "منتزه وإطلالة",
+      "rating": 3.2,
+      "reviews_count": 221,
+      "rating_raw": "3.2 (221 تقييم)",
+      "address": "طريق العام، المخواة 65616",
+      "description": "منتزه بإطلالة واسعة على المخواة ومناطق تنزه عائلية.",
+      "contact_and_booking": "هاتف: 966-50-012-8809",
+      "links": {
+        "source": {
+          "label": "خرائط جوجل",
+          "url": null
+        }
+      }
+    },
+    {
+      "id": 90,
+      "category_key": "forests_parks_waterfalls",
+      "category_ar": "الغابات والمنتزهات والشلالات",
+      "name": "حديقة الشوق",
+      "governorate": "المخواة",
+      "type": "حديقة عائلية",
+      "rating": 4.0,
+      "reviews_count": 46,
+      "rating_raw": "4.0 (46 تقييم)",
+      "address": "المخواة 65316",
+      "description": "حديقة واسعة هادئة مناسبة لتجمعات العائلات في قطاع تهامة.",
+      "contact_and_booking": "دخول مجاني",
+      "links": {
+        "source": {
+          "label": "خرائط جوجل",
+          "url": null
+        }
+      }
+    },
+    {
+      "id": 91,
+      "category_key": "forests_parks_waterfalls",
+      "category_ar": "الغابات والمنتزهات والشلالات",
+      "name": "بحيرة سد وادي ضرك",
+      "governorate": "المندق",
+      "type": "سد وبحيرة طبيعية",
+      "rating": 4.2,
+      "reviews_count": 133,
+      "rating_raw": "4.2 (133 تقييم)",
+      "address": "57QQ+VR، مشنية 65756، المندق",
+      "description": "مزار طبيعي وبحيرة مائية خلابة على ضفاف سد وادي ضرك في المندق مناسبة للتصوير والتنزه الهادئ (يُنصح بإحضار مستلزمات التنزه لقلة الخدمات).",
+      "contact_and_booking": "دخول مجاني",
+      "links": {
+        "source": {
+          "label": "بوابة روح السعودية - الباحة",
+          "url": "https://www.visitsaudi.com/ar/al-baha"
+        }
+      }
+    },
+    {
+      "id": 92,
+      "category_key": "forests_parks_waterfalls",
+      "category_ar": "الغابات والمنتزهات والشلالات",
+      "name": "سد وادي الملد",
+      "governorate": "مدينة الباحة",
+      "type": "سد مائي",
+      "rating": 3.6,
+      "reviews_count": 329,
+      "rating_raw": "3.6 (329 تقييم)",
+      "address": "طريق الملك عبدالعزيز، قرية الملد، الباحة 65528",
+      "description": "سد مائي معروف بالقرب من قرية الملد التراثية، يشتهر بمشهد الشلالات الجميلة عند تفريغه أو فيضانه في مواسم الأمطار.",
+      "contact_and_booking": "هاتف: 966-17-725-1716 | دخول مجاني",
+      "links": {
+        "source": {
+          "label": "سعوديبيديا - السياحة بالباحة",
+          "url": "https://saudipedia.com/%D8%A7%D9%84%D8%B3%D9%8A%D8%A7%D8%AD%D8%A9-%D9%81%D9%8A-%D9%85%D9%86%D8%B7%D9%82%D8%A9-%D8%A7%D9%84%D8%A8%D8%A7%D8%AD%D8%A9"
+        }
+      }
+    },
+    {
+      "id": 93,
+      "category_key": "forests_parks_waterfalls",
+      "category_ar": "الغابات والمنتزهات والشلالات",
+      "name": "بحيرة سد وادي الأحسبة",
+      "governorate": "المخواة / غامد الزناد",
+      "type": "سد ومنتزه شتوي",
+      "rating": 4.0,
+      "reviews_count": 179,
+      "rating_raw": "4.0 (179 تقييم)",
+      "address": "طريق 246، وادي الأحسبة، بين المخواة وغامد الزناد 65442",
+      "description": "واجهة سياحية شتوية مميزة تجمع بين المياه والجبال، يضم السد الترابي المنشأ عام 2012م كمصدر رئيسي للمياه ومنتزه طبيعي هادئ للتنزه.",
+      "contact_and_booking": "دخول مجاني",
+      "links": {
+        "source": {
+          "label": "أمانة الباحة - منتزه سد وادي الأحسبة",
+          "url": "https://baha.gov.sa/ar/Departments/ImageAlbum/315?deptId=113"
+        }
+      }
+    },
+    {
+      "id": 94,
+      "category_key": "forests_parks_waterfalls",
+      "category_ar": "الغابات والمنتزهات والشلالات",
+      "name": "منتزه حديقة الفراشة",
+      "governorate": "المندق",
+      "type": "منتزه وحديقة فعاليات",
+      "rating": 3.9,
+      "reviews_count": 2807,
+      "rating_raw": "3.9 (2807 تقييم)",
+      "address": "محافظة المندق 65585",
+      "description": "منتزه واسع قريب من وسط المندق يستضيف المهرجانات الصيفية الترفيهية ومسابقات الأطفال وأركان الأسر المنتجة.",
+      "contact_and_booking": "دخول مجاني",
+      "links": {
+        "source": {
+          "label": "بوابة روح السعودية - الباحة",
+          "url": "https://www.visitsaudi.com/ar/al-baha"
+        }
+      }
+    },
+    {
+      "id": 95,
+      "category_key": "forests_parks_waterfalls",
+      "category_ar": "الغابات والمنتزهات والشلالات",
+      "name": "منتزه الحبشي",
+      "governorate": "مدينة الباحة",
+      "type": "حديقة ومطل ليلي",
+      "rating": 4.4,
+      "reviews_count": 249,
+      "rating_raw": "4.4 (249 تقييم)",
+      "address": "حي شهبة، الباحة 65721",
+      "description": "حديقة هادئة ومظللة بأشجار معتنى بها وجلسات وملاعب وألعاب أطفال مع إطلالة ليلية جميلة على مدينة الباحة.",
+      "contact_and_booking": "دخول مجاني",
+      "links": {
+        "source": {
+          "label": "بوابة روح السعودية - الباحة",
+          "url": "https://www.visitsaudi.com/ar/al-baha"
+        }
+      }
+    },
+    {
+      "id": 96,
+      "category_key": "forests_parks_waterfalls",
+      "category_ar": "الغابات والمنتزهات والشلالات",
+      "name": "حديقة الأمير سلطان بن سلمان",
+      "governorate": "مدينة الباحة",
+      "type": "حديقة ومطل جبلي",
+      "rating": 4.2,
+      "reviews_count": 1431,
+      "rating_raw": "4.2 (1431 تقييم)",
+      "address": "حي الروضة، الباحة 65531",
+      "description": "متنزه عائلي مجاني هادئ مطل على عقبة الملك فهد ومناسب لمشاهدة الشروق، يضم مسطحات خضراء ومظلات وألعاب أطفال مجانية ودورات مياه نظيفة.",
+      "contact_and_booking": "دخول مجاني",
+      "links": {
+        "source": {
+          "label": "بوابة روح السعودية - الباحة",
+          "url": "https://www.visitsaudi.com/ar/al-baha"
+        }
+      }
+    },
+    {
+      "id": 97,
+      "category_key": "forests_parks_waterfalls",
+      "category_ar": "الغابات والمنتزهات والشلالات",
+      "name": "منتزه وحديقة شايقة",
+      "governorate": "العقيق",
+      "type": "حديقة عائلية",
+      "rating": 3.9,
+      "reviews_count": 42,
+      "rating_raw": "3.9 (42 تقييم)",
+      "address": "3400، محافظة العقيق",
+      "description": "حديقة عائلية بمسطحات خضراء ومرافق ترفيهية في محافظة العقيق مناسبة للجلسات المسائية.",
+      "contact_and_booking": "دخول مجاني",
+      "links": {
+        "source": {
+          "label": "بوابة روح السعودية - الباحة",
+          "url": "https://www.visitsaudi.com/ar/al-baha"
+        }
+      }
+    },
+    {
+      "id": 98,
+      "category_key": "forests_parks_waterfalls",
+      "category_ar": "الغابات والمنتزهات والشلالات",
+      "name": "حديقة اللافندر",
+      "governorate": "مدينة الباحة",
+      "type": "حديقة زهور ومطل",
+      "rating": 4.5,
+      "reviews_count": 294,
+      "rating_raw": "4.5 (294 تقييم)",
+      "address": "2C9J+XR4، حقل، قرب غابة رغدان، الباحة 65541",
+      "description": "حديقة زهور ولافندر خلابة وسط الغابة مدرجة ضمن دليل صيف السعودية، تتميز برائحة اللافندر العطرة والأجواء الباردة والنظافة العالية.",
+      "contact_and_booking": "دخول مجاني",
+      "links": {
+        "source": {
+          "label": "دليل صيف السعودية - روح السعودية",
+          "url": "https://www.visitsaudi.com/content/dam/documents/saudi-summer-guide.pdf"
+        }
+      }
+    },
+    {
+      "id": 99,
+      "category_key": "forests_parks_waterfalls",
+      "category_ar": "الغابات والمنتزهات والشلالات",
+      "name": "حديقة الأمير محمد بن سعود",
+      "governorate": "مدينة الباحة",
+      "type": "حديقة ومطل جبلي",
+      "rating": 4.2,
+      "reviews_count": 2066,
+      "rating_raw": "4.2 (2066 تقييم)",
+      "address": "جبل الجوهر، قرب غابة رغدان، الباحة 65521",
+      "description": "حديقة عائلية مطلة على عقبة الملك فهد قرب غابة رغدان، تضم جلسات عائلية خاصة بين المساحات الخضراء والزهور وممرات مشي مرصوفة وألعاب أطفال ومواقف سيارات.",
+      "contact_and_booking": "دخول مجاني",
+      "links": {
+        "source": {
+          "label": "بوابة روح السعودية - الباحة",
+          "url": "https://www.visitsaudi.com/ar/al-baha"
+        }
+      }
+    },
+    {
+      "id": 100,
+      "category_key": "heritage_villages_museums",
+      "category_ar": "القرى التراثية والمتاحف",
+      "name": "قرية ذي عين التراثية",
+      "governorate": "المخواة",
+      "type": "قرية تراثية عالمية",
+      "rating": 4.5,
+      "reviews_count": 6550,
+      "rating_raw": "4.5 (6550 تقييم)",
+      "address": "طريق الملك فهد، أسفل عقبة الباحة، المخواة 65533",
+      "description": "أشهر قرية تراثية في الباحة عمرها قرون بمنازل حجرية رخامية متدرجة وسط مزارع الموز والريحان والكادي وعين ماء جارية منذ أكثر من ألف عام.",
+      "contact_and_booking": "هاتف: 966-55-678-8776",
+      "links": {
+        "source": {
+          "label": "بوابة أمانة الباحة - المواقع التراثية",
+          "url": "https://baha.gov.sa/ar/Albums/Sites?type=19&category=Heritage"
+        }
+      }
+    },
+    {
+      "id": 101,
+      "category_key": "heritage_villages_museums",
+      "category_ar": "القرى التراثية والمتاحف",
+      "name": "قلعة الملد التراثية (حصنا الأخوين)",
+      "governorate": "مدينة الباحة",
+      "type": "قلعة ومتحف تاريخي",
+      "rating": 4.2,
+      "reviews_count": 303,
+      "rating_raw": "4.2 (303 تقييم)",
+      "address": "قرية الملد، 3 كم جنوب الباحة 65529",
+      "description": "موقع تاريخي يضم حصنين حربيين عريقين يعكسان العمارة الحجرية الباحية، مع متحف مقتنيات أثرية ومقهى تراثي.",
+      "contact_and_booking": "هاتف: 966-56-660-5990 (رسوم دخول ~20 ر.س)",
+      "links": {
+        "source": {
+          "label": "روح السعودية - أفضل أنشطة الباحة",
+          "url": "https://www.visitsaudi.com/ar/al-baha/stories/top-5-things-to-do-in-al-baha"
+        }
+      }
+    },
+    {
+      "id": 102,
+      "category_key": "heritage_villages_museums",
+      "category_ar": "القرى التراثية والمتاحف",
+      "name": "متحف ومقهى الأخوين",
+      "governorate": "مدينة الباحة",
+      "type": "متحف ومقهى تراثي",
+      "rating": 4.3,
+      "reviews_count": 423,
+      "rating_raw": "4.3 (423 تقييم)",
+      "address": "حي الربوة، بجوار قلعة الملد، الباحة 65529",
+      "description": "متحف شعبي ثري بموروث أهالي الباحة وأدواتهم القديمة بجانب قلعة الملد مع مقهى تراثي وجلسات تقليدية.",
+      "contact_and_booking": "هاتف: 966-56-660-5990",
+      "links": {
+        "source": {
+          "label": "روح السعودية - متحف الأخوين",
+          "url": "https://www.visitsaudi.com/ar/al-baha/stories/top-5-things-to-do-in-al-baha"
+        }
+      }
+    },
+    {
+      "id": 103,
+      "category_key": "heritage_villages_museums",
+      "category_ar": "القرى التراثية والمتاحف",
+      "name": "القرية الأثرية بالأطاولة",
+      "governorate": "القرى",
+      "type": "قرية أثرية وتراثية",
+      "rating": 4.5,
+      "reviews_count": 564,
+      "rating_raw": "4.5 (564 تقييم)",
+      "address": "الأطاولة، محافظة القرى 65792",
+      "description": "من أوائل القرى الأثرية المحافظة على المباني الحجرية والحصون القديمة، وتستضيف فعاليات ومهرجان الأطاولة التراثي صيفاً.",
+      "contact_and_booking": "هاتف: 966-55-192-5605",
+      "links": {
+        "source": {
+          "label": "روح السعودية - قرية الأطاولة",
+          "url": "https://www.visitsaudi.com/ar/al-baha/stories/top-5-things-to-do-in-al-baha"
+        }
+      }
+    },
+    {
+      "id": 104,
+      "category_key": "heritage_villages_museums",
+      "category_ar": "القرى التراثية والمتاحف",
+      "name": "دار عوضة التراثية بالأطاولة",
+      "governorate": "القرى",
+      "type": "صرح تراثي ونزل ثقافي",
+      "rating": 4.7,
+      "reviews_count": 106,
+      "rating_raw": "4.7 (106 تقييم)",
+      "address": "BAWA9746، الأطاولة، محافظة القرى 65791",
+      "description": "بيت تراثي أصيل يحتضن الفعاليات الثقافية، العرضة الجنوبية، أركان الحرفيين والأسر المنتجة، وتجربة ضيافة ريفية متكاملة.",
+      "contact_and_booking": "هاتف: 966-55-506-5440 (واتساب)",
+      "links": {
+        "source": {
+          "label": "الموقع الرسمي - دار عوضة",
+          "url": "https://alaodah.com/"
+        }
+      }
+    },
+    {
+      "id": 105,
+      "category_key": "heritage_villages_museums",
+      "category_ar": "القرى التراثية والمتاحف",
+      "name": "قرية الأطلال التراثية",
+      "governorate": "المندق",
+      "type": "قرية تراثية ومتحف مفتوح",
+      "rating": 4.1,
+      "reviews_count": 1060,
+      "rating_raw": "4.1 (1060 تقييم)",
+      "address": "المصيف 18، محافظة المندق",
+      "description": "متحف مفتوح بمبانٍ حجرية وأسقف خشبية مرممة، تضم أركان حرف يدوية ومطاعم شعبية وأجواء ريفية هادئة (6 ص – 11 م).",
+      "contact_and_booking": "هاتف: 966-50-815-2553",
+      "links": {
+        "source": {
+          "label": "بوابة أمانة الباحة - قرية الأطلال",
+          "url": "https://baha.gov.sa/ar/Albums/ImageDetails/%D9%82%D8%B1%D9%8A%D8%A9-%D8%A7%D9%84%D8%A3%D8%B7%D9%84%D8%A7%D9%84-%D8%A7%D9%84%D8%AA%D8%B1%D8%A7%D8%AB%D9%8A%D8%A9"
+        }
+      }
+    },
+    {
+      "id": 106,
+      "category_key": "heritage_villages_museums",
+      "category_ar": "القرى التراثية والمتاحف",
+      "name": "قرية الموسى التراثية",
+      "governorate": "بني حسن / الباحة",
+      "type": "قرية تراثية",
+      "rating": 4.4,
+      "reviews_count": 287,
+      "rating_raw": "4.4 (287 تقييم)",
+      "address": "ج1، الباحة 65734",
+      "description": "قرية تراثية مرتبة تجسد نمط مساكن الأجداد وعمارة المنطقة القديمة مع مواقف مجانية.",
+      "contact_and_booking": "هاتف: 966-54-075-0057",
+      "links": {
+        "source": {
+          "label": "خرائط جوجل - قرية الموسى",
+          "url": "https://maps.google.com/?q=%D9%82%D8%B1%D9%8A%D8%A9+%D8%A7%D9%84%D9%85%D9%88%D8%B3%D9%89+%D8%A7%D9%84%D8%AA%D8%B1%D8%A7%D8%AB%D9%8A%D8%A9+%D8%A7%D9%84%D8%A8%D8%A7%D8%AD%D8%A9"
+        }
+      }
+    },
+    {
+      "id": 107,
+      "category_key": "heritage_villages_museums",
+      "category_ar": "القرى التراثية والمتاحف",
+      "name": "قرية بُران التراثية",
+      "governorate": "المندق / بني عمر",
+      "type": "قرية تراثية جبلية",
+      "rating": 4.5,
+      "reviews_count": 44,
+      "rating_raw": "4.5 (44 تقييم)",
+      "address": "وادي هوران 65548",
+      "description": "إحدى أجمل القرى التراثية الجبلية في بني عمر بموقع مرتفع وإطلالة طبيعية خلابة (طريقها الجبلي غير معبد ويناسب سيارات الدفع الرباعي).",
+      "contact_and_booking": "هاتف: 966-50-351-7798",
+      "links": {
+        "source": {
+          "label": "خرائط جوجل - قرية بُران",
+          "url": "https://maps.google.com/?q=%D9%82%D8%B1%D9%8A%D8%A9+%D8%A8%D8%B1%D8%A7%D9%86+%D8%A7%D9%84%D8%AA%D8%B1%D8%A7%D8%AB%D9%8A%D8%A9+%D8%A7%D9%84%D9%85%D9%86%D8%AF%D9%82"
+        }
+      }
+    },
+    {
+      "id": 108,
+      "category_key": "heritage_villages_museums",
+      "category_ar": "القرى التراثية والمتاحف",
+      "name": "قرية الخليف الأثرية",
+      "governorate": "قلوة",
+      "type": "قرية تاريخية وأثرية",
+      "rating": 4.5,
+      "reviews_count": 64,
+      "rating_raw": "4.5 (64 تقييم)",
+      "address": "طريق الملك فهد، محافظة قلوة 65573",
+      "description": "قرية تاريخية عريقة في محافظة قلوة تتميز بمبانيها الحجرية القديمة وموقعها التاريخي المعروف.",
+      "contact_and_booking": "دخول مجاني",
+      "links": {
+        "source": {
+          "label": "خرائط جوجل",
+          "url": null
+        }
+      }
+    },
+    {
+      "id": 109,
+      "category_key": "heritage_villages_museums",
+      "category_ar": "القرى التراثية والمتاحف",
+      "name": "قرية الخلف الأثرية",
+      "governorate": "قلوة",
+      "type": "قرية أثرية",
+      "rating": 4.3,
+      "reviews_count": 26,
+      "rating_raw": "4.3 (26 تقييم)",
+      "address": "محافظة قلوة 65573",
+      "description": "قرية أثرية مجاورة للخليف في قلوة تعكس الطراز العمراني التهامي القديم.",
+      "contact_and_booking": "دخول مجاني",
+      "links": {
+        "source": {
+          "label": "خرائط جوجل",
+          "url": null
+        }
+      }
+    },
+    {
+      "id": 110,
+      "category_key": "heritage_villages_museums",
+      "category_ar": "القرى التراثية والمتاحف",
+      "name": "قرية السواد القديمة",
+      "governorate": "مدينة الباحة",
+      "type": "قرية أثرية ومطل",
+      "rating": 4.5,
+      "reviews_count": 32,
+      "rating_raw": "4.5 (32 تقييم)",
+      "address": "النزهة، الباحة 65711",
+      "description": "قرية أثرية على تل مطل على الوديان وخلفها شلالات أم الدقيق، وجهة مميزة للتصوير التراثي.",
+      "contact_and_booking": "دخول مجاني",
+      "links": {
+        "source": {
+          "label": "خرائط جوجل",
+          "url": null
+        }
+      }
+    },
+    {
+      "id": 111,
+      "category_key": "heritage_villages_museums",
+      "category_ar": "القرى التراثية والمتاحف",
+      "name": "متحف العمدة",
+      "governorate": "مدينة الباحة",
+      "type": "متحف تراثي",
+      "rating": 4.2,
+      "reviews_count": 315,
+      "rating_raw": "4.2 (315 تقييم)",
+      "address": "الأمير فيصل بن محمد بن سعود، وسط المدينة، الباحة 65522",
+      "description": "متحف تراثي وسط مدينة الباحة يعرض مقتنيات قديمة تجسد تراث المنطقة مثل الملابس والأسلحة والكتب والعملات القديمة، مناسب للعائلات والأطفال.",
+      "contact_and_booking": "هاتف: 966-50-883-4697",
+      "links": {
+        "source": {
+          "label": "خرائط جوجل - متحف العمدة",
+          "url": "https://goo.gl/maps/QUhG2UAVQncfApks9"
+        }
+      }
+    },
+    {
+      "id": 112,
+      "category_key": "heritage_villages_museums",
+      "category_ar": "القرى التراثية والمتاحف",
+      "name": "قلعة بخروش بن علاس الزهراني",
+      "governorate": "القرى",
+      "type": "قلعة حربية وتراثية",
+      "rating": 4.6,
+      "reviews_count": 425,
+      "rating_raw": "4.6 (425 تقييم)",
+      "address": "15 قريش، الحسن، محافظة القرى 65799",
+      "description": "قلعة تاريخية حربية أُنشئت في عهد الدولة السعودية الأولى (1228هـ)، تضم حصن بخروش الأساسي وقصر ومتحف القائد والبيت المربع الأبيض وبركة الماء والحصون الدائرية وبئر بخروش.",
+      "contact_and_booking": "هاتف: 966-50-520-5272",
+      "links": {
+        "source": {
+          "label": "أمانة الباحة - المواقع التراثية",
+          "url": "https://baha.gov.sa/ar/Albums/Sites?type=19&category=Heritage"
+        }
+      }
+    },
+    {
+      "id": 113,
+      "category_key": "heritage_villages_museums",
+      "category_ar": "القرى التراثية والمتاحف",
+      "name": "متحف الشيخ محمد بن مصبح",
+      "governorate": "بلجرشي",
+      "type": "متحف تراثي شعبي",
+      "rating": 4.4,
+      "reviews_count": 207,
+      "rating_raw": "4.4 (207 تقييم)",
+      "address": "قرية الجلحية، بلجرشي 65636",
+      "description": "متحف تراثي متكامل يعرض موروث أهالي منطقة الباحة وأدواتهم القديمة على مدى أكثر من 100 عام، يضم حديقة وجلسات ومواقف قريبة من الجسر المعلق، ومهيأ لذوي الإعاقة والعائلات.",
+      "contact_and_booking": "هاتف: 966-55-559-7944",
+      "links": {
+        "source": {
+          "label": "أمانة الباحة - المواقع التراثية",
+          "url": "https://baha.gov.sa/ar/Albums/Sites?type=19&category=Heritage"
+        }
+      }
+    },
+    {
+      "id": 114,
+      "category_key": "heritage_villages_museums",
+      "category_ar": "القرى التراثية والمتاحف",
+      "name": "متحف بني جرة التراثي الثاني",
+      "governorate": "بلجرشي",
+      "type": "متحف تراثي",
+      "rating": 4.9,
+      "reviews_count": 22,
+      "rating_raw": "4.9 (22 تقييم)",
+      "address": "بني جرة، بلجرشي 65627",
+      "description": "متحف تراثي متنوع أسسه الأستاذ جمعان حربي يضم مقتنيات تراثية متنوعة من محافظة بلجرشي بضيافة وترحيب مميز.",
+      "contact_and_booking": "هاتف: 966-50-588-0233",
+      "links": {
+        "source": {
+          "label": "أمانة الباحة - المواقع التراثية",
+          "url": "https://baha.gov.sa/ar/Albums/Sites?type=19&category=Heritage"
+        }
+      }
+    },
+    {
+      "id": 115,
+      "category_key": "heritage_villages_museums",
+      "category_ar": "القرى التراثية والمتاحف",
+      "name": "متحف الباحة الإقليمي للآثار والتراث",
+      "governorate": "مدينة الباحة",
+      "type": "متحف إقليمي رئيسي",
+      "rating": 3.4,
+      "reviews_count": 52,
+      "rating_raw": "3.4 (52 تقييم)",
+      "address": "الحازم، بجوار قرية رغدان السياحية، الباحة 65521",
+      "description": "متحف إقليمي حديث من 4 طوابق و8 قاعات على مساحة 9,000 م² يعرض آثار وتاريخ منطقة الباحة وحضاراتها المتعاقبة (ملاحظة: مغلق مؤقتاً لاستكمال التجهيزات والافتتاح).",
+      "contact_and_booking": "مغلق مؤقتاً للتجهيز (يرجى التحقق قبل الزيارة)",
+      "links": {
+        "source": {
+          "label": "روح السعودية - متحف الباحة الإقليمي",
+          "url": "https://www.visitsaudi.com/ar/al-baha/attractions/al-baha-museum"
+        }
+      }
+    },
+    {
+      "id": 116,
+      "category_key": "souqs_shopping_entertainment",
+      "category_ar": "الأسواق والتسوق والترفيه",
+      "name": "سوق المخواة الشعبي (سوق الثلاثاء)",
+      "governorate": "المخواة",
+      "type": "سوق شعبي أسبوعي",
+      "rating": 4.0,
+      "reviews_count": 1308,
+      "rating_raw": "4.0 (1308 تقييم)",
+      "address": "شارع سوق الثلاثاء الرئيسي، المخواة 65614",
+      "description": "سوق شعبي عريق للمنتجات اليدوية والزخارف والجاوي والتمور والخضار والفواكه والمواشي؛ يبدأ عصر الإثنين ويستمر حتى مغرب الثلاثاء.",
+      "contact_and_booking": "دخول مجاني (يقبل الدفع بالبطاقة)",
+      "links": {
+        "source": {
+          "label": "بوابة أمانة منطقة الباحة",
+          "url": "https://baha.gov.sa/"
+        }
+      }
+    },
+    {
+      "id": 117,
+      "category_key": "souqs_shopping_entertainment",
+      "category_ar": "الأسواق والتسوق والترفيه",
+      "name": "سوق الخميس الشعبي",
+      "governorate": "مدينة الباحة",
+      "type": "سوق شعبي وتجاري",
+      "rating": 3.8,
+      "reviews_count": 651,
+      "rating_raw": "3.8 (651 تقييم)",
+      "address": "طريق الملك عبدالعزيز، وسط مدينة الباحة 65522",
+      "description": "من أقدم أسواق مدينة الباحة؛ يضم الذهب والمجوهرات، الملابس، العطور، المواد الغذائية، ولوازم الرحلات بأسعار مناسبة.",
+      "contact_and_booking": "دخول مجاني (يقبل الدفع بالبطاقة)",
+      "links": {
+        "source": {
+          "label": "بوابة أمانة منطقة الباحة",
+          "url": "https://baha.gov.sa/"
+        }
+      }
+    },
+    {
+      "id": 118,
+      "category_key": "souqs_shopping_entertainment",
+      "category_ar": "الأسواق والتسوق والترفيه",
+      "name": "سوق السبت التاريخي",
+      "governorate": "بلجرشي",
+      "type": "سوق شعبي تاريخي",
+      "rating": 4.7,
+      "reviews_count": 22,
+      "rating_raw": "4.7 (22 تقييم)",
+      "address": "حي الرشاد، بلجرشي 65635",
+      "description": "سوق شعبي أسبوعي تاريخي يعكس تراث المنطقة وحرفها التقليدية ومنتجاتها المحلية والهدايا التذكارية (ينشط صباحاً حتى 10:30 ص).",
+      "contact_and_booking": "دخول مجاني",
+      "links": {
+        "source": {
+          "label": "روح السعودية - سوق السبت",
+          "url": "https://www.visitsaudi.com/ar/al-baha/stories/top-5-things-to-do-in-al-baha"
+        }
+      }
+    },
+    {
+      "id": 119,
+      "category_key": "souqs_shopping_entertainment",
+      "category_ar": "الأسواق والتسوق والترفيه",
+      "name": "أبو الخير بلازا بلجرشي",
+      "governorate": "بلجرشي",
+      "type": "مركز تسوق ومطاعم",
+      "rating": 4.0,
+      "reviews_count": 556,
+      "rating_raw": "4.0 (556 تقييم)",
+      "address": "حي المستشفى، بلجرشي 65635",
+      "description": "مجمع تجاري حديث يضم علامات تجارية ومطاعم ومقاهي وأسواق المزرعة مع مواقف مجانية.",
+      "contact_and_booking": "هاتف: 966-53-339-9228",
+      "links": {
+        "source": {
+          "label": "الرابط الرسمي - Linkbio",
+          "url": "https://linkbio.co/5070408oqkPGI"
+        }
+      }
+    },
+    {
+      "id": 120,
+      "category_key": "souqs_shopping_entertainment",
+      "category_ar": "الأسواق والتسوق والترفيه",
+      "name": "بوليفارد الباحة",
+      "governorate": "مدينة الباحة",
+      "type": "ترفيه وتسوق ومقاهي",
+      "rating": null,
+      "reviews_count": null,
+      "rating_raw": "معلم رئيسي",
+      "address": "وسط مدينة الباحة",
+      "description": "وجهة ترفيهية عصرية تجمع المتاجر والمطاعم والمقاهي في أجواء عائلية مفتوحة وممشى حيوي.",
+      "contact_and_booking": "دخول مجاني",
+      "links": {
+        "source": {
+          "label": "روح السعودية - بوليفارد الباحة",
+          "url": "https://www.visitsaudi.com/ar/al-baha/stories/top-5-things-to-do-in-al-baha"
+        }
+      }
+    },
+    {
+      "id": 121,
+      "category_key": "souqs_shopping_entertainment",
+      "category_ar": "الأسواق والتسوق والترفيه",
+      "name": "الباحة مول",
+      "governorate": "مدينة الباحة",
+      "type": "مركز تسوق متكامل",
+      "rating": 4.2,
+      "reviews_count": 2441,
+      "rating_raw": "4.2 (2441 تقييم)",
+      "address": "حي الشروق، الباحة 65715",
+      "description": "أكبر مول متكامل في المنطقة؛ يضم ماركات عالمية، ردهة مطاعم بالدور الثالث، ومنطقة ألعاب أطفال ومواقف مجانية.",
+      "contact_and_booking": "دخول مجاني",
+      "links": {
+        "source": {
+          "label": "خرائط جوجل",
+          "url": null
+        }
+      }
+    },
+    {
+      "id": 122,
+      "category_key": "souqs_shopping_entertainment",
+      "category_ar": "الأسواق والتسوق والترفيه",
+      "name": "الغنيم مول",
+      "governorate": "مدينة الباحة",
+      "type": "مركز تسوق",
+      "rating": 3.6,
+      "reviews_count": 4185,
+      "rating_raw": "3.6 (4185 تقييم)",
+      "address": "4505 طريق الجنوب، وسط المدينة، الباحة 65522",
+      "description": "مول مركزي قريب من بوليفارد الباحة يضم متاجر عطور وعبايات وسوبرماركت العثيم ومقاهي.",
+      "contact_and_booking": "دخول مجاني",
+      "links": {
+        "source": {
+          "label": "خرائط جوجل",
+          "url": null
+        }
+      }
+    },
+    {
+      "id": 123,
+      "category_key": "souqs_shopping_entertainment",
+      "category_ar": "الأسواق والتسوق والترفيه",
+      "name": "باحة سكاي (Baha Sky)",
+      "governorate": "مدينة الباحة",
+      "type": "ترفيه وصالة تزلج",
+      "rating": 3.7,
+      "reviews_count": 351,
+      "rating_raw": "3.7 (351 تقييم)",
+      "address": "طريق الملك عبدالله، الباحة 65521",
+      "description": "مركز ترفيهي عائلي يضم ألعاباً إلكترونية وصالة تزلج فريدة في الباحة وخصومات للعائلات.",
+      "contact_and_booking": "هاتف: 966-50-777-0222 (واتساب)",
+      "links": {
+        "source": {
+          "label": "خرائط جوجل",
+          "url": null
+        }
+      }
+    },
+    {
+      "id": 124,
+      "category_key": "souqs_shopping_entertainment",
+      "category_ar": "الأسواق والتسوق والترفيه",
+      "name": "واحة المرح لألعاب الأطفال",
+      "governorate": "مدينة الباحة",
+      "type": "ملاهي وألعاب أطفال",
+      "rating": 3.7,
+      "reviews_count": 266,
+      "rating_raw": "3.7 (266 تقييم)",
+      "address": "حي الشروق، الباحة مول 65715",
+      "description": "مدينة ألعاب كهربائية داخلية مناسبة للأطفال والعائلات داخل الباحة مول.",
+      "contact_and_booking": "هاتف: 966-53-370-0928",
+      "links": {
+        "source": {
+          "label": "خرائط جوجل",
+          "url": null
+        }
+      }
+    },
+    {
+      "id": 125,
+      "category_key": "souqs_shopping_entertainment",
+      "category_ar": "الأسواق والتسوق والترفيه",
+      "name": "عالم الترامبولين",
+      "governorate": "بلجرشي",
+      "type": "ترفيه وألعاب",
+      "rating": 4.0,
+      "reviews_count": 70,
+      "rating_raw": "4.0 (70 تقييم)",
+      "address": "شارع الملك عبدالعزيز، بلجرشي 65637",
+      "description": "مركز ألعاب حركية وترامبولين للأطفال ومطعم عائلي في بلجرشي.",
+      "contact_and_booking": "هاتف: 966-50-198-5862",
+      "links": {
+        "source": {
+          "label": "خرائط جوجل",
+          "url": null
+        }
+      }
+    },
+    {
+      "id": 126,
+      "category_key": "souqs_shopping_entertainment",
+      "category_ar": "الأسواق والتسوق والترفيه",
+      "name": "مركز فال العز للفروسية",
+      "governorate": "العقيق",
+      "type": "نادي فروسية وتجربة ثقافية",
+      "rating": 4.0,
+      "reviews_count": 196,
+      "rating_raw": "4.0 (196 تقييم)",
+      "address": "محافظة العقيق 65819",
+      "description": "مركز فروسية وتراث معتمد ضمن تجارب روح السعودية؛ يقدم تدريب ركوب الخيل العربي الأصيل وتجربة إعداد القهوة السعودية في أجواء تراثية.",
+      "contact_and_booking": "هاتف: 966-55-681-5556 (واتساب)",
+      "links": {
+        "source": {
+          "label": "بوابة روح السعودية - الباحة",
+          "url": "https://www.visitsaudi.com/ar/al-baha"
+        }
+      }
+    },
+    {
+      "id": 127,
+      "category_key": "farms_local_products",
+      "category_ar": "المزارع والمنتجات المحلية",
+      "name": "مزرعة بساتين اللوز",
+      "governorate": "مدينة الباحة",
+      "type": "مزرعة سياحية وأكواخ",
+      "rating": 4.3,
+      "reviews_count": 2415,
+      "rating_raw": "4.3 (2415 تقييم)",
+      "address": "بني ظبيان، قرية الخويتم، الربوة",
+      "description": "مزرعة ومنتجع ريفي شهير يضم بحيرة، جلسات طبيعية، أكواخاً للمبيت، مقهى ريفياً، حيوانات أليفة، ألعاب أطفال ومصلى (6–10:30 ص و3–9 م).",
+      "contact_and_booking": "هاتف: 966-55-078-5152 (واتساب)",
+      "links": {
+        "source": {
+          "label": "روح السعودية",
+          "url": "https://www.visitsaudi.com/ar/al-baha"
+        }
+      }
+    },
+    {
+      "id": 128,
+      "category_key": "farms_local_products",
+      "category_ar": "المزارع والمنتجات المحلية",
+      "name": "مزرعة الخميس للعنب ببني فروة",
+      "governorate": "مدينة الباحة",
+      "type": "مزرعة عنب وفراولة ورمان",
+      "rating": 4.6,
+      "reviews_count": 165,
+      "rating_raw": "4.6 (165 تقييم)",
+      "address": "طريق الملك عبدالعزيز، النزهة، بني فروة 65712",
+      "description": "مزرعة سياحية قريبة من وسط الباحة تشتهر بالعنب والتوت البري والفراولة والرمان مع بيع مباشر وتوصيل لجميع مدن المملكة.",
+      "contact_and_booking": "هاتف: 966-50-442-6039",
+      "links": {
+        "source": {
+          "label": "خرائط جوجل",
+          "url": null
+        }
+      }
+    },
+    {
+      "id": 129,
+      "category_key": "farms_local_products",
+      "category_ar": "المزارع والمنتجات المحلية",
+      "name": "مزرعة الجوري الريفية",
+      "governorate": "المندق",
+      "type": "مزرعة سياحية وعائلية",
+      "rating": 4.4,
+      "reviews_count": 472,
+      "rating_raw": "4.4 (472 تقييم)",
+      "address": "المندق 65749",
+      "description": "من أكبر مزارع المندق السياحية؛ زراعة عضوية، شلالات ومسطحات خضراء، طيور طاووس، كوفي، شاي على الجمر، وأسر منتجة.",
+      "contact_and_booking": "هاتف: 966-55-377-0100",
+      "links": {
+        "source": {
+          "label": "خرائط جوجل",
+          "url": null
+        }
+      }
+    },
+    {
+      "id": 130,
+      "category_key": "farms_local_products",
+      "category_ar": "المزارع والمنتجات المحلية",
+      "name": "مزرعة ونزل ريف الوادي السياحية",
+      "governorate": "المندق",
+      "type": "مزرعة ريفية ونزل",
+      "rating": 3.9,
+      "reviews_count": 128,
+      "rating_raw": "3.9 (128 تقييم)",
+      "address": "المندق 65748",
+      "description": "مزرعة بوادي مائي تضم فيلا بالطراز التركي وكوخاً للمبيت ومحمية تضم أكثر من 300 طائر وبركة أسماك وفواكه طازجة.",
+      "contact_and_booking": "هاتف: 966-50-577-8967",
+      "links": {
+        "source": {
+          "label": "خرائط جوجل",
+          "url": null
+        }
+      }
+    },
+    {
+      "id": 131,
+      "category_key": "farms_local_products",
+      "category_ar": "المزارع والمنتجات المحلية",
+      "name": "منتزه ومزرعة العمر الريفية",
+      "governorate": "المندق",
+      "type": "مزرعة رمان ومتنزه",
+      "rating": 4.3,
+      "reviews_count": 366,
+      "rating_raw": "4.3 (366 تقييم)",
+      "address": "المغثة، المندق 65758",
+      "description": "مزرعة رمان ريفية وجلسات عائلية ومناطق تنزه وألعاب أطفال.",
+      "contact_and_booking": "هاتف: 966-55-005-6665",
+      "links": {
+        "source": {
+          "label": "خرائط جوجل",
+          "url": null
+        }
+      }
+    },
+    {
+      "id": 132,
+      "category_key": "farms_local_products",
+      "category_ar": "المزارع والمنتجات المحلية",
+      "name": "مزرعة أرياف السياحية",
+      "governorate": "المخواة",
+      "type": "مزرعة سياحية متكاملة",
+      "rating": 4.7,
+      "reviews_count": 229,
+      "rating_raw": "4.7 (229 تقييم)",
+      "address": "شارع تحلية المياه، المخواة 65616",
+      "description": "مزرعة متكاملة بأشجار برية نادرة، حديقة طيور، عصير قصب سكر طازج من إنتاج المزرعة، مطعم ومقهى ومسبح أطفال.",
+      "contact_and_booking": "هاتف: 966-50-238-0759 (واتساب)",
+      "links": {
+        "source": {
+          "label": "خرائط جوجل",
+          "url": null
+        }
+      }
+    },
+    {
+      "id": 133,
+      "category_key": "farms_local_products",
+      "category_ar": "المزارع والمنتجات المحلية",
+      "name": "مزارع آل عباس للبن الشدوي",
+      "governorate": "المخواة (جبل شدا)",
+      "type": "مزرعة بن شدوي مختص",
+      "rating": 4.8,
+      "reviews_count": 28,
+      "rating_raw": "4.8 (28 تقييم)",
+      "address": "جبل شدا 65321",
+      "description": "مزارع عريقة تحتضن أشجار بن شدوي يزيد عمرها على 150 عاماً، وتنتج قهوة سعودية مختصة فاخرة.",
+      "contact_and_booking": "هاتف: 966-55-258-0064",
+      "links": {
+        "source": {
+          "label": "خرائط جوجل",
+          "url": null
+        }
+      }
+    },
+    {
+      "id": 134,
+      "category_key": "farms_local_products",
+      "category_ar": "المزارع والمنتجات المحلية",
+      "name": "مزرعة رمان وادي بيدة",
+      "governorate": "القرى",
+      "type": "مزرعة رمان تاريخية",
+      "rating": 4.0,
+      "reviews_count": 16,
+      "rating_raw": "4.0 (16 تقييم)",
+      "address": "وادي بطحان، بيدة 65788",
+      "description": "من أقدم مزارع الرمان في الباحة (تاريخ يمتد لأكثر من 60 عاماً) وتوفر متجراً إلكترونياً للطلب.",
+      "contact_and_booking": "هاتف: 966-55-833-9057 (واتساب)",
+      "links": {
+        "source": {
+          "label": "متجر رمان بيدة",
+          "url": "https://romanbedah.com/ar"
+        }
+      }
+    },
+    {
+      "id": 135,
+      "category_key": "farms_local_products",
+      "category_ar": "المزارع والمنتجات المحلية",
+      "name": "مزرعة الوالدين",
+      "governorate": "بلجرشي",
+      "type": "مزرعة وشتلات",
+      "rating": 3.8,
+      "reviews_count": 262,
+      "rating_raw": "3.8 (262 تقييم)",
+      "address": "المدان، بلجرشي 65628",
+      "description": "مزرعة محلية متنوعة الشتلات والفواكه تشتهر بكرم الضيافة الريفية والقهوة والشاي للزوار.",
+      "contact_and_booking": "دخول مجاني",
+      "links": {
+        "source": {
+          "label": "خرائط جوجل",
+          "url": null
+        }
+      }
+    },
+    {
+      "id": 136,
+      "category_key": "farms_local_products",
+      "category_ar": "المزارع والمنتجات المحلية",
+      "name": "عسل الباحة البلدي (مناحل ناصر الغامدي)",
+      "governorate": "بلجرشي",
+      "type": "عسل بلدي ومنتجات محلية",
+      "rating": 4.0,
+      "reviews_count": 163,
+      "rating_raw": "4.0 (163 تقييم)",
+      "address": "بلجرشي 65635",
+      "description": "متجر ومناحل معروفة لبيع عسل السدر والطلح والسمر الباحي الأصلي مع متجر إلكتروني وتوصيل.",
+      "contact_and_booking": "هاتف: 966-55-577-3430",
+      "links": {
+        "source": {
+          "label": "متجر عسل الباحة",
+          "url": "https://albahahoney.com/"
+        }
+      }
+    },
+    {
+      "id": 137,
+      "category_key": "farms_local_products",
+      "category_ar": "المزارع والمنتجات المحلية",
+      "name": "مناحل الأخوين للعسل",
+      "governorate": "مدينة الباحة",
+      "type": "عسل طبيعي ومستلزمات نحل",
+      "rating": 4.5,
+      "reviews_count": 87,
+      "rating_raw": "4.5 (87 تقييم)",
+      "address": "طريق الملك عبدالعزيز، وسط المدينة، الباحة 65522",
+      "description": "متجر متخصص في عسل السدر والطلح من مناحل الأخوين الخاصة مع متجر إلكتروني وتوصيل لمدن المملكة.",
+      "contact_and_booking": "هاتف: 966-50-191-3959 (واتساب)",
+      "links": {
+        "source": {
+          "label": "مناحل الأخوين",
+          "url": "https://m-alakhwyen.com/"
+        }
+      }
+    },
+    {
+      "id": 138,
+      "category_key": "farms_local_products",
+      "category_ar": "المزارع والمنتجات المحلية",
+      "name": "مناحل الجوري للعسل الطبيعي",
+      "governorate": "بلجرشي",
+      "type": "عسل طبيعي 100%",
+      "rating": 4.7,
+      "reviews_count": 31,
+      "rating_raw": "4.7 (31 تقييم)",
+      "address": "حي البركة، بلجرشي 65628",
+      "description": "متجر متخصص في العسل الطبيعي ومنتجات الخلية بتقييم عالٍ ومتجر إلكتروني للطلب والتوصيل.",
+      "contact_and_booking": "هاتف: 966-50-577-5551 (واتساب)",
+      "links": {
+        "source": {
+          "label": "مناحل الجوري",
+          "url": "https://honeyaljouri.com/"
+        }
+      }
+    },
+    {
+      "id": 139,
+      "category_key": "farms_local_products",
+      "category_ar": "المزارع والمنتجات المحلية",
+      "name": "مناحل خالد البقار",
+      "governorate": "بلجرشي",
+      "type": "عسل بلدي",
+      "rating": 4.3,
+      "reviews_count": 23,
+      "rating_raw": "4.3 (23 تقييم)",
+      "address": "بلجرشي 65635",
+      "description": "متجر لبيع العسل الباحي المحلي ومنتجات النحل في بلجرشي.",
+      "contact_and_booking": "هاتف: 966-50-458-3775",
+      "links": {
+        "source": {
+          "label": "خرائط جوجل",
+          "url": null
+        }
+      }
+    },
+    {
+      "id": 140,
+      "category_key": "travel_car_rentals",
+      "category_ar": "السفر وتأجير السيارات",
+      "name": "مطار الملك سعود بن عبدالعزيز (ABT)",
+      "governorate": "العقيق",
+      "type": "مطار إقليمي",
+      "rating": 3.9,
+      "reviews_count": 1674,
+      "rating_raw": "3.9 (1674 تقييم)",
+      "address": "محافظة العقيق 65916",
+      "description": "البوابة الجوية الرئيسية لمنطقة الباحة، يضم مكاتب تأجير السيارات، مقاهي، أجهزة صراف آلي، ومواقف سيارات.",
+      "contact_and_booking": "هاتف: 966-800-116-8888",
+      "links": {
+        "source": {
+          "label": "تجمع مطارات الثاني",
+          "url": "https://www.cluster2airports.sa/"
+        }
+      }
+    },
+    {
+      "id": 141,
+      "category_key": "travel_car_rentals",
+      "category_ar": "السفر وتأجير السيارات",
+      "name": "ذيب لتأجير السيارات",
+      "governorate": "العقيق",
+      "type": "تأجير سيارات بالمطار",
+      "rating": 4.1,
+      "reviews_count": 239,
+      "rating_raw": "4.1 (239 تقييم)",
+      "address": "صالة الوصول الداخلي، مطار الملك سعود",
+      "description": "شركة رائدة توفر أسطولاً متنوعاً من السيارات الاقتصادية والعائلية والدفع الرباعي المناسبة للطرق الجبلية.",
+      "contact_and_booking": "هاتف: 966-9200-00572 (واتساب)",
+      "links": {
+        "source": {
+          "label": "ذيب لتأجير السيارات",
+          "url": "https://www.theebonline.com/"
+        }
+      }
+    },
+    {
+      "id": 142,
+      "category_key": "travel_car_rentals",
+      "category_ar": "السفر وتأجير السيارات",
+      "name": "يلو لتأجير السيارات (الوفاق)",
+      "governorate": "العقيق",
+      "type": "تأجير سيارات بالمطار",
+      "rating": 3.9,
+      "reviews_count": 339,
+      "rating_raw": "3.9 (339 تقييم)",
+      "address": "مطار الملك سعود، الصالة 1، العقيق",
+      "description": "خدمات استئجار سيارات وحجز فوري عبر التطبيق والموقع الإلكتروني بمختلف الفئات.",
+      "contact_and_booking": "هاتف: 966-800-100-0014",
+      "links": {
+        "source": {
+          "label": "يلو لتأجير السيارات",
+          "url": "https://www.iyelo.com/ar?utm_campaign=gmb&utm_id=AlBaha.AirPort.T1&utm_medium=organic&utm_source=google"
+        }
+      }
+    },
+    {
+      "id": 143,
+      "category_key": "travel_car_rentals",
+      "category_ar": "السفر وتأجير السيارات",
+      "name": "لومي لتأجير السيارات (Lumi)",
+      "governorate": "العقيق",
+      "type": "تأجير سيارات بالمطار",
+      "rating": 4.2,
+      "reviews_count": 73,
+      "rating_raw": "4.2 (73 تقييم)",
+      "address": "مطار الباحة، العقيق 65916",
+      "description": "أسطول سيارات حديثة (لا يتجاوز عمرها عامين) بأسعار تنافسية وخيارات دفع مرنة وحجز إلكتروني.",
+      "contact_and_booking": "هاتف: 966-9200-28428 (واتساب)",
+      "links": {
+        "source": {
+          "label": "لومي لتأجير السيارات",
+          "url": "https://lumirental.com/"
+        }
+      }
+    },
+    {
+      "id": 144,
+      "category_key": "travel_car_rentals",
+      "category_ar": "السفر وتأجير السيارات",
+      "name": "بدجت السعودية (Budget)",
+      "governorate": "العقيق",
+      "type": "تأجير سيارات بالمطار",
+      "rating": 4.1,
+      "reviews_count": 36,
+      "rating_raw": "4.1 (36 تقييم)",
+      "address": "مطار الباحة، العقيق 65916",
+      "description": "فرع شركة بدجت العالمية لتأجير السيارات للاستخدام السياحي والعائلي والتجاري.",
+      "contact_and_booking": "هاتف: 966-9200-04124 (واتساب)",
+      "links": {
+        "source": {
+          "label": "بدجت السعودية",
+          "url": "https://www.budgetsaudi.com/"
+        }
+      }
+    }
+  ]
+}

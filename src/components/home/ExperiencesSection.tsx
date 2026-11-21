@@ -2,42 +2,42 @@ import photoData from '@/data/photoData.json';
 
 interface ExperienceItem {
   href: string;
+  tone: 'nature' | 'heritage' | 'family';
   photoKey: 'mountainCover' | 'culture' | 'hussamCover';
   extraClass?: string;
   alt: string;
   kickerIcon: string;
   kicker: string;
-  title: string;
   action: string;
 }
 
 const EXPERIENCES: ExperienceItem[] = [
   {
     href: '#place/shada',
+    tone: 'nature',
     photoKey: 'mountainCover',
     alt: '',
     kickerIcon: '#i-mountain',
     kicker: 'طبيعة ومغامرة',
-    title: 'إلى قمم الباحة',
     action: 'اكتشف جبل شدا',
   },
   {
     href: '#place/ain',
+    tone: 'heritage',
     photoKey: 'culture',
     extraClass: 'experience-culture',
     alt: 'جدّة تضبط كمّ ثوب حفيدتها المطرّز وبجوارهما رجل بزيّ تراثي أمام بيت حجري',
     kickerIcon: '#i-heritage',
     kicker: 'تراث وثقافة',
-    title: 'الثقافة والتراث',
     action: 'اكتشف قرية ذي عين',
   },
   {
     href: '#place/hussam',
+    tone: 'family',
     photoKey: 'hussamCover',
     alt: '',
     kickerIcon: '#i-family',
-    kicker: 'تجربة عائلية',
-    title: 'يوم مع العائلة',
+    kicker: 'تجارب عائلية',
     action: 'اكتشف منتزه الأمير حسام',
   },
 ];
@@ -52,21 +52,35 @@ export function ExperiencesSection() {
         <rect width="100%" height="100%" fill="url(#experiences-engraving)" />
       </svg>
       <div className="container">
-        <div className="section-top reveal">
-          <div>
-            <div className="caption section-kicker">
-              <svg
-                className="section-mark"
-                viewBox="0 0 24 24"
-                aria-hidden="true"
-                focusable="false"
-              >
-                <use href="#i-section-experiences" width="24" height="24" />
-              </svg>
-              <span>تجارب الباحة</span>
+        <div className="section-top experiences-top reveal">
+          <div className="experiences-intro">
+            <h2 className="experiences-heading">
+              <span className="experiences-heading-icon" aria-hidden="true">
+                <svg className="section-mark" viewBox="0 0 24 24" focusable="false">
+                  <use href="#i-section-experiences" width="24" height="24" />
+                </svg>
+              </span>
+              <span>عِش المتعة في منطقة الباحة</span>
+            </h2>
+            <div className="exp-cat-strip" role="navigation" aria-label="تصنيفات تجارب الباحة">
+              {EXPERIENCES.map((item) => (
+                <a
+                  key={`cat-${item.tone}`}
+                  href={item.href}
+                  className="exp-cat-card"
+                  data-exp-tone={item.tone}
+                >
+                  <span className="exp-cat-icon" aria-hidden="true">
+                    <svg className="ic tiny">
+                      <use href={item.kickerIcon} />
+                    </svg>
+                  </span>
+                  <span className="exp-cat-text">
+                    <strong>{item.kicker}</strong>
+                  </span>
+                </a>
+              ))}
             </div>
-            <h2>مسارات وتجارب منطقة الباحة</h2>
-            <p className="lead">طبيعة وتراث وتجارب للعائلة.</p>
           </div>
         </div>
         <div className="experience-grid">
@@ -74,6 +88,7 @@ export function ExperiencesSection() {
             <a
               key={item.href + item.photoKey}
               className={`experience ${item.extraClass ? `${item.extraClass} ` : ''}scenic-card reveal`}
+              data-exp-tone={item.tone}
               href={item.href}
             >
               <img
@@ -85,13 +100,12 @@ export function ExperiencesSection() {
                 decoding="async"
               />
               <div className="scenic-copy">
-                <span className="card-kicker">
+                <h3 className="card-kicker" data-exp-tone={item.tone}>
                   <svg className="ic tiny" aria-hidden="true">
                     <use href={item.kickerIcon} />
                   </svg>{' '}
                   {item.kicker}
-                </span>
-                <h3>{item.title}</h3>
+                </h3>
                 <span className="card-action">
                   {item.action}{' '}
                   <svg className="ic tiny" aria-hidden="true">

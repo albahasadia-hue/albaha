@@ -10,9 +10,9 @@ const MENU_LINKS: MenuLink[] = [
   { href: '#experiences', label: 'التجارب', icon: '#i-nav-experience' },
   { href: '#destinations', label: 'الوجهات', icon: '#i-nav-destination' },
   { href: '#guide', label: 'الدليل', icon: '#i-nav-guide', isGuide: true },
+  { href: '#invest', label: 'الاستثمار', icon: '#i-nav-invest' },
   { href: '#planner', label: 'خطّط رحلتك', icon: '#i-route' },
   { href: '#visit-season', label: 'أجواء الزيارة', icon: '#i-weather' },
-  { href: '#faq', label: 'الأسئلة الشائعة', icon: '#i-foot-faq' },
 ];
 
 export function MenuDialog() {

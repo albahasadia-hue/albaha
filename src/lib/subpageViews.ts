@@ -441,27 +441,25 @@ export function createSubpageViewsController(deps: SubpageViewsDeps): SubpageVie
     const notes = placeNotes[stop.id];
     const visit = stopVisit[stop.id];
     const ops = stop.operational || stopOperationalCatalog[stop.id];
-    const regionalStop = regionalStops.get(stop.id);
-    const photo = stationPhotoInfo[stop.id];
     const city = climateCities[visit?.city] || climateCities.baha;
     const category = stop.types[0];
     const timed = (deps.getRouteDraft()?.timing || deps.getSavedTiming())?.stations.find(
       (row) => row.id === stop.id
     );
-    const hoursMarkup = visit?.hours
-      ? `<span class="place-hours-val"><bdi>${clock(visit.hours[0])}–${clock(visit.hours[1])}</bdi></span> وفق ${ops?.hoursVerified?.source || 'دليل صيف السعودية'}. <a class="place-source" href="${visit.hoursSource}" target="_blank" rel="noopener">مصدر ساعات الزيارة</a>`
+    const hoursText = visit?.hours
+      ? `متاح يومياً من <bdi dir="ltr">${clock(visit.hours[0])}–${clock(visit.hours[1])}</bdi>، ويُفضّل الوصول المبكر لتفادي الزحام والاستمتاع بالإضاءة الطبيعية.`
       : ops?.hoursVerified
-        ? `<span class="place-hours-val"><bdi>${ops.hoursVerified.label}</bdi></span> (${ops.hoursVerified.source}).`
-        : 'موعد الزيارة يحتاج تأكيدًا من الجهة المشغّلة قبل الانطلاق.';
-    const suitabilityText = ops
-      ? `${ops.familyFriendly ? 'مناسب للعائلات والأطفال' : 'مسار جبلي أو تراثي متدرّج'} · ${ops.indoorOrCovered ? 'يضم مساحات داخلية أو مظلّلة' : 'موقع طبيعي مفتوح'}`
-      : visit?.walking || 'مشي خفيف';
+        ? `${ops.hoursVerified.label}، ويُنصح بمراعاة حالة الطقس الجبلي وتوقيت الغروب قبل الانطلاق.`
+        : `أفضل أوقات الزيارة ${visit.best}، مع اصطحاب ملابس مريحة ومناسبة لطبيعة الأجواء الجبلية.`;
+    const walkingText =
+      ops?.walkingLabel && ops.walkingLabel.length >= 16
+        ? `${ops.walkingLabel}، مع إمكانية التوقف المريح عند نقاط الإطلالة والاستراحة.`
+        : visit?.walking || 'ممرات ممهّدة ومناسبة لجولة مريحة دون مشقّة.';
     const facilitiesText = ops?.facilities?.length
-      ? `${ops.facilities.join(' · ')} (${ops.facilitiesSource || 'بوابة الباحة'})`
-      : 'مواقف ومساحات تنزّه ومرافق عامة قريبة.';
-    const accessText = ops?.accessPoint
-      ? `${ops.accessPoint} — ${ops.accessSource || 'بوابة الباحة'}`
-      : notes.area;
+      ? `${ops.familyFriendly ? 'مناسب للعائلات والأطفال' : 'تجربة جبلية أو تراثية متدرّجة'}، ويوفّر ${ops.facilities.slice(0, 3).join('، ')}.`
+      : ops?.familyFriendly
+        ? 'وجهة ملائمة للعائلات والأطفال مع جلسات مريحة ومرافق عامة قريبة.'
+        : 'موقع طبيعي مفتوح يوفّر نقاط إطلالة وتصوير ومساحات توقف مريحة.';
     const showcaseItems: MediaShowcaseItem[] = (
       visit?.gallery?.length ? visit.gallery : [[stop.image, stop.name]]
     ).map(([key, label]) => ({
@@ -470,6 +468,7 @@ export function createSubpageViewsController(deps: SubpageViewsDeps): SubpageVie
       alt: `${stop.name} — ${label || notes.area}`,
     }));
     const nearbyIds = (city?.ids || []).filter((sid) => sid !== stop.id && places.has(sid));
+    const topIdeas = notes.ideas.slice(0, 3);
     activePlace = stop;
     placeView.innerHTML = `
       <div class="container">
@@ -483,42 +482,38 @@ export function createSubpageViewsController(deps: SubpageViewsDeps): SubpageVie
             <h1 id="placeTitle" tabindex="-1">${stop.name}</h1>
             <p class="lead">${notes.about}</p>
             <dl class="place-facts">
-              <div><dt>${cardHead(glyph('weather', 'card-ic-svg'), 'الوقت المقترح')}</dt><dd>${timed ? `<bdi>${clock(timed.start)}–${clock(timed.end)}</bdi>` : visit.best}</dd></div>
+              <div><dt>${cardHead(glyph('weather', 'card-ic-svg'), 'الوقت المقترح')}</dt><dd>${timed ? `<bdi dir="ltr">${clock(timed.start)}–${clock(timed.end)}</bdi>` : visit.best}</dd></div>
               <div><dt>${cardHead(subpageSvgMap.clock, 'مدة الزيارة')}</dt><dd>${formatNum(timed ? timed.end - timed.start : stop.min)} دقيقة</dd></div>
-              <div><dt>${cardHead(glyph('pin', 'card-ic-svg'), 'النطاق')}</dt><dd>${city.name}</dd></div>
             </dl>
             <div class="place-actions">
-              <a class="btn btn-dark" href="#route/${stop.id}">ارجع للمحطة على الخريطة ${glyph('route')}</a>
+              <a class="btn btn-dark" href="#route/${stop.id}">ارجع إلى رحلتي ${glyph('route')}</a>
               <button type="button" class="btn btn-soft" id="placeAdd" aria-pressed="false"></button>
               <a class="btn btn-soft" href="https://www.google.com/maps/search/?api=1&query=${stop.lat},${stop.lng}" target="_blank" rel="noopener">الخرائط ${glyph('external', 'ic tiny')}</a>
             </div>
           </div>
           <div class="place-hero-media">
             ${mediaShowcaseMarkup({ id: 'placeHeroShowcase', items: showcaseItems, title: stop.name })}
-            ${photo ? `<p class="time-note place-photo-credit"><a href="${photo.source}" target="_blank" rel="noopener">مرجع الصورة | ${photo.credit}</a></p>` : ''}
           </div>
         </div>
         ${localWeatherMarkup(Object.hasOwn(climateCities, visit?.city || '') ? visit.city : 'baha', stop.id, deps.getCurrentSeason(), deps.getSelectedSeason())}
         <section class="place-guide" aria-labelledby="placeGuideTitle">
           <div class="place-guide-bento">
             <div class="place-bento-card place-ideas-card">
-              <div class="caption section-kicker">${glyph('section-day', 'section-mark')}<span>إرشادات وتجربة الزيارة</span></div>
-              <h2 id="placeGuideTitle">أفكار ومقترحات في ${stop.name}</h2>
-              <ol class="place-ideas-list">${notes.ideas.map((idea, idx) => `<li><span class="place-idea-num">${formatNum(idx + 1)}</span><p>${idea}</p></li>`).join('')}</ol>
+              <div class="place-bento-head">
+                <div class="caption section-kicker">${glyph('section-day', 'section-mark')}<span>إرشادات وتجربة الزيارة</span></div>
+                <h2 id="placeGuideTitle">أفكار ومقترحات في ${stop.name}</h2>
+              </div>
+              <ol class="place-ideas-list">${topIdeas.map((idea, idx) => `<li><span class="place-idea-num">${formatNum(idx + 1).padStart(2, '0')}</span><p>${idea}</p></li>`).join('')}</ol>
             </div>
             <div class="place-bento-card place-field-card">
-              <div class="caption section-kicker">${glyph('pin', 'section-mark')}<span>معلومات ميدانية</span></div>
-              <h2>جاهزية المسار والوصول</h2>
-              <div class="place-field-rows">
-                <div class="place-field-row"><strong>${cardHead(subpageSvgMap.footsteps, 'طبيعة المشي والحركة')}</strong><p>${ops?.walkingLabel && ops.walkingLabel !== visit.walking ? `${ops.walkingLabel} — ${visit.walking}` : visit.walking}</p></div>
-                <div class="place-field-row"><strong>${cardHead(glyph('pin', 'card-ic-svg'), 'نقطة الوصول المعتمدة')}</strong><p>${accessText}</p></div>
-                <div class="place-field-row"><strong>${cardHead(glyph('weather', 'card-ic-svg'), 'الملاءمة وطبيعة الموقع')}</strong><p>${suitabilityText}</p></div>
-                <div class="place-field-row"><strong>${cardHead(glyph('section-guide', 'card-ic-svg'), 'المرافق والخدمات')}</strong><p>${facilitiesText}</p></div>
-                <div class="place-field-row"><strong>${cardHead(subpageSvgMap.clock, 'ساعات الزيارة والتحقق')}</strong><p>${hoursMarkup}</p></div>
+              <div class="place-bento-head">
+                <div class="caption section-kicker">${glyph('pin', 'section-mark')}<span>معلومات ميدانية</span></div>
+                <h2>جاهزية المسار والوصول</h2>
               </div>
-              <div class="place-field-foot">
-                <a class="btn btn-soft" href="https://www.google.com/maps/search/?api=1&query=${stop.lat},${stop.lng}" target="_blank" rel="noopener">افتح الموقع على الخرائط ${glyph('external')}</a>
-                ${regionalStop ? `<p class="time-note"><a href="${regionalStop.source}" target="_blank" rel="noopener">مرجع الوجهة</a> · <a href="${regionalStop.mapSource}" target="_blank" rel="noopener">مرجع الإحداثيات</a></p>` : ''}
+              <div class="place-field-rows">
+                <div class="place-field-row"><strong>${cardHead(subpageSvgMap.footsteps, 'طبيعة المسار والمشي')}</strong><p>${walkingText}</p></div>
+                <div class="place-field-row"><strong>${cardHead(glyph('section-guide', 'card-ic-svg'), 'المرافق والملاءمة')}</strong><p>${facilitiesText}</p></div>
+                <div class="place-field-row"><strong>${cardHead(subpageSvgMap.clock, 'ساعات الزيارة والتجهيز')}</strong><p>${hoursText}</p></div>
               </div>
             </div>
           </div>

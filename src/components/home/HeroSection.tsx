@@ -7,7 +7,7 @@ export function HeroSection() {
         <video
           id="heroVideo"
           className="hero-video is-active"
-          src="/hero.mp4"
+          src="/hero.mp4?v=2"
           muted
           loop
           playsInline

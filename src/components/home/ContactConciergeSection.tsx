@@ -9,14 +9,14 @@ export function ContactConciergeSection() {
             <span className="guide-section-badge" aria-hidden="true">
               <GuideCharacter decorative size={20} className="guide-section-avatar" />
             </span>
-            <span>المرشد السياحي الذكي</span>
+            <span>المرشد الذكي</span>
           </div>
-          <h2>المرشد السياحي الذكي</h2>
-          <p className="lead">اسأل المرشد عن الوجهات والطقس، وخطّط لزيارتك.</p>
+          <h2>المرشد الذكي</h2>
+          <p className="lead">اسأل المرشد عن الوجهات والمبيت والمطاعم، وخطّط لرحلتك في الباحة.</p>
         </div>
         <div className="action-row">
           <button type="button" className="btn btn-dark" data-open="agent">
-            اسأل المرشد{' '}
+            افتح المرشد الذكي{' '}
             <svg className="ic" aria-hidden="true">
               <use href="#i-arrow" />
             </svg>

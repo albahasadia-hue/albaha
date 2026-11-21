@@ -17,8 +17,8 @@ import { GallerySection } from '@/components/home/GallerySection';
 import { VisitGuideSection } from '@/components/home/VisitGuideSection';
 import { VisitSeasonSection } from '@/components/home/VisitSeasonSection';
 import { TripPlannerSection } from '@/components/home/TripPlannerSection';
-import { ContactConciergeSection } from '@/components/home/ContactConciergeSection';
 import { AppPromoSection } from '@/components/home/AppPromoSection';
+import { FaqTeaserSection } from '@/components/home/FaqTeaserSection';
 import { DynamicSubViews } from '@/components/views/DynamicSubViews';
 import { SirajLauncher } from '@/components/overlays/SirajLauncher';
 import { MenuDialog } from '@/components/overlays/MenuDialog';
@@ -32,7 +32,7 @@ import { ToastBanner } from '@/components/overlays/ToastBanner';
  * the portal's StrictMode-safe imperative runtime on hydration.
  */
 interface AlBahaPortalClientProps {
-  initialView?: 'home' | 'faq';
+  initialView?: 'home' | 'faq' | 'invest';
 }
 
 export function AlBahaPortalClient({ initialView = 'home' }: AlBahaPortalClientProps) {
@@ -46,20 +46,22 @@ export function AlBahaPortalClient({ initialView = 'home' }: AlBahaPortalClientP
       <SkipLink />
       <SiteHeader />
       <main id="content">
-        <div id="homeView" hidden={initialView === 'faq'}>
+        <div id="homeView" hidden={initialView !== 'home'}>
           <HeroSection />
           <DiscoverIntroSection />
-          <OfficialPortalSection />
           <ExperiencesSection />
           <DestinationsCarouselSection />
+          <TripPlannerSection />
           <DestinationDirectorySection />
           <StorySection />
           <GallerySection />
           <VisitGuideSection />
           <VisitSeasonSection />
-          <TripPlannerSection />
-          <ContactConciergeSection />
           <AppPromoSection />
+          <div className="official-faq-band">
+            <OfficialPortalSection />
+            <FaqTeaserSection />
+          </div>
         </div>
         <DynamicSubViews initialView={initialView} />
       </main>

@@ -57,10 +57,10 @@ import { bindSwipe } from './portalHelpers';
 import { forecast, localTime, weatherNames } from './weatherAndShowcase';
 import { createTripPdf, saveTripFile } from './tripPdfExport';
 import {
-  createConciergeController,
   routeTimingValid,
   timedSchedule,
 } from './conciergeEngine';
+import { createSmartGuideUiController } from './smartGuideUiController';
 import { bindCityReel, createSubpageViewsController } from './subpageViews';
 import { createTourGuideController } from './tourGuideController';
 import { FAQ_ITEMS } from '@/data/faqData';
@@ -79,7 +79,7 @@ import {
   waitForMapReady,
 } from './guidePresence';
 
-export function initAlBahaPortal(initialView: 'home' | 'faq' = 'home'): () => void {
+export function initAlBahaPortal(initialView: 'home' | 'faq' | 'invest' = 'home'): () => void {
   if (typeof window === 'undefined' || typeof document === 'undefined') {
     return () => {};
   }
@@ -102,6 +102,7 @@ export function initAlBahaPortal(initialView: 'home' | 'faq' = 'home'): () => vo
   const placeView = byId('placeView');
   const tourGuideView = byId('tourGuideView');
   const faqView = byId('faqView');
+  const investView = byId('investView');
 
   if (!region || !days || !routeStage || !terrainSvg || !mapPanel || !streetMap) {
     return () => masterController.abort();
@@ -129,7 +130,8 @@ export function initAlBahaPortal(initialView: 'home' | 'faq' = 'home'): () => vo
     missingCoordinates: boolean;
   } | null = null;
   let isDockingFromConcierge = false;
-  let conciergeRef: ReturnType<typeof createConciergeController> | null = null;
+  let conciergeRef: ReturnType<typeof createSmartGuideUiController> | null = null;
+  let lastAgentOpener: HTMLElement | null = null;
   let zoom = 1;
   let toastTimer = 0;
   let didWarnStorage = false;
@@ -422,23 +424,65 @@ export function initAlBahaPortal(initialView: 'home' | 'faq' = 'home'): () => vo
     { signal }
   );
 
-  // Panels (Menu, Search, Concierge)
-  function openPanel(name: string): void {
+  // Panels (Menu, Search, Smart Guide Drawer)
+  function syncSmartGuideViewport(): void {
+    const agentPanel = byId<HTMLDialogElement>('agentPanel');
+    if (!agentPanel || !agentPanel.open) return;
+    const vv = window.visualViewport;
+    if (vv && window.innerWidth <= 768) {
+      agentPanel.style.setProperty('--sg-vvh', `${Math.round(vv.height)}px`);
+      agentPanel.style.setProperty('--sg-vvt', `${Math.max(0, Math.round(vv.offsetTop))}px`);
+    } else {
+      agentPanel.style.removeProperty('--sg-vvh');
+      agentPanel.style.removeProperty('--sg-vvt');
+    }
+  }
+
+  function openPanel(name: string, opener?: HTMLElement | null): void {
     const panel = byId<HTMLDialogElement>(`${name}Panel`);
     if (!panel) return;
-    const current = document.querySelector<HTMLDialogElement>('dialog[open]');
-    if (current === panel) return;
-    current?.close();
-    panel.showModal();
-    document.documentElement.classList.add('has-dialog');
-    if (name === 'search') byId('searchInput')?.focus({ preventScroll: true });
+    if (panel.open) {
+      if (name === 'agent') {
+        byId('conciergeInput')?.focus({ preventScroll: true });
+      }
+      return;
+    }
+    qsAll<HTMLDialogElement>('dialog[open]').forEach((d) => {
+      if (d !== panel) d.close();
+    });
+
     if (name === 'agent') {
+      lastAgentOpener =
+        opener ||
+        (document.activeElement instanceof HTMLElement ? document.activeElement : null) ||
+        byId('sirajLauncher');
       activeDockKind = 'none';
+      panel.show();
+      document.documentElement.classList.add('has-smart-guide');
+      if (window.innerWidth <= 768) {
+        document.documentElement.classList.add('has-dialog');
+      } else {
+        window.setTimeout(() => {
+          if (!signal.aborted) window.dispatchEvent(new Event('resize'));
+        }, 260);
+      }
       syncSingleAvatarPresence('dialog');
+      syncSmartGuideViewport();
       const siraj = byId('sirajLauncher');
       if (siraj) siraj.dataset.greeted = '';
       conciergeRef?.refreshContextUi();
+      const prefersTouch = window.matchMedia('(pointer: coarse)').matches && window.innerWidth <= 768;
+      if (prefersTouch) {
+        byId('conciergeCloseBtn')?.focus({ preventScroll: true });
+      } else {
+        byId('conciergeInput')?.focus({ preventScroll: true });
+      }
+      return;
     }
+
+    panel.showModal();
+    document.documentElement.classList.add('has-dialog');
+    if (name === 'search') byId('searchInput')?.focus({ preventScroll: true });
   }
 
   qsAll<HTMLDialogElement>('dialog').forEach((dialog) => {
@@ -453,24 +497,67 @@ export function initAlBahaPortal(initialView: 'home' | 'faq' = 'home'): () => vo
     dialog.addEventListener(
       'close',
       () => {
-        if (!document.querySelector('dialog[open]')) {
-          document.documentElement.classList.remove('has-dialog');
-        }
         if (dialog.id === 'agentPanel') {
+          document.documentElement.classList.remove('has-smart-guide');
+          dialog.style.removeProperty('--sg-vvh');
+          dialog.style.removeProperty('--sg-vvt');
+          if (window.innerWidth > 768) {
+            window.setTimeout(() => {
+              if (!signal.aborted) window.dispatchEvent(new Event('resize'));
+            }, 260);
+          }
+          if (!document.querySelector('dialog[open]')) {
+            document.documentElement.classList.remove('has-dialog');
+          }
           if (activeDockKind === 'none') {
             syncSingleAvatarPresence('floating');
           }
+          const restoreTarget =
+            lastAgentOpener && lastAgentOpener.isConnected && !lastAgentOpener.hidden
+              ? lastAgentOpener
+              : byId('sirajLauncher');
+          lastAgentOpener = null;
+          window.requestAnimationFrame(() => {
+            if (!signal.aborted && restoreTarget && restoreTarget.isConnected) {
+              restoreTarget.focus({ preventScroll: true });
+            }
+          });
+          return;
+        }
+        if (!document.querySelector('dialog[open]')) {
+          document.documentElement.classList.remove('has-dialog');
         }
       },
       { signal }
     );
   });
 
+  // Escape closes non-modal Smart Guide panel cleanly and restores focus to opener
+  document.addEventListener(
+    'keydown',
+    (event) => {
+      if (event.key !== 'Escape') return;
+      const agentPanel = byId<HTMLDialogElement>('agentPanel');
+      if (agentPanel?.open) {
+        event.preventDefault();
+        agentPanel.close();
+      }
+    },
+    { signal }
+  );
+
+  // Mobile keyboard viewport adaptation
+  if (typeof window !== 'undefined' && window.visualViewport) {
+    window.visualViewport.addEventListener('resize', syncSmartGuideViewport, { signal });
+    window.visualViewport.addEventListener('scroll', syncSmartGuideViewport, { signal });
+  }
+  window.addEventListener('resize', syncSmartGuideViewport, { passive: true, signal });
+
   qsAll<HTMLElement>('[data-open]').forEach((button) =>
     button.addEventListener(
       'click',
       () => {
-        if (button.dataset.open) openPanel(button.dataset.open);
+        if (button.dataset.open) openPanel(button.dataset.open, button);
       },
       { signal }
     )
@@ -1684,6 +1771,74 @@ export function initAlBahaPortal(initialView: 'home' | 'faq' = 'home'): () => vo
       seasonCity.href = `#city/${cityKey}`;
       seasonCity.innerHTML = `أجواء ${city.name} ${glyph('arrow', 'ic tiny')}`;
     }
+    const seasonFacts = byId('seasonFacts');
+    if (seasonFacts) {
+      const factProfiles: Record<
+        string,
+        Record<SeasonKey, { temp: string; elevation: string; attire: string; bestFor: string }>
+      > = {
+        baha: {
+          spring: {
+            temp: '15° – 25°م',
+            elevation: '2,200 م · مرتفعات السراة',
+            attire: 'سترة خفيفة للمساء وحذاء مشي',
+            bestFor: 'غابة رغدان والمدرجات والشلالات',
+          },
+          summer: {
+            temp: '17° – 28°م',
+            elevation: '2,200 م · نسيم جبلي معتدل',
+            attire: 'ملابس قطنية مع جاكيت خفيف ليلاً',
+            bestFor: 'متنزه الأمير حسام والضباب المسائي',
+          },
+          autumn: {
+            temp: '13° – 23°م',
+            elevation: '2,200 م · أجواء صافية',
+            attire: 'معطف خفيف خصوصاً بعد الغروب',
+            bestFor: 'الأسواق التراثية والمطلات الجبلية',
+          },
+          winter: {
+            temp: '8° – 18°م',
+            elevation: '2,200 م · برودة جبلية وضباب',
+            attire: 'ملابس شتوية دافئة ومظلة للضباب',
+            bestFor: 'المقاهي المطلة والجولات الصباحية',
+          },
+        },
+        makhwah: {
+          spring: {
+            temp: '22° – 33°م',
+            elevation: '450 م · أودية تهامة',
+            attire: 'ملابس خفيفة وقبعة وماء للشرب',
+            bestFor: 'قرية ذي عين ومزارع الموز',
+          },
+          summer: {
+            temp: '27° – 39°م',
+            elevation: '450 م · دفء نهاري مرتفع',
+            attire: 'زيارة صباحية أو مسائية وواقي شمس',
+            bestFor: 'القرى الحجرية قبيل الغروب',
+          },
+          autumn: {
+            temp: '23° – 34°م',
+            elevation: '450 م · اعتدال تدريجي',
+            attire: 'ملابس خفيفة وحذاء ثابت للصخور',
+            bestFor: 'جبل شدا الأسفل والبن الشدوي',
+          },
+          winter: {
+            temp: '18° – 28°م',
+            elevation: '450 م · مشتى دافئ ومثالي',
+            attire: 'ملابس ربيعية مريحة طوال اليوم',
+            bestFor: 'ذي عين وشدا الأعلى والتخييم الشتوي',
+          },
+        },
+      };
+      const profile = (factProfiles[cityKey] || factProfiles.baha)[key];
+      const tempRange = profile.temp.replace('°م', '°');
+      seasonFacts.innerHTML = `
+        <div class="season-fact-card"><dt>متوسط الحرارة</dt><dd><bdi dir="ltr">${tempRange}</bdi> م</dd></div>
+        <div class="season-fact-card"><dt>الارتفاع والطبيعة</dt><dd>${profile.elevation}</dd></div>
+        <div class="season-fact-card"><dt>اللباس المقترح</dt><dd>${profile.attire}</dd></div>
+        <div class="season-fact-card"><dt>الأنسب للزيارة</dt><dd>${profile.bestFor}</dd></div>
+      `;
+    }
     if (motionAllowed()) {
       for (const el of [byId('seasonName'), seasonMonths, seasonTip]) {
         if (!el) continue;
@@ -2078,54 +2233,186 @@ export function initAlBahaPortal(initialView: 'home' | 'faq' = 'home'): () => vo
     { once: true }
   );
 
+  const manualDays = new Map<string, number>();
+  let manualOrder: string[] = [];
+  let hasManualDayEdits = false;
+  let activeEditDay: number | null = null;
+  let draggedStopId: string | null = null;
+  const openDays = new Set<number>();
+
+  function snapshotCurrentDaysToManual(): void {
+    if (hasManualDayEdits) return;
+    const current = scheduleTrip();
+    manualDays.clear();
+    manualOrder = [];
+    for (const row of current.stations) {
+      manualDays.set(row.id, row.day);
+      manualOrder.push(row.id);
+    }
+    hasManualDayEdits = true;
+  }
+
+  function assignDefaultDayForStop(stopId: string, totalDays: number): number {
+    if (activeEditDay && activeEditDay >= 1 && activeEditDay <= totalDays) {
+      return activeEditDay;
+    }
+    const existing = manualDays.get(stopId);
+    if (existing && existing >= 1 && existing <= totalDays) return existing;
+    const counts = new Map<number, number>();
+    for (let d = 1; d <= totalDays; d += 1) counts.set(d, 0);
+    for (const [id, d] of manualDays.entries()) {
+      if (choices.has(id) && d >= 1 && d <= totalDays) {
+        counts.set(d, (counts.get(d) || 0) + 1);
+      }
+    }
+    let minDay = 1;
+    let minCount = Number.POSITIVE_INFINITY;
+    for (let d = 1; d <= totalDays; d += 1) {
+      const c = counts.get(d) || 0;
+      if (c < minCount) {
+        minCount = c;
+        minDay = d;
+      }
+    }
+    return minDay;
+  }
+
+  function moveStopToDay(stopId: string, targetDay: number, beforeStopId?: string): void {
+    const totalDays = Math.max(1, Number(days?.value || 1));
+    const clampedDay = Math.max(1, Math.min(totalDays, targetDay));
+    if (!choices.has(stopId)) return;
+    snapshotCurrentDaysToManual();
+    manualDays.set(stopId, clampedDay);
+    manualOrder = manualOrder.filter((id) => id !== stopId);
+    if (beforeStopId && beforeStopId !== stopId && manualOrder.includes(beforeStopId)) {
+      const insertAt = manualOrder.indexOf(beforeStopId);
+      manualOrder.splice(insertAt, 0, stopId);
+    } else {
+      manualOrder.push(stopId);
+    }
+    openDays.add(clampedDay);
+    approved = null;
+    savedTiming = null;
+    renderSummary();
+    const stop = places.get(stopId);
+    if (stop) toast(`نُقلت ${stop.name} إلى اليوم ${formatNum(clampedDay)}.`);
+  }
+
   function scheduleTrip(selection = choices, duration = days!.value) {
     if (selection === choices && savedTiming) {
       return { ...timedSchedule(savedTiming), unscheduled: [] as string[] };
     }
+    const totalDays = Math.max(1, Number(duration));
     const matching = stops.filter((stop) => selection.has(stop.id));
-    const list = matching.some((stop) => regionalStops.has(stop.id))
-      ? nearbyOrder(matching)
-      : matching;
-    const dayCount = Math.min(Number(duration), list.length);
-    let time = 9 * 60;
-    let day = 1;
-    let previous: StopBase | null = null;
-    const scheduled = [];
+    const useManual = selection === choices && hasManualDayEdits;
+
+    if (useManual) {
+      for (const id of Array.from(manualDays.keys())) {
+        if (!selection.has(id)) manualDays.delete(id);
+      }
+      manualOrder = manualOrder.filter((id) => selection.has(id));
+      for (const stop of matching) {
+        if (!manualOrder.includes(stop.id)) manualOrder.push(stop.id);
+        const curDay = manualDays.get(stop.id);
+        if (!curDay || curDay < 1 || curDay > totalDays) {
+          manualDays.set(stop.id, assignDefaultDayForStop(stop.id, totalDays));
+        }
+      }
+    }
+
+    const orderedMatching = useManual
+      ? [...matching].sort((a, b) => manualOrder.indexOf(a.id) - manualOrder.indexOf(b.id))
+      : matching.some((stop) => regionalStops.has(stop.id))
+        ? nearbyOrder(matching)
+        : matching;
+
+    const scheduled: Array<{
+      id: string;
+      name: string;
+      day: number;
+      start: number;
+      end: number;
+      drive_minutes: number | null;
+      drive_estimated: boolean;
+      visit_minutes: number;
+      latitude: number;
+      longitude: number;
+    }> = [];
     const unscheduled: string[] = [];
-    for (const [index, stop] of list.entries()) {
-      const plannedDay = Math.floor((index * dayCount) / list.length) + 1;
-      if (plannedDay > day) {
-        day = plannedDay;
-        time = 9 * 60;
-        previous = null;
+
+    if (useManual) {
+      const buckets = new Map<number, StopBase[]>();
+      for (let d = 1; d <= totalDays; d += 1) buckets.set(d, []);
+      for (const stop of orderedMatching) {
+        const d = Math.max(1, Math.min(totalDays, manualDays.get(stop.id) || 1));
+        buckets.get(d)?.push(stop);
       }
-      const hours = stopVisit[stop.id]?.hours;
-      const closing = Math.min(hours?.[1] ?? 1260, 1260);
-      let leg = previous ? tripLeg(previous, stop) : null;
-      let start = Math.max(hours?.[0] ?? 540, time + (leg ? leg.min + 15 : 0));
-      if (start + stop.min > closing && previous && day < dayCount) {
-        day += 1;
-        leg = null;
-        start = Math.max(hours?.[0] ?? 540, 540);
+      for (let d = 1; d <= totalDays; d += 1) {
+        const dayList = buckets.get(d) || [];
+        let time = 9 * 60;
+        let previous: StopBase | null = null;
+        for (const stop of dayList) {
+          const leg = previous ? tripLeg(previous, stop) : null;
+          const hours = stopVisit[stop.id]?.hours;
+          const start = previous
+            ? time + (leg ? leg.min + 15 : 15)
+            : Math.max(hours?.[0] ?? 540, 540);
+          time = start + stop.min;
+          scheduled.push({
+            id: stop.id,
+            name: stop.name,
+            day: d,
+            start,
+            end: time,
+            drive_minutes: leg?.min ?? null,
+            drive_estimated: Boolean(leg?.estimated),
+            visit_minutes: stop.min,
+            latitude: stop.lat,
+            longitude: stop.lng,
+          });
+          previous = stop;
+        }
       }
-      if (start + stop.min > closing) {
-        unscheduled.push(stop.name);
-        continue;
+    } else {
+      const dayCount = Math.min(totalDays, orderedMatching.length || 1);
+      let time = 9 * 60;
+      let day = 1;
+      let previous: StopBase | null = null;
+      for (const [index, stop] of orderedMatching.entries()) {
+        const plannedDay = Math.floor((index * dayCount) / orderedMatching.length) + 1;
+        if (plannedDay > day) {
+          day = plannedDay;
+          time = 9 * 60;
+          previous = null;
+        }
+        const hours = stopVisit[stop.id]?.hours;
+        const closing = Math.min(hours?.[1] ?? 1260, 1260);
+        let leg = previous ? tripLeg(previous, stop) : null;
+        let start = Math.max(hours?.[0] ?? 540, time + (leg ? leg.min + 15 : 0));
+        if (start + stop.min > closing && previous && day < dayCount) {
+          day += 1;
+          leg = null;
+          start = Math.max(hours?.[0] ?? 540, 540);
+        }
+        if (start + stop.min > closing) {
+          unscheduled.push(stop.name);
+          continue;
+        }
+        time = start + stop.min;
+        scheduled.push({
+          id: stop.id,
+          name: stop.name,
+          day,
+          start,
+          end: time,
+          drive_minutes: leg?.min ?? null,
+          drive_estimated: Boolean(leg?.estimated),
+          visit_minutes: stop.min,
+          latitude: stop.lat,
+          longitude: stop.lng,
+        });
+        previous = stop;
       }
-      time = start + stop.min;
-      scheduled.push({
-        id: stop.id,
-        name: stop.name,
-        day,
-        start,
-        end: time,
-        drive_minutes: leg?.min ?? null,
-        drive_estimated: Boolean(leg?.estimated),
-        visit_minutes: stop.min,
-        latitude: stop.lat,
-        longitude: stop.lng,
-      });
-      previous = stop;
     }
     return {
       stations: scheduled,
@@ -2139,30 +2426,95 @@ export function initAlBahaPortal(initialView: 'home' | 'faq' = 'home'): () => vo
     if (!region || !days) return;
     pickers.forEach((picker) => picker.sync());
     const plan = scheduleTrip();
-    const dayLabel = days.selectedOptions[0]?.textContent || '';
-    const regionLabel = region.selectedOptions[0]?.textContent || '';
-    const visit = plan.stations.length ? ` | زيارة ${durationLabel(plan.visit_minutes)}` : '';
-    const drive = plan.drive_minutes ? ` | قيادة ${durationLabel(plan.drive_minutes)}` : '';
-    const season = savedTiming?.season ? seasons[savedTiming.season]?.name : undefined;
-    const summaryMeta = byId('summaryMeta');
-    if (summaryMeta) {
-      summaryMeta.textContent = `${regionLabel} | ${dayLabel}${season ? ` | ${season}` : ''}${visit}${drive}`;
+    const totalDays = Math.max(1, Number(days.value));
+    if (activeEditDay && activeEditDay > totalDays) activeEditDay = totalDays;
+    for (const d of Array.from(openDays)) {
+      if (d > totalDays) openDays.delete(d);
     }
-    let lastDay = 0;
     const summaryStops = byId('summaryStops');
     if (summaryStops) {
-      summaryStops.innerHTML =
-        plan.stations
-          .map((stop) => {
-            const heading =
-              stop.day !== lastDay ? `<div class="summary-day">اليوم ${formatNum(stop.day)}</div>` : '';
-            lastDay = stop.day;
-            return `${heading}<div class="summary-item">
-        <span><b>${stop.name}</b> | <bdi>${clock(stop.start)}–${clock(stop.end)}</bdi>${stop.drive_estimated ? ` <small>· ${formatNum(stop.drive_minutes || 0)} د انتقال تقريبي</small>` : ''}</span>
-        <button type="button" data-remove="${stop.id}" aria-label="أزل ${stop.name}">${glyph('x', 'ic tiny')}</button>
-      </div>`;
+      if (!plan.stations.length) {
+        summaryStops.innerHTML =
+          '<p class="summary-empty-state">أضف المحطات من الخريطة أعلاه لتنظيم جدول أيام رحلتك، ويمكنك فتح أي يوم أو سحب المحطات بين الأيام بحرية.</p>';
+      } else {
+        const byDay = new Map<number, typeof plan.stations>();
+        for (const row of plan.stations) {
+          const list = byDay.get(row.day) || [];
+          list.push(row);
+          byDay.set(row.day, list);
+        }
+        const activeDayNumbers = Array.from(byDay.keys()).sort((a, b) => a - b);
+        const allDayNumbers = Array.from({ length: totalDays }, (_, i) => i + 1);
+        const trashIconSvg = `<svg class="ic tiny summary-trash-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg>`;
+        if (activeEditDay && !byDay.has(activeEditDay)) activeEditDay = null;
+        summaryStops.innerHTML = activeDayNumbers
+          .map((dayNum) => {
+            const dayStops = byDay.get(dayNum) || [];
+            const isEditingDay = activeEditDay === dayNum;
+            const isOpen = openDays.has(dayNum);
+            const panelId = `summaryDayPanel-${dayNum}`;
+            const daySpan = `<span class="summary-day-span"><bdi dir="ltr">${clock(dayStops[0].start)}–${clock(dayStops[dayStops.length - 1].end)}</bdi></span>`;
+            const editBtn = `<button type="button" class="summary-day-edit-btn${isEditingDay ? ' is-active' : ''}" data-edit-day="${dayNum}" aria-pressed="${isEditingDay}" aria-label="تعديل اليوم ${formatNum(dayNum)}" title="تعديل محطات اليوم ${formatNum(dayNum)}">
+              <svg class="ic tiny" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 1 1 3 3L7 19l-4 1 1-4Z"/></svg>
+            </button>`;
+
+            const stopsHtml = dayStops
+              .map((stop, idx) => {
+                const driveBadge =
+                  stop.drive_minutes && stop.drive_minutes > 0
+                    ? `<span class="summary-stop-drive">${glyph('car', 'ic tiny')} ${formatNum(stop.drive_minutes)} د</span>`
+                    : '';
+                const quickMoveHtml =
+                  activeEditDay !== null && totalDays > 1
+                    ? `<div class="summary-stop-move-bar" aria-label="نقل إلى يوم">
+                        ${allDayNumbers
+                          .map(
+                            (d) =>
+                              `<button type="button" class="summary-move-day-pill${d === dayNum ? ' is-current' : ''}" data-move-stop="${stop.id}" data-target-day="${d}" ${d === dayNum ? 'disabled' : ''}>ي${formatNum(d)}</button>`
+                          )
+                          .join('')}
+                      </div>`
+                    : '';
+                return `<article class="summary-stop-card" draggable="true" data-stop-id="${stop.id}" data-stop-day="${dayNum}">
+                  <div class="summary-stop-top">
+                    <span class="summary-drag-handle" aria-hidden="true" title="اسحب لنقل المحطة">
+                      <svg viewBox="0 0 12 16" width="10" height="14" fill="currentColor"><circle cx="3" cy="3" r="1.3"/><circle cx="9" cy="3" r="1.3"/><circle cx="3" cy="8" r="1.3"/><circle cx="9" cy="8" r="1.3"/><circle cx="3" cy="13" r="1.3"/><circle cx="9" cy="13" r="1.3"/></svg>
+                    </span>
+                    <span class="summary-stop-index">${formatNum(idx + 1)}</span>
+                    <strong class="summary-stop-name" title="${stop.name}">${stop.name}</strong>
+                    <button type="button" class="summary-stop-remove" data-remove="${stop.id}" aria-label="حذف ${stop.name}" title="حذف المحطة">${trashIconSvg}</button>
+                  </div>
+                  <div class="summary-stop-meta">
+                    <span class="summary-stop-time">${glyph('clock', 'ic tiny')} <bdi dir="ltr">${clock(stop.start)}–${clock(stop.end)}</bdi></span>
+                    <span class="summary-stop-metrics">
+                      <span class="summary-stop-dur">${formatNum(stop.visit_minutes)} د</span>
+                      ${driveBadge}
+                    </span>
+                  </div>
+                  ${quickMoveHtml}
+                </article>`;
+              })
+              .join('');
+
+            return `<section class="summary-day-card${isOpen ? ' is-open' : ''}${isEditingDay ? ' is-editing' : ''}" data-day="${dayNum}" aria-label="اليوم ${formatNum(dayNum)}">
+              <div class="summary-day-head">
+                <button type="button" class="summary-day-toggle" data-toggle-day="${dayNum}" aria-expanded="${isOpen}" aria-controls="${panelId}">
+                  <span class="summary-day-pill">اليوم ${formatNum(dayNum)}</span>
+                  <span class="summary-day-meta-inline">
+                    <span class="summary-day-count">${formatNum(dayStops.length)} ${dayStops.length === 1 ? 'محطة' : 'محطات'}</span>
+                    ${daySpan}
+                  </span>
+                  <svg class="ic tiny summary-day-chevron" aria-hidden="true"><use href="#i-chevron"/></svg>
+                </button>
+                ${editBtn}
+              </div>
+              <div id="${panelId}" class="summary-day-body" ${isOpen ? '' : 'hidden'}>
+                <div class="summary-day-stops">${stopsHtml}</div>
+              </div>
+            </section>`;
           })
-          .join('') || '<p>أضف المحطات من الخريطة لتظهر هنا مواعيد زيارتها.</p>';
+          .join('');
+      }
     }
     const warning = byId('summaryWarning');
     const unscheduled = plan.unscheduled || [];
@@ -2181,6 +2533,116 @@ export function initAlBahaPortal(initialView: 'home' | 'faq' = 'home'): () => vo
     if (downloadBtn) downloadBtn.hidden = !approved;
     renderTodayTripPanel(plan);
   }
+
+  // Collapsible day toggles + Drag-and-drop + day edit interactions (#summaryStops)
+  const summaryStopsEl = byId('summaryStops');
+  summaryStopsEl?.addEventListener(
+    'dragstart',
+    (event) => {
+      const card = (event.target instanceof Element ? event.target : null)?.closest<HTMLElement>(
+        '.summary-stop-card[data-stop-id]'
+      );
+      if (!card || !card.dataset.stopId) return;
+      draggedStopId = card.dataset.stopId;
+      card.classList.add('is-dragging');
+      if (event.dataTransfer) {
+        event.dataTransfer.effectAllowed = 'move';
+        event.dataTransfer.setData('text/plain', draggedStopId);
+      }
+    },
+    { signal }
+  );
+  summaryStopsEl?.addEventListener(
+    'dragover',
+    (event) => {
+      const dayCard = (event.target instanceof Element ? event.target : null)?.closest<HTMLElement>(
+        '.summary-day-card[data-day]'
+      );
+      if (!dayCard) return;
+      event.preventDefault();
+      if (event.dataTransfer) event.dataTransfer.dropEffect = 'move';
+      summaryStopsEl
+        .querySelectorAll<HTMLElement>('.summary-day-card.is-drop-target')
+        .forEach((el) => {
+          if (el !== dayCard) el.classList.remove('is-drop-target');
+        });
+      dayCard.classList.add('is-drop-target');
+    },
+    { signal }
+  );
+  summaryStopsEl?.addEventListener(
+    'dragleave',
+    (event) => {
+      const dayCard = (event.target instanceof Element ? event.target : null)?.closest<HTMLElement>(
+        '.summary-day-card[data-day]'
+      );
+      if (!dayCard) return;
+      const related = event.relatedTarget instanceof Node ? event.relatedTarget : null;
+      if (related && dayCard.contains(related)) return;
+      dayCard.classList.remove('is-drop-target');
+    },
+    { signal }
+  );
+  summaryStopsEl?.addEventListener(
+    'drop',
+    (event) => {
+      const targetEl = event.target instanceof Element ? event.target : null;
+      const dayCard = targetEl?.closest<HTMLElement>('.summary-day-card[data-day]');
+      if (!dayCard) return;
+      event.preventDefault();
+      dayCard.classList.remove('is-drop-target');
+      const stopId = draggedStopId || event.dataTransfer?.getData('text/plain') || '';
+      draggedStopId = null;
+      const targetDay = Number(dayCard.dataset.day);
+      if (!stopId || !targetDay) return;
+      const overStopCard = targetEl?.closest<HTMLElement>('.summary-stop-card[data-stop-id]');
+      moveStopToDay(stopId, targetDay, overStopCard?.dataset.stopId);
+    },
+    { signal }
+  );
+  summaryStopsEl?.addEventListener(
+    'dragend',
+    () => {
+      draggedStopId = null;
+      summaryStopsEl
+        .querySelectorAll('.is-dragging, .is-drop-target')
+        .forEach((el) => el.classList.remove('is-dragging', 'is-drop-target'));
+    },
+    { signal }
+  );
+  summaryStopsEl?.addEventListener(
+    'click',
+    (event) => {
+      const target = event.target instanceof Element ? event.target : null;
+      const toggleBtn = target?.closest<HTMLElement>('[data-toggle-day]');
+      if (toggleBtn?.dataset.toggleDay) {
+        const d = Number(toggleBtn.dataset.toggleDay);
+        if (openDays.has(d)) openDays.delete(d);
+        else openDays.add(d);
+        renderSummary();
+        return;
+      }
+      const editBtn = target?.closest<HTMLElement>('[data-edit-day]');
+      if (editBtn?.dataset.editDay) {
+        const d = Number(editBtn.dataset.editDay);
+        activeEditDay = activeEditDay === d ? null : d;
+        if (activeEditDay) {
+          snapshotCurrentDaysToManual();
+          openDays.add(activeEditDay);
+        }
+        renderSummary();
+        if (activeEditDay) {
+          toast(`وضع تعديل اليوم ${formatNum(activeEditDay)} مفعّل — اسحب المحطات أو أضف من الخريطة.`);
+        }
+        return;
+      }
+      const moveBtn = target?.closest<HTMLElement>('[data-move-stop][data-target-day]');
+      if (moveBtn?.dataset.moveStop && moveBtn.dataset.targetDay) {
+        moveStopToDay(moveBtn.dataset.moveStop, Number(moveBtn.dataset.targetDay));
+      }
+    },
+    { signal }
+  );
 
   function renderTodayTripPanel(plan: ReturnType<typeof scheduleTrip>): void {
     const panel = byId('todayTripPanel');
@@ -2265,6 +2727,7 @@ export function initAlBahaPortal(initialView: 'home' | 'faq' = 'home'): () => vo
 
   function rebuildRoute(): void {
     if (!region || !days) return;
+    byId('planner')?.setAttribute('data-trip-style', style);
     filterButtons.forEach((button) => {
       const active = button.dataset.style === style;
       button.classList.toggle('active', active);
@@ -2342,7 +2805,7 @@ export function initAlBahaPortal(initialView: 'home' | 'faq' = 'home'): () => vo
       routeDots.innerHTML = chosen
         .map(
           (stop, i) => `
-      <button type="button" data-station="${i}" aria-label="انتقل إلى ${stop.name}">${formatNum(i + 1)}</button>
+      <button type="button" data-station="${i}" aria-label="انتقل إلى ${stop.name}" title="${stop.name}"><svg class="ic station-dot-pin" aria-hidden="true"><use href="#i-pin"/></svg><span>${formatNum(i + 1)}</span></button>
     `
         )
         .join('');
@@ -2439,7 +2902,16 @@ export function initAlBahaPortal(initialView: 'home' | 'faq' = 'home'): () => vo
   byId('downloadTripPdf')?.addEventListener('click', () => void downloadTripPdf(), { signal });
 
   region.addEventListener('change', () => editTrip(true, true), { signal });
-  days.addEventListener('change', () => editTrip(true, true), { signal });
+  days.addEventListener(
+    'change',
+    () => {
+      hasManualDayEdits = false;
+      manualDays.clear();
+      activeEditDay = null;
+      editTrip(true, true);
+    },
+    { signal }
+  );
   filterButtons.forEach((button) =>
     button.addEventListener(
       'click',
@@ -2463,7 +2935,10 @@ export function initAlBahaPortal(initialView: 'home' | 'faq' = 'home'): () => vo
   ): void {
     activeDockKind = 'none';
     conciergeRef?.setActiveStopContext(stop.id, stop.operational?.guideId || null);
-    syncSingleAvatarPresence('floating');
+    const agentPanel = byId<HTMLDialogElement>('agentPanel');
+    if (!agentPanel?.open) {
+      syncSingleAvatarPresence('floating');
+    }
   }
 
   function toggleLockStop(stopId: string): boolean {
@@ -2590,8 +3065,11 @@ export function initAlBahaPortal(initialView: 'home' | 'faq' = 'home'): () => vo
     if (!stop) return;
     activeDockKind = 'none';
     const agentDialog = byId<HTMLDialogElement>('agentPanel');
-    if (agentDialog?.open) agentDialog.close();
-    document.documentElement.classList.remove('has-dialog');
+    if (agentDialog?.open && window.innerWidth <= 768) {
+      agentDialog.close();
+      document.documentElement.classList.remove('has-dialog');
+      document.documentElement.classList.remove('has-smart-guide');
+    }
 
     if (homeView?.hidden) {
       window.location.hash = 'planner';
@@ -2769,10 +3247,28 @@ export function initAlBahaPortal(initialView: 'home' | 'faq' = 'home'): () => vo
   toggleStopFn = (stop: StopBase) => {
     if (choices.has(stop.id)) {
       choices.delete(stop.id);
+      manualDays.delete(stop.id);
+      manualOrder = manualOrder.filter((id) => id !== stop.id);
       toast(`أُزيلت ${stop.name} من الرحلة.`);
     } else {
       choices.add(stop.id);
-      toast(`أُضيفت ${stop.name} إلى رحلتك.`);
+      if (activeEditDay) {
+        snapshotCurrentDaysToManual();
+        const totalDays = Math.max(1, Number(days?.value || 1));
+        const targetDay = Math.min(totalDays, activeEditDay);
+        manualDays.set(stop.id, targetDay);
+        if (!manualOrder.includes(stop.id)) manualOrder.push(stop.id);
+        openDays.add(targetDay);
+        toast(`أُضيفت ${stop.name} إلى اليوم ${formatNum(targetDay)}.`);
+      } else if (hasManualDayEdits) {
+        const totalDays = Math.max(1, Number(days?.value || 1));
+        const targetDay = assignDefaultDayForStop(stop.id, totalDays);
+        manualDays.set(stop.id, targetDay);
+        if (!manualOrder.includes(stop.id)) manualOrder.push(stop.id);
+        toast(`أُضيفت ${stop.name} إلى اليوم ${formatNum(targetDay)}.`);
+      } else {
+        toast(`أُضيفت ${stop.name} إلى رحلتك.`);
+      }
     }
     editTrip();
     renderAddButton();
@@ -2780,8 +3276,8 @@ export function initAlBahaPortal(initialView: 'home' | 'faq' = 'home'): () => vo
     tourGuideController.updateTourGuideTrip();
   };
 
-  // Concierge controller
-  const concierge = createConciergeController({
+  // Smart Guide controller
+  const concierge = createSmartGuideUiController({
     signal,
     getCurrentSeason: () => currentSeason,
     scheduleTrip,
@@ -2966,6 +3462,8 @@ export function initAlBahaPortal(initialView: 'home' | 'faq' = 'home'): () => vo
         const removedId = target.dataset.remove;
         if (removedId) {
           choices.delete(removedId);
+          manualDays.delete(removedId);
+          manualOrder = manualOrder.filter((id) => id !== removedId);
           lockedIds.delete(removedId);
           completedIds.delete(removedId);
         }
@@ -3065,7 +3563,48 @@ export function initAlBahaPortal(initialView: 'home' | 'faq' = 'home'): () => vo
     void showSeasonWeather(seasons[selectedSeason].city);
   }
 
-  // Header scroll & Siraj docking
+  // Header scroll, active tab tracking & Siraj docking
+  function syncHeaderActiveNav(): void {
+    const navLinks = qsAll<HTMLAnchorElement>('#header .nav-links a');
+    if (!navLinks.length) return;
+    let activeHref: string | null = '#home';
+
+    if (investView && !investView.hidden) {
+      activeHref = '#invest';
+    } else if (tourGuideView && !tourGuideView.hidden) {
+      activeHref = '#guide';
+    } else if (placeView && !placeView.hidden) {
+      activeHref = '#destinations';
+    } else if (faqView && !faqView.hidden) {
+      activeHref = null;
+    } else if (homeView && !homeView.hidden) {
+      const headerLine = 160;
+      const expRect = byId('experiences')?.getBoundingClientRect();
+      const destRect = byId('destinations')?.getBoundingClientRect();
+      const dirRect = byId('destination-directory')?.getBoundingClientRect();
+      const plannerRect = byId('planner')?.getBoundingClientRect();
+      const destGroupBottom = Math.max(
+        destRect?.bottom ?? -Infinity,
+        plannerRect?.bottom ?? -Infinity,
+        dirRect?.bottom ?? -Infinity
+      );
+
+      if (destRect && destRect.top <= headerLine && destGroupBottom > headerLine) {
+        activeHref = '#destinations';
+      } else if (expRect && expRect.top <= headerLine && (!destRect || destRect.top > headerLine)) {
+        activeHref = '#experiences';
+      } else {
+        activeHref = '#home';
+      }
+    }
+
+    navLinks.forEach((link) => {
+      const isMatch = Boolean(activeHref && link.getAttribute('href') === activeHref);
+      if (isMatch) link.setAttribute('aria-current', 'page');
+      else link.removeAttribute('aria-current');
+    });
+  }
+
   function syncHeaderState(): void {
     if (!header) return;
     const visible = true;
@@ -3074,6 +3613,7 @@ export function initAlBahaPortal(initialView: 'home' | 'faq' = 'home'): () => vo
       header.classList.toggle('visible', visible);
     }
     header.classList.toggle('is-scrolled', window.scrollY > 40);
+    syncHeaderActiveNav();
     syncSirajPosition();
   }
 
@@ -3102,9 +3642,11 @@ export function initAlBahaPortal(initialView: 'home' | 'faq' = 'home'): () => vo
     const routeId = hash.startsWith('#route/') ? hash.slice(7) : null;
     const guideRoute = hash === '#guide' || hash.startsWith('#guide/place/');
     const faqRoute = hash === '#faq' || hash.startsWith('#faq/') || (!hash && initialView === 'faq');
+    const investRoute =
+      hash === '#invest' || hash.startsWith('#invest/') || (!hash && initialView === 'invest');
     const returning = Boolean(homeView?.hidden);
 
-    if ((place || city || guideRoute || faqRoute) && !returning) {
+    if ((place || city || guideRoute || faqRoute || investRoute) && !returning) {
       homeHash = lastHash;
       homeScroll = window.scrollY;
     }
@@ -3119,13 +3661,34 @@ export function initAlBahaPortal(initialView: 'home' | 'faq' = 'home'): () => vo
       else link.removeAttribute('aria-current');
     });
 
-    if (faqRoute) {
+    qsAll<HTMLElement>('a[href="#invest"]').forEach((link) => {
+      if (investRoute) link.setAttribute('aria-current', 'page');
+      else link.removeAttribute('aria-current');
+    });
+
+    if (investRoute) {
       tourGuideController.cleanupView();
       subpageViews.clearActivePlace();
       subpageViews.cleanupView();
       if (homeView) homeView.hidden = true;
       if (placeView) placeView.hidden = true;
       if (tourGuideView) tourGuideView.hidden = true;
+      if (faqView) faqView.hidden = true;
+      if (investView) investView.hidden = false;
+      document.title = 'الاستثمار في منطقة الباحة | بوابة منطقة الباحة';
+      window.requestAnimationFrame(() => {
+        if (signal.aborted) return;
+        window.scrollTo({ top: 0, behavior: 'instant' });
+        byId('investTitle')?.focus({ preventScroll: true });
+      });
+    } else if (faqRoute) {
+      tourGuideController.cleanupView();
+      subpageViews.clearActivePlace();
+      subpageViews.cleanupView();
+      if (homeView) homeView.hidden = true;
+      if (placeView) placeView.hidden = true;
+      if (tourGuideView) tourGuideView.hidden = true;
+      if (investView) investView.hidden = true;
       if (faqView) faqView.hidden = false;
       document.title = 'الأسئلة الشائعة | بوابة منطقة الباحة';
       const targetFaqId = hash.startsWith('#faq/') ? hash.slice(5) : '';
@@ -3150,6 +3713,7 @@ export function initAlBahaPortal(initialView: 'home' | 'faq' = 'home'): () => vo
       if (homeView) homeView.hidden = true;
       if (placeView) placeView.hidden = true;
       if (faqView) faqView.hidden = true;
+      if (investView) investView.hidden = true;
       tourGuideController.showTourGuide(
         hash === '#guide' ? undefined : hash.slice(13) || 'missing'
       );
@@ -3158,6 +3722,7 @@ export function initAlBahaPortal(initialView: 'home' | 'faq' = 'home'): () => vo
       tourGuideController.cleanupView();
       if (tourGuideView) tourGuideView.hidden = true;
       if (faqView) faqView.hidden = true;
+      if (investView) investView.hidden = true;
       if (place) subpageViews.showPlace(place);
       else if (city) {
         subpageViews.showCity(
@@ -3170,6 +3735,7 @@ export function initAlBahaPortal(initialView: 'home' | 'faq' = 'home'): () => vo
       subpageViews.cleanupView();
       if (tourGuideView) tourGuideView.hidden = true;
       if (faqView) faqView.hidden = true;
+      if (investView) investView.hidden = true;
       subpageViews.clearActivePlace();
       if (homeView) homeView.hidden = false;
       if (placeView) placeView.hidden = true;
@@ -3197,6 +3763,7 @@ export function initAlBahaPortal(initialView: 'home' | 'faq' = 'home'): () => vo
     }
 
     lastHash = hash;
+    syncHeaderActiveNav();
     scheduleScroll();
   }
 
@@ -3204,12 +3771,19 @@ export function initAlBahaPortal(initialView: 'home' | 'faq' = 'home'): () => vo
     'click',
     (event) => {
       const title =
-        faqView && !faqView.hidden
-          ? byId('faqTitle')
-          : tourGuideView?.hidden
-            ? byId('placeTitle')
-            : byId('tourGuideTitle');
-      if (!title || (tourGuideView?.hidden && placeView?.hidden && faqView?.hidden)) return;
+        investView && !investView.hidden
+          ? byId('investTitle')
+          : faqView && !faqView.hidden
+            ? byId('faqTitle')
+            : tourGuideView?.hidden
+              ? byId('placeTitle')
+              : byId('tourGuideTitle');
+      if (
+        !title ||
+        (tourGuideView?.hidden && placeView?.hidden && faqView?.hidden && investView?.hidden)
+      ) {
+        return;
+      }
       event.preventDefault();
       title.focus();
     },
@@ -3468,6 +4042,7 @@ export function initAlBahaPortal(initialView: 'home' | 'faq' = 'home'): () => vo
       addedRegionOptions.forEach((opt) => opt.remove());
       if (destinationGrid) destinationGrid.replaceChildren();
       document.documentElement.classList.remove('has-dialog');
+      document.documentElement.classList.remove('has-smart-guide');
     },
     { once: true }
   );

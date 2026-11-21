@@ -1,34 +1,59 @@
 import { GuideCharacter } from '@/components/common/GuideCharacter';
 
+const STARTER_PROMPTS: Array<{ label: string; prompt: string; icon: string }> = [
+  {
+    label: 'رتّب لي يومين مع العيال',
+    prompt: 'رتّب لي يومين مع العيال',
+    icon: '#i-route',
+  },
+  {
+    label: 'وين أبيت في العقيق؟',
+    prompt: 'أنا في العقيق، وين أقدر أبيت؟',
+    icon: '#i-directory-hotel',
+  },
+  {
+    label: 'وش عندك عن فندق مدينة السحاب؟',
+    prompt: 'وش عندك عن فندق مدينة السحاب؟',
+    icon: '#i-compass',
+  },
+  {
+    label: 'اكتشف قرية ذي عين',
+    prompt: 'وش يميز قرية ذي عين التراثية؟',
+    icon: '#i-section-village',
+  },
+];
+
 export function ConciergeDialog() {
   return (
     <dialog
-      className="side-panel concierge-panel"
+      className="side-panel concierge-panel smart-guide-panel"
       id="agentPanel"
+      dir="rtl"
       aria-labelledby="conciergeTitle"
     >
-      <div className="panel-content concierge-shell">
-        <header className="concierge-header">
-          <div className="concierge-identity">
-            <span className="concierge-avatar" aria-hidden="true">
-              <GuideCharacter id="conciergeHeaderChar" pose="idle" size={38} className="guide-dialog-avatar" />
+      <div className="panel-content concierge-shell smart-guide-shell">
+        <header className="concierge-header sg-header">
+          <div className="concierge-identity sg-identity">
+            <span className="concierge-avatar sg-avatar" aria-hidden="true">
+              <GuideCharacter
+                id="conciergeHeaderChar"
+                pose="idle"
+                size={28}
+                className="guide-dialog-avatar"
+              />
             </span>
-            <div className="concierge-title-wrap">
-              <div className="concierge-title-row">
-                <h2 id="conciergeTitle">المرشد السياحي الذكي</h2>
-              </div>
-              <p className="concierge-subtitle">
-                <span id="conciergeModeText">مساعد تخطيط زيارتك في الباحة</span>
-              </p>
-            </div>
+            <h2 id="conciergeTitle">المرشد الذكي</h2>
           </div>
-          <div className="concierge-head-actions">
+
+          <div className="concierge-head-actions sg-head-actions">
             <button
               type="button"
-              className="concierge-head-btn"
+              className="concierge-head-btn sg-head-btn"
+              id="conciergeReset"
               data-concierge-reset=""
-              aria-label="بدء محادثة جديدة"
+              aria-label="محادثة جديدة"
               title="محادثة جديدة"
+              hidden
             >
               <svg className="ic tiny" aria-hidden="true">
                 <use href="#i-plus" />
@@ -36,9 +61,11 @@ export function ConciergeDialog() {
             </button>
             <button
               type="button"
-              className="panel-close"
+              className="panel-close sg-close-btn"
+              id="conciergeCloseBtn"
               data-close=""
-              aria-label="إغلاق المرشد السياحي الذكي"
+              aria-label="إغلاق المرشد الذكي"
+              title="إغلاق"
             >
               <svg className="ic tiny" aria-hidden="true">
                 <use href="#i-x" />
@@ -47,147 +74,65 @@ export function ConciergeDialog() {
           </div>
         </header>
 
-        <ul className="concierge-context" id="conciergeContext" aria-label="تفضيلات زيارتك" hidden />
-
         <div
-          className="concierge-body"
+          className="concierge-body sg-body"
           id="conciergeScroll"
           tabIndex={0}
-          aria-label="محتوى المرشد السياحي"
+          aria-label="محادثة المرشد الذكي"
         >
-          <div className="concierge-welcome" id="conciergeWelcome">
-            <h3>كيف أساعدك اليوم في رحلتك؟</h3>
-            <div className="concierge-shortcuts" aria-label="القائمة السريعة للمساعد">
-              <button type="button" data-concierge-intent="plan">
-                <svg className="ic" aria-hidden="true">
-                  <use href="#i-route" />
-                </svg>
-                <span>
-                  <strong>رتّب لي رحلة</strong>
-                  <small>برنامج يومي بالساعات</small>
-                </span>
-              </button>
-              <button type="button" data-concierge-intent="weather-now">
-                <svg className="ic" aria-hidden="true">
-                  <use href="#i-weather" />
-                </svg>
-                <span>
-                  <strong>الأجواء والطقس</strong>
-                  <small>السراة وتهامة والملابس</small>
-                </span>
-              </button>
-              <button type="button" data-concierge-intent="discover">
-                <svg className="ic" aria-hidden="true">
-                  <use href="#i-compass" />
-                </svg>
-                <span>
-                  <strong>اقترح لي وجهات</strong>
-                  <small>معالم وطبيعة وتراث</small>
-                </span>
-              </button>
-              <button type="button" data-concierge-intent="dining">
-                <svg className="ic" aria-hidden="true">
-                  <use href="#i-guide-dining" />
-                </svg>
-                <span>
-                  <strong>المطاعم والمقاهي</strong>
-                  <small>خيارات الدليل والمأكولات</small>
-                </span>
-              </button>
-              <button type="button" data-concierge-intent="camping">
-                <svg className="ic" aria-hidden="true">
-                  <use href="#i-guide-tent" />
-                </svg>
-                <span>
-                  <strong>الإقامة والمخيمات</strong>
-                  <small>فنادق وشاليهات ومنتجعات</small>
-                </span>
-              </button>
-              <button type="button" data-concierge-intent="travel">
-                <svg className="ic" aria-hidden="true">
-                  <use href="#i-car" />
-                </svg>
-                <span>
-                  <strong>الوصول والأوراق</strong>
-                  <small>المطار والطرق والتأشيرة</small>
-                </span>
-              </button>
-              <button type="button" data-concierge-intent="saved">
-                <svg className="ic" aria-hidden="true">
-                  <use href="#i-map" />
-                </svg>
-                <span>
-                  <strong>محطات رحلتي</strong>
-                  <small>راجع مسارك المعتمد</small>
-                </span>
-              </button>
-              <button type="button" data-concierge-intent="faq">
-                <svg className="ic" aria-hidden="true">
-                  <use href="#i-foot-faq" />
-                </svg>
-                <span>
-                  <strong>الأسئلة الشائعة</strong>
-                  <small>المواعيد والأرقام الرسمية</small>
-                </span>
-              </button>
+          <section className="concierge-welcome sg-welcome" id="conciergeWelcome">
+            <h3>وش ودّك تكتشف اليوم؟</h3>
+            <div className="sg-starters" aria-label="اختصارات البداية">
+              {STARTER_PROMPTS.map((item) => (
+                <button
+                  key={item.prompt}
+                  type="button"
+                  className="sg-starter-btn"
+                  data-concierge-prompt={item.prompt}
+                >
+                  <svg className="ic tiny" aria-hidden="true">
+                    <use href={item.icon} />
+                  </svg>
+                  <span>{item.label}</span>
+                </button>
+              ))}
             </div>
-          </div>
+          </section>
 
           <div
-            className="concierge-thread"
+            className="concierge-thread sg-thread"
             id="conciergeThread"
             role="log"
-            aria-label="المحادثة مع المرشد السياحي الذكي"
+            aria-label="رسائل المرشد الذكي"
             aria-live="polite"
             aria-relevant="additions"
           />
-          <p className="concierge-status" id="conciergeStatus" role="status" />
+          <p className="concierge-status visually-hidden" id="conciergeStatus" role="status" />
         </div>
 
-        <div className="concierge-composer">
-          <div className="concierge-quickbar" aria-label="اختصارات سريعة">
-            <button type="button" data-concierge-intent="discover">
-              الوجهات
-            </button>
-            <button type="button" data-concierge-intent="weather-now">
-              الطقس
-            </button>
-            <button type="button" data-concierge-prompt="فنادق وشاليهات في الباحة">
-              الفنادق
-            </button>
-            <button type="button" data-concierge-prompt="متاحف وأسواق بلجرشي">
-              أسواق ومتاحف
-            </button>
-            <button type="button" data-concierge-intent="faq">
-              الأسئلة العامة
-            </button>
-          </div>
-          <form id="conciergeForm">
+        <div className="concierge-composer sg-composer">
+          <form id="conciergeForm" className="sg-form">
             <input
               type="text"
               id="conciergeInput"
-              aria-label="اسأل المرشد"
-              placeholder="اسأل عن مكان، خطة عائلية، وقت زيارة، أو الخريطة..."
-              maxLength={240}
+              aria-label="اسأل المرشد الذكي"
+              placeholder="اسأل عن مكان، مبيت، مطعم، أو خطة رحلة..."
+              maxLength={280}
               autoComplete="off"
+              enterKeyHint="send"
               required
             />
-            <button className="concierge-send" type="submit" aria-label="أرسل السؤال">
+            <button
+              className="concierge-send sg-send-btn"
+              type="submit"
+              aria-label="إرسال السؤال"
+              title="إرسال"
+            >
               <svg className="ic" aria-hidden="true">
                 <use href="#i-arrow" />
               </svg>
             </button>
           </form>
-          <div className="concierge-composer-meta">
-            <div>
-              <button type="button" id="conciergeHelp">
-                أمثلة لما تسأله
-              </button>
-              <button type="button" id="conciergeReset" data-concierge-reset="">
-                محادثة جديدة
-              </button>
-            </div>
-          </div>
         </div>
       </div>
     </dialog>

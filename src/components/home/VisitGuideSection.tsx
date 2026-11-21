@@ -233,20 +233,20 @@ export function VisitGuideSection() {
             <div className="dining-spots">
               <article className="dining-spot">
                 <div className="dining-spot-top">
-                  <span className="guide-icon-badge" aria-hidden="true">
-                    <svg className="ic">
-                      <use href="#i-guide-dining" />
-                    </svg>
-                  </span>
-                  <div className="dining-spot-heading">
-                    <h5>مطعم هالة</h5>
-                    <span className="guide-tag">
-                      <svg className="ic tiny" aria-hidden="true">
-                        <use href="#i-pin" />
-                      </svg>{' '}
-                      طريق غابة خيرة
+                  <div className="dining-spot-id">
+                    <span className="guide-icon-badge" aria-hidden="true">
+                      <svg className="ic">
+                        <use href="#i-guide-dining" />
+                      </svg>
                     </span>
+                    <h5>مطعم هالة</h5>
                   </div>
+                  <span className="guide-tag">
+                    <svg className="ic tiny" aria-hidden="true">
+                      <use href="#i-pin" />
+                    </svg>{' '}
+                    طريق غابة خيرة
+                  </span>
                 </div>
                 <p>تجربة ضيافة جبلية بأطباق العسل وزيت الزيتون.</p>
                 <div className="guide-links">
@@ -264,20 +264,20 @@ export function VisitGuideSection() {
               </article>
               <article className="dining-spot">
                 <div className="dining-spot-top">
-                  <span className="guide-icon-badge" aria-hidden="true">
-                    <svg className="ic">
-                      <use href="#i-dining-plate" />
-                    </svg>
-                  </span>
-                  <div className="dining-spot-heading">
-                    <h5>مطعم البستان</h5>
-                    <span className="guide-tag">
-                      <svg className="ic tiny" aria-hidden="true">
-                        <use href="#i-pin" />
-                      </svg>{' '}
-                      مدينة الباحة
+                  <div className="dining-spot-id">
+                    <span className="guide-icon-badge" aria-hidden="true">
+                      <svg className="ic">
+                        <use href="#i-dining-plate" />
+                      </svg>
                     </span>
+                    <h5>مطعم البستان</h5>
                   </div>
+                  <span className="guide-tag">
+                    <svg className="ic tiny" aria-hidden="true">
+                      <use href="#i-pin" />
+                    </svg>{' '}
+                    مدينة الباحة
+                  </span>
                 </div>
                 <p>من مطاعم الضيافة المعتمدة في دليل الباحة بوسط المدينة.</p>
                 <div className="guide-links">
@@ -348,12 +348,6 @@ export function VisitGuideSection() {
                   </svg>
                 </span>
                 <div className="guide-card-titles">
-                  <span className="guide-tag">
-                    <svg className="ic tiny" aria-hidden="true">
-                      <use href="#i-check" />
-                    </svg>{' '}
-                    تخييم ذاتي
-                  </span>
                   <h4>خيمتك في موقع مخصص</h4>
                 </div>
               </div>
@@ -395,12 +389,6 @@ export function VisitGuideSection() {
                   </svg>
                 </span>
                 <div className="guide-card-titles">
-                  <span className="guide-tag">
-                    <svg className="ic tiny" aria-hidden="true">
-                      <use href="#i-pin" />
-                    </svg>{' '}
-                    حي الشفا بمدينة الباحة
-                  </span>
                   <h4>منتجع ماكامايا</h4>
                 </div>
               </div>
@@ -426,12 +414,6 @@ export function VisitGuideSection() {
                   </svg>
                 </span>
                 <div className="guide-card-titles">
-                  <span className="guide-tag">
-                    <svg className="ic tiny" aria-hidden="true">
-                      <use href="#i-pin" />
-                    </svg>{' '}
-                    جبل شدا الأسفل
-                  </span>
                   <h4>منتجع الكهف</h4>
                 </div>
               </div>
@@ -460,7 +442,7 @@ export function VisitGuideSection() {
           <svg className="guide-embroidery-band" aria-hidden="true" focusable="false">
             <rect width="100%" height="100%" fill="url(#engraved-band-vertical)" />
           </svg>
-          <div>
+          <div className="guide-day-intro">
             <div className="caption section-kicker">
               <svg
                 className="section-mark"
@@ -473,11 +455,18 @@ export function VisitGuideSection() {
               <span>أفكار ليوم واحد</span>
             </div>
             <h3 id="guideDayTitle">برامج الزيارة اليومية المقترحة</h3>
+            <p className="guide-day-lead">
+              مسارات يومية متوازنة تجمع بين الطبيعة والتراث والضيافة المحلية لتخطيط يومك بسهولة.
+            </p>
           </div>
           <div className="guide-day-options">
             <details>
               <summary>
-                صباح السبت في بلجرشي{' '}
+                <span className="guide-day-num" aria-hidden="true">01</span>
+                <span className="guide-day-sum-copy">
+                  <strong>صباح السبت في بلجرشي</strong>
+                  <small>سوق تراثي · متحف · مزرعة ريفية</small>
+                </span>
                 <svg className="ic tiny guide-day-chevron" aria-hidden="true">
                   <use href="#i-chevron" />
                 </svg>
@@ -513,7 +502,11 @@ export function VisitGuideSection() {
             </details>
             <details>
               <summary>
-                غابة وغداء في خيرة{' '}
+                <span className="guide-day-num" aria-hidden="true">02</span>
+                <span className="guide-day-sum-copy">
+                  <strong>غابة وغداء في خيرة</strong>
+                  <small>بني حسن · غابات وشلال · ضيافة جبلية</small>
+                </span>
                 <svg className="ic tiny guide-day-chevron" aria-hidden="true">
                   <use href="#i-chevron" />
                 </svg>
@@ -542,7 +535,11 @@ export function VisitGuideSection() {
             </details>
             <details>
               <summary>
-                يوم بين ذي عين وشدا{' '}
+                <span className="guide-day-num" aria-hidden="true">03</span>
+                <span className="guide-day-sum-copy">
+                  <strong>يوم بين ذي عين وشدا</strong>
+                  <small>المخواة · عمارة حجرية · جبال وبُن شدوي</small>
+                </span>
                 <svg className="ic tiny guide-day-chevron" aria-hidden="true">
                   <use href="#i-chevron" />
                 </svg>

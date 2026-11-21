@@ -53,22 +53,36 @@ export function DiscoverIntroSection() {
   return (
     <section className="intro" id="discover" aria-labelledby="discover-title">
       <div className="container intro-layout">
-        <div className="intro-copy reveal">
-          <div className="caption section-kicker">
-            <svg
-              className="section-mark section-mark--baha"
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-              focusable="false"
-            >
-              <use href="#i-section-baha" width="24" height="24" />
-            </svg>
-            <span>منطقة الباحة، المملكة العربية السعودية</span>
+        <div className="intro-head">
+          <div className="intro-copy reveal">
+            <div className="caption section-kicker">
+              <svg
+                className="section-mark section-mark--baha"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+                focusable="false"
+              >
+                <use href="#i-section-baha" width="24" height="24" />
+              </svg>
+              <span>منطقة الباحة، المملكة العربية السعودية</span>
+            </div>
+            <h2 id="discover-title">أصالة المكان بين السراة وتهامة</h2>
+            <p className="intro-lead">
+              مدينة على قمم السروات بين الغابات الخضراء والقرى الحجرية.
+            </p>
           </div>
-          <h2 id="discover-title">أصالة المكان بين السراة وتهامة</h2>
-          <p className="intro-lead">
-            مدينة على قمم السروات بين الغابات الخضراء والقرى الحجرية.
-          </p>
+
+          <div className="intro-actions reveal">
+            <a className="btn btn-soft" href="#city/baha">
+              <svg className="section-mark section-mark--baha" aria-hidden="true">
+                <use href="#i-section-baha" width="24" height="24" />
+              </svg>
+              <span>استكشف مدينة الباحة</span>
+              <svg className="ic tiny" aria-hidden="true">
+                <use href="#i-arrow" />
+              </svg>
+            </a>
+          </div>
         </div>
 
         <div className="intro-visuals reveal">
@@ -153,18 +167,6 @@ export function DiscoverIntroSection() {
               </button>
             </div>
           </div>
-        </div>
-
-        <div className="intro-actions reveal">
-          <a className="btn btn-soft" href="#city/baha">
-            <svg className="section-mark section-mark--baha" aria-hidden="true">
-              <use href="#i-section-baha" width="24" height="24" />
-            </svg>
-            <span>استكشف مدينة الباحة</span>
-            <svg className="ic tiny" aria-hidden="true">
-              <use href="#i-arrow" />
-            </svg>
-          </a>
         </div>
       </div>
     </section>

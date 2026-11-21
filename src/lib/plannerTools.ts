@@ -221,6 +221,8 @@ export function createInitialConciergeContext(season: SeasonKey): ConciergeConte
     locked: null,
     lockedIds: [],
     completedIds: [],
+    excludedIds: [],
+    lastGuideItemId: null,
     interests: [],
     withChildren: false,
     lessWalking: false,
@@ -481,6 +483,7 @@ export interface PlanBuildOptions {
   completedIds?: string[];
   originCoords?: { lat: number; lng: number } | null;
   includeMarketExclusionNote?: boolean;
+  preserveOrder?: boolean;
 }
 
 export function buildConstraintPlan(opts: PlanBuildOptions): {
@@ -546,9 +549,24 @@ export function buildConstraintPlan(opts: PlanBuildOptions): {
     return bQualified - aQualified;
   });
 
-  const maxPerDay = opts.indoorOnly ? 3 : opts.budget <= 210 ? 2 : 4;
-  const maxStops = Math.min(candidates.length, Math.max(2, opts.days * maxPerDay));
-  const picked = nearbyOrder(candidates.slice(0, maxStops), candidates[0]);
+  const maxPerDay = opts.indoorOnly
+    ? 3
+    : opts.budget <= 210
+      ? 2
+      : opts.days > 1
+        ? (opts.withChildren || opts.lessWalking ? 3 : 3)
+        : 4;
+  const maxStops = Math.min(candidates.length, Math.max(opts.days * 2, opts.days * maxPerDay));
+
+  let picked: StopBase[];
+  if (opts.preserveOrder && opts.includeIds?.length) {
+    const orderedExplicit = opts.includeIds
+      .map((id) => places.get(id))
+      .filter((s): s is StopBase => Boolean(s && !excludedSet.has(s.id) && !completedSet.has(s.id)));
+    picked = orderedExplicit.length ? orderedExplicit : nearbyOrder(candidates.slice(0, maxStops), candidates[0]);
+  } else {
+    picked = nearbyOrder(candidates.slice(0, maxStops), candidates[0]);
+  }
 
   const startRef = opts.originCoords
     ? { id: 'origin', label: opts.startPointLabel || 'نقطة الانطلاق', region: opts.region, ...opts.originCoords }
@@ -557,32 +575,52 @@ export function buildConstraintPlan(opts: PlanBuildOptions): {
   const stations: TimingStation[] = [];
   let cursor = opts.start;
   let day = 1;
-  const maxEndOfDay = opts.returnByEnd && opts.days === 1 ? opts.returnByEnd - 20 : Math.min(18 * 60 + 30, opts.start + opts.budget);
+  let stopsInDay = 0;
+  const targetPerDay = opts.days > 1 ? Math.max(1, Math.ceil(picked.length / opts.days)) : maxPerDay;
+  const maxEndOfDay =
+    opts.returnByEnd && opts.days === 1
+      ? opts.returnByEnd - 20
+      : Math.min(20 * 60, Math.max(opts.start + opts.budget, opts.start + 300));
 
   for (let i = 0; i < picked.length; i += 1) {
     const stop = picked[i];
-    const prev = i === 0 ? startRef : picked[i - 1];
-    const leg = computeLegDetailed(prev, stop);
-    const arrive = cursor + leg.minutes;
+    if (opts.days > 1 && stopsInDay >= targetPerDay && day < opts.days) {
+      day += 1;
+      stopsInDay = 0;
+      cursor = opts.start;
+    }
+
+    const prevStation = stopsInDay > 0 ? stations[stations.length - 1] : null;
+    const prev = prevStation ? places.get(prevStation.id) || startRef : startRef;
+    let leg = computeLegDetailed(prev, stop);
     const visitDur = opts.lessWalking ? Math.min(stop.min, 60) : stop.min;
     const hv = stop.operational?.hoursVerified;
 
-    let actualStart = arrive;
+    let actualStart = stopsInDay === 0 ? opts.start : cursor + leg.minutes;
     if (hv && actualStart < hv.openStartMin) {
       actualStart = hv.openStartMin;
     }
 
     if (hv && actualStart + Math.min(visitDur, 45) > hv.openEndMin) {
-      excludedReasons.push(`${stop.name}: الوقت المقترح (${clock(actualStart)}) يتجاوز موعد الإغلاق المنشور (${clock(hv.openEndMin)}).`);
-      continue;
+      if (day < opts.days && stopsInDay > 0) {
+        day += 1;
+        stopsInDay = 0;
+        cursor = opts.start;
+        leg = computeLegDetailed(startRef, stop);
+        actualStart = Math.max(opts.start, hv.openStartMin);
+      } else {
+        excludedReasons.push(`${stop.name}: الوقت المقترح (${clock(actualStart)}) يتجاوز موعد الإغلاق المنشور (${clock(hv.openEndMin)}).`);
+        continue;
+      }
     }
 
     if (actualStart + Math.min(visitDur, 45) > maxEndOfDay) {
       if (day < opts.days) {
         day += 1;
+        stopsInDay = 0;
         cursor = opts.start;
-        const freshLeg = computeLegDetailed(startRef, stop);
-        actualStart = Math.max(cursor + freshLeg.minutes, hv?.openStartMin || 0);
+        leg = computeLegDetailed(startRef, stop);
+        actualStart = Math.max(opts.start, hv?.openStartMin || 0);
       } else {
         excludedReasons.push(`${stop.name}: استُثنيت حفاظًا على موعد الانتهاء والرجوع المحدد.`);
         continue;
@@ -596,13 +634,14 @@ export function buildConstraintPlan(opts: PlanBuildOptions): {
       day,
       start: actualStart,
       end,
-      drive_minutes: leg.minutes,
+      drive_minutes: stopsInDay === 0 ? null : leg.minutes,
       drive_estimated: leg.mode === 'estimated',
       drive_mode: leg.mode,
       locked: lockedSet.has(stop.id),
       completed: false,
     });
     cursor = end;
+    stopsInDay += 1;
   }
 
   let returnLegMinutes: number | null = null;

@@ -110,20 +110,31 @@ export async function createTripPdf(
   await document.fonts?.ready;
   const width = 840;
   const height = 1188;
-  const resolution = 1.8;
-  const margin = 52;
+  const resolution = 2;
+  const margin = 46;
   const right = width - margin;
   const inner = right - margin;
-  const ink = '#0f293a';
-  const plum = '#006c35';
-  const muted = '#476273';
-  const gold = '#e6b25f';
+
+  // Official Al-Baha Visual Identity Palette
+  const navyDeep = '#061A33';
+  const navyMid = '#0A2E5C';
+  const emerald = '#006C35';
+  const emeraldSoft = '#EEF7F2';
+  const gold = '#C89D54';
+  const goldBright = '#F3D089';
+  const paper = '#FCFBF7';
+  const ice = '#F3F8FC';
+  const border = '#D3E1EE';
+  const muted = '#4B657A';
 
   const rows = trip.stations
     .map((row, index) => ({ ...row, number: index + 1 }))
     .filter((row) => places.has(row.id));
   if (!rows.length) throw new Error('No stations to export');
 
+  const uniqueActiveDays = Array.from(new Set(rows.map((r) => r.day))).sort((a, b) => a - b);
+
+  // Group into clean sheets (up to 4 station cards per itinerary page)
   const sheets: Array<{ days: Set<number>; continued: boolean; rows: typeof rows }> = [];
   for (const row of rows) {
     const current = sheets[sheets.length - 1];
@@ -147,9 +158,45 @@ export async function createTripPdf(
   if (!ctx) throw new Error('Canvas 2D context unavailable');
   ctx.scale(resolution, resolution);
 
-  const box = (x: number, y: number, w: number, h: number, fill: string) => {
+  const roundPath = (x: number, y: number, w: number, h: number, r: number) => {
+    const rad = Math.min(r, w / 2, h / 2);
+    ctx.beginPath();
+    ctx.moveTo(x + rad, y);
+    ctx.arcTo(x + w, y, x + w, y + h, rad);
+    ctx.arcTo(x + w, y + h, x, y + h, rad);
+    ctx.arcTo(x, y + h, x, y, rad);
+    ctx.arcTo(x, y, x + w, y, rad);
+    ctx.closePath();
+  };
+
+  const roundedBox = (
+    x: number,
+    y: number,
+    w: number,
+    h: number,
+    r: number,
+    fill: string | CanvasGradient,
+    stroke?: string,
+    shadow = false
+  ) => {
+    ctx.save();
+    if (shadow) {
+      ctx.shadowColor = 'rgba(6, 26, 51, 0.08)';
+      ctx.shadowBlur = 18;
+      ctx.shadowOffsetY = 6;
+    }
+    roundPath(x, y, w, h, r);
     ctx.fillStyle = fill;
-    ctx.fillRect(x, y, w, h);
+    ctx.fill();
+    ctx.restore();
+    if (stroke) {
+      ctx.save();
+      roundPath(x, y, w, h, r);
+      ctx.strokeStyle = stroke;
+      ctx.lineWidth = 1;
+      ctx.stroke();
+      ctx.restore();
+    }
   };
 
   const text = (
@@ -158,19 +205,24 @@ export async function createTripPdf(
     y: number,
     size: number,
     {
-      color = ink,
-      weight = 400,
+      color = navyDeep,
+      weight = 500,
       direction = 'rtl',
       align,
+      display = false,
     }: {
       color?: string;
       weight?: number;
       direction?: CanvasDirection;
       align?: CanvasTextAlign;
+      display?: boolean;
     } = {}
   ) => {
     ctx.fillStyle = color;
-    ctx.font = `${weight} ${size}px "Alexandria", "Cairo", sans-serif`;
+    const fam = display
+      ? '"Noto Kufi Arabic", "Alexandria", "Cairo", sans-serif'
+      : '"Alexandria", "Cairo", sans-serif';
+    ctx.font = `${weight} ${size}px ${fam}`;
     ctx.direction = direction;
     ctx.textAlign = align || (direction === 'rtl' ? 'right' : 'left');
     ctx.textBaseline = 'middle';
@@ -183,14 +235,20 @@ export async function createTripPdf(
     y: number,
     size: number,
     maxWidth: number,
-    { color = muted, weight = 400, lineHeight = size * 1.55 } = {}
+    { color = muted, weight = 400, lineHeight = size * 1.55, maxLines = 3 } = {}
   ) => {
     ctx.font = `${weight} ${size}px "Alexandria", "Cairo", sans-serif`;
     let line = '';
-    for (const word of value.split(/\s+/)) {
+    let drawn = 0;
+    const words = value.split(/\s+/);
+    for (let wi = 0; wi < words.length; wi += 1) {
+      const word = words[wi];
       const next = line ? line + ' ' + word : word;
       if (line && ctx.measureText(next).width > maxWidth) {
-        text(line, x, y, size, { color, weight });
+        drawn += 1;
+        const isLast = drawn >= maxLines;
+        text(isLast ? `${line}...` : line, x, y, size, { color, weight });
+        if (isLast) return;
         y += lineHeight;
         line = word;
       } else {
@@ -204,56 +262,142 @@ export async function createTripPdf(
     if (!src) return Promise.resolve(null);
     return new Promise((resolve) => {
       const image = new Image();
+      image.crossOrigin = 'anonymous';
       image.onload = () => resolve(image);
       image.onerror = () => resolve(null);
       image.src = src;
     });
   };
 
-  const imageCover = (
+  const imageCoverRounded = (
     image: HTMLImageElement | null,
     x: number,
     y: number,
     w: number,
-    h: number
+    h: number,
+    r: number
   ) => {
-    if (!image || !image.naturalWidth || !image.naturalHeight) return;
-    const scale = Math.max(w / image.naturalWidth, h / image.naturalHeight);
-    const sw = w / scale;
-    const sh = h / scale;
-    ctx.drawImage(
-      image,
-      (image.naturalWidth - sw) / 2,
-      (image.naturalHeight - sh) / 2,
-      sw,
-      sh,
-      x,
-      y,
-      w,
-      h
-    );
+    ctx.save();
+    roundPath(x, y, w, h, r);
+    ctx.clip();
+    ctx.fillStyle = ice;
+    ctx.fillRect(x, y, w, h);
+    if (image && image.naturalWidth && image.naturalHeight) {
+      const scale = Math.max(w / image.naturalWidth, h / image.naturalHeight);
+      const sw = w / scale;
+      const sh = h / scale;
+      ctx.drawImage(
+        image,
+        (image.naturalWidth - sw) / 2,
+        (image.naturalHeight - sh) / 2,
+        sw,
+        sh,
+        x,
+        y,
+        w,
+        h
+      );
+    }
+    ctx.restore();
   };
 
+  const drawHeritageTrim = (y: number, h = 6) => {
+    const grad = ctx.createLinearGradient(0, y, width, y);
+    grad.addColorStop(0, '#0A2444');
+    grad.addColorStop(0.35, emerald);
+    grad.addColorStop(0.5, gold);
+    grad.addColorStop(0.65, emerald);
+    grad.addColorStop(1, '#0A2444');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, y, width, h);
+    // Subtle woven geometric diamond accents
+    ctx.fillStyle = 'rgba(243, 208, 137, 0.55)';
+    for (let dx = 18; dx < width; dx += 28) {
+      ctx.beginPath();
+      ctx.moveTo(dx, y + 1);
+      ctx.lineTo(dx + 4, y + h / 2);
+      ctx.lineTo(dx, y + h - 1);
+      ctx.lineTo(dx - 4, y + h / 2);
+      ctx.closePath();
+      ctx.fill();
+    }
+  };
+
+  const [goldLogoImg, terrain] = await Promise.all([
+    imageFrom(domMedia.goldLogo),
+    imageFrom(
+      document.getElementById('terrainRelief')?.getAttribute('href') || domMedia.terrainRelief
+    ),
+  ]);
+
+  const totalPages = sheets.length + 1;
+
   const pageBase = (page: number, title: string, subtitle: string) => {
-    box(0, 0, width, height, '#FCFBF7');
-    box(0, 0, width, 162, '#061A33');
-    box(right - 36, 38, 36, 3, gold);
-    text('اكتشف الباحة  |  مخطط الرحلة', right - 50, 39, 20, { color: '#f4d69e', weight: 600 });
-    text(title, right, 91, 43, { color: '#fff', weight: 600 });
-    text(subtitle, right, 132, 20, { color: '#f3e4ef' });
-    box(margin, 1129, inner, 1, '#e2d5e0');
-    text('أوقات الزيارة بتوقيت السعودية  |  راجع ساعات العمل قبل الانطلاق', right, 1154, 16, {
-      color: muted,
+    // Crisp warm paper canvas
+    ctx.fillStyle = paper;
+    ctx.fillRect(0, 0, width, height);
+
+    // Executive Royal Navy -> Emerald Gradient Header
+    const headerH = 148;
+    const hGrad = ctx.createLinearGradient(0, 0, width, headerH);
+    hGrad.addColorStop(0, navyDeep);
+    hGrad.addColorStop(0.62, navyMid);
+    hGrad.addColorStop(1, emerald);
+    ctx.fillStyle = hGrad;
+    ctx.fillRect(0, 0, width, headerH);
+
+    // Subtle decorative radial sheen
+    const glow = ctx.createRadialGradient(width - 90, 20, 10, width - 90, 20, 260);
+    glow.addColorStop(0, 'rgba(243, 208, 137, 0.14)');
+    glow.addColorStop(1, 'rgba(243, 208, 137, 0)');
+    ctx.fillStyle = glow;
+    ctx.fillRect(0, 0, width, headerH);
+
+    // Gold Al-Baha Emblem on Top-Right
+    let titleRight = right;
+    if (goldLogoImg && goldLogoImg.naturalWidth) {
+      const logoH = 74;
+      const logoW = (goldLogoImg.naturalWidth / goldLogoImg.naturalHeight) * logoH;
+      ctx.drawImage(goldLogoImg, right - logoW, 34, logoW, logoH);
+      titleRight = right - logoW - 18;
+    }
+
+    // Header Kicker, Title & Subtitle
+    text('بوابة منطقة الباحة الرسمية  ·  برنامج الرحلة المعتمد', titleRight, 42, 14, {
+      color: goldBright,
+      weight: 700,
     });
-    text(`${page} / ${sheets.length + 1}`, margin, 1154, 16, {
-      color: plum,
+    text(title, titleRight, 80, 31, { color: '#FFFFFF', weight: 700, display: true });
+    text(subtitle, titleRight, 114, 15, { color: '#DDEBF5', weight: 500 });
+
+    // Top-Left Page Pill in Header
+    roundedBox(margin, 32, 86, 30, 15, 'rgba(255, 255, 255, 0.14)', 'rgba(243, 208, 137, 0.45)');
+    text(`${formatNum(page)} / ${formatNum(totalPages)}`, margin + 43, 47, 13, {
+      color: goldBright,
+      weight: 700,
       direction: 'ltr',
-      weight: 600,
+      align: 'center',
+    });
+
+    // Signature Woven Gold Heritage Trim
+    drawHeritageTrim(headerH, 6);
+
+    // Clean Official Footer
+    ctx.fillStyle = border;
+    ctx.fillRect(margin, 1134, inner, 1);
+    text('أمانة منطقة الباحة  ·  جميع المواعيد بتوقيت المملكة العربية السعودية', right, 1158, 13, {
+      color: muted,
+      weight: 500,
+    });
+    text(`صفحة ${formatNum(page)} من ${formatNum(totalPages)}`, margin, 1158, 13, {
+      color: emerald,
+      weight: 700,
+      align: 'left',
     });
   };
 
   const addPage = () => {
-    const jpeg = canvas.toDataURL('image/jpeg', 0.9).split(',')[1];
+    const jpeg = canvas.toDataURL('image/jpeg', 0.92).split(',')[1];
     pages.push({
       bytes: Uint8Array.from(atob(jpeg), (char) => char.charCodeAt(0)),
       width: canvas.width,
@@ -261,9 +405,7 @@ export async function createTripPdf(
     });
   };
 
-  const terrainHref =
-    document.getElementById('terrainRelief')?.getAttribute('href') || domMedia.terrainRelief;
-  const terrain = await imageFrom(terrainHref);
+  // ================= PAGE 1: Executive Overview + Route Map =================
   const pins = rows.map((row) => geo.stations[row.id]);
   const legs = rows
     .slice(1)
@@ -275,30 +417,58 @@ export async function createTripPdf(
   const maxX = Math.max(...xs);
   const minY = Math.min(...ys);
   const maxY = Math.max(...ys);
-  const mapY = 250;
-  const mapHeight = 566;
+
+  pageBase(
+    1,
+    'مخطط رحلتك في الباحة',
+    `${trip.region_name}  ·  ${conciergeDays[String(trip.days)] || `${formatNum(uniqueActiveDays.length)} أيام`}  ·  ${trip.style_name}`
+  );
+
+  // 4 Executive KPI Cards
+  const kpiY = 174;
+  const kpiGap = 12;
+  const kpiW = (inner - kpiGap * 3) / 4;
+  const kpiH = 68;
+  const kpiItems = [
+    { label: 'النطاق الجغرافي', value: trip.region_name },
+    {
+      label: 'الأيام الفعّالة',
+      value: `${formatNum(uniqueActiveDays.length)} ${uniqueActiveDays.length === 1 ? 'يوم' : 'أيام'}`,
+    },
+    {
+      label: 'إجمالي المحطات',
+      value: `${formatNum(rows.length)} ${rows.length === 1 ? 'محطة' : 'محطات'}`,
+    },
+    { label: 'وقت الزيارة', value: durationLabel(trip.visit_minutes) },
+  ];
+  kpiItems.forEach((item, idx) => {
+    const kx = right - (idx + 1) * kpiW - idx * kpiGap;
+    roundedBox(kx, kpiY, kpiW, kpiH, 12, '#FFFFFF', border, true);
+    roundedBox(kx + kpiW - 4, kpiY + 12, 4, kpiH - 24, 2, idx % 2 === 0 ? emerald : navyMid);
+    text(item.label, kx + kpiW - 14, kpiY + 22, 12, { color: emerald, weight: 700 });
+    text(item.value, kx + kpiW - 14, kpiY + 46, 15, { color: navyDeep, weight: 700, display: true });
+  });
+
+  // Map Card Title
+  text('خريطة المسار ومحطات الرحلة', right, 272, 19, { color: navyDeep, weight: 700, display: true });
+  text('ترتيب المحطات المعتمدة عبر منطقة الباحة', right, 296, 13, { color: muted });
+
+  const mapY = 314;
+  const mapHeight = 464;
   const scale = Math.min(
-    (inner - 100) / Math.max(maxX - minX, 230),
-    (mapHeight - 100) / Math.max(maxY - minY, 220)
+    (inner - 96) / Math.max(maxX - minX, 230),
+    (mapHeight - 96) / Math.max(maxY - minY, 220)
   );
   const mapX = margin + inner / 2 - ((minX + maxX) / 2) * scale;
   const mapTop = mapY + mapHeight / 2 - ((minY + maxY) / 2) * scale;
 
-  pageBase(
-    1,
-    'رحلتك في الباحة',
-    `${trip.region_name}  |  ${conciergeDays[String(trip.days)] || ''}  |  ${trip.style_name}`
-  );
-  text('المسار العام للرحلة', right, 202, 29, { weight: 600 });
-  text('ترتيب المحطات والتضاريس  |  مسار إرشادي غير مخصص للملاحة', right, 230, 17, {
-    color: muted,
-  });
-
+  // Map Rounded Container with Shadow
+  roundedBox(margin, mapY, inner, mapHeight, 16, '#EBF2F7', border, true);
   ctx.save();
-  ctx.beginPath();
-  ctx.rect(margin, mapY, inner, mapHeight);
+  roundPath(margin + 1, mapY + 1, inner - 2, mapHeight - 2, 15);
   ctx.clip();
-  box(margin, mapY, inner, mapHeight, '#f2ebe6');
+  ctx.fillStyle = '#EAF1F5';
+  ctx.fillRect(margin, mapY, inner, mapHeight);
   if (terrain) {
     ctx.drawImage(
       terrain,
@@ -315,31 +485,32 @@ export async function createTripPdf(
     ctx.translate(mapX, mapTop);
     ctx.scale(scale, scale);
     ctx.lineJoin = ctx.lineCap = 'round';
-    ctx.strokeStyle = '#fff';
-    ctx.lineWidth = 8 / scale;
+    ctx.strokeStyle = '#FFFFFF';
+    ctx.lineWidth = 8.5 / scale;
     ctx.stroke(route);
-    ctx.strokeStyle = plum;
-    ctx.lineWidth = 4 / scale;
+    ctx.strokeStyle = emerald;
+    ctx.lineWidth = 4.2 / scale;
     ctx.stroke(route);
     ctx.restore();
   }
 
+  // Numbered Navy-Gold Markers
   const badges: [number, number][] = [];
   for (const [index, [x, y]] of pins.entries()) {
     const px = mapX + x * scale;
     const py = mapTop + y * scale;
     const shifts: [number, number][] = [
       [0, 0],
-      [31, 0],
-      [-31, 0],
-      [0, -31],
-      [0, 31],
-      [31, -31],
-      [-31, 31],
+      [30, 0],
+      [-30, 0],
+      [0, -30],
+      [0, 30],
+      [30, -30],
+      [-30, 30],
     ];
     const [dx, dy] =
       shifts.find(([sx, sy]) =>
-        badges.every(([bx, by]) => Math.hypot(px + sx - bx, py + sy - by) >= 31)
+        badges.every(([bx, by]) => Math.hypot(px + sx - bx, py + sy - by) >= 30)
       ) || [0, 0];
     const bx = px + dx;
     const by = py + dy;
@@ -348,100 +519,173 @@ export async function createTripPdf(
       ctx.beginPath();
       ctx.moveTo(px, py);
       ctx.lineTo(bx, by);
-      ctx.strokeStyle = plum;
-      ctx.lineWidth = 1.5;
+      ctx.strokeStyle = navyMid;
+      ctx.lineWidth = 1.6;
       ctx.stroke();
     }
     ctx.beginPath();
-    ctx.arc(bx, by, 13.5, 0, Math.PI * 2);
-    ctx.fillStyle = '#fff';
+    ctx.arc(bx, by, 14, 0, Math.PI * 2);
+    ctx.fillStyle = navyDeep;
     ctx.fill();
-    ctx.strokeStyle = plum;
-    ctx.lineWidth = 2;
+    ctx.strokeStyle = goldBright;
+    ctx.lineWidth = 2.4;
     ctx.stroke();
-    text(index + 1, bx, by + 0.5, 16, {
+    text(formatNum(index + 1), bx, by + 0.5, 13, {
       align: 'center',
       direction: 'ltr',
-      color: plum,
-      weight: 600,
+      color: '#FFFFFF',
+      weight: 700,
     });
   }
   ctx.restore();
 
-  text('© OpenStreetMap | Mapzen / SRTM', margin, 834, 13, { direction: 'ltr', color: muted });
-  text('دليل المحطات', right, 873, 24, { weight: 600 });
-  const column = inner / 2;
-  for (const row of rows) {
-    const x = right - Math.floor((row.number - 1) / 6) * column;
-    const y = 908 + ((row.number - 1) % 6) * 27;
-    text(row.number, x, y, 17, { color: plum, weight: 600 });
-    text(row.name, x - 32, y, 18);
-  }
-  text('استخدم تطبيق ملاحة لتحديد الطرق ومواعيد الوصول الفعلية.', right, 1100, 17, {
-    color: muted,
+  // Station Directory Card at Bottom of Page 1
+  const dirY = 796;
+  const dirH = 316;
+  roundedBox(margin, dirY, inner, dirH, 16, '#FFFFFF', border, true);
+  text('فهرس المحطات المجدولة', right - 18, dirY + 26, 17, {
+    color: navyDeep,
+    weight: 700,
+    display: true,
   });
+  ctx.fillStyle = border;
+  ctx.fillRect(margin + 18, dirY + 46, inner - 36, 1);
+
+  const colW = (inner - 48) / 2;
+  const maxPerCol = 7;
+  for (const row of rows.slice(0, maxPerCol * 2)) {
+    const colIdx = Math.floor((row.number - 1) / maxPerCol);
+    const rowIdx = (row.number - 1) % maxPerCol;
+    const itemRight = right - 18 - colIdx * (colW + 12);
+    const itemY = dirY + 68 + rowIdx * 34;
+
+    roundedBox(itemRight - 24, itemY - 12, 24, 24, 7, emeraldSoft, 'rgba(0,108,53,0.22)');
+    text(formatNum(row.number), itemRight - 12, itemY, 12, {
+      color: emerald,
+      weight: 700,
+      direction: 'ltr',
+      align: 'center',
+    });
+    text(row.name, itemRight - 32, itemY, 13.5, { color: navyDeep, weight: 700 });
+
+    const metaLeft = itemRight - colW + 4;
+    roundedBox(metaLeft, itemY - 10, 56, 20, 10, ice, border);
+    text(`اليوم ${formatNum(row.day)}`, metaLeft + 28, itemY, 10.5, {
+      color: navyMid,
+      weight: 700,
+      align: 'center',
+    });
+    text(row.starts_at, metaLeft + 64, itemY, 11, {
+      color: muted,
+      weight: 600,
+      direction: 'ltr',
+      align: 'left',
+    });
+  }
   addPage();
 
+  // ================= PAGE 2+: Architectural Station Cards =================
   for (const [index, sheet] of sheets.entries()) {
     const photos = await Promise.all(
       sheet.rows.map((row) => imageFrom(images[places.get(row.id)!.image]))
     );
-    const [firstDay, lastDay] = Array.from(sheet.days);
-    const title = lastDay ? `اليومان ${formatNum(firstDay)} و${formatNum(lastDay)}` : `اليوم ${formatNum(firstDay)}`;
-    pageBase(index + 2, title, 'برنامج الزيارة حسب ترتيب المحطات');
-    let y = 186;
+    const daysArr = Array.from(sheet.days);
+    const title =
+      daysArr.length > 1
+        ? `برنامج اليومين ${formatNum(daysArr[0])} و${formatNum(daysArr[1])}`
+        : `برنامج اليوم ${formatNum(daysArr[0])}`;
+    pageBase(index + 2, title, 'تفاصيل الزيارات والمواعيد والانتقالات حسب الترتيب');
+
+    let y = 176;
     let previousDay = 0;
     for (const [i, row] of sheet.rows.entries()) {
       const stop = places.get(row.id)!;
       if (row.day !== previousDay) {
-        box(margin, y, inner, 29, '#f1e4ef');
+        const dayGrad = ctx.createLinearGradient(margin, y, right, y);
+        dayGrad.addColorStop(0, emerald);
+        dayGrad.addColorStop(0.55, navyMid);
+        dayGrad.addColorStop(1, navyDeep);
+        roundedBox(margin, y, inner, 34, 10, dayGrad);
         text(
-          `اليوم ${formatNum(row.day)}${!i && sheet.continued ? ' | متابعة' : ''}`,
-          right - 14,
-          y + 14,
-          17,
-          { color: plum, weight: 600 }
+          `اليوم ${formatNum(row.day)}${!i && sheet.continued ? '  ·  استكمال' : ''}`,
+          right - 16,
+          y + 17,
+          15,
+          { color: '#FFFFFF', weight: 700, display: true }
         );
-        y += 37;
+        const dayStopsCount = rows.filter((r) => r.day === row.day).length;
+        text(
+          `${formatNum(dayStopsCount)} ${dayStopsCount === 1 ? 'محطة' : 'محطات'}`,
+          margin + 16,
+          y + 17,
+          12.5,
+          { color: goldBright, weight: 700, align: 'left' }
+        );
+        y += 44;
         previousDay = row.day;
       }
-      box(margin, y, inner, 192, '#fff');
-      box(margin, y, 236, 192, '#eee3ec');
-      imageCover(photos[i], margin, y, 236, 192);
+
+      const cardH = 190;
+      roundedBox(margin, y, inner, cardH, 14, '#FFFFFF', border, true);
+
+      // Emerald-Gold Right Accent Strip
+      const accentGrad = ctx.createLinearGradient(0, y, 0, y + cardH);
+      accentGrad.addColorStop(0, emerald);
+      accentGrad.addColorStop(1, gold);
+      roundedBox(right - 6, y + 14, 6, cardH - 28, 3, accentGrad);
+
+      // Rounded Destination Photo on Left
+      const photoW = 242;
+      const photoH = cardH - 20;
+      imageCoverRounded(photos[i], margin + 10, y + 10, photoW, photoH, 11);
+
       const photoNote = stationPhotoInfo[row.id];
       if (photoNote?.context) {
-        box(margin, y + 147, 236, 45, '#3d2236');
-        paragraph(photoNote.caption, margin + 226, y + 162, 13, 214, {
-          color: '#fff',
-          lineHeight: 16,
+        roundedBox(margin + 16, y + cardH - 42, photoW - 12, 26, 8, 'rgba(6, 26, 51, 0.78)');
+        text(photoNote.caption.slice(0, 36), margin + photoW - 2, y + cardH - 29, 11, {
+          color: '#FFFFFF',
+          weight: 600,
         });
       }
-      box(right - 5, y, 5, 192, '#0f766e');
-      const x = right - 22;
-      text(`المحطة ${formatNum(row.number)}  |  ${stop.tag}`, x, y + 23, 16, {
-        color: plum,
-        weight: 600,
+
+      const contentRight = right - 22;
+      const maxTextW = inner - photoW - 44;
+
+      // Step Pill + Tag Pill
+      roundedBox(contentRight - 64, y + 16, 64, 24, 12, emeraldSoft, 'rgba(0,108,53,0.22)');
+      text(`محطة ${formatNum(row.number)}`, contentRight - 32, y + 28, 12, {
+        color: emerald,
+        weight: 700,
+        align: 'center',
       });
-      text(row.name, x, y + 51, 29, { weight: 600 });
-      text(`${row.starts_at} - ${row.ends_at}`, x, y + 84, 22, {
+      text(stop.tag, contentRight - 74, y + 28, 13, { color: gold, weight: 700 });
+
+      // Bold Station Title
+      text(row.name, contentRight, y + 60, 22, { color: navyDeep, weight: 700, display: true });
+
+      // Crisp Time + Visit + Drive Metadata Pills
+      const timePillW = 128;
+      roundedBox(contentRight - timePillW, y + 82, timePillW, 26, 8, ice, border);
+      text(`${row.starts_at} – ${row.ends_at}`, contentRight - timePillW / 2, y + 95, 13.5, {
         direction: 'ltr',
-        align: 'right',
-        color: plum,
-        weight: 600,
+        align: 'center',
+        color: navyMid,
+        weight: 700,
       });
-      text(
-        `مدة الزيارة ${durationLabel(row.visit_minutes)}${
-          row.drive_minutes
-            ? `  |  الانتقال ${durationLabel(row.drive_minutes)}${row.drive_estimated ? ' تقريبًا' : ''}`
-            : ''
-        }`,
-        x,
-        y + 111,
-        16,
-        { color: muted }
-      );
-      paragraph(stop.desc, x, y + 139, 17, inner - 275, { lineHeight: 21 });
-      y += 207;
+
+      const metaStr = `زيارة ${durationLabel(row.visit_minutes)}${
+        row.drive_minutes ? `   ·   انتقال ${durationLabel(row.drive_minutes)}` : ''
+      }`;
+      text(metaStr, contentRight - timePillW - 12, y + 95, 13, { color: emerald, weight: 700 });
+
+      // Clean Description Paragraph
+      paragraph(stop.desc, contentRight, y + 128, 13.5, maxTextW, {
+        color: muted,
+        lineHeight: 20,
+        maxLines: 3,
+      });
+
+      y += cardH + 14;
     }
     addPage();
   }

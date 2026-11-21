@@ -11,8 +11,8 @@ export function DestinationDirectorySection() {
         </svg>
         <span>دليل المنطقة</span>
       </div>
-      <h3 id="directoryTitle">دليل محافظات ووجهات منطقة الباحة</h3>
-      <p>
+      <h2 id="directoryTitle">دليل محافظات ووجهات منطقة الباحة</h2>
+      <p className="lead">
         تضم منطقة الباحة العاصمة الإدارية و9 محافظات ترتبط بها 11 بلدية مع معالمها المعتمدة
       </p>
       <div className="destination-grid" id="destinationGrid" />
