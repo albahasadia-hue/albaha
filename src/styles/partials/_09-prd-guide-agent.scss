@@ -2343,10 +2343,10 @@ body:has(#homeView:not([hidden])) #sirajLauncher.bot {
 #experiences .experience.scenic-card[data-exp-tone="nature"]::before {
   background: linear-gradient(
     180deg,
-    rgba(6, 78, 56, 0.04) 0%,
-    rgba(6, 95, 70, 0.14) 38%,
-    rgba(4, 108, 72, 0.68) 66%,
-    rgba(4, 86, 56, 0.9) 84%,
+    transparent 52%,
+    rgba(6, 95, 70, 0.14) 61%,
+    rgba(4, 108, 72, 0.68) 73%,
+    rgba(4, 86, 56, 0.9) 86%,
     rgba(3, 66, 44, 0.96) 100%
   ) !important;
 }
@@ -2361,10 +2361,10 @@ body:has(#homeView:not([hidden])) #sirajLauncher.bot {
 #experiences .experience.scenic-card[data-exp-tone="heritage"]::before {
   background: linear-gradient(
     180deg,
-    rgba(110, 72, 18, 0.04) 0%,
-    rgba(138, 92, 24, 0.14) 38%,
-    rgba(154, 104, 28, 0.7) 66%,
-    rgba(124, 80, 18, 0.9) 84%,
+    transparent 52%,
+    rgba(138, 92, 24, 0.14) 61%,
+    rgba(154, 104, 28, 0.7) 73%,
+    rgba(124, 80, 18, 0.9) 86%,
     rgba(92, 58, 12, 0.96) 100%
   ) !important;
 }
@@ -2379,10 +2379,10 @@ body:has(#homeView:not([hidden])) #sirajLauncher.bot {
 #experiences .experience.scenic-card[data-exp-tone="family"]::before {
   background: linear-gradient(
     180deg,
-    rgba(10, 56, 102, 0.04) 0%,
-    rgba(12, 82, 136, 0.16) 38%,
-    rgba(14, 108, 168, 0.7) 66%,
-    rgba(10, 78, 132, 0.9) 84%,
+    transparent 52%,
+    rgba(12, 82, 136, 0.16) 61%,
+    rgba(14, 108, 168, 0.7) 73%,
+    rgba(10, 78, 132, 0.9) 86%,
     rgba(7, 56, 100, 0.96) 100%
   ) !important;
 }
