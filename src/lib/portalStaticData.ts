@@ -1408,13 +1408,6 @@ export const tourGuideShortSubtitles: Record<string, string> = {
   'hala-restaurant': 'مأكولات داخل منتجع قمرة الجبلي',
 };
 
-// Edited descriptions for the first three places selected for the detail-page review.
-export const placeDetailSampleDescriptions: Partial<Record<string, string>> = {
-  'almond-farm': 'منتجع ريفي يضم بحيرة وجلسات وسط الطبيعة، مع مقهى وأكواخ للمبيت.',
-  'khairah-waterfall': 'شلال طبيعي، ونقطة الوصول المنشورة له عند متنزه غابة خيرة.',
-  hussam: 'منتزه عائلي تحيط ببحيرته ممرات للمشي وجلسات، ويضم مسرحًا مفتوحًا.',
-};
-
 export const alBahaRegionsSvg = [
   { name: 'مدينة الباحة', lat: 20.0129, lng: 41.4676, major: true },
   { name: 'بلجرشي', lat: 19.8589, lng: 41.5572, major: true },

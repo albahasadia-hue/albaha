@@ -13,7 +13,6 @@ import {
   climateCities,
   images,
   placeNotes,
-  placeDetailSampleDescriptions,
   places,
   regionalStops,
   seasons,
@@ -23,6 +22,8 @@ import {
   typeIcons,
   typeLabels,
 } from './portalStaticData';
+import { catalogDetailDescriptions, placeDetailDescriptions } from './guideDetailCopy';
+import { getGuide144ByStopId } from './guideCatalog144';
 import {
   bindSwipe,
   byId,
@@ -440,7 +441,10 @@ export function createSubpageViewsController(deps: SubpageViewsDeps): SubpageVie
     if (!placeView) return;
     const viewSignal = newViewSignal();
     const notes = placeNotes[stop.id];
-    const sampleDescription = placeDetailSampleDescriptions[stop.id];
+    const record = getGuide144ByStopId(stop.id);
+    const description = placeDetailDescriptions[stop.id]
+      || (record && catalogDetailDescriptions[record.id])
+      || notes.about;
     const visit = stopVisit[stop.id];
     const ops = stop.operational || stopOperationalCatalog[stop.id];
     const city = climateCities[visit?.city] || climateCities.baha;
@@ -475,14 +479,14 @@ export function createSubpageViewsController(deps: SubpageViewsDeps): SubpageVie
     placeView.innerHTML = `
       <div class="container">
         <nav class="place-trail" aria-label="مسار الصفحة"><a href="#home">الرئيسية</a><span aria-hidden="true">/</span><a href="#city/${visit.city}">${city.name}</a><span aria-hidden="true">/</span><span aria-current="page">${stop.name}</span></nav>
-        <div class="place-hero place-hero--destination${sampleDescription ? ' place-hero--sample' : ''}">
+        <div class="place-hero place-hero--destination">
           <div class="place-hero-copy">
             <div class="place-kicker-row">
               <span class="place-cat-pill">${glyph(typeIcons[category], 'ic tiny')} ${typeLabels[category]}</span>
               <span class="place-area-pill">${glyph('pin', 'ic tiny')} ${notes.area}</span>
             </div>
             <h1 id="placeTitle" tabindex="-1">${stop.name}</h1>
-            <p class="lead">${sampleDescription || notes.about}</p>
+            <p class="lead">${description}</p>
             <dl class="place-facts">
               <div><dt>${cardHead(glyph('weather', 'card-ic-svg'), 'الوقت المقترح')}</dt><dd>${timed ? `<bdi dir="ltr">${clock(timed.start)}–${clock(timed.end)}</bdi>` : visit.best}</dd></div>
               <div><dt>${cardHead(subpageSvgMap.clock, 'مدة الزيارة')}</dt><dd>${formatNum(timed ? timed.end - timed.start : stop.min)} دقيقة</dd></div>

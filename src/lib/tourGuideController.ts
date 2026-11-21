@@ -16,7 +16,6 @@ import {
   domMedia,
   geo,
   images,
-  placeDetailSampleDescriptions,
   places,
   tourGuide,
   tourGuideArtMap,
@@ -34,8 +33,8 @@ import {
   loadMapLibreLibrary,
   pathFrom,
   projectSvgGeo,
-  subpageSvgMap,
 } from './portalHelpers';
+import { catalogDetailDescriptions, placeDetailDescriptions } from './guideDetailCopy';
 import { bindMediaShowcase, mediaShowcaseMarkup, openUnifiedLightbox } from './weatherAndShowcase';
 import {
   getGuide144ById,
@@ -200,13 +199,10 @@ function directoryMedia(place: GuideRecord): Array<{ key: string; real: boolean 
   return out.slice(0, 5);
 }
 
-function tourGuideSourceLabel(source = ''): string {
-  if (source.includes('bso.gov.sa')) return 'المكتب الاستراتيجي لتطوير منطقة الباحة';
-  if (source.includes('visitsaudi.com')) return 'دليل صيف السعودية';
-  if (source.includes('saudipedia.com')) return 'سعوديبيديا';
-  if (source.includes('gamramountainresort.com')) return 'منتجع قمرة الجبلي';
-  return 'أمانة منطقة الباحة';
-}
+const guideLocationKey = (value: string): string =>
+  guideKey(value).replace(/^(?:محافظه|مدينه|منطقه)\s+/u, '');
+
+const locationFactLabels = /^(المحافظة|المدينة|المنطقة|الموقع|العنوان|النطاق)$/u;
 
 function prepareGuideMapNodes(pinned: GuideRecord[]): GuideMapNode[] {
   const placed: Array<{ lat0: number; lng0: number }> = [];
@@ -1124,9 +1120,10 @@ export function createTourGuideController(deps: TourGuideControllerDeps): TourGu
     const category = tourGuideCategories.get(place.category) || tourGuide.categories[0];
     const details = place.facts || [];
     const advice = directoryAdvice[place.category] || directoryAdvice.parks;
-    const sampleDescription = placeDetailSampleDescriptions[place.id];
     const district = place.district || 'الباحة';
-    const rating = item144?.ratingRaw || '';
+    const rating = typeof item144?.rating === 'number'
+      ? item144.ratingRaw || formatNum(item144.rating)
+      : '';
     const showcaseItems: MediaShowcaseItem[] =
       item144 && item144.imageIsFallback && item144.image === NEUTRAL_PLACEHOLDER_IMAGE
         ? [
@@ -1143,18 +1140,13 @@ export function createTourGuideController(deps: TourGuideControllerDeps): TourGu
       : place.accessMap
         ? 'نقطة الوصول المنشورة'
         : 'ابحث عنه في الخرائط';
-    const summary =
-      sampleDescription ||
-      item144?.description ||
-      place.description ||
-      `هذا المكان مُدرج في دليل منطقة الباحة ضمن فئة ${category.label}، ويقع ضمن نطاق ${place.district || 'منطقة الباحة'}.`;
+    const catalogSummary = item144 && (catalogDetailDescriptions[item144.id] || item144.shortDescription);
+    const summary = placeDetailDescriptions[place.id] || catalogSummary || place.description || '';
+    const classification = item144?.type || category.label;
     const metadata: [label: string, value: string, icon: string][] = [
-      ['التصنيف', item144?.type || category.label, glyph(guideCategoryIcon(category), 'card-ic-svg')],
+      ['التصنيف', classification, glyph(guideCategoryIcon(category), 'card-ic-svg')],
     ];
-    if (!sampleDescription) {
-      metadata.push(['المحافظة', district, glyph('pin', 'card-ic-svg')]);
-      metadata.push(['التقييم', rating || advice.kind, subpageSvgMap.spark]);
-    } else if (rating) {
+    if (rating) {
       metadata.push(['التقييم', rating, glyph('foot-message', 'card-ic-svg')]);
     }
     const contactActions: string[] = [];
@@ -1179,15 +1171,22 @@ export function createTourGuideController(deps: TourGuideControllerDeps): TourGu
         `<a class="btn btn-soft" href="${guideText(item144.officialWebsite.url)}" target="_blank" rel="noopener noreferrer">${guideText(item144.officialWebsite.label)} ${glyph('external', 'ic tiny')}</a>`
       );
     }
-    const extraFacts = details.filter(([label, value]) => {
-      if (!sampleDescription) return true;
-      const repeatedDistrict = /^(المحافظة|المدينة|المنطقة)$/.test(label)
-        && guideKey(value) === guideKey(district);
-      const repeatedRating = Boolean(rating) && /تقييم/.test(label) && guideKey(value) === guideKey(rating);
-      return !repeatedDistrict && !repeatedRating;
-    });
-    if (!sampleDescription && rating && !extraFacts.some(([label]) => /تقييم/.test(label))) {
-      extraFacts.push(['التقييم في الدليل', rating]);
+    const shownLocations = new Set(['الباحة', district, place.name].map(guideLocationKey));
+    const distinctLocation = (address: string): string =>
+      address.split(/\s*[·،–—-]\s*/u).map((part) => part.trim())
+        .filter((part) => part && !shownLocations.has(guideLocationKey(part)))
+        .join(' · ');
+    const extraFacts: [string, string][] = [];
+    for (const [label, value] of details) {
+      if (/تقييم/.test(label) && (!rating || guideKey(value) === guideKey(rating))) continue;
+      if (/^(النوع|التصنيف)$/u.test(label) && guideKey(value) === guideKey(classification)) continue;
+      const detail = locationFactLabels.test(label) ? distinctLocation(value) : value;
+      if (detail) extraFacts.push([label, detail]);
+    }
+    const locality = distinctLocation(place.address);
+    if (locality && !guideKey(summary).includes(guideKey(locality))
+      && !extraFacts.some(([label]) => locationFactLabels.test(label))) {
+      extraFacts.push(['الموقع', locality]);
     }
     if (item144?.priceRange && !extraFacts.some(([k]) => /سعر|أسعار/.test(k))) {
       extraFacts.push(['نطاق الأسعار التقريبي', item144.priceRange]);
@@ -1201,9 +1200,7 @@ export function createTourGuideController(deps: TourGuideControllerDeps): TourGu
             <span class="place-area-pill">${glyph('pin', 'ic tiny')} ${guideText(district)}</span>
           </div>
           <h1 class="tour-guide-title" id="tourGuideTitle" tabindex="-1">${guideText(place.name)}</h1>
-          ${sampleDescription ? '' : `<p class="tour-guide-address">${glyph('pin', 'ic tiny')} ${guideText(place.address)}</p>`}
-          <p class="lead">${guideText(summary)}</p>
-          ${sampleDescription ? '' : `<p class="directory-category-summary">${guideText(advice.intro)}</p>`}
+          ${summary ? `<p class="lead">${guideText(summary)}</p>` : ''}
           <div class="directory-meta-grid" data-cols="${metadata.length}">
             ${metadata.map(([label, value, icon]) => `<div><small>${cardHead(icon, label)}</small><strong>${guideText(value)}</strong></div>`).join('')}
           </div>
@@ -1230,7 +1227,6 @@ export function createTourGuideController(deps: TourGuideControllerDeps): TourGu
         <div><span class="directory-eyebrow">قبل الزيارة</span><h2>إرشادات الزيارة والتنظيم</h2><p>${guideText(advice.intro)}</p></div>
         <ol>${advice.tips.map((tip, i) => `<li><span>${formatNum(i + 1)}</span><p>${guideText(tip)}</p></li>`).join('')}</ol>
       </section>
-      <div class="tour-guide-credits"><a class="tour-guide-source" href="${guideText(place.source || tourGuide.source)}" target="_blank" rel="noopener noreferrer">المصدر | ${guideText(place.sourceLabel || tourGuideSourceLabel(place.source))} ${glyph('external', 'ic tiny')}</a><a class="tour-guide-source" href="#guide">العودة إلى الدليل</a></div>
     </div>`;
   }
 
