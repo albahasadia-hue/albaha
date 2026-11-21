@@ -1016,9 +1016,8 @@ export function createTourGuideController(deps: TourGuideControllerDeps): TourGu
       ${guideTrail()}
       <section class="tour-guide-cover" aria-labelledby="tourGuideTitle">
         <div class="tour-guide-intro">
-          <span class="tour-guide-kicker">${glyph('section-guide', 'ic tiny')}<span>دليل الزائر الرسمي · منطقة الباحة</span></span>
-          <h1 class="tour-guide-title" id="tourGuideTitle" tabindex="-1">الدليل السياحي لمنطقة الباحة</h1>
-          <p>استكشف المنتزهات الوطنية، القرى التراثية، الشلالات، المزارع الريفية، وخيارات الضيافة والمطاعم في مختلف محافظات الباحة.</p>
+          <h1 class="tour-guide-title" id="tourGuideTitle" tabindex="-1">${glyph('section-guide')}<span>دليل الباحة السياحي</span></h1>
+          <p>استكشف معالم الباحة وتجاربها.</p>
           <div class="tour-guide-stats">
             <span><strong>${formatNum(tourGuide.records.length)}</strong> معلم ووجهة</span>
             <span><strong>${formatNum(tourGuide.categories.length)}</strong> فئات متنوعة</span>
@@ -1044,36 +1043,38 @@ export function createTourGuideController(deps: TourGuideControllerDeps): TourGu
         </div>
         <div class="tour-guide-field tour-guide-district-field">
           <span id="tourGuideDistrictLabel">المحافظة أو النطاق</span>
-          <div class="guide-district-picker${filter.district ? ' is-filtered' : ''}" id="tourGuideDistrictPicker">
-            <select id="tourGuideDistrict" class="guide-native-select-sr" tabindex="-1" aria-hidden="true"><option value="">كل المحافظات والمناطق</option>${tourGuideDistricts.map((district) => `<option value="${guideText(district)}"${filter.district === district ? ' selected' : ''}>${guideText(district)}</option>`).join('')}</select>
-            <button type="button" class="guide-district-trigger" id="tourGuideDistrictTrigger" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="tourGuideDistrictLabel tourGuideDistrictText">
-              <span class="guide-district-trigger-main">
-                ${glyph('pin', 'ic tiny guide-district-pin')}
-                <span id="tourGuideDistrictText">${guideText(filter.district || 'كل المحافظات والمناطق')}</span>
-              </span>
-              <span class="guide-district-trigger-end">
-                <span class="guide-district-count" id="tourGuideDistrictBadge">${formatNum(filter.district ? tourGuideDistrictCounts.get(filter.district) || 0 : tourGuide.records.length)}</span>
-                ${glyph('chevron', 'ic tiny guide-district-chev')}
-              </span>
-            </button>
-            <div class="guide-district-menu" id="tourGuideDistrictMenu" role="listbox" aria-labelledby="tourGuideDistrictLabel" hidden>
-              <button type="button" class="guide-district-option is-all" role="option" data-district-value="" aria-selected="${!filter.district}">
-                <span class="guide-district-option-label">${glyph('map', 'ic tiny')}<span>كل المحافظات والمناطق</span></span>
-                <span class="guide-district-option-meta"><small>${formatNum(tourGuide.records.length)}</small>${glyph('check', 'ic tiny guide-district-check')}</span>
+          <div class="tour-guide-district-row">
+            <div class="guide-district-picker${filter.district ? ' is-filtered' : ''}" id="tourGuideDistrictPicker">
+              <select id="tourGuideDistrict" class="guide-native-select-sr" tabindex="-1" aria-hidden="true"><option value="">كل المحافظات والمناطق</option>${tourGuideDistricts.map((district) => `<option value="${guideText(district)}"${filter.district === district ? ' selected' : ''}>${guideText(district)}</option>`).join('')}</select>
+              <button type="button" class="guide-district-trigger" id="tourGuideDistrictTrigger" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="tourGuideDistrictLabel tourGuideDistrictText">
+                <span class="guide-district-trigger-main">
+                  ${glyph('pin', 'ic tiny guide-district-pin')}
+                  <span id="tourGuideDistrictText">${guideText(filter.district || 'كل المحافظات والمناطق')}</span>
+                </span>
+                <span class="guide-district-trigger-end">
+                  <span class="guide-district-count" id="tourGuideDistrictBadge">${formatNum(filter.district ? tourGuideDistrictCounts.get(filter.district) || 0 : tourGuide.records.length)}</span>
+                  ${glyph('chevron', 'ic tiny guide-district-chev')}
+                </span>
               </button>
-              <div class="guide-district-divider" role="separator"></div>
-              ${tourGuideDistricts
-                .map(
-                  (district) => `<button type="button" class="guide-district-option" role="option" data-district-value="${guideText(district)}" aria-selected="${filter.district === district}">
-                <span class="guide-district-option-label">${glyph('pin', 'ic tiny')}<span>${guideText(district)}</span></span>
-                <span class="guide-district-option-meta"><small>${formatNum(tourGuideDistrictCounts.get(district) || 0)}</small>${glyph('check', 'ic tiny guide-district-check')}</span>
-              </button>`
-                )
-                .join('')}
+              <div class="guide-district-menu" id="tourGuideDistrictMenu" role="listbox" aria-labelledby="tourGuideDistrictLabel" hidden>
+                <button type="button" class="guide-district-option is-all" role="option" data-district-value="" aria-selected="${!filter.district}">
+                  <span class="guide-district-option-label">${glyph('map', 'ic tiny')}<span>كل المحافظات والمناطق</span></span>
+                  <span class="guide-district-option-meta"><small>${formatNum(tourGuide.records.length)}</small>${glyph('check', 'ic tiny guide-district-check')}</span>
+                </button>
+                <div class="guide-district-divider" role="separator"></div>
+                ${tourGuideDistricts
+                  .map(
+                    (district) => `<button type="button" class="guide-district-option" role="option" data-district-value="${guideText(district)}" aria-selected="${filter.district === district}">
+                  <span class="guide-district-option-label">${glyph('pin', 'ic tiny')}<span>${guideText(district)}</span></span>
+                  <span class="guide-district-option-meta"><small>${formatNum(tourGuideDistrictCounts.get(district) || 0)}</small>${glyph('check', 'ic tiny guide-district-check')}</span>
+                </button>`
+                  )
+                  .join('')}
+              </div>
             </div>
+            <button id="tourGuideReset" class="tour-guide-reset-button" type="button" data-guide-clear aria-label="مسح الفلاتر" title="مسح الفلاتر" hidden>${glyph('x', 'ic tiny')}</button>
           </div>
         </div>
-        <button class="tour-guide-reset tour-guide-reset-pill" type="button" data-guide-clear>${glyph('x', 'ic tiny')}<span>مسح الفلاتر</span></button>
       </div>
       <section aria-labelledby="tourGuideCategoriesTitle">
         <div class="tour-guide-rowhead">
@@ -1112,7 +1113,6 @@ export function createTourGuideController(deps: TourGuideControllerDeps): TourGu
         <div id="tourGuideResults"></div>
         <div class="tour-guide-more" id="tourGuideMore" hidden><button class="btn btn-soft" type="button" data-guide-more>عرض المزيد ${glyph('chevron', 'ic tiny')}</button></div>
       </section>
-      <p class="tour-guide-directory-source"><a class="tour-guide-source" id="tourGuideSource" href="${tourGuide.source}" target="_blank" rel="noopener">دليل أمانة منطقة الباحة ${glyph('external', 'ic tiny')}</a></p>
     </div>`;
   }
 
@@ -1255,8 +1255,8 @@ export function createTourGuideController(deps: TourGuideControllerDeps): TourGu
         ? `${formatNum(pinned.length)} على الخريطة من ${formatNum(matched.length)} نتيجة`
         : `عرض ${formatNum(Math.min(filter.limit, matched.length))} من ${formatNum(matched.length)} سجلًا`;
     }
-    const sourceEl = byId('tourGuideSource') as HTMLAnchorElement | null;
-    if (sourceEl) sourceEl.href = category?.source || tourGuide.source;
+    const resetButton = byId('tourGuideReset');
+    if (resetButton) resetButton.hidden = !(filter.category || filter.district || filter.query.trim());
     const moreEl = byId('tourGuideMore');
     if (moreEl) moreEl.hidden = mapped || matched.length <= filter.limit;
     tourGuideView.querySelectorAll<HTMLElement>('[data-guide-category]').forEach((button) => {
@@ -1667,6 +1667,7 @@ export function createTourGuideController(deps: TourGuideControllerDeps): TourGu
       filter.limit = 12;
       refreshTourGuide();
       if (button.dataset.guideCategory) jumpInTourGuide('tourGuideResultsHead');
+      else if (button.id === 'tourGuideReset') byId('tourGuideDistrictTrigger')?.focus({ preventScroll: true });
       else if (!button.isConnected) byId('tourGuideSearch')?.focus({ preventScroll: true });
     },
     { signal }

@@ -1238,7 +1238,6 @@ html:has(.city-report[open]) { overflow: hidden; }
 .tour-guide-more { display: flex; justify-content: center; margin-top: 18px; }
 .tour-guide-more .btn { min-width: 155px; }
 .tour-guide-source { display: inline-flex; align-items: center; flex-wrap: wrap; gap: 6px; color: var(--purple-deep); font-size: .82rem; font-weight: 650; }
-.tour-guide-directory-source { margin-top: 22px; }
 .tour-guide-empty { padding: 24px; border: 1px dashed #99c9b8; border-radius: 15px; background: #FCFBF7; color: var(--muted); }
 .tour-guide-empty p { margin-bottom: 8px; }
 .tour-guide-map-layout { display: grid; grid-template-columns: minmax(0, 1.75fr) minmax(220px, 1fr); align-items: start; gap: 14px; }
