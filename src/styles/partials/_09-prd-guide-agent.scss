@@ -3164,13 +3164,11 @@ body:has(#homeView:not([hidden])) #header:not(.is-scrolled) .nav-links a[aria-cu
     gap: 2px !important;
     font-size: 0.7rem !important;
     font-weight: 700 !important;
-    border: 1px solid #CFDDE9 !important;
-    background: #F8FBFD !important;
     color: #0A2E5C !important;
     transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease, transform 0.18s ease;
   }
 
-  #planner .planner-unified-card #routeSticky #routeDots button:hover {
+  #planner .planner-unified-card #routeSticky #routeDots button:not(.active):hover {
     border-color: #096B58 !important;
     background: #ECF7F2 !important;
     transform: translateY(-1px);
@@ -3984,7 +3982,7 @@ body:has(#homeView:not([hidden])) #header:not(.is-scrolled) .nav-links a[aria-cu
   }
 }
 
-/* Compact Dining Spot Cards: Tag Pushed Far Left, Zero Border, Soft Shadow */
+/* Compact dining cards with a light border and soft shadow */
 #visit-guide .dining-spots {
   display: grid !important;
   gap: 9px !important;
@@ -3993,8 +3991,7 @@ body:has(#homeView:not([hidden])) #header:not(.is-scrolled) .nav-links a[aria-cu
 #visit-guide .dining-spot {
   padding: 11px 14px !important;
   border-radius: 8px !important;
-  border: 0 !important;
-  border-block-start: 0 !important;
+  border: 1px solid #DCE6F0 !important;
   background: #F7FAFD !important;
   box-shadow: 0 4px 14px rgba(6, 26, 51, 0.055), 0 1px 3px rgba(6, 26, 51, 0.03) !important;
   display: flex;
@@ -4574,7 +4571,6 @@ body:has(#homeView[hidden]) #header .header-plan-button {
 #planner .trip-summary--board .summary-day-card,
 #visit-guide .guide-card,
 #visit-guide .guide-dining-list,
-#visit-guide .dining-spot,
 #visit-guide .guide-flavors,
 #visit-guide .guide-camp-banner,
 #visit-guide #guideDaySection.guide-day,
@@ -4703,10 +4699,9 @@ body:has(#homeView[hidden]) #header .header-plan-button {
   border-radius: 6px !important;
 }
 
-/* Remove Colored Borders on Secondary Buttons, Station Dots & Badges -> Clean Ambient Shadow */
+/* Soft shadows on secondary buttons and badges */
 .btn-soft,
 .route-footer .btn-soft,
-#planner .planner-unified-card #routeSticky #routeDots button,
 #planner .trip-summary--board .summary-day-edit-btn,
 #planner .planner-unified-card #routeSticky .route-category.route-category--overlay,
 #planner .planner-live-emblem {
@@ -4718,8 +4713,14 @@ body:has(#homeView[hidden]) #header .header-plan-button {
   border: 0 !important;
 }
 
+#planner .planner-unified-card #routeSticky #routeDots button:not(.active) {
+  background: #FFFFFF !important;
+  border: 1px solid #DCE6F0 !important;
+  box-shadow: 0 3px 10px rgba(6, 26, 51, 0.08) !important;
+}
+
 #planner .planner-unified-card #routeSticky #routeDots button.active {
-  border: 0 !important;
+  border: 1px solid transparent !important;
   box-shadow: 0 5px 14px rgba(6, 26, 51, 0.22) !important;
 }
 
