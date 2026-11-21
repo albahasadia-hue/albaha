@@ -68,6 +68,11 @@
   padding: calc(var(--header) + 26px) 0 clamp(56px, 7vw, 88px) !important;
   background: linear-gradient(180deg, #F5F1E6 0%, #F7F4EC 52%, #FCFBF7 100%) !important;
 }
+.place-view:has(.place-hero--destination),
+.tour-guide:has(.tour-guide-detail) {
+  background: radial-gradient(ellipse at top left, #edf8f6 0%, transparent 48%),
+    linear-gradient(180deg, #fbfaf7 0%, #fff 72%) !important;
+}
 .place-trail {
   margin-bottom: 14px !important;
   color: #405e71 !important;
@@ -1820,6 +1825,12 @@ html.motion-paused .ab-showcase-img.is-active {
   align-items: stretch !important;
   margin: 14px 0 !important;
 }
+.directory-meta-grid[data-cols="1"] {
+  grid-template-columns: minmax(0, 1fr) !important;
+}
+.directory-meta-grid[data-cols="2"] {
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+}
 .directory-meta-grid > div,
 .tour-guide-facts dl > div {
   display: flex !important;
@@ -2152,8 +2163,9 @@ html.motion-paused .ab-showcase-img.is-active {
   }
 }
 @media (max-width: 540px) {
+  #placeView .place-hero--sample .place-facts,
   .place-facts,
-  .directory-meta-grid,
+  .directory-meta-grid[data-cols],
   .tour-guide-facts dl,
   .tour-guide-facts dl[data-cols],
   .place-hero-copy .place-actions,

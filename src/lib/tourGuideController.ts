@@ -16,6 +16,7 @@ import {
   domMedia,
   geo,
   images,
+  placeDetailSampleDescriptions,
   places,
   tourGuide,
   tourGuideArtMap,
@@ -1123,6 +1124,9 @@ export function createTourGuideController(deps: TourGuideControllerDeps): TourGu
     const category = tourGuideCategories.get(place.category) || tourGuide.categories[0];
     const details = place.facts || [];
     const advice = directoryAdvice[place.category] || directoryAdvice.parks;
+    const sampleDescription = placeDetailSampleDescriptions[place.id];
+    const district = place.district || 'الباحة';
+    const rating = item144?.ratingRaw || '';
     const showcaseItems: MediaShowcaseItem[] =
       item144 && item144.imageIsFallback && item144.image === NEUTRAL_PLACEHOLDER_IMAGE
         ? [
@@ -1140,9 +1144,19 @@ export function createTourGuideController(deps: TourGuideControllerDeps): TourGu
         ? 'نقطة الوصول المنشورة'
         : 'ابحث عنه في الخرائط';
     const summary =
+      sampleDescription ||
       item144?.description ||
       place.description ||
       `هذا المكان مُدرج في دليل منطقة الباحة ضمن فئة ${category.label}، ويقع ضمن نطاق ${place.district || 'منطقة الباحة'}.`;
+    const metadata: [label: string, value: string, icon: string][] = [
+      ['التصنيف', item144?.type || category.label, glyph(guideCategoryIcon(category), 'card-ic-svg')],
+    ];
+    if (!sampleDescription) {
+      metadata.push(['المحافظة', district, glyph('pin', 'card-ic-svg')]);
+      metadata.push(['التقييم', rating || advice.kind, subpageSvgMap.spark]);
+    } else if (rating) {
+      metadata.push(['التقييم', rating, glyph('foot-message', 'card-ic-svg')]);
+    }
     const contactActions: string[] = [];
     if (item144?.phones.length) {
       const primaryPhone = item144.phones[0];
@@ -1165,9 +1179,15 @@ export function createTourGuideController(deps: TourGuideControllerDeps): TourGu
         `<a class="btn btn-soft" href="${guideText(item144.officialWebsite.url)}" target="_blank" rel="noopener noreferrer">${guideText(item144.officialWebsite.label)} ${glyph('external', 'ic tiny')}</a>`
       );
     }
-    const extraFacts: [string, string][] = [...details];
-    if (item144?.ratingRaw && !extraFacts.some(([k]) => /تقييم/.test(k))) {
-      extraFacts.push(['التقييم في الدليل', item144.ratingRaw]);
+    const extraFacts = details.filter(([label, value]) => {
+      if (!sampleDescription) return true;
+      const repeatedDistrict = /^(المحافظة|المدينة|المنطقة)$/.test(label)
+        && guideKey(value) === guideKey(district);
+      const repeatedRating = Boolean(rating) && /تقييم/.test(label) && guideKey(value) === guideKey(rating);
+      return !repeatedDistrict && !repeatedRating;
+    });
+    if (!sampleDescription && rating && !extraFacts.some(([label]) => /تقييم/.test(label))) {
+      extraFacts.push(['التقييم في الدليل', rating]);
     }
     if (item144?.priceRange && !extraFacts.some(([k]) => /سعر|أسعار/.test(k))) {
       extraFacts.push(['نطاق الأسعار التقريبي', item144.priceRange]);
@@ -1178,13 +1198,15 @@ export function createTourGuideController(deps: TourGuideControllerDeps): TourGu
         <div class="directory-intro-copy">
           <div class="place-kicker-row">
             <span class="place-cat-pill">${glyph(guideCategoryIcon(category), 'ic tiny')} ${guideText(item144?.categoryAr || category.label)}</span>
-            <span class="place-area-pill">${glyph('pin', 'ic tiny')} ${guideText(place.district || 'الباحة')}</span>
+            <span class="place-area-pill">${glyph('pin', 'ic tiny')} ${guideText(district)}</span>
           </div>
           <h1 class="tour-guide-title" id="tourGuideTitle" tabindex="-1">${guideText(place.name)}</h1>
-          <p class="tour-guide-address">${glyph('pin', 'ic tiny')} ${guideText(place.address)}</p>
+          ${sampleDescription ? '' : `<p class="tour-guide-address">${glyph('pin', 'ic tiny')} ${guideText(place.address)}</p>`}
           <p class="lead">${guideText(summary)}</p>
-          <p class="directory-category-summary">${guideText(advice.intro)}</p>
-          <div class="directory-meta-grid"><div><small>${cardHead(glyph(guideCategoryIcon(category), 'card-ic-svg'), 'التصنيف')}</small><strong>${guideText(item144?.type || category.label)}</strong></div><div><small>${cardHead(glyph('pin', 'card-ic-svg'), 'المحافظة')}</small><strong>${guideText(place.district || 'الباحة')}</strong></div><div><small>${cardHead(subpageSvgMap.spark, 'التقييم')}</small><strong>${guideText(item144?.ratingRaw || advice.kind)}</strong></div></div>
+          ${sampleDescription ? '' : `<p class="directory-category-summary">${guideText(advice.intro)}</p>`}
+          <div class="directory-meta-grid" data-cols="${metadata.length}">
+            ${metadata.map(([label, value, icon]) => `<div><small>${cardHead(icon, label)}</small><strong>${guideText(value)}</strong></div>`).join('')}
+          </div>
           <div class="place-actions">
             ${contactActions.join('')}
             <a class="btn ${contactActions.some((c) => c.includes('btn-dark')) ? 'btn-soft' : 'btn-dark'}" href="${guideText(place.map || place.accessMap || search)}" target="_blank" rel="noopener noreferrer">${glyph('map')} ${mapLabel}</a>
