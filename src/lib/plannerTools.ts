@@ -223,6 +223,7 @@ export function createInitialConciergeContext(season: SeasonKey): ConciergeConte
     completedIds: [],
     excludedIds: [],
     lastGuideItemId: null,
+    recentPlaceIds: [],
     interests: [],
     withChildren: false,
     lessWalking: false,

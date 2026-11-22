@@ -896,7 +896,18 @@ export function createSmartGuideUiController(deps: ConciergeControllerDeps): {
         response: reply,
         failedInput: reply.retryable ? { input, label: displayLabel } : undefined,
       });
-      history.push({ role: 'assistant', text: reply.replyText });
+      const historySummaryParts = [reply.replyText];
+      if (reply.places.length > 0) {
+        historySummaryParts.push(
+          `[الأماكن المعروضة: ${reply.places.map((p) => `${p.name} (id:${p.id}، ${p.governorate})`).join(' | ')}]`
+        );
+      } else if (reply.itinerary?.groupedDays?.length) {
+        const stopNames = reply.itinerary.groupedDays
+          .map((d) => `${d.label}: ${d.stops.map((s) => `${s.name} ${s.startTime}`).join('، ')}`)
+          .join(' | ');
+        historySummaryParts.push(`[برنامج الرحلة المعروض: ${stopNames}]`);
+      }
+      history.push({ role: 'assistant', text: historySummaryParts.join('\n') });
       saveSession();
       scrollToElement(bubble);
 

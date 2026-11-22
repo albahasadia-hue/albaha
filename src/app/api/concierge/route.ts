@@ -23,6 +23,14 @@ interface GeminiStructuredOutput {
   placeReasons?: Array<{ id?: number; reason?: string }>;
 }
 
+const ALBAHA_REGIONAL_OVERVIEW = [
+  'حقائق مرجعية عامة عن منطقة الباحة (للمحادثة الطبيعية والإرشاد العام):',
+  '- تنقسم الباحة إلى قطاع السراة الجبلي المرتفع المعتدل والبارد صيفاً (مدينة الباحة، بلجرشي، المندق، القرى، بني حسن) وقطاع تهامة الدافئ شتاءً (المخواة، قلوة، غامد الزناد، الحجرة)، إضافة إلى محافظة العقيق في البادية حيث يقع مطار الملك سعود بن عبدالعزيز الإقليمي (ABT).',
+  '- يربط السراة بتهامة طرق وعقبات جبلية أشهرها عقبة الملك فهد (الباحة – المخواة)، ويُنصح فيها بالقيادة الهادئة وفحص الفرامل خاصة عند الضباب أو المطر.',
+  '- أشهر أكلات ومنتجات الباحة: الدغابيس، العصيدة، الخبزة المقناة، العريكة، عسل السدر، البن الشدوي، الرمان والعنب والفواكه الموسمية.',
+  '- أبرز المعالم: غابة رغدان، قرية ذي عين التراثية (المخواة)، متنزه الأمير حسام، جبل شدا، غابة خيرة وشلالاتها، ومتنزه الخلب (المندق).',
+].join('\n');
+
 function buildSystemInstruction(turn: SmartGuideTurnComputation, payload: SmartGuideRequestPayload): string {
   const retrievedJson = serializeRetrievedRecordsForLlm(turn.retrievedItems);
   const itinerarySummary = turn.response.itinerary
@@ -48,20 +56,39 @@ function buildSystemInstruction(turn: SmartGuideTurnComputation, payload: SmartG
       })
     : null;
 
+  const contextHints: string[] = [];
+  if (turn.unconfirmedTopic) {
+    contextHints.push(
+      `ملاحظة مهمة: الزائر يسأل عن «${turn.unconfirmedTopic}»، وهذه المعلومة غير مؤكدة في سجل المكان بالدليل؛ اذكر بوضوح «الدليل ما فيه تأكيد عنها حالياً» ووجّهه للتواصل المباشر مع المكان.`
+    );
+  }
+  if (turn.referenceFact) {
+    contextHints.push(`ملاحظة سياقية: ${turn.referenceFact}`);
+  }
+  if (turn.intentKind === 'trip_modify_time') {
+    contextHints.push('تم تعديل وقت بداية البرنامج مع الحفاظ على بقية أيام ومحطات الرحلة كما في برنامج الرحلة المعتمد أدناه.');
+  } else if (turn.intentKind === 'trip_swap_stop') {
+    contextHints.push('تم تبديل المحطة المطلوبة مع الحفاظ على بقية أيام ومواعيد الرحلة كما في برنامج الرحلة المعتمد أدناه.');
+  }
+
   return [
-    'أنت «المرشد الذكي» داخل الموقع الرسمي لمنطقة الباحة.',
-    'افهم سؤال الزائر بأي لهجة عربية أو إنجليزية، ورد عليه دائماً باللهجة السعودية الخفيفة واللطيفة والواضحة (بحد أقصى 3 إلى 4 جمل قصيرة ومفيدة، بدون حشو أو تنسيق ماركداون ثقيل).',
-    'قواعد صارمة لا يجوز مخالفتها:',
-    '1. اعتمد فقط على السجلات المسترجعة والبيانات المرجعية أدناه. لا تخترع أي مكان أو رقم هاتف أو رابط أو ساعات عمل أو سعر غير موجود.',
-    '2. إذا نقصت معلومة في السجلات (مثل وجود مسبح أو رسوم أو مواعيد غير مذكورة)، قل بوضوح: «الدليل ما فيه تأكيد عنها حالياً» ووجّه الزائر للتواصل المباشر أو رابط الحجز إن وُجد.',
-    '3. إذا سأل الزائر عن السعر الحالي أو التوفر اللحظي، وضّح أن الأسعار والتوفر تتغير ووجّهه لرابط الحجز أو وسيلة التواصل المتاحة.',
-    '4. لا تذكر وجود واتساب لأي مكان إلا إذا كان hasWhatsApp يساوي true في السجل.',
-    '5. عند الترشيح حسب منطقة، اذكر المحافظة بوضوح وسبب مختصر لكل ترشيح.',
-    '6. في placeIds، أرجع فقط معرّفات id الصحيحة من السجلات المسترجعة أدناه (بحد أقصى 4)، ولا تخترع أي id غير موجود. إذا كان هناك برنامج رحلة itinerary، أبقِ الرد مختصراً يقدّم البرنامج ويشرح التعديل الذي تم دون تكرار كل التفاصيل الطويلة.',
-    '7. لا تذكر أبداً اسم أي مزوّد ذكاء اصطناعي أو نموذج أو مفتاح برمجي.',
-    `نوع الطلب المحلي: ${turn.intentKind}`,
-    `المسودة المرجعية للرد: ${turn.response.replyText}`,
-    `السجلات المسترجعة من الدليل:\n${retrievedJson}`,
+    'أنت «المرشد الذكي»، مساعد محادثة حي وذكي داخل الموقع الرسمي لمنطقة الباحة.',
+    'أسلوبك وتفاعلك:',
+    '- تفاعل مع الزائر كمحاور طبيعي وذكي يفهم كلامه وسياق المحادثة السابقة بأي لهجة عربية (سعودية، مصرية، شامية، خليجية، فصحى) أو إنجليزية، ورد عليه دائماً بلهجة سعودية خفيفة ودودة ومتنوعة وطبيعية بعيداً عن القوالب الجامدة أو الردود المحفوظة المتكررة.',
+    '- اضبط طول الرد ونبرته حسب رسالة الزائر: لو سلّم أو شكر ردّ عليه بعفوية ولطف؛ لو سأل سؤالاً مفتوحاً أو طلب رأياً أو مقارنة أو نصيحة سفر تحاور معه بذكاء ومرونة واسأله سؤال متابعة لطيف عند اللزوم؛ ولو عُرضت تحته بطاقات أماكن أو برنامج رحلة فاجعل كلامك تمهيداً طبيعياً ومختصراً لا يكرر كل ما في البطاقات حرفياً.',
+    '- تجنب التنسيق الثقيل (مثل النجوم الكثيرة أو العناوين الطويلة) واكتب بنص عربي سلس ومريح للقراءة.',
+    'قواعد الدقة والالتزام بالبيانات:',
+    '1. فيما يخص أسماء الأماكن المحددة (فنادق، شاليهات، مطاعم، مقاهي، معالم) وأرقام الهواتف والروابط والتقييمات والأسعار: اعتمد فقط على السجلات المسترجعة أدناه ولا تخترع أي مكان أو رقم أو رابط أو سعر غير موجود فيها.',
+    '2. إذا سأل الزائر عن تفصيل محدد لمكان معين غير موجود في سجله (مثل وجود مسبح أو إفطار مجاني أو ساعات عمل دقيقة أو رسوم دخول غير مذكورة)، قل بوضوح إن الدليل ما فيه تأكيد عنها حالياً ووجّهه للتأكد عبر التواصل المباشر أو رابط الحجز المتاح.',
+    '3. إذا سأل عن السعر الحالي أو التوفر اللحظي للغرف، وضّح أن الأسعار والتوفر تتغير ووجّهه لرابط الحجز أو وسيلة التواصل المتاحة.',
+    '4. لا تذكر وجود واتساب لأي مكان إلا إذا كان hasWhatsApp يساوي true في سجله.',
+    '5. عند الترشيح حسب منطقة أو مقارنة أماكن، اذكر المحافظة بوضوح وسبب اختيارك.',
+    '6. في حقل placeIds: أرجع فقط معرّفات id الموجودة فعلاً في السجلات المسترجعة أدناه (بحد أقصى 4) والتي تفيد الزائر في هذه الرسالة بالذات. إذا كانت الرسالة مجرد تحية أو شكر أو دردشة عامة أو استفسار لا يحتاج عرض بطاقات أماكن الآن، أرجع placeIds كمصفوفة فارغة [].',
+    '7. إذا كان هناك برنامج رحلة معتمد (itinerary)، قدّمه بأسلوب طبيعي ومختصر واذكر التعديل الذي تم إن وجد دون سرد كل البطاقات من جديد لأنها ستظهر منظمة أسفل ردك.',
+    '8. لا تذكر أبداً اسم أي مزوّد ذكاء اصطناعي أو نموذج أو مفتاح برمجي.',
+    ALBAHA_REGIONAL_OVERVIEW,
+    contextHints.length ? contextHints.join('\n') : '',
+    `السجلات المسترجعة من دليل الباحة (أحدث بحث + الأماكن التي ذُكرت في المحادثة):\n${retrievedJson}`,
     itinerarySummary ? `برنامج الرحلة المعتمد:\n${itinerarySummary}` : '',
     weatherSummary ? `بيانات الطقس المتاحة:\n${weatherSummary}` : '',
   ]
@@ -75,10 +102,10 @@ function buildGeminiContents(payload: SmartGuideRequestPayload): Array<{
 }> {
   const recent = (payload.history || [])
     .filter((h) => h && typeof h.text === 'string' && h.text.trim())
-    .slice(-6)
+    .slice(-10)
     .map((h) => ({
       role: (h.role === 'assistant' ? 'model' : 'user') as 'user' | 'model',
-      parts: [{ text: h.text.trim().slice(0, 420) }],
+      parts: [{ text: h.text.trim().slice(0, 600) }],
     }));
 
   const currentQuestion = (payload.question || payload.intent || '').trim();
@@ -86,7 +113,7 @@ function buildGeminiContents(payload: SmartGuideRequestPayload): Array<{
     currentQuestion &&
     (recent.length === 0 || recent[recent.length - 1].role !== 'user' || recent[recent.length - 1].parts[0].text !== currentQuestion)
   ) {
-    recent.push({ role: 'user', parts: [{ text: currentQuestion.slice(0, 420) }] });
+    recent.push({ role: 'user', parts: [{ text: currentQuestion.slice(0, 600) }] });
   }
   return recent.length ? recent : [{ role: 'user', parts: [{ text: 'ساعدني في استكشاف الباحة' }] }];
 }
@@ -114,8 +141,8 @@ async function callGeminiStructured(
     systemInstruction: { parts: [{ text: systemInstruction }] },
     contents,
     generationConfig: {
-      temperature: 0.3,
-      maxOutputTokens: 420,
+      temperature: 0.65,
+      maxOutputTokens: 900,
       responseMimeType: 'application/json',
       responseSchema: {
         type: 'OBJECT',
@@ -151,7 +178,7 @@ async function callGeminiStructured(
       const res = await fetch(endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        signal: AbortSignal.timeout(7500),
+        signal: AbortSignal.timeout(11000),
         body: requestBody,
       });
 
@@ -214,7 +241,20 @@ function mergeValidatedLlmResult(
     };
   }
 
-  const finalPlaceIds = scopedLlmIds.length ? scopedLlmIds.slice(0, 4) : base.placeIds;
+  // For conversational intents (greeting / general / discovery), respect Gemini's choice even when placeIds is []
+  const mustShowCardOnFallback =
+    turn.intentKind === 'place_detail' ||
+    turn.intentKind === 'place_ambiguous' ||
+    turn.intentKind === 'price_or_availability' ||
+    turn.intentKind === 'area_recommendation' ||
+    turn.intentKind === 'missing_info';
+
+  const finalPlaceIds = scopedLlmIds.length
+    ? scopedLlmIds.slice(0, 4)
+    : mustShowCardOnFallback
+      ? base.placeIds
+      : [];
+
   const reasonById = new Map<number, string>();
   if (Array.isArray(llm.placeReasons)) {
     for (const entry of llm.placeReasons) {
@@ -237,6 +277,15 @@ function mergeValidatedLlmResult(
     })
     .filter((c): c is SmartGuidePlaceCard => Boolean(c));
 
+  const nextContext = {
+    ...base.context,
+    recentPlaceIds: hydratedPlaces.length
+      ? hydratedPlaces.map((c) => c.id)
+      : base.context.recentPlaceIds || [],
+    lastGuideItemId:
+      hydratedPlaces.length === 1 ? hydratedPlaces[0].id : base.context.lastGuideItemId,
+  };
+
   const { validActions } = validateGuideActions(base.actions);
 
   return {
@@ -245,6 +294,7 @@ function mergeValidatedLlmResult(
     placeIds: hydratedPlaces.map((c) => c.id),
     places: hydratedPlaces,
     actions: validActions,
+    context: nextContext,
   };
 }
 

@@ -315,6 +315,7 @@ export interface ConciergeContextState {
   completedIds: string[];
   excludedIds?: string[];
   lastGuideItemId?: number | null;
+  recentPlaceIds?: number[];
   interests: string[];
   withChildren: boolean;
   lessWalking: boolean;

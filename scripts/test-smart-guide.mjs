@@ -358,6 +358,52 @@ async function runTests() {
       assert.ok(dists[i] >= dists[i - 1], 'Places with coordinates must be sorted ascending by distance');
     }
     record('T8c: Conditional distance sorting (only with userLocation + coords)', true, `Distances: ${dists.join(', ')} km`);
+
+    // T12: Natural conversational thank-you (no canned greeting template or repetitive starter buttons)
+    const t12 = await askApi(portLive, {
+      question: 'شكراً يا بطل ما قصرت',
+      context: t4.json.reply.context,
+      history: [
+        { role: 'user', text: 'أنا في العقيق، وين أقدر أبيت؟' },
+        { role: 'assistant', text: t4.json.reply.replyText },
+      ],
+    });
+    assert.equal(t12.status, 200);
+    assert.equal(t12.json.reply.retryable, false);
+    assert.equal(t12.json.reply.places.length, 0, 'Thank-you chat should not spam place cards');
+    assert.equal(t12.json.reply.actions.length, 0, 'Thank-you chat should not slap canned starter buttons');
+    assert.ok(!/أنا المرشد الذكي، أقدر أدلّك على الفنادق/.test(t12.json.reply.replyText), 'Must not repeat canned greeting template');
+    record('T12: Natural conversational thank-you (no canned template/buttons)', true, t12.json.reply.replyText.slice(0, 80));
+
+    // T13: Open-ended Egyptian-dialect conversational question (السراة vs تهامة)
+    const t13 = await askApi(portLive, {
+      question: 'أنا جاي الباحة أول مرة ومحتار، إيه الفرق بين السراة وتهامة وأحسن أبدأ منين؟',
+      context: baseCtx,
+    });
+    assert.equal(t13.status, 200);
+    assert.equal(t13.json.reply.retryable, false);
+    assert.ok(!/الدليل ما فيه تأكيد مباشر عن هالنقطة/.test(t13.json.reply.replyText), 'Open regional question must not hit robotic refusal');
+    assert.ok(/السرا|تهام/.test(t13.json.reply.replyText), 'Reply should naturally explain السراة and تهامة');
+    assert.equal(t13.json.reply.actions.length, 0, 'Open chat should not attach repetitive fallback starter buttons');
+    record('T13: Open-ended conversational question (Egyptian -> natural Saudi reply)', true, t13.json.reply.replyText.slice(0, 90));
+
+    // T14: Multi-turn follow-up referencing previously shown Al-Aqiq places
+    const t14 = await askApi(portLive, {
+      question: 'طيب أي واحد من الثلاثة دول أقرب للمطار وفيه مسبح؟',
+      context: t4.json.reply.context,
+      history: [
+        { role: 'user', text: 'أنا في العقيق، وين أقدر أبيت؟' },
+        {
+          role: 'assistant',
+          text: `${t4.json.reply.replyText}\n[الأماكن المعروضة: ${t4.json.reply.places.map((p) => `${p.name} (id:${p.id}، ${p.governorate})`).join(' | ')}]`,
+        },
+      ],
+    });
+    assert.equal(t14.status, 200);
+    assert.equal(t14.json.reply.retryable, false);
+    assert.ok(/المكان الأفضل|Best Place/i.test(t14.json.reply.replyText), `Follow-up should identify Best Place Hotel from previous options: ${t14.json.reply.replyText}`);
+    assert.ok(t14.json.reply.places.every((p) => p.id !== 141 && p.id !== 142), 'Must not hijack follow-up into car rentals');
+    record('T14: Multi-turn follow-up comparison across previously shown places', true, t14.json.reply.replyText.slice(0, 90));
   } finally {
     await liveSrv.stop();
   }

@@ -65,6 +65,27 @@ export interface SmartGuideTurnComputation {
     | 'missing_info'
     | 'general';
   usePreauthoredOnly: boolean;
+  unconfirmedTopic?: string | null;
+  referenceFact?: string | null;
+}
+
+function mergeUniqueGuideItems(
+  primary: EnrichedGuide144Item[],
+  secondary: EnrichedGuide144Item[],
+  max = 8
+): EnrichedGuide144Item[] {
+  const out: EnrichedGuide144Item[] = [];
+  const seen = new Set<number>();
+  for (const list of [primary, secondary]) {
+    for (const item of list) {
+      if (!seen.has(item.id)) {
+        seen.add(item.id);
+        out.push(item);
+        if (out.length >= max) return out;
+      }
+    }
+  }
+  return out;
 }
 
 const DAY_LABELS_AR = [
@@ -344,8 +365,20 @@ export function runSmartGuideTurn(payload: SmartGuideRequestPayload): SmartGuide
     lockedIds: [...(baseCtx.lockedIds || payload.savedState?.lockedIds || [])],
     completedIds: [...(baseCtx.completedIds || payload.savedState?.completedIds || [])],
     excludedIds: [...(baseCtx.excludedIds || [])],
+    recentPlaceIds: [...(baseCtx.recentPlaceIds || [])],
     interests: [...(baseCtx.interests || [])],
   };
+
+  const recentIds = [
+    ...new Set([
+      ...(nextCtx.recentPlaceIds || []),
+      ...(nextCtx.lastGuideItemId ? [nextCtx.lastGuideItemId] : []),
+    ]),
+  ].filter((id) => Number.isInteger(id));
+  const recentItems = recentIds
+    .map((id) => getGuide144ById(id))
+    .filter((x): x is EnrichedGuide144Item => Boolean(x))
+    .slice(0, 6);
 
   if (payload.placeId && places.has(payload.placeId)) {
     nextCtx.place = payload.placeId;
@@ -369,30 +402,39 @@ export function runSmartGuideTurn(payload: SmartGuideRequestPayload): SmartGuide
       : null);
 
   // ---------------------------------------------------------------------------
-  // 0) Simple Greeting
+  // 0) Simple Greeting / Thanks — Always let Gemini converse naturally!
   // ---------------------------------------------------------------------------
+  const isThanksOnly =
+    !intent &&
+    q.length > 0 &&
+    q.length <= 42 &&
+    /^(?:شكرا|شكراً|الف شكر|يعطيك العافيه|الله يعطيك العافيه|تسلم|يسلمو|مشكور|ما قصرت|ممتاز|تمام|رائع|جميل)(?:\s+.*)?$/.test(
+      q
+    ) &&
+    !/فندق|مطعم|شاليه|رحله|خطه|خريطه|افتح|ودني|العقيق|بلجرشي|المندق|المخواه/.test(q);
+
   const isGreetingOnly =
     !intent &&
     q.length > 0 &&
-    q.length <= 28 &&
-    /^(?:السلام عليكم|وعليكم السلام|مرحبا|هلا|اهلا|اهلين|يا هلا|حياك|صباح الخير|مساء الخير|كيف حالك|وش اخبارك|شكرا|يعطيك العافيه|تسلم|يسلمو)$/.test(
+    q.length <= 36 &&
+    /^(?:السلام عليكم|وعليكم السلام|مرحبا|هلا|اهلا|اهلين|يا هلا|حياك|صباح الخير|مساء الخير|كيف حالك|وش اخبارك|ازيك|عامل ايه|اخبارك|هاي|hi|hello)(?:\s+.*)?$/.test(
       q
-    );
-  if (isGreetingOnly) {
+    ) &&
+    !/فندق|مطعم|شاليه|رحله|خطه|خريطه|افتح|ودني|العقيق|بلجرشي|المندق|المخواه|وين|ابيت/.test(q);
+
+  if (isThanksOnly || isGreetingOnly) {
     return {
       intentKind: 'greeting',
-      usePreauthoredOnly: true,
-      retrievedItems: [],
+      usePreauthoredOnly: false,
+      retrievedItems: recentItems,
       response: {
-        replyText:
-          'يا هلا بك في الباحة! أنا المرشد الذكي، أقدر أدلّك على الفنادق والمطاعم والوجهات، أو أرتّب لك رحلة على كيفك. وش ودّك نبدأ فيه؟',
+        replyText: isThanksOnly
+          ? 'العفو، تحت أمرك بأي وقت! لو احتجت أي مساعدة ثانية في الباحة أنا حاضر.'
+          : 'يا هلا وغلا! حيّاك في الباحة، سمّ وش ودّك تستكشف اليوم أو أساعدك فيه؟',
         placeIds: [],
         places: [],
         itinerary: null,
-        actions: [
-          { type: 'quick_prompt', label: 'رتّب لي يومين مع العيال', promptText: 'رتّب لي يومين مع العيال' },
-          { type: 'quick_prompt', label: 'وين أبيت في العقيق؟', promptText: 'أنا في العقيق، وين أقدر أبيت؟' },
-        ],
+        actions: [],
         context: nextCtx,
         requestSeq: payload.requestSeq,
       },
@@ -948,6 +990,7 @@ export function runSmartGuideTurn(payload: SmartGuideRequestPayload): SmartGuide
 
     if (targetItem) {
       nextCtx.lastGuideItemId = targetItem.id;
+      nextCtx.recentPlaceIds = [targetItem.id];
       const card = hydratePlaceCard(targetItem);
       const priceNote = targetItem.priceRange
         ? `النطاق التقريبي المذكور في الدليل هو (${targetItem.priceRange})، `
@@ -957,6 +1000,7 @@ export function runSmartGuideTurn(payload: SmartGuideRequestPayload): SmartGuide
         intentKind: 'price_or_availability',
         usePreauthoredOnly: false,
         retrievedItems: [targetItem],
+        referenceFact: `السؤال عن السعر الحالي أو التوفر اللحظي لـ«${targetItem.name}». ${priceNote}وسائل التأكد المتاحة: ${channels || 'الروابط المرفقة'}.`,
         response: {
           replyText: `${priceNote}الأسعار اليومية والتوفّر الحالي لـ«${targetItem.name}» (${targetItem.governorate}) تتغير باستمرار وما فيها تأكيد لحظي داخل الدليل. أنصحك تتأكد مباشرة عبر ${channels || 'وسائل التواصل المتاحة تحت'}:`,
           placeIds: [targetItem.id],
@@ -983,6 +1027,7 @@ export function runSmartGuideTurn(payload: SmartGuideRequestPayload): SmartGuide
     const cards = searchRes.ambiguousMatches.map((it) =>
       hydratePlaceCard(it, { reason: `${it.governorate} · ${it.type}` })
     );
+    nextCtx.recentPlaceIds = cards.map((c) => c.id);
     const listNames = searchRes.ambiguousMatches
       .map((it) => `«${it.name}» في ${it.governorate}`)
       .join('، و');
@@ -990,6 +1035,7 @@ export function runSmartGuideTurn(payload: SmartGuideRequestPayload): SmartGuide
       intentKind: 'place_ambiguous',
       usePreauthoredOnly: false,
       retrievedItems: searchRes.ambiguousMatches,
+      referenceFact: `يوجد أكثر من مكان متشابه في الاسم: ${listNames}. اطلب من الزائر تحديد المكان أو المنطقة بوضوح.`,
       response: {
         replyText: `فيه أكثر من مكان بنفس الاسم أو قريب منه في الدليل: ${listNames}. أي واحد فيهم تقصد؟ اختَر من القائمة أو اذكر لي المنطقة:`,
         placeIds: cards.map((c) => c.id),
@@ -1005,6 +1051,7 @@ export function runSmartGuideTurn(payload: SmartGuideRequestPayload): SmartGuide
   if (searchRes.exactMatch && (!govDetected || searchRes.exactMatch.governorate.includes(govDetected.canonical) || searchRes.matches[0]?.nameMatchStrength === 'exact')) {
     const item = searchRes.exactMatch;
     nextCtx.lastGuideItemId = item.id;
+    nextCtx.recentPlaceIds = [item.id];
     if (item.stopId) {
       nextCtx.activeStopId = item.stopId;
       nextCtx.place = item.stopId;
@@ -1028,6 +1075,7 @@ export function runSmartGuideTurn(payload: SmartGuideRequestPayload): SmartGuide
       intentKind: unconfirmedTopic ? 'missing_info' : 'place_detail',
       usePreauthoredOnly: false,
       retrievedItems: [item],
+      unconfirmedTopic,
       response: {
         replyText,
         placeIds: [item.id],
@@ -1040,10 +1088,18 @@ export function runSmartGuideTurn(payload: SmartGuideRequestPayload): SmartGuide
     };
   }
 
-  // Follow-up question about an unconfirmed attribute of the last discussed place ("هل فيه مسبح؟")
-  if (nextCtx.lastGuideItemId && /هل فيه|فيه مسبح|فيه فطور|يقبل حيوانات|كم سعر|متي يفتح|مواقف/.test(q)) {
-    const prevItem = getGuide144ById(nextCtx.lastGuideItemId);
-    if (prevItem) {
+  // Conversational follow-up referencing previously discussed places ("أي واحد فيهم أقرب للمطار؟" / "قارن بينهم" / "الأول ولا الثاني؟")
+  const refersToPreviousPlaces =
+    recentItems.length > 0 &&
+    !govDetected &&
+    /فيهم|منهم|بينهم|الثلاثه|الاثنين|الاول|الثاني|التاني|الثالث|الاخير|قارن|مقارنه|الفرق بينهم|اي واحد|انهي واحد|مين الاحسن|مين الافضل|مين الارخص|غيرهم|خيارات ثانيه|خيارات تانيه|هل فيه|فيه مسبح|فيه فطور|يقبل حيوانات|متي يفتح|مواقف/.test(
+      q
+    );
+
+  if (refersToPreviousPlaces) {
+    // If asking about a specific single previously discussed item's unconfirmed attribute
+    if (recentItems.length === 1) {
+      const prevItem = recentItems[0];
       const unconfirmedTopic = detectUnconfirmedAttributeQuestion(q, prevItem);
       const card = hydratePlaceCard(prevItem);
       if (unconfirmedTopic) {
@@ -1051,6 +1107,7 @@ export function runSmartGuideTurn(payload: SmartGuideRequestPayload): SmartGuide
           intentKind: 'missing_info',
           usePreauthoredOnly: false,
           retrievedItems: [prevItem],
+          unconfirmedTopic,
           response: {
             replyText: `الدليل ما فيه تأكيد حالياً عن ${unconfirmedTopic} في «${prevItem.name}» (${prevItem.governorate}). يفضّل تتواصل معهم مباشرة للتأكد عبر الوسائل المتاحة تحت:`,
             placeIds: [prevItem.id],
@@ -1077,6 +1134,32 @@ export function runSmartGuideTurn(payload: SmartGuideRequestPayload): SmartGuide
         },
       };
     }
+
+    // Multiple previously shown places: hand all of them + any fresh matches to Gemini for natural comparison/filtering
+    const mergedFollowup = mergeUniqueGuideItems(
+      recentItems,
+      searchRes.matches.slice(0, 3).map((m) => m.item),
+      8
+    );
+    const fallbackCards = recentItems.slice(0, 3).map((it) =>
+      hydratePlaceCard(it, { reason: buildShortRecommendationReason(it) })
+    );
+    return {
+      intentKind: 'general',
+      usePreauthoredOnly: false,
+      retrievedItems: mergedFollowup,
+      referenceFact:
+        'الزائر يتابع الحديث أو يقارن بين الأماكن التي عُرضت للتو في السجلات المسترجعة. أجب مباشرة وبشكل طبيعي من وصف ومعلومات هذه السجلات، وأرجع في placeIds فقط المكان أو الأماكن التي تنطبق على سؤاله الحالي.',
+      response: {
+        replyText: `من الخيارات اللي عرضتها لك قبل شوي، تقدر تقارن تفاصيلها من الدليل أدناه:`,
+        placeIds: fallbackCards.map((c) => c.id),
+        places: fallbackCards,
+        itinerary: null,
+        actions: [],
+        context: nextCtx,
+        requestSeq: payload.requestSeq,
+      },
+    };
   }
 
   // ---------------------------------------------------------------------------
@@ -1092,6 +1175,7 @@ export function runSmartGuideTurn(payload: SmartGuideRequestPayload): SmartGuide
           distanceKm: m.distanceKm,
         })
       );
+      nextCtx.recentPlaceIds = cards.map((c) => c.id);
       if (cards.length === 1) nextCtx.lastGuideItemId = cards[0].id;
 
       const areaTxt = govDetected ? `في ${govDetected.canonical}` : 'في منطقة الباحة';
@@ -1106,6 +1190,7 @@ export function runSmartGuideTurn(payload: SmartGuideRequestPayload): SmartGuide
         intentKind: 'area_recommendation',
         usePreauthoredOnly: false,
         retrievedItems: topMatches.map((m) => m.item),
+        referenceFact: distNote ? distNote.trim() : null,
         response: {
           replyText: `حياك! هذي أبرز خيارات ${catTxt} ${areaTxt} من دليل الباحة${distNote}`,
           placeIds: cards.map((c) => c.id),
@@ -1136,12 +1221,14 @@ export function runSmartGuideTurn(payload: SmartGuideRequestPayload): SmartGuide
     if (pat.test(q)) {
       const faq = FAQ_ITEMS.find((f) => f.id === faqId);
       if (faq) {
-        // Attach relevant guide items for airport/food/etc.
         let relatedItems: EnrichedGuide144Item[] = [];
         if (faqId === 'faq-airport') {
           relatedItems = [140, 141, 142].map(getGuide144ById).filter((x): x is EnrichedGuide144Item => Boolean(x));
         } else if (faqId === 'faq-food') {
           relatedItems = [38, 39, 133].map(getGuide144ById).filter((x): x is EnrichedGuide144Item => Boolean(x));
+        }
+        if (relatedItems.length) {
+          nextCtx.recentPlaceIds = relatedItems.map((it) => it.id);
         }
         const cards = relatedItems.map((it) =>
           hydratePlaceCard(it, { reason: buildShortRecommendationReason(it) })
@@ -1149,7 +1236,8 @@ export function runSmartGuideTurn(payload: SmartGuideRequestPayload): SmartGuide
         return {
           intentKind: 'discovery_or_prep',
           usePreauthoredOnly: false,
-          retrievedItems: relatedItems,
+          retrievedItems: mergeUniqueGuideItems(relatedItems, recentItems, 6),
+          referenceFact: `معلومة موثّقة من دليل الباحة: ${faq.answer}`,
           response: {
             replyText: faq.answer,
             placeIds: cards.map((c) => c.id),
@@ -1170,6 +1258,7 @@ export function runSmartGuideTurn(payload: SmartGuideRequestPayload): SmartGuide
     const featured = featuredIds
       .map(getGuide144ById)
       .filter((x): x is EnrichedGuide144Item => Boolean(x));
+    nextCtx.recentPlaceIds = featured.map((it) => it.id);
     const cards = featured.map((it) =>
       hydratePlaceCard(it, { reason: buildShortRecommendationReason(it) })
     );
@@ -1183,15 +1272,18 @@ export function runSmartGuideTurn(payload: SmartGuideRequestPayload): SmartGuide
         placeIds: cards.map((c) => c.id),
         places: cards,
         itinerary: null,
-        actions: [{ type: 'quick_prompt', label: 'رتّبها لي في رحلة', promptText: 'رتّب لي يومين في الباحة' }],
+        actions: [],
         context: nextCtx,
         requestSeq: payload.requestSeq,
       },
     };
   }
 
-  // Soft search fallback across all 144 items
-  if (searchRes.matches.length > 0) {
+  // Soft search / Open conversational query — give Gemini matching records + recent context to converse freely!
+  const softMatches = searchRes.matches.slice(0, 4).map((m) => m.item);
+  const combinedForLlm = mergeUniqueGuideItems(softMatches, recentItems, 8);
+  if (softMatches.length > 0) {
+    nextCtx.recentPlaceIds = softMatches.map((it) => it.id);
     const cards = searchRes.matches.slice(0, 3).map((m) =>
       hydratePlaceCard(m.item, {
         reason: buildShortRecommendationReason(m.item),
@@ -1201,7 +1293,7 @@ export function runSmartGuideTurn(payload: SmartGuideRequestPayload): SmartGuide
     return {
       intentKind: 'general',
       usePreauthoredOnly: false,
-      retrievedItems: searchRes.matches.slice(0, 3).map((m) => m.item),
+      retrievedItems: combinedForLlm,
       response: {
         replyText: 'هذي أقرب النتائج اللي لقيتها في دليل الباحة لسؤالك:',
         placeIds: cards.map((c) => c.id),
@@ -1214,21 +1306,18 @@ export function runSmartGuideTurn(payload: SmartGuideRequestPayload): SmartGuide
     };
   }
 
-  // Honest missing-info / out-of-guide fallback
+  // Open conversational / general Al-Baha question (no forced canned buttons, Gemini converses naturally!)
   return {
-    intentKind: 'missing_info',
+    intentKind: 'general',
     usePreauthoredOnly: false,
-    retrievedItems: [],
+    retrievedItems: recentItems,
     response: {
       replyText:
         'الدليل ما فيه تأكيد مباشر عن هالنقطة حالياً، لكن أقدر أساعدك بأي فندق أو مطعم أو معلم في الباحة، أو أرتّب لك خطة رحلة حسب الأيام والمنطقة. وش ودّك تبحث عنه؟',
       placeIds: [],
       places: [],
       itinerary: null,
-      actions: [
-        { type: 'quick_prompt', label: 'رتّب لي يومين مع العيال', promptText: 'رتّب لي يومين مع العيال' },
-        { type: 'quick_prompt', label: 'وين أبيت في العقيق؟', promptText: 'أنا في العقيق، وين أقدر أبيت؟' },
-      ],
+      actions: [],
       context: nextCtx,
       requestSeq: payload.requestSeq,
     },
@@ -1240,9 +1329,9 @@ export function runSmartGuideTurn(payload: SmartGuideRequestPayload): SmartGuide
  * (never sends the entire 144-item database).
  */
 export function serializeRetrievedRecordsForLlm(items: EnrichedGuide144Item[]): string {
-  if (!items.length) return 'لا توجد سجلات مطابقة مباشرة في الدليل.';
+  if (!items.length) return 'لا توجد سجلات مطابقة مباشرة لهذا السؤال في الدليل.';
   return JSON.stringify(
-    items.slice(0, 6).map((it) => ({
+    items.slice(0, 8).map((it) => ({
       id: it.id,
       name: it.name,
       governorate: it.governorate,
