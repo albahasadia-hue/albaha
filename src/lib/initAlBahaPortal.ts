@@ -3632,8 +3632,6 @@ export function initAlBahaPortal(initialView: PortalInitialView = 'home'): () =>
 
   // Hash router
   function syncPage(): void {
-    const report = byId('bahaReport') as HTMLDialogElement | null;
-    if (report?.open) report.close();
     const hash = window.location.hash;
     const place = hash.startsWith('#place/') ? places.get(hash.slice(7)) : null;
     const storySection =

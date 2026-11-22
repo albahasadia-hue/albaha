@@ -249,80 +249,62 @@ export function bindCityReel(signal: AbortSignal, isHomeHidden: () => boolean): 
   measure();
 }
 
-function cityStoryTag(story: CityStory): string {
-  return `<span class="city-story-kind">${glyph(story.kind === 'archive' ? 'city-archive' : 'city-calendar', 'ic tiny')}${story.tag}</span>`;
-}
-
-function cityStoryPhoto(story: CityStory, caption = false): string {
-  return `<figure class="city-story-media"><img src="${images[story.id] || ''}" alt="${story.alt}" decoding="async"${caption ? '' : ' loading="lazy"'}>${caption ? `<figcaption>${story.photoCaption} | ${story.credit}</figcaption>` : ''}</figure>`;
-}
-
 function cityStoryCard(story: CityStory): string {
-  const action = story.kind === 'archive' ? 'افتح الأرشيف' : 'اقرأ التغطية';
-  return `<article class="city-story${story.kind === 'archive' ? ' city-story--archive' : ''}">
-      ${cityStoryPhoto(story)}
+  const isArchive = story.kind === 'archive';
+  const kindLabel = isArchive ? 'أرشيف' : 'فعالية';
+  const action = isArchive ? 'استعرض الأرشيف' : 'اقرأ التغطية';
+  const locationShort = story.location.split('|')[0]?.trim() || story.location;
+
+  return `<a class="city-story${isArchive ? ' city-story--archive' : ''}" href="${cityStoriesPath}/${story.id}" aria-label="${story.title} — ${action}">
+      <figure class="city-story-media">
+        <img src="${images[story.id] || ''}" alt="${story.alt}" loading="lazy" decoding="async">
+        <span class="city-story-badge">${glyph(isArchive ? 'city-archive' : 'city-calendar', 'ic tiny')}${kindLabel}</span>
+      </figure>
       <div class="city-story-copy">
-        ${cityStoryTag(story)}
+        <div class="city-story-meta">
+          <span class="city-story-kind">${story.tag}</span>
+          <time class="city-story-date" datetime="${story.date}">${story.dateLabel}</time>
+        </div>
         <h3>${story.title}</h3>
         <p class="city-story-summary">${story.summary}</p>
         <div class="city-story-foot">
-          <time class="city-story-date" datetime="${story.date}">${story.dateLabel}</time>
-          <button type="button" class="city-story-open" data-city-story="${story.id}" aria-label="${action}، ${story.title}"><span>${action}</span><span class="city-story-arrow" aria-hidden="true">${glyph('arrow', 'ic tiny')}</span></button>
+          <span class="city-story-loc">${glyph('pin', 'ic tiny')}<span>${locationShort}</span></span>
+          <span class="city-story-open"><span>${action}</span><span class="city-story-arrow" aria-hidden="true">${glyph('arrow', 'ic tiny')}</span></span>
         </div>
       </div>
-    </article>`;
+    </a>`;
 }
 
 function renderCityStories(): string {
+  const counts: Record<string, number> = {
+    all: cityStories.length,
+    event: cityStories.filter((s) => s.kind === 'event').length,
+    archive: cityStories.filter((s) => s.kind === 'archive').length,
+  };
   return `<section id="bahaStories" class="city-stories" aria-labelledby="bahaStoriesTitle">
       <div class="city-stories-head">
-        <div>
+        <div class="city-stories-intro">
           <div class="caption section-kicker">${glyph('city-stories', 'section-mark')}<span>دفتر مدينة الباحة</span></div>
           <h2 id="bahaStoriesTitle" tabindex="-1">الفعاليات والأرشيف الإعلامي</h2>
-          <p class="lead">تغطيات من أسواق المدينة ومهرجاناتها، وزيارات من أرشيف المنطقة.</p>
+          <p class="lead">تغطيات مختارة من مهرجانات وأسواق المدينة، ولقطات موثّقة من أرشيف المنطقة.</p>
         </div>
         <div class="city-story-filters" role="group" aria-label="نوع التغطية">
-          ${cityStoryFilters.map(([key, label, icon]) => `<button type="button" data-city-filter="${key}" aria-pressed="${key === 'all'}" aria-controls="bahaStoryGrid">${glyph(icon, 'ic tiny')}${label}</button>`).join('')}
+          ${cityStoryFilters
+            .map(
+              ([key, label, icon]) =>
+                `<button type="button" data-city-filter="${key}" aria-pressed="${key === 'all'}" aria-controls="bahaStoryGrid">${glyph(icon, 'ic tiny')}<span>${label}</span><span class="city-filter-count">${formatNum(counts[key] ?? 0)}</span></button>`
+            )
+            .join('')}
         </div>
       </div>
       <span class="city-story-status" role="status" id="bahaStoryStatus"></span>
       <div class="city-story-grid" id="bahaStoryGrid"></div>
-      <dialog class="city-report" id="bahaReport" aria-labelledby="bahaReportTitle">
-        <form method="dialog" class="city-report-close"><button type="submit" aria-label="أغلق التغطية" autofocus>${glyph('x')}</button></form>
-        <div id="bahaReportBody"></div>
-      </dialog>
     </section>`;
 }
 
 function scrollToCityStories(behavior: ScrollBehavior): void {
   byId('bahaStoriesTitle')?.focus({ preventScroll: true });
   byId('bahaStories')?.scrollIntoView({ behavior });
-}
-
-function openCityReport(story: CityStory, detailHash = ''): void {
-  const dialog = byId('bahaReport') as HTMLDialogElement | null;
-  const body = byId('bahaReportBody');
-  if (!dialog || !body) return;
-  dialog.dataset.detailHash = detailHash;
-  body.classList.toggle('city-story--archive', story.kind === 'archive');
-  body.innerHTML = `
-      ${cityStoryPhoto(story, true)}
-      <div class="city-report-content">
-        ${cityStoryTag(story)}
-        <h2 id="bahaReportTitle">${story.title}</h2>
-        <div class="city-report-meta">
-          <span class="city-story-date">${glyph('city-calendar', 'ic tiny')}<time datetime="${story.date}">${story.dateLabel}</time> | ${story.dateContext}</span>
-          <span class="city-story-date">${glyph('pin', 'ic tiny')}${story.location}</span>
-        </div>
-        <p>${story.details}</p>
-        <div class="place-actions">
-          <a class="btn btn-dark" href="${story.source}" target="_blank" rel="noopener">التغطية الأصلية ${glyph('external', 'ic tiny')}</a>
-          ${story.reference ? `<a class="btn btn-soft" href="${story.reference}" target="_blank" rel="noopener">أرشيف واس ${glyph('external', 'ic tiny')}</a>` : ''}
-          ${story.stop ? `<a class="btn btn-soft" href="#place/${story.stop}">استكشف غابة رغدان ${glyph('arrow', 'ic tiny')}</a>` : ''}
-        </div>
-      </div>`;
-  dialog.showModal();
-  dialog.scrollTop = 0;
 }
 
 export function createSubpageViewsController(deps: SubpageViewsDeps): SubpageViewsController {
@@ -358,20 +340,21 @@ export function createSubpageViewsController(deps: SubpageViewsDeps): SubpageVie
       : `${glyph('plus')} أضف إلى رحلتي`;
   }
 
-  function openVisitPage(title: string, cityKey: string): void {
+  function openVisitPage(title: string, cityKey: string, loadWeather = true): void {
     if (homeView) homeView.hidden = true;
     if (placeView) placeView.hidden = false;
     document.title = `${title} | اكتشف الباحة`;
     byId('placeTitle')?.focus({ preventScroll: true });
     window.scrollTo({ top: 0, behavior: 'instant' });
-    void renderWeatherCard(byId('placeWeather'), cityKey);
+    if (loadWeather) {
+      void renderWeatherCard(byId('placeWeather'), cityKey);
+    }
   }
 
   function bindCityStories(viewSignal: AbortSignal): void {
     const grid = byId('bahaStoryGrid');
-    const dialog = byId('bahaReport') as HTMLDialogElement | null;
     const storiesRoot = byId('bahaStories');
-    if (!grid || !dialog || !storiesRoot) return;
+    if (!grid || !storiesRoot) return;
     const filters = storiesRoot.querySelectorAll<HTMLElement>('[data-city-filter]');
 
     function filterStories(kind: string): void {
@@ -400,41 +383,94 @@ export function createSubpageViewsController(deps: SubpageViewsDeps): SubpageVie
       () => scrollToCityStories(deps.getScrollBehavior()),
       { signal: viewSignal }
     );
-    grid.addEventListener(
-      'click',
-      (event) => {
-        const trigger = (event.target as Element | null)?.closest<HTMLElement>('[data-city-story]');
-        if (!trigger) return;
-        const story = cityStories.find((entry) => entry.id === trigger.dataset.cityStory);
-        if (story) openCityReport(story);
+  }
+
+  function showCityStory(story: CityStory): void {
+    if (!placeView) return;
+    const viewSignal = newViewSignal();
+    const isArchive = story.kind === 'archive';
+    const kindLabel = isArchive ? 'أرشيف المنطقة' : 'فعاليات الباحة';
+    const relatedStories = cityStories.filter((entry) => entry.id !== story.id);
+    const linkedStop = story.stop ? places.get(story.stop) : null;
+    const showcaseItems: MediaShowcaseItem[] = [
+      {
+        src: images[story.id] || '',
+        caption: `${story.photoCaption} · ${story.credit}`,
+        alt: story.alt,
       },
-      { signal: viewSignal }
-    );
-    dialog.addEventListener(
-      'click',
-      (event) => {
-        const target = event.target as Element | null;
-        if (target === dialog || target?.closest('a[href^="#"]')) dialog.close();
-      },
-      { signal: viewSignal }
-    );
-    dialog.addEventListener(
-      'close',
-      () => {
-        if (
-          !dialog.isConnected ||
-          placeView?.hidden ||
-          dialog.dataset.detailHash !== window.location.hash
-        ) {
-          return;
-        }
-        if (dialog.dataset.detailHash) {
-          window.history.replaceState(window.history.state, '', cityStoriesPath);
-          deps.setLastHash(cityStoriesPath);
-        }
-      },
-      { signal: viewSignal }
-    );
+    ];
+
+    activePlace = null;
+    placeView.innerHTML = `<div class="container story-page">
+      <div class="story-page-topbar">
+        <nav class="place-trail" aria-label="مسار الصفحة">
+          <a href="#home">الرئيسية</a>
+          <span aria-hidden="true">/</span>
+          <a href="#city/baha">مدينة الباحة</a>
+          <span aria-hidden="true">/</span>
+          <a href="${cityStoriesPath}">الفعاليات والأرشيف</a>
+          <span aria-hidden="true">/</span>
+          <span aria-current="page">${story.title}</span>
+        </nav>
+        <a class="story-back-link" href="${cityStoriesPath}">${glyph('arrow', 'ic tiny')}<span>العودة للفعاليات والأرشيف</span></a>
+      </div>
+
+      <div class="place-hero story-page-hero">
+        <div class="place-hero-copy">
+          <div class="place-kicker-row">
+            <span class="place-cat-pill${isArchive ? ' is-archive' : ''}">${glyph(isArchive ? 'city-archive' : 'city-calendar', 'ic tiny')} ${kindLabel}</span>
+            <span class="place-area-pill">${story.tag}</span>
+          </div>
+          <h1 id="placeTitle" tabindex="-1">${story.title}</h1>
+          <p class="lead">${story.summary}</p>
+          <dl class="place-facts">
+            <div><dt>${cardHead(glyph('city-calendar', 'card-ic-svg'), story.dateContext)}</dt><dd><time datetime="${story.date}">${story.dateLabel}</time></dd></div>
+            <div><dt>${cardHead(glyph('pin', 'card-ic-svg'), 'الموقع')}</dt><dd>${story.location}</dd></div>
+            <div><dt>${cardHead(glyph('city-stories', 'card-ic-svg'), 'المصدر الصحفي')}</dt><dd>${story.credit}</dd></div>
+          </dl>
+          <div class="place-actions">
+            <a class="btn btn-dark" href="${story.source}" target="_blank" rel="noopener">التغطية الأصلية ${glyph('external', 'ic tiny')}</a>
+            ${story.reference ? `<a class="btn btn-soft" href="${story.reference}" target="_blank" rel="noopener">أرشيف واس ${glyph('external', 'ic tiny')}</a>` : ''}
+            ${linkedStop ? `<a class="btn btn-soft" href="#place/${linkedStop.id}">استكشف ${linkedStop.name} ${glyph('arrow', 'ic tiny')}</a>` : `<a class="btn btn-soft" href="#city/baha">استكشف مدينة الباحة ${glyph('arrow', 'ic tiny')}</a>`}
+          </div>
+        </div>
+        <div class="place-hero-media story-page-media${isArchive ? ' is-archive' : ''}">
+          ${mediaShowcaseMarkup({ id: 'storyHeroShowcase', items: showcaseItems, title: story.title })}
+        </div>
+      </div>
+
+      <section class="story-page-article" aria-labelledby="storyDetailsHeading">
+        <div class="story-page-article-head">
+          <div class="caption section-kicker">${glyph(isArchive ? 'city-archive' : 'city-calendar', 'section-mark')}<span>${isArchive ? 'توثيق أرشيفي' : 'تفاصيل التغطية'}</span></div>
+          <h2 id="storyDetailsHeading">${isArchive ? 'عن هذه اللقطة من أرشيف المنطقة' : 'ملخص الفعالية والتغطية الميدانية'}</h2>
+        </div>
+        <p class="story-page-body">${story.details}</p>
+        <div class="story-page-source-bar">
+          <span>المصدر: <strong>${story.credit}</strong></span>
+          <span>تاريخ التغطية: <time datetime="${story.date}">${story.dateLabel}</time></span>
+        </div>
+      </section>
+
+      <section class="story-page-more" aria-labelledby="storyMoreHeading">
+        <div class="story-page-more-head">
+          <div>
+            <div class="caption section-kicker">${glyph('city-stories', 'section-mark')}<span>دفتر مدينة الباحة</span></div>
+            <h2 id="storyMoreHeading">المزيد من الفعاليات والأرشيف</h2>
+          </div>
+          <a class="story-back-link" href="${cityStoriesPath}"><span>عرض جميع التغطيات</span>${glyph('arrow', 'ic tiny')}</a>
+        </div>
+        <div class="city-story-grid story-related-grid">
+          ${relatedStories.map((item) => cityStoryCard(item)).join('')}
+        </div>
+      </section>
+    </div>`;
+
+    bindMediaShowcase(byId('storyHeroShowcase'), showcaseItems, {
+      title: story.title,
+      interval: 0,
+      signal: viewSignal,
+    });
+    openVisitPage(story.title, 'baha', false);
   }
 
   function showPlace(stop: StopBase): void {
@@ -550,9 +586,16 @@ export function createSubpageViewsController(deps: SubpageViewsDeps): SubpageVie
   function showCity(key: string, storyId: string | null = null): void {
     const city = climateCities[key];
     if (!placeView || !city) return;
+    const hasStories = key === 'baha';
+    if (hasStories && storyId) {
+      const story = cityStories.find((entry) => entry.id === storyId);
+      if (story) {
+        showCityStory(story);
+        return;
+      }
+    }
     const viewSignal = newViewSignal();
     const currentSeason = deps.getCurrentSeason();
-    const hasStories = key === 'baha';
     const mapLink = `<a class="btn btn-soft" href="#route/${city.ids[0]}">شاهد المنطقة على الخريطة ${glyph('route')}</a>`;
     const seenKeys = new Set<string>();
     const showcaseItems: MediaShowcaseItem[] = [];
@@ -624,12 +667,6 @@ export function createSubpageViewsController(deps: SubpageViewsDeps): SubpageVie
     openVisitPage(city.name, key);
     if (hasStories && storyId !== null) {
       scrollToCityStories('instant');
-      const story = cityStories.find((entry) => entry.id === storyId);
-      if (story) {
-        window.requestAnimationFrame(() => {
-          if (!viewSignal.aborted) openCityReport(story, window.location.hash);
-        });
-      }
     }
   }
 
