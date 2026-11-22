@@ -3,6 +3,7 @@ import type {
   MapLibreMapInstance,
   MapLibreMarkerInstance,
   MapLibreNamespace,
+  PortalInitialView,
   RouteTiming,
   SeasonKey,
   StopBase,
@@ -79,7 +80,7 @@ import {
   waitForMapReady,
 } from './guidePresence';
 
-export function initAlBahaPortal(initialView: 'home' | 'faq' | 'invest' = 'home'): () => void {
+export function initAlBahaPortal(initialView: PortalInitialView = 'home'): () => void {
   if (typeof window === 'undefined' || typeof document === 'undefined') {
     return () => {};
   }
@@ -103,6 +104,7 @@ export function initAlBahaPortal(initialView: 'home' | 'faq' | 'invest' = 'home'
   const tourGuideView = byId('tourGuideView');
   const faqView = byId('faqView');
   const investView = byId('investView');
+  const supportView = byId('supportRequestView');
 
   if (!region || !days || !routeStage || !terrainSvg || !mapPanel || !streetMap) {
     return () => masterController.abort();
@@ -3575,7 +3577,7 @@ export function initAlBahaPortal(initialView: 'home' | 'faq' | 'invest' = 'home'
       activeHref = '#guide';
     } else if (placeView && !placeView.hidden) {
       activeHref = '#destinations';
-    } else if (faqView && !faqView.hidden) {
+    } else if ((faqView && !faqView.hidden) || (supportView && !supportView.hidden)) {
       activeHref = null;
     } else if (homeView && !homeView.hidden) {
       const headerLine = 160;
@@ -3644,9 +3646,10 @@ export function initAlBahaPortal(initialView: 'home' | 'faq' | 'invest' = 'home'
     const faqRoute = hash === '#faq' || hash.startsWith('#faq/') || (!hash && initialView === 'faq');
     const investRoute =
       hash === '#invest' || hash.startsWith('#invest/') || (!hash && initialView === 'invest');
+    const supportRoute = Boolean(supportView && !hash);
     const returning = Boolean(homeView?.hidden);
 
-    if ((place || city || guideRoute || faqRoute || investRoute) && !returning) {
+    if ((place || city || guideRoute || faqRoute || investRoute || supportRoute) && !returning) {
       homeHash = lastHash;
       homeScroll = window.scrollY;
     }
@@ -3666,7 +3669,9 @@ export function initAlBahaPortal(initialView: 'home' | 'faq' | 'invest' = 'home'
       else link.removeAttribute('aria-current');
     });
 
-    if (investRoute) {
+    if (supportView) supportView.hidden = !supportRoute;
+
+    if (investRoute || supportRoute) {
       tourGuideController.cleanupView();
       subpageViews.clearActivePlace();
       subpageViews.cleanupView();
@@ -3674,12 +3679,12 @@ export function initAlBahaPortal(initialView: 'home' | 'faq' | 'invest' = 'home'
       if (placeView) placeView.hidden = true;
       if (tourGuideView) tourGuideView.hidden = true;
       if (faqView) faqView.hidden = true;
-      if (investView) investView.hidden = false;
-      document.title = 'الاستثمار في منطقة الباحة | بوابة منطقة الباحة';
+      if (investView) investView.hidden = !investRoute;
+      document.title = investRoute ? 'الاستثمار في منطقة الباحة | بوابة منطقة الباحة' : homeTitle;
       window.requestAnimationFrame(() => {
         if (signal.aborted) return;
         window.scrollTo({ top: 0, behavior: 'instant' });
-        byId('investTitle')?.focus({ preventScroll: true });
+        byId(investRoute ? 'investTitle' : 'supportRequestTitle')?.focus({ preventScroll: true });
       });
     } else if (faqRoute) {
       tourGuideController.cleanupView();
@@ -3770,6 +3775,11 @@ export function initAlBahaPortal(initialView: 'home' | 'faq' | 'invest' = 'home'
   document.querySelector('.skip-link')?.addEventListener(
     'click',
     (event) => {
+      if (supportView && !supportView.hidden) {
+        event.preventDefault();
+        byId('supportRequestTitle')?.focus();
+        return;
+      }
       const title =
         investView && !investView.hidden
           ? byId('investTitle')

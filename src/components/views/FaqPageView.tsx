@@ -1,6 +1,7 @@
 'use client';
 
 import { useMemo, useState } from 'react';
+import { GuideCharacter } from '@/components/common/GuideCharacter';
 import { FAQ_CATEGORIES, FAQ_ITEMS, type FaqCategoryId, type FaqItem } from '@/data/faqData';
 
 interface FaqPageViewProps {
@@ -118,32 +119,21 @@ export function FaqPageView({ initialHidden = true }: FaqPageViewProps) {
 
         <header className="faq-hero-card">
           <div className="faq-hero-copy">
-            <div className="caption section-kicker">
-              <svg className="section-mark" viewBox="0 0 24 24" aria-hidden="true">
-                <use href="#i-foot-faq" width="24" height="24" />
-              </svg>
-              <span>مركز الإرشاد والزوار</span>
-            </div>
             <h1 id="faqTitle" tabIndex={-1}>
-              الأسئلة الشائعة لزيارة منطقة الباحة
+              <svg className="ic" aria-hidden="true">
+                <use href="#i-foot-faq" />
+              </svg>
+              <span>الأسئلة الشائعة لزيارة منطقة الباحة</span>
             </h1>
             <p className="lead">
               إجابات موثقة حول الوصول والأجواء والوجهات وتخطيط رحلتك في الباحة.
             </p>
           </div>
           <div className="faq-hero-actions">
-            <button type="button" className="btn btn-dark" data-open="agent">
-              <svg className="ic tiny" aria-hidden="true">
-                <use href="#i-compass" />
-              </svg>
+            <button type="button" className="btn" data-open="agent" aria-haspopup="dialog" aria-controls="agentPanel">
+              <GuideCharacter size={24} className="faq-hero-guide-icon" />
               اسأل المرشد السياحي الذكي
             </button>
-            <a href="#planner" className="btn btn-soft">
-              <svg className="ic tiny" aria-hidden="true">
-                <use href="#i-route" />
-              </svg>
-              خطّط رحلتك الآن
-            </a>
           </div>
         </header>
 

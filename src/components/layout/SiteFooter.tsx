@@ -171,7 +171,7 @@ export function SiteFooter() {
               </h2>
               <ul className="footer-list">
                 <li>
-                  <a href="tel:940">
+                  <a href="/reports">
                     <svg className="ic" aria-hidden="true">
                       <use href="#i-foot-headset" />
                     </svg>
@@ -179,7 +179,7 @@ export function SiteFooter() {
                   </a>
                 </li>
                 <li>
-                  <a href="https://baha.gov.sa/ar/EServices/Details/657" target="_blank" rel="noopener">
+                  <a href="/feedback">
                     <svg className="ic" aria-hidden="true">
                       <use href="#i-foot-message" />
                     </svg>

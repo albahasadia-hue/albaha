@@ -1021,7 +1021,7 @@ export function createTourGuideController(deps: TourGuideControllerDeps): TourGu
           <div class="tour-guide-stats">
             <span><strong>${formatNum(tourGuide.records.length)}</strong> معلم ووجهة</span>
             <span><strong>${formatNum(tourGuide.categories.length)}</strong> فئات متنوعة</span>
-            <span><strong>${formatNum(coordCount)}</strong> موقع على الخريطة</span>
+            <span><strong>${formatNum(coordCount)}</strong> على الخريطة</span>
           </div>
         </div>
         <div class="tour-guide-cover-media">

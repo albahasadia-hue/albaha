@@ -1,0 +1,244 @@
+.page {
+  min-height: 75vh;
+  padding-block: clamp(92px, 10vw, 118px) clamp(44px, 6vw, 72px);
+  background: #fcfbf7;
+}
+
+.layout {
+  max-width: 720px;
+  margin-inline: auto;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-block-end: 14px;
+  padding: clamp(16px, 3vw, 26px);
+  border: 1px solid #28616f;
+  border-radius: 12px;
+  background: linear-gradient(125deg, #061a33, #0a2e5c 65%, #07513f);
+  color: #fff;
+}
+
+.headerIcon,
+.receiptIcon {
+  display: grid;
+  flex: none;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  border-radius: 11px;
+}
+
+.headerIcon {
+  border: 1px solid #ffffff3d;
+  background: #ffffff14;
+  color: #a7f3d0;
+}
+
+.header h1 {
+  margin: 0;
+  font-family: var(--display);
+  font-size: clamp(1.3rem, 2.4vw, 1.75rem);
+  line-height: 1.35;
+  text-shadow: none;
+}
+
+.header h1:focus {
+  outline: none;
+}
+
+.header p {
+  margin-block-start: 5px;
+  color: #e1ebf5;
+  font-size: 0.93rem;
+}
+
+.form {
+  padding: clamp(14px, 3vw, 24px);
+  border: 1px solid #d6e1ea;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 8px 24px #061a330b;
+}
+
+.fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.fields label {
+  display: grid;
+  align-content: start;
+  gap: 5px;
+  min-width: 0;
+  font-size: 0.9rem;
+  font-weight: 650;
+}
+
+.fields :is(input, select, textarea) {
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  padding: 7px 11px;
+  border: 1px solid #c9d9e6;
+  border-radius: 8px;
+  background: #fafdff;
+  color: #061a33;
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+.fields select {
+  appearance: auto;
+}
+
+.fields textarea {
+  resize: vertical;
+}
+
+.fields :is(input, select, textarea):focus-visible {
+  outline: 2px solid #0b6474;
+  outline-offset: 2px;
+}
+
+.fields small,
+.formFooter p {
+  color: #496175;
+  font-size: 0.8rem;
+  font-weight: 400;
+}
+
+.fullWidth {
+  grid-column: 1 / -1;
+}
+
+.attachment :global(input[type='file']) {
+  padding: 5px 7px;
+}
+
+.attachment input::file-selector-button {
+  margin-inline-end: 8px;
+  padding: 5px 9px;
+  border: 1px solid #ccdce9;
+  border-radius: 6px;
+  background: #eaf3fb;
+  color: #0a2e5c;
+  font: inherit;
+  font-size: 0.82rem;
+  cursor: pointer;
+}
+
+.attachmentSummary,
+.formFooter {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 12px;
+}
+
+.attachmentSummary {
+  justify-content: flex-start;
+  margin-block-start: 8px;
+}
+
+.attachmentSummary img {
+  width: 48px;
+  height: 48px;
+  border-radius: 6px;
+  object-fit: cover;
+}
+
+.attachmentSummary bdi {
+  overflow-wrap: anywhere;
+}
+
+.error {
+  color: #a32228;
+  font-size: 0.85rem;
+}
+
+.formFooter {
+  padding-block-start: 12px;
+  border-block-start: 1px solid #e3ebf1;
+}
+
+.formFooter button,
+.receipt button,
+.attachmentSummary button {
+  border-radius: 8px;
+}
+
+.receipt {
+  position: fixed;
+  inset: 0;
+  width: min(440px, calc(100% - 32px));
+  max-height: calc(100dvh - 32px);
+  margin: auto;
+  padding: 0;
+  border: 1px solid #d6e1ea;
+  border-radius: 14px;
+  background: #fff;
+  color: #061a33;
+  box-shadow: 0 22px 60px #061a3340;
+}
+
+.receipt::backdrop {
+  background: #061a337a;
+}
+
+.receiptContent {
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  padding: 24px;
+  text-align: center;
+}
+
+.receiptIcon {
+  background: #e5f5ec;
+  color: #006c35;
+}
+
+.receiptContent h2 {
+  margin: 0;
+  color: #0a2e5c;
+  font-size: 1.25rem;
+}
+
+.receiptContent p {
+  color: #496175;
+  font-size: 0.88rem;
+}
+
+.reference {
+  padding: 4px 12px;
+  border-radius: 6px;
+  background: #edf4fa;
+  color: #0a2e5c;
+  font-family: ui-monospace, monospace;
+  font-weight: 700;
+}
+
+@media (max-width: 560px) {
+  .fields {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .header {
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .formFooter button {
+    width: 100%;
+  }
+}

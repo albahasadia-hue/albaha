@@ -637,15 +637,10 @@
   max-width: 68ch;
 }
 
-.faq-hero-copy .section-kicker {
-  color: #FFE4AD;
-}
-
-.faq-hero-copy .section-kicker .section-mark {
-  color: #6EE7B7;
-}
-
 .faq-hero-copy h1 {
+  display: flex;
+  align-items: center;
+  gap: 0.45em;
   font-family: var(--display) !important;
   font-size: clamp(1.16rem, 1.42vw, 1.38rem) !important;
   font-weight: 700 !important;
@@ -653,6 +648,13 @@
   color: #FFFFFF !important;
   text-shadow: none;
   margin: 4px 0 6px;
+}
+
+.faq-hero-copy h1 > .ic {
+  flex: none;
+  width: 0.95em;
+  height: 0.95em;
+  color: #6EE7B7;
 }
 
 .faq-hero-copy h1:focus,
@@ -686,28 +688,22 @@
   max-width: 100%;
   white-space: normal;
   text-align: center;
-}
-
-.faq-hero-actions .btn-dark {
-  background: #006C35;
-  border-color: #006C35;
-  color: #FFFFFF;
   border-radius: 9px;
+  border-color: #D6E1EA;
+  background: #FFFFFF;
+  color: #0A2E5C;
 }
 
-.faq-hero-actions .btn-dark:hover {
-  background: #04592B;
+.faq-hero-actions .btn:hover {
+  background: #F3F8FC;
 }
 
-.faq-hero-actions .btn-soft {
-  background: rgba(255, 255, 255, 0.12);
-  border: 1px solid rgba(255, 255, 255, 0.28);
-  color: #FFFFFF;
-  border-radius: 9px;
-}
-
-.faq-hero-actions .btn-soft:hover {
-  background: rgba(255, 255, 255, 0.22);
+.faq-hero-actions .faq-hero-guide-icon {
+  flex: none;
+  padding: 2px;
+  border-radius: 7px;
+  background: #0A2E5C;
+  animation: none;
 }
 
 .faq-toolbar {

@@ -2,6 +2,8 @@ export type TripStyle = 'all' | 'family' | 'nature' | 'heritage';
 export type SeasonKey = 'spring' | 'summer' | 'autumn' | 'winter';
 export type TravelProfileKey = 'domestic' | 'overseas' | 'gulf';
 export type WalkingLevel = 'light' | 'moderate' | 'steep';
+export type SupportRequestKind = 'reports' | 'feedback';
+export type PortalInitialView = 'home' | 'faq' | 'invest' | SupportRequestKind;
 
 export interface HoursVerification {
   openStartMin: number;

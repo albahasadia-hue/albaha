@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react';
 import { initAlBahaPortal } from '@/lib/initAlBahaPortal';
+import type { PortalInitialView } from '@/lib/portalTypes';
 import { SkipLink } from '@/components/common/SkipLink';
 import { SvgSpriteDefs } from '@/components/common/SvgSpriteDefs';
 import { SiteHeader } from '@/components/layout/SiteHeader';
@@ -32,7 +33,7 @@ import { ToastBanner } from '@/components/overlays/ToastBanner';
  * the portal's StrictMode-safe imperative runtime on hydration.
  */
 interface AlBahaPortalClientProps {
-  initialView?: 'home' | 'faq' | 'invest';
+  initialView?: PortalInitialView;
 }
 
 export function AlBahaPortalClient({ initialView = 'home' }: AlBahaPortalClientProps) {
