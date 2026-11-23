@@ -58,6 +58,7 @@ import {
   canonicalizeLegacyPortalLink,
   isPortalPath,
   navigatePortal,
+  PORTAL_HOME_TITLE,
   portalNavigationEvent,
   portalSectionId,
 } from './portalNavigation';
@@ -91,6 +92,7 @@ export function initAlBahaPortal(initialView: PortalInitialView = 'home'): () =>
   if (typeof window === 'undefined' || typeof document === 'undefined') {
     return () => {};
   }
+  if (canonicalizeLegacyPortalLink(true)) return () => {};
 
   const masterController = new AbortController();
   const { signal } = masterController;
@@ -118,7 +120,7 @@ export function initAlBahaPortal(initialView: PortalInitialView = 'home'): () =>
   }
   const svg: SVGSVGElement = terrainSvg;
 
-  const homeTitle = document.title;
+  const initialTitle = document.title;
   const storeKey = 'albaha-v4-trip-v1';
 
   let savedTiming: RouteTiming | null = null;
@@ -3699,7 +3701,7 @@ export function initAlBahaPortal(initialView: PortalInitialView = 'home'): () =>
       if (tourGuideView) tourGuideView.hidden = true;
       if (faqView) faqView.hidden = true;
       if (investView) investView.hidden = !investRoute;
-      document.title = investRoute ? 'الاستثمار في منطقة الباحة | بوابة منطقة الباحة' : homeTitle;
+      document.title = investRoute ? 'الاستثمار في منطقة الباحة | بوابة منطقة الباحة' : initialTitle;
       window.requestAnimationFrame(() => {
         if (signal.aborted) return;
         window.scrollTo({ top: 0, behavior: 'instant' });
@@ -3763,7 +3765,7 @@ export function initAlBahaPortal(initialView: PortalInitialView = 'home'): () =>
       subpageViews.clearActivePlace();
       if (homeView) homeView.hidden = false;
       if (placeView) placeView.hidden = true;
-      document.title = homeTitle;
+      document.title = PORTAL_HOME_TITLE;
       window.requestAnimationFrame(() => {
         if (signal.aborted) return;
         if (streetMapActive && liveMap) liveMap.map.resize();
@@ -4048,7 +4050,6 @@ export function initAlBahaPortal(initialView: PortalInitialView = 'home'): () =>
   restoreTrip();
   rebuildRoute();
   measureCarousel();
-  canonicalizeLegacyPortalLink();
   syncPage(true);
 
   const syncHeaderSpace = () => {

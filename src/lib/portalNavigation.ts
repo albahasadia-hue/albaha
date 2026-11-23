@@ -6,6 +6,8 @@ const homeSections = new Set([
 
 const detailPath = /^\/(?:place\/[\w-]+|city\/(?:[\w-]+|baha\/stories(?:\/[\w-]+)?)|route\/[\w-]+|guide(?:\/place\/[\w-]+)?|faq(?:\/[\w-]+)?|invest(?:\/[\w-]+)?)$/;
 
+export const PORTAL_HOME_TITLE = 'البوابة الرسمية لمنطقة الباحة | التنمية والسياحة والخدمات الرقمية';
+
 export function portalSectionId(path: string): string | undefined {
   const section = path.slice(1);
   return homeSections.has(section) ? section : undefined;
@@ -24,12 +26,17 @@ export function navigatePortal(path: string): void {
   window.dispatchEvent(new Event(portalNavigationEvent));
 }
 
-export function canonicalizeLegacyPortalLink(): boolean {
+export function canonicalizeLegacyPortalLink(reload = false): boolean {
   if (!window.location.hash) return false;
   const fragment = window.location.hash.slice(1);
   if (!fragment) return false;
   const path = fragment === 'home' ? '/' : `/${fragment}`;
   if (!isPortalPath(path)) return false;
-  window.history.replaceState(null, '', `${path}${window.location.search}`);
-  return true;
+  const target = `${path}${window.location.search}`;
+  if (reload && path !== window.location.pathname) {
+    window.location.replace(target);
+    return true;
+  }
+  window.history.replaceState(null, '', target);
+  return !reload;
 }

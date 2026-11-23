@@ -1,9 +1,10 @@
 import type { Metadata, Viewport } from 'next';
+import { PORTAL_HOME_TITLE } from '@/lib/portalNavigation';
 import '../styles/tailwind.css';
 import '../styles/globals.scss';
 
 export const metadata: Metadata = {
-  title: 'البوابة الرسمية لمنطقة الباحة | التنمية والسياحة والخدمات الرقمية',
+  title: PORTAL_HOME_TITLE,
   description:
     'اكتشف طبيعة الباحة وتراثها وخطط لرحلتك على خريطة تفاعلية بين الجبال والقرى.',
 };
