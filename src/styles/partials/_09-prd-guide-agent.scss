@@ -1949,13 +1949,19 @@ body:has(#homeView:not([hidden])) #sirajLauncher.bot {
 .invest-project-card {
   display: flex;
   flex-direction: column;
-  gap: .55rem;
+  gap: .45rem;
   min-inline-size: 0;
-  padding: clamp(.9rem, 1.5vw, 1.35rem);
+  padding: clamp(.88rem, 1.35vw, 1.2rem);
   border-radius: 8px;
-  background: linear-gradient(135deg, #051527 0%, #0A2E5C 68%, #005A2B 116%);
-  box-shadow: 0 10px 24px rgba(6, 26, 51, .16), inset 0 0 0 1px rgba(125, 211, 252, .21);
-  color: #FFFFFF;
+  background: linear-gradient(145deg, #FFFFFF 38%, #EFF7FA 100%);
+  box-shadow: 0 8px 22px rgba(6, 26, 51, .07), inset 0 0 0 1px #DCE9EE;
+  color: #061A33;
+  transition: box-shadow .2s var(--ease), transform .2s var(--ease);
+}
+
+.invest-project-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 26px rgba(6, 26, 51, .1), inset 0 0 0 1px #BFDCD3;
 }
 
 .invest-project-meta {
@@ -1969,32 +1975,45 @@ body:has(#homeView:not([hidden])) #sirajLauncher.bot {
 .invest-sector-badge {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
-  padding: 3px 9px;
+  gap: 4px;
+  padding: 2px 7px;
   border-radius: 6px;
-  background: color-mix(in srgb, var(--invest-kicker-color) 12%, transparent);
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--invest-kicker-color) 36%, transparent);
-  color: var(--invest-kicker-color);
-  font-size: 0.72rem;
+  background: linear-gradient(145deg, #E5F6EF, #E8F1FB);
+  box-shadow: inset 0 0 0 1px #CEE7E1;
+  color: #096B58;
+  font-size: 0.66rem;
   font-weight: 700;
+  line-height: 1.45;
+}
+
+.invest-sector-badge .ic {
+  width: 12px;
+  height: 12px;
+  color: #096B58;
 }
 
 .invest-project-loc {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  font-size: 0.76rem;
+  gap: 3px;
+  font-size: 0.68rem;
   font-weight: 600;
-  color: #CFDEE9;
+  color: #546A7B;
+}
+
+.invest-project-loc .ic {
+  width: 12px;
+  height: 12px;
+  color: #096B58;
 }
 
 .invest-project-card h3 {
-  margin: 0;
+  margin: .1rem 0 0;
   font-family: var(--display);
-  font-size: clamp(1.04rem, 1.28vw, 1.2rem);
-  font-weight: 600;
-  color: #FFFFFF;
-  line-height: 1.38;
+  font-size: clamp(.92rem, 1.06vw, 1.02rem) !important;
+  font-weight: 700;
+  color: #061A33;
+  line-height: 1.36;
 }
 
 .invest-project-card p {
@@ -2002,36 +2021,47 @@ body:has(#homeView:not([hidden])) #sirajLauncher.bot {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  font-size: .9rem;
-  line-height: 1.6;
-  color: #D7E7F2;
+  font-size: .82rem;
+  line-height: 1.55;
+  color: #475569;
 }
 
 .invest-highlights {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: .6rem;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: .5rem;
   margin: auto 0 0;
-  padding: .75rem 0 0;
-  border-block-start: 1px solid rgba(210, 235, 249, .24);
+  padding: .62rem 0 0;
+  border-block-start: 1px solid #D8E5EA;
   list-style: none;
 }
 
 .invest-highlights li {
-  display: flex;
-  align-items: baseline;
-  gap: .36rem;
-  font-size: .78rem;
-  font-weight: 500;
-  line-height: 1.5;
-  color: #E6F2F7;
+  display: inline-flex;
+  align-items: center;
+  gap: .28rem;
+  min-width: 0;
+  font-size: clamp(.64rem, .7vw, .7rem);
+  font-weight: 600;
+  line-height: 1.35;
+  color: #334155;
+  white-space: nowrap;
+}
+
+.invest-highlights li span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .invest-highlights .ic {
   flex: none;
-  align-self: flex-start;
-  margin-block-start: .11rem;
-  color: #9AE6CA;
+  width: 13px;
+  height: 13px;
+  margin: 0;
+  color: #096B58;
 }
 
 .invest-channels {
@@ -2144,6 +2174,14 @@ body:has(#homeView:not([hidden])) #sirajLauncher.bot {
   }
   .invest-hero-actions {
     flex: 1 1 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .invest-highlights {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: .4rem .75rem;
   }
 }
 
