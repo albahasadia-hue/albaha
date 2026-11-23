@@ -3669,6 +3669,8 @@ export function initAlBahaPortal(initialView: PortalInitialView = 'home'): () =>
     const supportRoute = Boolean(supportView && path === `/${initialView}`);
     const sectionId = portalSectionId(path);
     const returning = Boolean(homeView?.hidden);
+    const smoothDevelopmentScroll =
+      !restoreHomeScroll && sectionId === 'official-portal' && investView && !investView.hidden;
 
     if ((place || city || guideRoute || faqRoute || investRoute || supportRoute) && !returning) {
       homePath = lastPath;
@@ -3777,7 +3779,9 @@ export function initAlBahaPortal(initialView: PortalInitialView = 'home'): () =>
         } else if (restoreHomeScroll && path === homePath) {
           window.scrollTo({ top: homeScroll, behavior: 'instant' });
         } else if (sectionId) {
-          byId(sectionId)?.scrollIntoView({ behavior: 'instant' });
+          byId(sectionId)?.scrollIntoView({
+            behavior: smoothDevelopmentScroll ? getReducedBehavior() : 'instant',
+          });
         } else {
           window.scrollTo({ top: 0, behavior: 'instant' });
         }

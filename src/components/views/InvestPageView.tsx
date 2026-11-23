@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useId, useRef, useState, type KeyboardEvent } from 'react';
+import { useEffect, useId, useRef, useState, type KeyboardEvent, type ReactNode } from 'react';
 import {
   INVEST_CHANNELS,
   INVEST_KPIS,
@@ -14,6 +14,28 @@ interface InvestPageViewProps {
 }
 
 const sectorLookup = new Map(INVEST_SECTORS.map((sector) => [sector.id, sector]));
+
+function InvestInfoHeading({
+  icon,
+  label,
+  children,
+}: {
+  icon: string;
+  label: string;
+  children: ReactNode;
+}) {
+  return (
+    <div className="invest-info-heading">
+      <span className="invest-info-icon" aria-hidden="true">
+        <svg className="ic"><use href={icon} /></svg>
+      </span>
+      <div>
+        <span className="invest-info-label">{label}</span>
+        {children}
+      </div>
+    </div>
+  );
+}
 
 function InvestSectorFilter({
   value,
@@ -175,30 +197,28 @@ export function InvestPageView({ initialHidden = true }: InvestPageViewProps) {
               rel="noopener"
               className="btn btn-glass invest-hero-action invest-hero-action--primary"
             >
-              <span>استكشف منصة فرص</span>
-              <svg className="ic tiny" aria-hidden="true">
-                <use href="#i-external" />
+              <svg className="ic" aria-hidden="true">
+                <use href="#i-digital-services" />
               </svg>
+              <span>استكشف منصة فرص</span>
             </a>
             <a href="/official-portal" className="btn btn-glass invest-hero-action">
-              <span>مؤشرات التنمية</span>
-              <svg className="ic tiny" aria-hidden="true">
-                <use href="#i-arrow" />
+              <svg className="ic" aria-hidden="true">
+                <use href="#i-nav-invest" />
               </svg>
+              <span>مؤشرات التنمية</span>
             </a>
           </div>
         </header>
 
         <section className="invest-kpis" aria-label="مؤشرات البيئة الاستثمارية">
           {INVEST_KPIS.map((kpi) => (
-            <div key={kpi.label} className="invest-kpi-card">
-              <span className="invest-kpi-head">
-                <svg className="ic tiny" aria-hidden="true">
-                  <use href={kpi.icon} />
-                </svg>
-                <span>{kpi.label}</span>
-              </span>
-              <strong dir="ltr">{kpi.value}</strong>
+            <div key={kpi.label} className="invest-info-card invest-kpi-card">
+              <InvestInfoHeading icon={kpi.icon} label={kpi.label}>
+                <strong className="invest-kpi-value">
+                  <bdi dir="ltr">{kpi.value}</bdi>
+                </strong>
+              </InvestInfoHeading>
               <p>{kpi.note}</p>
             </div>
           ))}
@@ -252,16 +272,10 @@ export function InvestPageView({ initialHidden = true }: InvestPageViewProps) {
 
         <section className="invest-channels" aria-label="قنوات المستثمرين الرسمية">
           {INVEST_CHANNELS.map((channel) => (
-            <article key={channel.title} className="invest-channel-card">
-              <div className="invest-channel-head">
-                <span className="invest-channel-icon" aria-hidden="true">
-                  <svg className="ic"><use href={channel.categoryIcon} /></svg>
-                </span>
-                <div>
-                  <span className="invest-channel-tag">{channel.tag}</span>
-                  <h3>{channel.title}</h3>
-                </div>
-              </div>
+            <article key={channel.title} className="invest-info-card invest-channel-card">
+              <InvestInfoHeading icon={channel.categoryIcon} label={channel.tag}>
+                <h3>{channel.title}</h3>
+              </InvestInfoHeading>
               <p>{channel.description}</p>
               <a
                 href={channel.href}
