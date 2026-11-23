@@ -4,7 +4,12 @@ const homeSections = new Set([
   'tripDraft', 'visit-guide', 'visit-season',
 ]);
 
-const detailPath = /^\/(?:place\/[\w-]+|city\/(?:[\w-]+|baha\/stories(?:\/[\w-]+)?)|route\/[\w-]+|guide(?:\/place\/[\w-]+)?|faq(?:\/[\w-]+)?|invest(?:\/[\w-]+)?)$/;
+const detailPath = /^\/(?:place\/[\w-]+|city\/(?:[\w-]+|baha\/stories(?:\/[\w-]+)?)|route\/[\w-]+|guide|faq(?:\/[\w-]+)?|invest(?:\/[\w-]+)?)$/;
+
+export function parseGuidePlacePath(path: string): { id: string; booking: boolean } | null {
+  const match = /^\/guide\/place\/([\w-]+)(\/booking)?$/.exec(path);
+  return match ? { id: match[1], booking: Boolean(match[2]) } : null;
+}
 
 export const PORTAL_HOME_TITLE = 'البوابة الرسمية لمنطقة الباحة | التنمية والسياحة والخدمات الرقمية';
 
@@ -14,7 +19,7 @@ export function portalSectionId(path: string): string | undefined {
 }
 
 export function isPortalPath(path: string): boolean {
-  return path === '/' || Boolean(portalSectionId(path)) || detailPath.test(path);
+  return path === '/' || Boolean(portalSectionId(path)) || detailPath.test(path) || Boolean(parseGuidePlacePath(path));
 }
 
 export const portalNavigationEvent = 'albaha:navigate';

@@ -36,6 +36,7 @@ import {
   projectSvgGeo,
 } from './portalHelpers';
 import { catalogDetailDescriptions, placeDetailDescriptions } from './guideDetailCopy';
+import { bindGuideBooking, guideBookingMarkup, guideBookingType } from './guideBooking';
 import { bindMediaShowcase, mediaShowcaseMarkup, openUnifiedLightbox } from './weatherAndShowcase';
 import {
   getGuide144ById,
@@ -71,7 +72,7 @@ export interface TourGuideController {
   filter: TourGuideFilterState;
   getGuideRecords: () => IndexedGuideRecord[];
   hasPlace: (id: string) => boolean;
-  showTourGuide: (id?: string) => void;
+  showTourGuide: (id?: string, booking?: boolean) => void;
   openFiltered: (opts?: TourGuideFilterOptions) => void;
   refreshTourGuide: () => void;
   updateTourGuideTrip: () => void;
@@ -1150,21 +1151,22 @@ export function createTourGuideController(deps: TourGuideControllerDeps): TourGu
     if (rating) {
       metadata.push(['التقييم', rating, glyph('foot-message', 'card-ic-svg')]);
     }
+    const bookingType = guideBookingType(place.category, Boolean(item144?.bookingLink));
     const contactActions: string[] = [];
+    if (bookingType) {
+      contactActions.push(
+        `<a class="btn btn-dark" href="${tourGuideHref(place)}/booking" data-open-booking>${glyph('city-calendar', 'ic tiny')} احجز الآن</a>`
+      );
+    }
     if (item144?.phones.length) {
       const primaryPhone = item144.phones[0];
       contactActions.push(
-        `<a class="btn btn-soft" href="${guideText(primaryPhone.telHref)}">اتصال: <bdi dir="ltr">${guideText(primaryPhone.display)}</bdi></a>`
+        `<a class="btn btn-soft" href="${guideText(primaryPhone.telHref)}">${glyph('foot-phone', 'ic tiny')} اتصال</a>`
       );
     }
     if (item144?.whatsappUrl) {
       contactActions.push(
         `<a class="btn btn-soft" href="${guideText(item144.whatsappUrl)}" target="_blank" rel="noopener noreferrer">واتساب ${glyph('external', 'ic tiny')}</a>`
-      );
-    }
-    if (item144?.bookingLink) {
-      contactActions.push(
-        `<a class="btn btn-dark" href="${guideText(item144.bookingLink.url)}" target="_blank" rel="noopener noreferrer">${guideText(item144.bookingLink.label)} ${glyph('external', 'ic tiny')}</a>`
       );
     }
     if (item144?.officialWebsite && item144.officialWebsite.url !== item144.bookingLink?.url) {
@@ -1207,10 +1209,11 @@ export function createTourGuideController(deps: TourGuideControllerDeps): TourGu
           </div>
           <div class="place-actions">
             ${contactActions.join('')}
-            <a class="btn ${contactActions.some((c) => c.includes('btn-dark')) ? 'btn-soft' : 'btn-dark'}" href="${guideText(place.map || place.accessMap || search)}" target="_blank" rel="noopener noreferrer">${glyph('map')} ${mapLabel}</a>
+            <a class="btn ${bookingType ? 'btn-soft' : 'btn-dark'}" href="${guideText(place.map || place.accessMap || search)}" target="_blank" rel="noopener noreferrer">${glyph('map')} ${mapLabel}</a>
             ${place.trip ? `<button class="btn btn-soft" type="button" data-guide-trip="${place.trip}"></button>` : ''}
             <a class="btn btn-soft" href="/guide">${glyph('section-guide', 'ic tiny')} تصفّح أماكن أخرى</a>
           </div>
+          ${item144?.bookingLink ? `<a class="directory-booking-provider" href="${guideText(item144.bookingLink.url)}" target="_blank" rel="noopener noreferrer">${guideText(item144.bookingLink.label)} ${glyph('external', 'ic tiny')}</a>` : ''}
         </div>
         <div class="directory-gallery">
           <div class="directory-feature-photo">
@@ -1317,7 +1320,7 @@ export function createTourGuideController(deps: TourGuideControllerDeps): TourGu
     target.scrollIntoView({ behavior: deps.getScrollBehavior(), block: 'start' });
   }
 
-  function showTourGuide(id?: string): void {
+  function showTourGuide(id?: string, booking = false): void {
     if (!tourGuideView) return;
     const lastPath = deps.getLastPath();
     if (id && lastPath === '/guide') tourGuideListScroll = window.scrollY;
@@ -1326,6 +1329,18 @@ export function createTourGuideController(deps: TourGuideControllerDeps): TourGu
     const resolved = id ? resolveGuidePlaceById(id) : null;
     const place = resolved?.place || null;
     const item144 = resolved?.item144 || null;
+    if (booking) {
+      const bookingType = place && guideBookingType(place.category, Boolean(item144?.bookingLink));
+      tourGuideView.innerHTML = place && bookingType
+        ? guideBookingMarkup(guideText(place.name), tourGuideHref(place), bookingType)
+        : `<div class="container guide-booking-page"><h1 id="guideBookingTitle" tabindex="-1">الحجز غير متاح</h1><a class="tour-guide-back" href="${place ? tourGuideHref(place) : '/guide'}">العودة إلى الدليل</a></div>`;
+      tourGuideView.hidden = false;
+      if (place && bookingType) bindGuideBooking(tourGuideView, place, viewSignal);
+      document.title = place && bookingType ? `حجز في ${place.name} | اكتشف الباحة` : 'الحجز غير متاح | اكتشف الباحة';
+      byId('guideBookingTitle')?.focus({ preventScroll: true });
+      window.scrollTo({ top: 0, behavior: 'instant' });
+      return;
+    }
     tourGuideView.innerHTML = id
       ? place
         ? tourGuideDetail(place, item144)

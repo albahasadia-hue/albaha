@@ -219,15 +219,11 @@
 .place-hero-copy .place-actions,
 .directory-intro-copy .place-actions {
   display: grid !important;
-  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
   gap: 10px !important;
   align-items: stretch !important;
   width: 100% !important;
   margin-top: 2px !important;
-}
-.place-hero-copy .place-actions:not(:has(> :nth-child(3))),
-.directory-intro-copy .place-actions:not(:has(> :nth-child(3))) {
-  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
 }
 .place-hero-copy .place-actions > *,
 .directory-intro-copy .place-actions > * {
@@ -241,6 +237,95 @@
   font-size: clamp(.74rem, .86vw, .82rem) !important;
   line-height: 1.28 !important;
   white-space: normal !important;
+}
+@media (min-width: 541px) {
+  :is(.place-hero-copy, .directory-intro-copy) .place-actions > * {
+    grid-column: span 2;
+  }
+  :is(.place-hero-copy, .directory-intro-copy) .place-actions > :nth-child(3n + 1):last-child {
+    grid-column: 1 / -1;
+  }
+  :is(.place-hero-copy, .directory-intro-copy) .place-actions:has(> :nth-child(4):last-child) > *,
+  :is(.place-hero-copy, .directory-intro-copy) .place-actions > :is(:nth-child(3n + 1):nth-last-child(2), :nth-child(3n + 2):last-child) {
+    grid-column: span 3;
+  }
+}
+.directory-booking-provider {
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  gap: 6px;
+  margin-block-start: 10px;
+  color: var(--muted);
+  font-size: .82rem;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.guide-booking-page { padding-block: clamp(24px, 4vw, 52px); }
+.guide-booking {
+  max-width: 640px;
+  margin-inline: auto;
+  padding: clamp(16px, 4vw, 32px);
+  border: 1px solid #C9DCE9;
+  border-radius: 20px;
+  background: #fff;
+  color: #061A33;
+  box-shadow: 0 20px 64px rgba(6, 26, 51, .2);
+}
+.guide-booking-header h1 { margin: 12px 0 0; font-size: clamp(1.35rem, 3vw, 1.9rem); }
+.guide-booking-ticket h2 { margin: 0; font-size: 1.32rem; color: #18583C; }
+.guide-booking-notice {
+  margin: 14px 0;
+  padding: 9px 12px;
+  border-radius: 8px;
+  background: #EAF6EF;
+  color: #18583C;
+  font-size: .87rem;
+}
+.guide-booking-form:not([hidden]) {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+.guide-booking-wide { grid-column: 1 / -1; }
+.guide-booking-form label {
+  display: grid;
+  gap: 4px;
+  font-size: .85rem;
+  font-weight: 600;
+}
+.guide-booking-form input {
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  padding: 6px 8px;
+  border: 1px solid #C9DCE9;
+  border-radius: 8px;
+  background: #FFFFFF;
+  color: #061A33;
+  font: inherit;
+}
+.guide-booking-form button:disabled { opacity: .6; }
+.guide-booking-error { margin: 0; color: #A12626; font-size: .87rem; }
+.guide-booking-ticket:not([hidden]) {
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+}
+.guide-booking-ticket dl {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  width: 100%;
+  margin: 0;
+  gap: 8px 12px;
+  font-size: .88rem;
+}
+.guide-booking-ticket dt { color: #415D72; }
+.guide-booking-ticket dd { margin: 0; overflow-wrap: anywhere; }
+.guide-booking-ticket dd[dir="ltr"] { text-align: right; }
+.guide-booking-ticket img { max-width: 100%; height: auto; }
+@media (max-width: 420px) {
+  .guide-booking-form:not([hidden]) { grid-template-columns: minmax(0, 1fr); }
 }
 .place-view .btn,
 .tour-guide .btn {
@@ -2540,9 +2625,7 @@ html.motion-paused .ab-showcase-img.is-active {
   .tour-guide-facts dl,
   .tour-guide-facts dl[data-cols],
   .place-hero-copy .place-actions,
-  .directory-intro-copy .place-actions,
-  .place-hero-copy .place-actions:not(:has(> :nth-child(3))),
-  .directory-intro-copy .place-actions:not(:has(> :nth-child(3))) {
+  .directory-intro-copy .place-actions {
     grid-template-columns: minmax(0, 1fr) !important;
   }
 }

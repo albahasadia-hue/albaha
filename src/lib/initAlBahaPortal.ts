@@ -59,6 +59,7 @@ import {
   canonicalizeLegacyPortalLink,
   isPortalPath,
   navigatePortal,
+  parseGuidePlacePath,
   PORTAL_HOME_TITLE,
   portalNavigationEvent,
   portalSectionId,
@@ -3209,7 +3210,7 @@ export function initAlBahaPortal(initialView: PortalInitialView = 'home'): () =>
   function getActivePageContext() {
     const h = window.location.pathname;
     const placeId = h.startsWith('/place/') ? h.slice(7) : subpageViews.getActivePlace()?.id || null;
-    const guidePlaceId = h.startsWith('/guide/place/') ? h.slice(13) : null;
+    const guidePlaceId = parseGuidePlacePath(h)?.id ?? null;
     return {
       placeId,
       guidePlaceId,
@@ -3663,7 +3664,8 @@ export function initAlBahaPortal(initialView: PortalInitialView = 'home'): () =>
     const city =
       path.startsWith('/city/') && Object.hasOwn(climateCities, cityKey) ? cityKey : null;
     const routeId = path.startsWith('/route/') ? path.slice(7) : null;
-    const guideRoute = path === '/guide' || path.startsWith('/guide/place/');
+    const guidePlaceRoute = parseGuidePlacePath(path);
+    const guideRoute = path === '/guide' || Boolean(guidePlaceRoute);
     const faqRoute = path === '/faq' || path.startsWith('/faq/');
     const investRoute =
       path === '/invest' || path.startsWith('/invest/');
@@ -3743,9 +3745,7 @@ export function initAlBahaPortal(initialView: PortalInitialView = 'home'): () =>
       if (placeView) placeView.hidden = true;
       if (faqView) faqView.hidden = true;
       if (investView) investView.hidden = true;
-      tourGuideController.showTourGuide(
-        path === '/guide' ? undefined : path.slice(13) || 'missing'
-      );
+      tourGuideController.showTourGuide(guidePlaceRoute?.id, guidePlaceRoute?.booking);
       mountPendingGuideDock(path);
     } else if (place || city) {
       tourGuideController.cleanupView();
