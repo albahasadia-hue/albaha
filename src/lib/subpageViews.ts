@@ -255,13 +255,13 @@ function cityStoryCard(story: CityStory): string {
       <figure class="city-story-media">
         <img src="${images[story.id] || ''}" alt="${story.alt}" loading="lazy" decoding="async">
         <span class="city-story-badge">${glyph(isArchive ? 'city-archive' : 'city-calendar', 'ic tiny')}${kindLabel}</span>
+        <span class="city-story-kind">${story.tag}</span>
       </figure>
       <div class="city-story-copy">
-        <div class="city-story-meta">
-          <span class="city-story-kind">${story.tag}</span>
+        <div class="city-story-heading">
+          <h3>${story.title}</h3>
           <time class="city-story-date" datetime="${story.date}">${story.dateLabel}</time>
         </div>
-        <h3>${story.title}</h3>
         <p class="city-story-summary">${story.summary}</p>
         <div class="city-story-foot">
           <span class="city-story-loc">${glyph('pin', 'ic tiny')}<span>${locationShort}</span></span>
