@@ -10,6 +10,7 @@ import { climateCities, places } from './portalStaticData';
 import { byId, formatNum, qsAll } from './portalHelpers';
 import { forecast, isWet, weatherNames } from './weatherAndShowcase';
 import { createInitialConciergeContext } from './plannerTools';
+import { SMART_GUIDE_NAME } from './smartGuideName';
 import { renderGuideCharacterSvg } from '@/components/common/GuideCharacter';
 import {
   detectGovernorate,
@@ -632,7 +633,7 @@ export function createSmartGuideUiController(deps: ConciergeControllerDeps): {
 
     const header = document.createElement('h4');
     header.className = 'sg-msg-sender';
-    header.textContent = 'المرشد الذكي';
+    header.textContent = SMART_GUIDE_NAME;
     article.append(header);
 
     const body = document.createElement('p');

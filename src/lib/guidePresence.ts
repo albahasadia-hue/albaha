@@ -1,6 +1,7 @@
 import { renderGuideCharacterSvg, type GuideCharacterPose } from '@/components/common/GuideCharacter';
 import type { MapLibreMapInstance } from './portalTypes';
 import { byId, isMotionPaused } from './portalHelpers';
+import { SMART_GUIDE_NAME } from './smartGuideName';
 
 export interface DockMapOptions {
   stopId: string;
@@ -132,7 +133,7 @@ export function renderMapDock(opts: DockMapOptions, signal: AbortSignal): void {
   kicker.className = 'concierge-dock-kicker';
   kicker.textContent = opts.isExploration
     ? `تستكشف الآن ${opts.stopName}`
-    : `المرشد السياحي الذكي · ${opts.stopName}`;
+    : `${SMART_GUIDE_NAME} · ${opts.stopName}`;
 
   const msg = document.createElement('p');
   msg.className = 'concierge-dock-text';
@@ -179,7 +180,7 @@ export function renderGuideDock(opts: DockGuideOptions, signal: AbortSignal): vo
   const card = document.createElement('aside');
   card.id = 'conciergeGuideDock';
   card.className = `concierge-guide-dock${opts.missingCoordinates ? ' is-missing-coords' : ''}`;
-  card.setAttribute('aria-label', 'المرشد السياحي الذكي');
+  card.setAttribute('aria-label', SMART_GUIDE_NAME);
 
   const avatar = document.createElement('div');
   avatar.className = 'concierge-dock-avatar';

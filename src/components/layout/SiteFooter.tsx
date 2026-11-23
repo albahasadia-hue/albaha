@@ -1,4 +1,5 @@
 import domMedia from '@/data/domMedia.json';
+import { SMART_GUIDE_NAME } from '@/lib/smartGuideName';
 
 interface ContactChannel {
   href: string;
@@ -151,7 +152,7 @@ export function SiteFooter() {
                     <svg className="ic" aria-hidden="true">
                       <use href="#i-sparkle" />
                     </svg>
-                    المرشد السياحي
+                    {SMART_GUIDE_NAME}
                   </button>
                 </li>
                 <li>

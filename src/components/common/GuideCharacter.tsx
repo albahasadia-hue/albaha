@@ -1,4 +1,5 @@
 import React from 'react';
+import { SMART_GUIDE_NAME } from '@/lib/smartGuideName';
 
 export type GuideCharacterPose = 'idle' | 'listening' | 'speaking' | 'pointing' | 'docked';
 
@@ -49,7 +50,7 @@ export function renderGuideCharacterSvg(options?: {
   const cls = options?.className ? `guide-character-svg ${options.className}` : 'guide-character-svg';
   const aria =
     options?.decorative === false
-      ? 'role="img" aria-label="المرشد السياحي الذكي"'
+      ? `role="img" aria-label="${SMART_GUIDE_NAME}"`
       : 'aria-hidden="true" focusable="false"';
   return `<svg class="${cls}" data-pose="${pose}" viewBox="0 0 60 60" width="${size}" height="${size}" fill="none" ${aria}>${buildGuideCharacterInnerSvg(uid)}</svg>`;
 }
@@ -63,7 +64,7 @@ export function GuideCharacter({
   className = '',
   id,
   decorative = true,
-  label = 'المرشد السياحي الذكي',
+  label = SMART_GUIDE_NAME,
 }: GuideCharacterProps) {
   const reactUid = React.useId().replace(/[^a-zA-Z0-9_-]/g, '') || 'gc';
   return (

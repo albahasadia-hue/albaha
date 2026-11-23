@@ -1,4 +1,5 @@
 import { GuideCharacter } from '@/components/common/GuideCharacter';
+import { SMART_GUIDE_NAME } from '@/lib/smartGuideName';
 
 export function ContactConciergeSection() {
   return (
@@ -9,14 +10,14 @@ export function ContactConciergeSection() {
             <span className="guide-section-badge" aria-hidden="true">
               <GuideCharacter decorative size={20} className="guide-section-avatar" />
             </span>
-            <span>المرشد الذكي</span>
+            <span>{SMART_GUIDE_NAME}</span>
           </div>
-          <h2>المرشد الذكي</h2>
-          <p className="lead">اسأل المرشد عن الوجهات والمبيت والمطاعم، وخطّط لرحلتك في الباحة.</p>
+          <h2>{SMART_GUIDE_NAME}</h2>
+          <p className="lead">اسأل المساعد عن الوجهات والمبيت والمطاعم، وخطّط لرحلتك في الباحة.</p>
         </div>
         <div className="action-row">
           <button type="button" className="btn btn-dark" data-open="agent">
-            افتح المرشد الذكي{' '}
+            افتح {SMART_GUIDE_NAME}{' '}
             <svg className="ic" aria-hidden="true">
               <use href="#i-arrow" />
             </svg>

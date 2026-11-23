@@ -1,4 +1,5 @@
 import { GuideCharacter } from '@/components/common/GuideCharacter';
+import { SMART_GUIDE_NAME } from '@/lib/smartGuideName';
 
 const STARTER_PROMPTS: Array<{ label: string; prompt: string; icon: string }> = [
   {
@@ -42,7 +43,7 @@ export function ConciergeDialog() {
                 className="guide-dialog-avatar"
               />
             </span>
-            <h2 id="conciergeTitle">المرشد الذكي</h2>
+            <h2 id="conciergeTitle">{SMART_GUIDE_NAME}</h2>
           </div>
 
           <div className="concierge-head-actions sg-head-actions">
@@ -64,7 +65,7 @@ export function ConciergeDialog() {
               className="panel-close sg-close-btn"
               id="conciergeCloseBtn"
               data-close=""
-              aria-label="إغلاق المرشد الذكي"
+              aria-label={`إغلاق ${SMART_GUIDE_NAME}`}
               title="إغلاق"
             >
               <svg className="ic tiny" aria-hidden="true">
@@ -78,7 +79,7 @@ export function ConciergeDialog() {
           className="concierge-body sg-body"
           id="conciergeScroll"
           tabIndex={0}
-          aria-label="محادثة المرشد الذكي"
+          aria-label={`محادثة ${SMART_GUIDE_NAME}`}
         >
           <section className="concierge-welcome sg-welcome" id="conciergeWelcome">
             <h3>وش ودّك تكتشف اليوم؟</h3>
@@ -103,7 +104,7 @@ export function ConciergeDialog() {
             className="concierge-thread sg-thread"
             id="conciergeThread"
             role="log"
-            aria-label="رسائل المرشد الذكي"
+            aria-label={`رسائل ${SMART_GUIDE_NAME}`}
             aria-live="polite"
             aria-relevant="additions"
           />
@@ -115,8 +116,8 @@ export function ConciergeDialog() {
             <input
               type="text"
               id="conciergeInput"
-              aria-label="اسأل المرشد الذكي"
-              placeholder="اسأل عن مكان، مبيت، مطعم، أو خطة رحلة..."
+              aria-label={`اسأل ${SMART_GUIDE_NAME}`}
+              placeholder="اسأل عن مكان أو خطّط لرحلتك…"
               maxLength={280}
               autoComplete="off"
               enterKeyHint="send"

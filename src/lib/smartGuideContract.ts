@@ -1,3 +1,4 @@
+import { SMART_GUIDE_NAME } from './smartGuideName';
 import type {
   ConciergeContextState,
   RouteTiming,
@@ -459,7 +460,8 @@ export function validateGuideActions(rawActions: unknown): {
  */
 export function sanitizeVisitorFacingText(text: string): string {
   return String(text || '')
-    .replace(/\b(?:gemini(?:[\s-]?[\d.]+[\s-]?(?:flash|pro|lite))?|google\s*ai|openai|gpt-4o?)\b/gi, 'المرشد الذكي')
+    .replace(/\b(?:gemini(?:[\s-]?[\d.]+[\s-]?(?:flash|pro|lite))?|google\s*ai|openai|gpt-4o?)\b/gi, SMART_GUIDE_NAME)
+    .replace(/المرشد (?:السياحي )?الذكي|المساعد الذكي/g, SMART_GUIDE_NAME)
     .replace(/GEMINI_API_KEY|GOOGLE_API_KEY|OPENAI_API_KEY/gi, '')
     .replace(/\s{2,}/g, ' ')
     .trim();

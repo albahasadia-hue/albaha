@@ -3,6 +3,7 @@
 import { useMemo, useState } from 'react';
 import { GuideCharacter } from '@/components/common/GuideCharacter';
 import { FAQ_CATEGORIES, FAQ_ITEMS, type FaqCategoryId, type FaqItem } from '@/data/faqData';
+import { SMART_GUIDE_NAME } from '@/lib/smartGuideName';
 
 interface FaqPageViewProps {
   initialHidden?: boolean;
@@ -132,7 +133,7 @@ export function FaqPageView({ initialHidden = true }: FaqPageViewProps) {
           <div className="faq-hero-actions">
             <button type="button" className="btn" data-open="agent" aria-haspopup="dialog" aria-controls="agentPanel">
               <GuideCharacter size={24} className="faq-hero-guide-icon" />
-              اسأل المرشد السياحي الذكي
+              اسأل {SMART_GUIDE_NAME}
             </button>
           </div>
         </header>
@@ -275,7 +276,7 @@ export function FaqPageView({ initialHidden = true }: FaqPageViewProps) {
                             <svg className="ic tiny" aria-hidden="true">
                               <use href="#i-compass" />
                             </svg>
-                            <span>اسأل المرشد عن هذا الموضوع</span>
+                            <span>اسأل المساعد عن هذا الموضوع</span>
                           </button>
                         ) : null}
                       </div>

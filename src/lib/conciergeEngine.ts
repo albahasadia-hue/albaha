@@ -1,3 +1,4 @@
+import { SMART_GUIDE_NAME } from './smartGuideName';
 import type {
   ConciergeAction,
   ConciergeContextState,
@@ -1782,7 +1783,7 @@ export function createConciergeController(deps: ConciergeControllerDeps): {
     if (fromVisitor) message.setAttribute('aria-label', 'رسالتك');
     else {
       const title = document.createElement('h4');
-      title.textContent = 'المرشد السياحي الذكي';
+      title.textContent = SMART_GUIDE_NAME;
       message.append(title);
     }
     const body = document.createElement('p');

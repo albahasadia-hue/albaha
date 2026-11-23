@@ -1,7 +1,8 @@
 import { GuideCharacter } from '@/components/common/GuideCharacter';
+import { SMART_GUIDE_NAME } from '@/lib/smartGuideName';
 
 /**
- * Floating AI Tour Guide launcher ("المرشد السياحي الذكي") with approved human character & R15 visual balance.
+ * Floating launcher for the tourism assistant.
  */
 export function SirajLauncher() {
   return (
@@ -10,14 +11,14 @@ export function SirajLauncher() {
       className="bot"
       id="sirajLauncher"
       data-open="agent"
-      aria-label="افتح المرشد الذكي"
-      title="المرشد الذكي"
+      aria-label={`افتح ${SMART_GUIDE_NAME}`}
+      title={SMART_GUIDE_NAME}
       aria-haspopup="dialog"
       aria-controls="agentPanel"
     >
       <GuideCharacter pose="idle" size={44} className="guide-launcher-avatar" />
       <span className="siraj-tooltip" aria-hidden="true">
-        المرشد الذكي
+        {SMART_GUIDE_NAME}
       </span>
     </button>
   );

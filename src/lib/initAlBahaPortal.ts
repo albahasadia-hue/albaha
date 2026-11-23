@@ -427,17 +427,40 @@ export function initAlBahaPortal(initialView: PortalInitialView = 'home'): () =>
   );
 
   // Panels (Menu, Search, Smart Guide Drawer)
+  const smartGuidePanel = byId<HTMLDialogElement>('agentPanel');
+  const smartGuideScroll = byId('conciergeScroll');
+  const smartGuideViewport = window.visualViewport;
+  const useVisibleGuideViewport = window.matchMedia('(max-width: 768px), (pointer: coarse)');
+  let smartGuideViewportFrame = 0;
+
   function syncSmartGuideViewport(): void {
-    const agentPanel = byId<HTMLDialogElement>('agentPanel');
-    if (!agentPanel || !agentPanel.open) return;
-    const vv = window.visualViewport;
-    if (vv && window.innerWidth <= 768) {
-      agentPanel.style.setProperty('--sg-vvh', `${Math.round(vv.height)}px`);
-      agentPanel.style.setProperty('--sg-vvt', `${Math.max(0, Math.round(vv.offsetTop))}px`);
-    } else {
-      agentPanel.style.removeProperty('--sg-vvh');
-      agentPanel.style.removeProperty('--sg-vvt');
+    if (!smartGuidePanel?.open) return;
+    const { style } = smartGuidePanel;
+    if (!useVisibleGuideViewport.matches) {
+      style.removeProperty('--sg-vvh');
+      style.removeProperty('--sg-vvt');
+      return;
     }
+    const height = `${Math.floor(smartGuideViewport?.height ?? window.innerHeight)}px`;
+    const top = `${Math.max(0, smartGuideViewport?.offsetTop ?? 0)}px`;
+    if (style.getPropertyValue('--sg-vvh') === height && style.getPropertyValue('--sg-vvt') === top) {
+      return;
+    }
+    const wasAtLatestMessage = smartGuideScroll &&
+      smartGuideScroll.scrollHeight - smartGuideScroll.clientHeight - smartGuideScroll.scrollTop <= 24;
+    style.setProperty('--sg-vvh', height);
+    style.setProperty('--sg-vvt', top);
+    if (wasAtLatestMessage && smartGuideScroll) {
+      smartGuideScroll.scrollTop = smartGuideScroll.scrollHeight;
+    }
+  }
+
+  function scheduleSmartGuideViewportSync(): void {
+    if (!smartGuidePanel?.open || smartGuideViewportFrame) return;
+    smartGuideViewportFrame = window.requestAnimationFrame(() => {
+      smartGuideViewportFrame = 0;
+      if (!signal.aborted) syncSmartGuideViewport();
+    });
   }
 
   function openPanel(name: string, opener?: HTMLElement | null): void {
@@ -549,11 +572,11 @@ export function initAlBahaPortal(initialView: PortalInitialView = 'home'): () =>
   );
 
   // Mobile keyboard viewport adaptation
-  if (typeof window !== 'undefined' && window.visualViewport) {
-    window.visualViewport.addEventListener('resize', syncSmartGuideViewport, { signal });
-    window.visualViewport.addEventListener('scroll', syncSmartGuideViewport, { signal });
-  }
-  window.addEventListener('resize', syncSmartGuideViewport, { passive: true, signal });
+  smartGuideViewport?.addEventListener('resize', scheduleSmartGuideViewportSync, { signal });
+  smartGuideViewport?.addEventListener('scroll', scheduleSmartGuideViewportSync, { signal });
+  window.addEventListener('resize', scheduleSmartGuideViewportSync, { passive: true, signal });
+  byId('conciergeInput')?.addEventListener('focus', scheduleSmartGuideViewportSync, { signal });
+  byId('conciergeInput')?.addEventListener('blur', scheduleSmartGuideViewportSync, { signal });
 
   qsAll<HTMLElement>('[data-open]').forEach((button) =>
     button.addEventListener(
