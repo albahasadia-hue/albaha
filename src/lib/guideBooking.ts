@@ -14,6 +14,12 @@ const riyadhTime = new Intl.DateTimeFormat('en-GB', {
   minute: '2-digit',
   hourCycle: 'h23',
 });
+const riyadhDisplayTime = new Intl.DateTimeFormat('ar-SA-u-nu-latn', {
+  timeZone: 'Asia/Riyadh',
+  hour: 'numeric',
+  minute: '2-digit',
+  hour12: true,
+});
 
 export function guideBookingType(category: string, hasBookingLink: boolean): 'stay' | 'visit' | null {
   if (lodgingCategories.has(category)) return 'stay';
@@ -38,8 +44,12 @@ export function guideBookingMarkup(safePlaceName: string, placeHref: string, typ
       ${field('form-user', 'الاسم الكامل', '<input name="guest" autocomplete="name" placeholder="الاسم الأول والعائلة" maxlength="80" required>', true)}
       ${field('foot-phone', 'رقم الجوال', '<input name="phone" type="tel" dir="ltr" autocomplete="tel" placeholder="05XXXXXXXX" maxlength="26" required>')}
       ${field('foot-mail', 'البريد الإلكتروني', '<input name="email" type="email" dir="ltr" autocomplete="email" placeholder="name@example.com" maxlength="254" required>')}
-      ${field('city-calendar', stay ? 'تاريخ الوصول' : 'التاريخ', '<input name="date" type="date" required>')}
-      ${field('clock', stay ? 'وقت الوصول' : 'الوقت', '<input name="time" type="time" required>')}
+      ${field('city-calendar', stay ? 'تاريخ الوصول' : 'التاريخ', '<input name="date" type="date" aria-describedby="guideBookingTimeHint" required>')}
+      ${field('clock', stay ? 'وقت الوصول' : 'الوقت', '<input name="time" type="time" aria-describedby="guideBookingTimeHint" required>')}
+      <p class="guide-booking-time-hint service-form-full" id="guideBookingTimeHint">
+        <span>الموعد بتوقيت السعودية.</span>
+        <span>الساعة الآن <bdi data-booking-current-time></bdi></span>
+      </p>
       ${stay ? field('city-calendar', 'تاريخ المغادرة', '<input name="departure" type="date" required>') : ''}
       ${field('family', 'عدد الضيوف', '<input name="guests" type="number" min="1" max="999" step="1" placeholder="1" required>', !stay)}
       <p class="guide-booking-error service-form-full" data-booking-error role="alert" hidden></p>
@@ -63,15 +73,23 @@ export function bindGuideBooking(root: HTMLElement, place: { id: string; name: s
   if (!form || !ticket) return;
 
   const dateInput = form.elements.namedItem('date') as HTMLInputElement;
+  const timeInput = form.elements.namedItem('time') as HTMLInputElement;
   const departureInput = form.elements.namedItem('departure') as HTMLInputElement | null;
   const error = form.querySelector<HTMLElement>('[data-booking-error]')!;
   const submit = form.querySelector<HTMLButtonElement>('button[type="submit"]')!;
-  dateInput.min = riyadhDate.format();
+  const currentTime = form.querySelector<HTMLElement>('[data-booking-current-time]')!;
+  const refreshTime = () => { currentTime.textContent = riyadhDisplayTime.format(new Date()); };
+  refreshTime();
+  const clock = window.setInterval(refreshTime, 15_000);
+  signal.addEventListener('abort', () => window.clearInterval(clock), { once: true });
+  dateInput.min = riyadhDate.format(new Date());
   if (departureInput) departureInput.min = dateInput.min;
 
   dateInput.addEventListener('input', () => {
     if (departureInput) departureInput.min = dateInput.value || dateInput.min;
+    refreshTime();
   }, { signal });
+  timeInput.addEventListener('focus', refreshTime, { signal });
 
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
@@ -88,13 +106,14 @@ export function bindGuideBooking(root: HTMLElement, place: { id: string; name: s
     const guests = Number(read('guests'));
     const now = new Date();
     const today = riyadhDate.format(now);
+    refreshTime();
     error.hidden = true;
     if (!guest || !email || !date || !time || !Number.isInteger(guests) || guests < 1) {
       error.textContent = 'أكمل بيانات الحجز.';
     } else if (!/^[+()\s\d٠-٩۰-۹.-]+$/.test(phone) || phoneDigits.length < 7 || phoneDigits.length > 15) {
       error.textContent = 'أدخل رقم جوال صالحًا.';
     } else if (date < today || (date === today && time < riyadhTime.format(now))) {
-      error.textContent = 'اختر موعدًا في المستقبل بتوقيت السعودية.';
+      error.textContent = `الموعد المحدد قد مضى. الساعة الآن في السعودية ${riyadhDisplayTime.format(now)}. اختر موعدًا لاحقًا.`;
     } else if (departureInput && (!departure || departure <= date)) {
       error.textContent = 'اختر تاريخ مغادرة بعد تاريخ الوصول.';
     } else {

@@ -89,6 +89,9 @@
   gap: .58rem .7rem;
   min-width: 0;
   margin: 0;
+}
+
+fieldset.service-form-fields {
   padding: 0;
   border: 0;
 }
@@ -168,6 +171,29 @@
 
 .service-form-cta .ic { color: #b5ead5; }
 .service-form-cta:disabled { opacity: .62; cursor: wait; }
+
+.guide-booking .service-form-hero { margin-block-end: clamp(.85rem, 1.5vw, 1.25rem); }
+
+.guide-booking .service-form-fields {
+  gap: clamp(.82rem, 1.4vw, 1.125rem) clamp(.7rem, 1.35vw, 1.1rem);
+  padding: clamp(.95rem, 2.3vw, 1.5rem);
+}
+
+.guide-booking .service-form-field { gap: .38rem; }
+.guide-booking .service-form-footer { gap: .65rem; padding-block-start: .3rem; }
+
+.guide-booking-time-hint {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: .2rem .65rem;
+  margin: -.4rem 0 0;
+  color: var(--muted);
+  font-size: .78rem;
+  line-height: 1.45;
+}
+
+.guide-booking-time-hint bdi { color: var(--ink); font-weight: 600; }
 
 @media (min-width: 1024px) {
   .service-form-card { padding-inline: max(1.25rem, 4%); }
