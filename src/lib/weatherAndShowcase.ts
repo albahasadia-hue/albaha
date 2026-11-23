@@ -181,11 +181,11 @@ export function renderWeatherCard(element: HTMLElement | null, cityKey: string):
 
     element.innerHTML = `
       <div class="place-weather-summary grid grid-cols-1 items-center gap-3 rounded-baha border border-solid border-slate-200 bg-gradient-to-br from-emerald-50 to-blue-50 px-4 py-3 sm:grid-cols-[auto_minmax(0,1fr)] sm:gap-5">
-        <div class="grid gap-1 sm:border-e sm:border-solid sm:border-slate-200 sm:pe-5">
+        <div class="grid gap-1">
           <span class="text-sm font-semibold text-baha-royal">درجة الحرارة الآن</span>
           <strong class="font-heading text-[clamp(1.65rem,2.6vw,2.25rem)] font-bold leading-tight tabular-nums text-baha-royalDeep"><bdi dir="ltr">${Math.round(current.temperature_2m)}°C</bdi></strong>
         </div>
-        <div class="grid min-w-0 gap-1 border-t border-solid border-slate-200 pt-3 sm:border-t-0 sm:pt-0">
+        <div class="grid min-w-0 gap-1">
           <span class="text-sm font-semibold text-baha-royal">خلال الساعة القادمة</span>
           <p class="m-0 text-[0.9375rem] leading-relaxed text-baha-royalDeep">${next ? describeForecastHour(next) : 'التوقعات غير متاحة حاليًا.'}</p>
         </div>
