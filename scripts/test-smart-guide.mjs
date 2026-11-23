@@ -223,7 +223,7 @@ async function runTests() {
     assert.ok(restoredDirections.json.reply.actions.some((a) => a.type === 'open_directions' && a.guideItemId === 1));
     record('Directions follow the chat even when another place page is open', true);
 
-    const draft = (await askApi(portLive, { question: 'عايز أرتب رحلة في الباحة', context: baseCtx })).json.reply;
+    const draft = (await askApi(portLive, { question: 'عايز أعمل رحلة في الباحة', context: baseCtx })).json.reply;
     assert.equal(draft.itinerary, null);
     assert.match(draft.replyText, /كم يوم/);
     assert.match(draft.replyText, /نوع الرحلة/);
@@ -240,6 +240,12 @@ async function runTests() {
     assert.equal(prefs.itinerary.groupedDays.length, 2);
     assert.equal(prefs.itinerary.plan.style, 'family');
     assert.equal(prefs.context.pendingTrip, null);
+    const durationAdvice = (await askApi(portLive, {
+      question: 'هل يومين يكفون لرحلة عائلية في الباحة؟',
+      context: baseCtx,
+    })).json.reply;
+    assert.equal(durationAdvice.itinerary, null);
+    assert.ok(!durationAdvice.context.pendingTrip);
     record('Trip intake collects duration and style across separate messages', true);
 
     // T2: Explicit WhatsApp vs No-phone WhatsApp text

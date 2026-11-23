@@ -205,7 +205,9 @@ function parseDaysCount(q: string, expectingDuration = false): number | null {
   if (/اربع(?:ه)?\s*ايام/.test(q)) return 4;
   if (/(?:ثلاث|تلات)(?:ه)?\s*ايام/.test(q)) return 3;
   if (/يومين|يومان/.test(q)) return 2;
-  if (/(?:^|\s)(?:يوم|اليوم|نهارده|النهارده|هاليوم|بكره|غدا)(?:\s|$)/.test(q)) return 1;
+  if (/يوم واحد|نفس اليوم|(?:رحله|جوله|رتب لي|خطط لي|جدول) يوم(?:\s|$)/.test(q) ||
+      /(?:^|\s)(?:اليوم|نهارده|النهارده|هاليوم|بكره|غدا)(?:\s|$)/.test(q) ||
+      (expectingDuration && /^(?:يوم|ليوم)(?:\s|$)/.test(q))) return 1;
   if (expectingDuration) {
     const numberWord = ['صفر', 'واحد', 'اثنين', 'ثلاث|تلات', 'اربع', 'خمس', 'ست', 'سبع'];
     const parsed = numberWord.findIndex((word) => new RegExp(`^(?:${word})(?:ه)?$`).test(q));
@@ -865,14 +867,17 @@ export function runSmartGuideTurn(payload: SmartGuideRequestPayload): SmartGuide
   const pendingTrip = nextCtx.pendingTrip;
   const askedStyle = parseTripStyle(q);
   const presetWeather = intent === 'weather-plan' || intent === 'rain-demo' || Boolean(payload.demoRain);
+  const asksAboutDuration = /(?:^|\s)(?:كم يوم|كم المده|يكفي|يكفون|تكفي|كفايه)(?:\s|$)/.test(q);
   const planningRequest =
     intent === 'plan' || intent === 'timed-plan' || presetWeather ||
     /(?:^|\s)(?:و)?(?:ا?رتب(?:لي)?|ترتيب|ترتب|ا?خطط|تخطيط|خطه|برنامج|مسار|جوله|نظم|تنظيم|جدول|جهز\s?لي رحله)(?:\s|$)/.test(q) ||
-    (explicitDaysInTurn !== null && askedStyle !== null && !/فندق|شاليه|حجز|ليله|ليالي/.test(q));
+    /(?:^|\s)(?:ابي|ابغي|ابغى|عايز|عاوز|حاب|اريد|نبي|نفسي)\s+(?:(?:اسوي|اعمل|اطلع|نطلع|نروح|انظم)\s+)?رحله(?:\s|$)/.test(q) ||
+    (explicitDaysInTurn !== null && askedStyle !== null && !asksAboutDuration &&
+      !/فندق|شاليه|حجز|ليله|ليالي/.test(q));
   const timeWindow = parseTimeWindowAndReturnAr(q);
   const startInfo = parseStartPointAr(q);
   const tripDay = parseVisitDayAr(q, nowRiyadh.dayOfWeek);
-  const continuesPlanning = pendingTrip &&
+  const continuesPlanning = pendingTrip && !asksAboutDuration &&
     !/فندق|شاليه|مطعم|مقهي|حجز|ليله|ليالي|(?:^|\s)(?:هل|كيف|وين|فين|وش|ايه|ليه|ازاي)(?:\s|$)/.test(q) &&
     (explicitDaysInTurn !== null || askedStyle !== null || explicitNewStart !== null ||
       Boolean(startInfo || tripDay || timeWindow.budget || timeWindow.returnByEnd || govDetected));
