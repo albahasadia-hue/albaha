@@ -30,8 +30,10 @@ export function guideBookingMarkup(safePlaceName: string, placeHref: string, typ
   const stay = type === 'stay';
   const field = (icon: string, label: string, input: string, full = false) =>
     `<label class="service-form-field${full ? ' service-form-full' : ''}"><span class="service-form-label">${glyph(icon, 'ic tiny')}<span>${label}</span></span>${input}</label>`;
+  const receiptDetail = (name: string, label: string, dir = 'auto') =>
+    `<div><dt>${label}</dt><dd><bdi dir="${dir}" data-receipt-value="${name}"></bdi></dd></div>`;
 
-  return `<div class="container guide-booking-page"><section class="guide-booking service-form-layout" aria-labelledby="guideBookingTitle">
+  return `<div class="container guide-booking-page"><div class="guide-booking service-form-layout">
     <a class="tour-guide-back service-form-back" href="${placeHref}">${glyph('arrow', 'ic tiny')} العودة إلى تفاصيل المكان</a>
     <header class="service-form-hero">
       <span class="service-form-hero-icon">${glyph(stay ? 'directory-hotel' : 'city-calendar')}</span>
@@ -40,7 +42,7 @@ export function guideBookingMarkup(safePlaceName: string, placeHref: string, typ
         <p title="${safePlaceName}">${safePlaceName}</p>
       </div>
     </header>
-    <form class="service-form-card service-form-fields" data-booking-form aria-describedby="guideBookingNotice">
+    <form class="service-form-card service-form-fields" data-booking-form aria-labelledby="guideBookingTitle" aria-describedby="guideBookingNotice">
       ${field('form-user', 'الاسم الكامل', '<input name="guest" autocomplete="name" placeholder="الاسم الأول والعائلة" maxlength="80" required>', true)}
       ${field('foot-phone', 'رقم الجوال', '<input name="phone" type="tel" dir="ltr" autocomplete="tel" placeholder="05XXXXXXXX" maxlength="26" required>')}
       ${field('foot-mail', 'البريد الإلكتروني', '<input name="email" type="email" dir="ltr" autocomplete="email" placeholder="name@example.com" maxlength="254" required>')}
@@ -58,13 +60,34 @@ export function guideBookingMarkup(safePlaceName: string, placeHref: string, typ
         <button type="submit" class="btn btn-dark service-form-cta">${glyph('city-calendar', 'ic tiny')} حجز</button>
       </div>
     </form>
-    <section class="guide-booking-ticket service-form-card" data-booking-ticket hidden>
-      <h2 tabindex="-1">${glyph('check', 'ic tiny')} تم الحجز التجريبي</h2>
-      <dl></dl>
-      <img alt="رمز QR لبطاقة الحجز التجريبي" width="240" height="240">
-      <a class="btn btn-dark service-form-cta" download="albaha-demo-booking.png">${glyph('download', 'ic tiny')} تحميل رمز الحجز</a>
+    <section class="guide-booking-ticket" data-booking-ticket aria-labelledby="guideBookingReceiptTitle" hidden>
+      <header class="service-form-hero">
+        <span class="service-form-hero-icon">${glyph('check')}</span>
+        <div>
+          <h1 id="guideBookingReceiptTitle" tabindex="-1">تم الحجز التجريبي</h1>
+          <p>${safePlaceName}</p>
+        </div>
+      </header>
+      <div class="guide-booking-ticket-body">
+        <div class="guide-booking-ticket-details">
+          <dl class="guide-booking-ticket-summary">
+            ${receiptDetail('appointment', stay ? 'الوصول بتوقيت السعودية' : 'الموعد بتوقيت السعودية', 'ltr')}
+            ${stay ? receiptDetail('departure', 'المغادرة', 'ltr') : ''}
+            ${receiptDetail('guests', 'عدد الضيوف')}
+          </dl>
+          <dl class="guide-booking-ticket-contact">
+            ${receiptDetail('guest', 'اسم الضيف')}
+            ${receiptDetail('phone', 'رقم الجوال', 'ltr')}
+            ${receiptDetail('email', 'البريد الإلكتروني', 'ltr')}
+          </dl>
+        </div>
+        <div class="guide-booking-ticket-code">
+          <img alt="رمز QR للحجز التجريبي" width="600" height="600">
+          <a class="btn btn-dark service-form-cta" download="albaha-demo-booking.png">${glyph('download', 'ic tiny')} تحميل رمز الحجز</a>
+        </div>
+      </div>
     </section>
-  </section></div>`;
+  </div></div>`;
 }
 
 export function bindGuideBooking(root: HTMLElement, place: { id: string; name: string }, signal: AbortSignal): void {
@@ -136,30 +159,19 @@ export function bindGuideBooking(root: HTMLElement, place: { id: string; name: s
         const imageUrl = await toDataURL(JSON.stringify(payload), { width: 600, margin: 4 });
         if (signal.aborted) return;
 
-        const details = ticket.querySelector('dl')!;
-        details.replaceChildren();
-        const rows = [
-          { label: 'الاسم', value: guest },
-          { label: 'رقم الجوال', value: phone, dir: 'ltr' },
-          { label: 'البريد الإلكتروني', value: email, dir: 'ltr' },
-          { label: 'عدد الضيوف', value: String(guests) },
-          { label: 'الموعد بتوقيت السعودية', value: `${date} · ${time}`, dir: 'ltr' },
-          ...(departure ? [{ label: 'المغادرة', value: departure, dir: 'ltr' }] : []),
-        ];
-        for (const { label, value, dir } of rows) {
-          const name = document.createElement('dt');
-          const detail = document.createElement('dd');
-          name.textContent = label;
-          detail.textContent = value;
-          if (dir) detail.dir = dir;
-          details.append(name, detail);
+        const values = { appointment: `${date} · ${time}`, departure, guests, guest, phone, email };
+        for (const [name, value] of Object.entries(values)) {
+          const field = ticket.querySelector<HTMLElement>(`[data-receipt-value="${name}"]`);
+          if (field) field.textContent = String(value);
         }
         ticket.querySelector('img')!.src = imageUrl;
         ticket.querySelector('a')!.href = imageUrl;
         form.reset();
         form.hidden = true;
+        window.clearInterval(clock);
         ticket.hidden = false;
-        ticket.querySelector('h2')?.focus();
+        ticket.querySelector('h1')?.focus({ preventScroll: true });
+        window.scrollTo({ top: 0, behavior: 'instant' });
         return;
       } catch {
         if (signal.aborted) return;

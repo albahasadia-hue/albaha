@@ -195,6 +195,125 @@ fieldset.service-form-fields {
 
 .guide-booking-time-hint bdi { color: var(--ink); font-weight: 600; }
 
+.guide-booking:has(.guide-booking-ticket:not([hidden])) > .service-form-hero { display: none; }
+
+.guide-booking-ticket {
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  background: #fff;
+  color: var(--ink);
+  box-shadow: 0 14px 36px #061a3314;
+}
+
+.guide-booking .guide-booking-ticket > .service-form-hero {
+  margin: 0;
+  border: 0;
+  border-radius: calc(1rem - 1px) calc(1rem - 1px) 0 0;
+  padding: clamp(.95rem, 2.5vw, 1.5rem);
+}
+
+.guide-booking-ticket .service-form-hero-icon {
+  background: #96eac126;
+  border-color: #96eac15c;
+}
+
+.guide-booking-ticket .service-form-hero :is(h1, p) { white-space: normal; }
+
+.guide-booking-ticket-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(.8rem, 2.5vw, 1.25rem);
+  padding: clamp(.8rem, 2.5vw, 1.25rem);
+}
+
+.guide-booking-ticket-body dl { margin: 0; }
+
+.guide-booking-ticket-summary {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: .45rem;
+}
+
+.guide-booking-ticket-summary > div {
+  padding: .55rem .7rem;
+  border: 1px solid #dce8ef;
+  border-radius: .65rem;
+  background: #f6fafc;
+}
+
+.guide-booking-ticket-summary > div:first-child {
+  grid-column: 1 / -1;
+  border-color: #d4e8e0;
+  background: #f0f8f5;
+}
+
+.guide-booking-ticket-summary > div:nth-child(2):last-child { grid-column: 1 / -1; }
+
+.guide-booking-ticket dt {
+  color: var(--muted);
+  font-size: .78rem;
+  line-height: 1.55;
+}
+
+.guide-booking-ticket dd {
+  min-inline-size: 0;
+  margin: 0;
+  color: var(--ink);
+  font-size: .87rem;
+  font-weight: 600;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+
+.guide-booking-ticket-summary > div:first-child dd {
+  color: #074e40;
+  font-size: clamp(.95rem, 2.4vw, 1.05rem);
+}
+
+.guide-booking-ticket-contact > div {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  align-items: baseline;
+  gap: .25rem .55rem;
+  padding: .45rem .15rem;
+}
+
+.guide-booking-ticket-body .guide-booking-ticket-contact { margin-block-start: .45rem; }
+.guide-booking-ticket-contact > div + div { border-block-start: 1px solid #e9eff3; }
+.guide-booking-ticket-contact dd { text-align: end; }
+
+.guide-booking-ticket-code {
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: .55rem;
+  min-inline-size: 0;
+  padding: .6rem;
+  border: 1px solid #dce8ef;
+  border-radius: .75rem;
+  background: #f6fafc;
+}
+
+.guide-booking-ticket-code img {
+  display: block;
+  inline-size: min(100%, 12.25rem);
+  block-size: auto;
+  border: 1px solid #dce8ef;
+  border-radius: .5rem;
+  background: #fff;
+  image-rendering: pixelated;
+}
+
+.guide-booking-ticket-code .service-form-cta {
+  justify-content: center;
+  gap: .45rem;
+  inline-size: min(100%, 12.25rem);
+}
+
+@media (min-width: 40rem) {
+  .guide-booking-ticket-body { grid-template-columns: minmax(0, 1fr) minmax(12.5rem, .52fr); }
+}
+
 @media (min-width: 1024px) {
   .service-form-card { padding-inline: max(1.25rem, 4%); }
 }
