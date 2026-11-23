@@ -459,6 +459,7 @@ export function bindSwipe(
 }
 
 const mapLibreRoot = 'https://cdn.jsdelivr.net/npm/maplibre-gl@6.17.0/dist/';
+export const STREET_MAP_STYLE = 'https://tiles.openfreemap.org/styles/liberty';
 let mapLibrePromise: Promise<MapLibreNamespace> | null = null;
 
 export function loadMapLibreLibrary(): Promise<MapLibreNamespace> {

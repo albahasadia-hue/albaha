@@ -2,17 +2,95 @@ import {
   durationLabel,
   formatNum,
   getSegment,
+  loadMapLibreLibrary,
   places,
+  projectSvgGeo,
   routePath,
+  STREET_MAP_STYLE,
 } from './portalHelpers';
 import {
+  climateCities,
   conciergeDays,
   domMedia,
   geo,
   images,
   stationPhotoInfo,
 } from './portalStaticData';
-import type { ApprovedTrip } from './portalTypes';
+import type { ApprovedTrip, MapLibreMapInstance } from './portalTypes';
+
+type MapPoint = [number, number];
+
+async function captureStreetMap(
+  width: number,
+  height: number,
+  pixelRatio: number,
+  pins: MapPoint[],
+  legs: ReturnType<typeof getSegment>[]
+) {
+  let container: HTMLDivElement | undefined;
+  let map: MapLibreMapInstance | undefined;
+  try {
+    const library = await loadMapLibreLibrary();
+    container = document.createElement('div');
+    container.setAttribute('aria-hidden', 'true');
+    Object.assign(container.style, {
+      position: 'fixed', top: '0', left: '-10000px', width: `${width}px`,
+      height: `${height}px`, pointerEvents: 'none',
+    });
+    document.body.append(container);
+    const streetMap = new library.Map({
+      container,
+      style: STREET_MAP_STYLE,
+      center: pins[0],
+      zoom: 13,
+      interactive: false,
+      attributionControl: false,
+      renderWorldCopies: false,
+      fadeDuration: 0,
+      pixelRatio,
+      canvasContextAttributes: { preserveDrawingBuffer: true },
+    });
+    map = streetMap;
+
+    if (pins.length > 1) {
+      const bounds = new library.LngLatBounds();
+      for (const point of [...pins, ...legs.flatMap((leg) => leg.coordinates)]) bounds.extend(point);
+      streetMap.fitBounds(bounds, { padding: 48, maxZoom: 13, duration: 0 });
+    }
+    const ready = await new Promise<boolean>((resolve) => {
+      const timeout = window.setTimeout(() => resolve(false), 15000);
+      streetMap.once('idle', () => {
+        window.clearTimeout(timeout);
+        resolve(streetMap.queryRenderedFeatures().some((feature) => feature.source === 'openmaptiles'));
+      });
+    });
+    if (!ready) return null;
+
+    const canvas = document.createElement('canvas');
+    canvas.width = width * pixelRatio;
+    canvas.height = height * pixelRatio;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return null;
+    ctx.drawImage(streetMap.getCanvas(), 0, 0, canvas.width, canvas.height);
+    const project = (point: MapPoint): MapPoint => {
+      const { x, y } = streetMap.project(point);
+      return [x, y];
+    };
+    return {
+      canvas,
+      pins: pins.map(project),
+      legs: legs.map((leg) => ({ ...leg, points: leg.coordinates.map(project) })),
+    };
+  } catch {
+    return null;
+  } finally {
+    try {
+      map?.remove();
+    } finally {
+      container?.remove();
+    }
+  }
+}
 
 export function saveTripFile(file: Blob, filename: string): void {
   const url = URL.createObjectURL(file);
@@ -134,19 +212,28 @@ export async function createTripPdf(
 
   const uniqueActiveDays = Array.from(new Set(rows.map((r) => r.day))).sort((a, b) => a - b);
 
-  // Group into clean sheets (up to 4 station cards per itinerary page)
+  const itineraryTop = 176;
+  const itineraryBottom = 1116;
+  const dayHeaderSpace = 44;
+  const cardHeight = 182;
+  const cardGap = 12;
+  let pageY = itineraryTop;
   const sheets: Array<{ days: Set<number>; continued: boolean; rows: typeof rows }> = [];
   for (const row of rows) {
     const current = sheets[sheets.length - 1];
-    if (current && current.rows.length < 4 && (current.days.size < 2 || current.days.has(row.day))) {
+    const previousDay = current?.rows.at(-1)?.day;
+    const headerSpace = previousDay === row.day ? 0 : dayHeaderSpace;
+    if (current && pageY + headerSpace + cardHeight <= itineraryBottom) {
       current.days.add(row.day);
       current.rows.push(row);
+      pageY += headerSpace + cardHeight + cardGap;
     } else {
       sheets.push({
         days: new Set([row.day]),
-        continued: current?.rows[current.rows.length - 1]?.day === row.day,
+        continued: previousDay === row.day,
         rows: [row],
       });
+      pageY = itineraryTop + dayHeaderSpace + cardHeight + cardGap;
     }
   }
 
@@ -323,12 +410,7 @@ export async function createTripPdf(
     }
   };
 
-  const [goldLogoImg, terrain] = await Promise.all([
-    imageFrom(domMedia.goldLogo),
-    imageFrom(
-      document.getElementById('terrainRelief')?.getAttribute('href') || domMedia.terrainRelief
-    ),
-  ]);
+  const goldLogoImg = await imageFrom(domMedia.goldLogo);
 
   const totalPages = sheets.length + 1;
 
@@ -410,13 +492,18 @@ export async function createTripPdf(
   const legs = rows
     .slice(1)
     .map((row, i) => getSegment(places.get(rows[i].id)!, places.get(row.id)!));
-  const points = [...pins, ...legs.flatMap((leg) => leg.points)];
-  const xs = points.map((point) => point[0]);
-  const ys = points.map((point) => point[1]);
-  const minX = Math.min(...xs);
-  const maxX = Math.max(...xs);
-  const minY = Math.min(...ys);
-  const maxY = Math.max(...ys);
+  const mapY = 314;
+  const mapHeight = 464;
+  const streetMap = await captureStreetMap(
+    inner,
+    mapHeight,
+    resolution,
+    rows.map(({ id }) => {
+      const { lng, lat } = places.get(id)!;
+      return [lng, lat];
+    }),
+    legs
+  );
 
   pageBase(
     1,
@@ -451,54 +538,94 @@ export async function createTripPdf(
 
   // Map Card Title
   text('خريطة المسار ومحطات الرحلة', right, 272, 19, { color: navyDeep, weight: 700, display: true });
-  text('ترتيب المحطات المعتمدة عبر منطقة الباحة', right, 296, 13, { color: muted });
-
-  const mapY = 314;
-  const mapHeight = 464;
-  const scale = Math.min(
-    (inner - 96) / Math.max(maxX - minX, 230),
-    (mapHeight - 96) / Math.max(maxY - minY, 220)
+  text(
+    streetMap ? 'ترتيب المحطات المعتمدة عبر منطقة الباحة' : 'خريطة تضاريس تقريبية للمسار والمحطات',
+    right,
+    296,
+    13,
+    { color: muted }
   );
-  const mapX = margin + inner / 2 - ((minX + maxX) / 2) * scale;
-  const mapTop = mapY + mapHeight / 2 - ((minY + maxY) / 2) * scale;
 
-  // Map Rounded Container with Shadow
   roundedBox(margin, mapY, inner, mapHeight, 16, '#EBF2F7', border, true);
   ctx.save();
   roundPath(margin + 1, mapY + 1, inner - 2, mapHeight - 2, 15);
   ctx.clip();
-  ctx.fillStyle = '#EAF1F5';
-  ctx.fillRect(margin, mapY, inner, mapHeight);
-  if (terrain) {
-    ctx.drawImage(
-      terrain,
-      mapX + mapExtent.left * scale,
-      mapTop + mapExtent.top * scale,
-      (mapExtent.right - mapExtent.left) * scale,
-      (mapExtent.bottom - mapExtent.top) * scale
+
+  let mapPins: MapPoint[];
+  let mapLegs: typeof legs;
+  if (streetMap) {
+    ctx.drawImage(streetMap.canvas, margin, mapY, inner, mapHeight);
+    mapPins = streetMap.pins.map(([x, y]) => [margin + x, mapY + y]);
+    mapLegs = streetMap.legs.map((leg) => ({
+      ...leg,
+      points: leg.points.map(([x, y]) => [margin + x, mapY + y]),
+    }));
+  } else {
+    const terrain = await imageFrom(
+      document.getElementById('terrainRelief')?.getAttribute('href') || domMedia.terrainRelief
     );
+    const points = [...pins, ...legs.flatMap((leg) => leg.points)];
+    const xs = points.map(([x]) => x);
+    const ys = points.map(([, y]) => y);
+    const minX = Math.min(...xs);
+    const maxX = Math.max(...xs);
+    const minY = Math.min(...ys);
+    const maxY = Math.max(...ys);
+    const scale = Math.min(
+      (inner - 96) / Math.max(maxX - minX, 230),
+      (mapHeight - 96) / Math.max(maxY - minY, 220)
+    );
+    const mapX = margin + inner / 2 - ((minX + maxX) / 2) * scale;
+    const mapTop = mapY + mapHeight / 2 - ((minY + maxY) / 2) * scale;
+    const project = ([x, y]: MapPoint): MapPoint => [mapX + x * scale, mapTop + y * scale];
+
+    ctx.fillStyle = '#EAF1F5';
+    ctx.fillRect(margin, mapY, inner, mapHeight);
+    if (terrain) {
+      ctx.drawImage(
+        terrain,
+        mapX + mapExtent.left * scale,
+        mapTop + mapExtent.top * scale,
+        (mapExtent.right - mapExtent.left) * scale,
+        (mapExtent.bottom - mapExtent.top) * scale
+      );
+      ctx.fillStyle = 'rgba(248, 252, 250, .35)';
+      ctx.fillRect(margin, mapY, inner, mapHeight);
+    }
+
+    mapPins = pins.map(project);
+    mapLegs = legs.map((leg) => ({ ...leg, points: leg.points.map(project) }));
+    for (const city of Object.values(climateCities)) {
+      const { x, y } = projectSvgGeo(city.lat, city.lng);
+      const [px, py] = project([x, y]);
+      if (px < margin + 70 || px > right - 70 || py < mapY + 20 || py > mapY + mapHeight - 20) {
+        continue;
+      }
+      if (mapPins.some(([pinX, pinY]) => Math.abs(px - pinX) < 68 && Math.abs(py - pinY) < 25)) {
+        continue;
+      }
+      roundedBox(px - 60, py - 11, 120, 22, 7, '#F7FBFB');
+      text(city.name, px, py, 12, { align: 'center', weight: 600 });
+    }
   }
-  const path = routePath(legs);
+
+  const path = routePath(mapLegs);
   if (path) {
     const route = new Path2D(path);
     ctx.save();
-    ctx.translate(mapX, mapTop);
-    ctx.scale(scale, scale);
     ctx.lineJoin = ctx.lineCap = 'round';
     ctx.strokeStyle = '#FFFFFF';
-    ctx.lineWidth = 8.5 / scale;
+    ctx.lineWidth = 8.5;
     ctx.stroke(route);
-    ctx.strokeStyle = emerald;
-    ctx.lineWidth = 4.2 / scale;
+    ctx.strokeStyle = streetMap ? '#1666BF' : emerald;
+    ctx.lineWidth = 4.2;
     ctx.stroke(route);
     ctx.restore();
   }
 
   // Numbered Navy-Gold Markers
   const badges: [number, number][] = [];
-  for (const [index, [x, y]] of pins.entries()) {
-    const px = mapX + x * scale;
-    const py = mapTop + y * scale;
+  for (const [index, [px, py]] of mapPins.entries()) {
     const shifts: [number, number][] = [
       [0, 0],
       [30, 0],
@@ -535,6 +662,14 @@ export async function createTripPdf(
       direction: 'ltr',
       color: '#FFFFFF',
       weight: 700,
+    });
+  }
+  if (streetMap) {
+    const attribution = '© OpenStreetMap contributors · © OpenMapTiles · OpenFreeMap';
+    roundedBox(margin + 8, mapY + mapHeight - 26, 340, 20, 5, '#FFFFFF');
+    text(attribution, margin + 15, mapY + mapHeight - 16, 10, {
+      direction: 'ltr',
+      color: muted,
     });
   }
   ctx.restore();
@@ -590,13 +725,13 @@ export async function createTripPdf(
       sheet.rows.map((row) => imageFrom(images[places.get(row.id)!.image]))
     );
     const daysArr = Array.from(sheet.days);
-    const title =
-      daysArr.length > 1
-        ? `برنامج اليومين ${formatNum(daysArr[0])} و${formatNum(daysArr[1])}`
-        : `برنامج اليوم ${formatNum(daysArr[0])}`;
-    pageBase(index + 2, title, 'تفاصيل الزيارات والمواعيد والانتقالات حسب الترتيب');
+    const title = daysArr.length === 1 ? `برنامج اليوم ${formatNum(daysArr[0])}` : 'برنامج الرحلة';
+    const subtitle = daysArr.length === 1
+      ? 'تفاصيل الزيارات والمواعيد والانتقالات حسب الترتيب'
+      : `الأيام ${daysArr.map(formatNum).join('، ')}  ·  الزيارات والمواعيد والانتقالات`;
+    pageBase(index + 2, title, subtitle);
 
-    let y = 176;
+    let y = itineraryTop;
     let previousDay = 0;
     for (const [i, row] of sheet.rows.entries()) {
       const stop = places.get(row.id)!;
@@ -621,11 +756,11 @@ export async function createTripPdf(
           12.5,
           { color: goldBright, weight: 700, align: 'left' }
         );
-        y += 44;
+        y += dayHeaderSpace;
         previousDay = row.day;
       }
 
-      const cardH = 190;
+      const cardH = cardHeight;
       roundedBox(margin, y, inner, cardH, 14, '#FFFFFF', border, true);
 
       // Emerald-Gold Right Accent Strip
@@ -685,7 +820,7 @@ export async function createTripPdf(
         maxLines: 3,
       });
 
-      y += cardH + 14;
+      y += cardH + cardGap;
     }
     addPage();
   }

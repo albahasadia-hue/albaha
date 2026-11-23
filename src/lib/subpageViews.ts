@@ -65,7 +65,8 @@ export interface SubpageViewsController {
 export function bindCityReel(signal: AbortSignal, isHomeHidden: () => boolean): void {
   const reel = byId('introCityReel');
   const motionButton = byId('introReelMotion');
-  if (!reel || !motionButton) return;
+  const frame = reel?.closest<HTMLDivElement>('.intro-reel-frame');
+  if (!reel || !frame || !motionButton) return;
   const cards = Array.from(reel.querySelectorAll<HTMLElement>('.intro-reel-card'));
   if (!cards.length) return;
 
@@ -133,9 +134,8 @@ export function bindCityReel(signal: AbortSignal, isHomeHidden: () => boolean): 
     reel,
     {
       axis: 'y',
-      canStart: (event) => {
-        const target = event.target as Element | null;
-        if (!step || target?.closest('.intro-reel-nav')) return false;
+      canStart: () => {
+        if (!step) return false;
         held = true;
         schedule();
         return true;
@@ -164,7 +164,7 @@ export function bindCityReel(signal: AbortSignal, isHomeHidden: () => boolean): 
     { signal }
   );
 
-  reel.addEventListener(
+  frame.addEventListener(
     'pointerenter',
     (event) => {
       if (event.pointerType === 'mouse') {
@@ -174,7 +174,7 @@ export function bindCityReel(signal: AbortSignal, isHomeHidden: () => boolean): 
     },
     { signal }
   );
-  reel.addEventListener(
+  frame.addEventListener(
     'pointerleave',
     (event) => {
       if (event.pointerType === 'mouse') {
@@ -184,26 +184,24 @@ export function bindCityReel(signal: AbortSignal, isHomeHidden: () => boolean): 
     },
     { signal }
   );
-  reel.addEventListener(
+  frame.addEventListener(
     'focusin',
-    (event) => {
-      const target = event.target as Element | null;
-      if (!target?.closest('.intro-reel-card')) return;
+    () => {
       keyboardFocus = true;
       schedule();
     },
     { signal }
   );
-  reel.addEventListener(
+  frame.addEventListener(
     'focusout',
     (event) => {
-      if (event.relatedTarget instanceof Node && reel.contains(event.relatedTarget)) return;
+      if (event.relatedTarget instanceof Node && frame.contains(event.relatedTarget)) return;
       keyboardFocus = false;
       schedule();
     },
     { signal }
   );
-  reel.addEventListener(
+  frame.addEventListener(
     'keydown',
     (event) => {
       if (!['ArrowUp', 'ArrowDown'].includes(event.key)) return;

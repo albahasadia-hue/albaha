@@ -1449,6 +1449,7 @@ body:has(#homeView:not([hidden])) #sirajLauncher.bot {
   }
 
   #discover .intro-visuals {
+    --intro-card-height: clamp(10rem, 45vw, 12.5rem);
     order: 2;
     grid-template-columns: minmax(0, 1fr) !important;
     height: auto !important;
@@ -1456,13 +1457,22 @@ body:has(#homeView:not([hidden])) #sirajLauncher.bot {
   }
 
   #discover .intro-badge {
-    aspect-ratio: 16 / 10.5 !important;
-    min-height: 215px !important;
-    height: auto !important;
+    inline-size: 100%;
+    justify-self: stretch;
+    aspect-ratio: auto !important;
+    min-height: 0 !important;
+    height: var(--intro-card-height) !important;
+    border-radius: 12px !important;
+  }
+
+  #discover .intro-badge strong .ic {
+    inline-size: 0.9em;
+    block-size: 0.9em;
+    flex: none;
   }
 
   #discover .intro-reel {
-    height: clamp(330px, 94vw, 410px) !important;
+    height: calc(2 * var(--intro-card-height) + var(--reel-gap)) !important;
     min-height: 0 !important;
     aspect-ratio: auto !important;
     --reel-gap: 10px;

@@ -114,34 +114,36 @@ export function DiscoverIntroSection() {
           >
             إيقاف الحركة
           </button>
-          <div className="intro-reel" id="introCityReel" role="region" aria-label="تغطيات مختارة من الباحة">
-            {REEL_CARDS.map((card) => (
-              <a
-                key={card.id}
-                className="intro-reel-card"
-                data-kind={card.kind}
-                href={card.href}
-                aria-label={card.ariaLabel}
-              >
-                <img
-                  data-embedded-photo={card.id}
-                  src={domMedia[card.id]}
-                  alt=""
-                  loading="lazy"
-                  decoding="async"
-                  draggable={false}
-                />
-                <span className="intro-reel-copy">
-                  <span className="intro-reel-tag">
-                    <svg className="ic tiny" aria-hidden="true">
-                      <use href={card.tagIcon} />
-                    </svg>
-                    {card.tag}
+          <div className="intro-reel-frame">
+            <div className="intro-reel" id="introCityReel" role="region" aria-label="تغطيات مختارة من الباحة">
+              {REEL_CARDS.map((card) => (
+                <a
+                  key={card.id}
+                  className="intro-reel-card"
+                  data-kind={card.kind}
+                  href={card.href}
+                  aria-label={card.ariaLabel}
+                >
+                  <img
+                    data-embedded-photo={card.id}
+                    src={domMedia[card.id]}
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                    draggable={false}
+                  />
+                  <span className="intro-reel-copy">
+                    <span className="intro-reel-tag">
+                      <svg className="ic tiny" aria-hidden="true">
+                        <use href={card.tagIcon} />
+                      </svg>
+                      {card.tag}
+                    </span>
+                    <strong>{card.title}</strong>
                   </span>
-                  <strong>{card.title}</strong>
-                </span>
-              </a>
-            ))}
+                </a>
+              ))}
+            </div>
             <div className="intro-reel-nav" aria-label="تحريك تغطيات الباحة">
               <button type="button" id="introReelPrev" aria-label="التغطية السابقة" title="السابق">
                 <svg

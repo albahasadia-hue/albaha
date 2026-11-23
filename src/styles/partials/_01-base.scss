@@ -139,6 +139,7 @@ h1 { font-size: clamp(4rem, 9.3vw, 9rem); line-height: 1.01; font-weight: 700; m
 .intro-badge strong { display: flex; align-items: center; gap: 5px; font: 700 clamp(1.2rem, 2vw, 1.65rem)/1.2 var(--display); }
 .intro-badge strong .ic { color: var(--gold); }
 .intro-badge span { display: block; margin-top: 4px; font-size: clamp(.69rem, 1vw, .8rem); color: #fef6fd; }
+.intro-reel-frame { position: relative; min-width: 0; }
 .intro-reel {
   --reel-gap: 8px;
   position: relative; min-width: 0; overflow: hidden; overflow: clip;

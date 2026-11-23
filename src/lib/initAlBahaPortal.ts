@@ -49,6 +49,7 @@ import {
   pathFrom,
   qsAll,
   routePath,
+  STREET_MAP_STYLE,
   stopAnimations,
   supportsMotion,
   tripLeg,
@@ -1625,7 +1626,7 @@ export function initAlBahaPortal(initialView: PortalInitialView = 'home'): () =>
       if (signal.aborted || !streetMap.isConnected) return;
       map = new library.Map({
         container: streetMap,
-        style: 'https://tiles.openfreemap.org/styles/liberty',
+        style: STREET_MAP_STYLE,
         center: [41.44, 20.01],
         zoom: 11,
         minZoom: 6,
