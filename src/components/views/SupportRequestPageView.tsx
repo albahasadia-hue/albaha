@@ -182,7 +182,7 @@ export function SupportRequestPageView({ kind }: { kind: SupportRequestKind }) {
                 <FieldLabel icon="foot-phone">الهاتف أو واتساب</FieldLabel>
                 <input name="phone" type="tel" dir="ltr" autoComplete="tel" placeholder="05XXXXXXXX" required maxLength={26} onInput={clearValidation} />
               </label>
-              <label className={kind === 'reports' ? 'service-form-field' : 'service-form-field service-form-full'}>
+              <label className="service-form-field service-form-full">
                 <FieldLabel icon="foot-mail">البريد الإلكتروني <small>(اختياري)</small></FieldLabel>
                 <input name="email" type="email" dir="ltr" autoComplete="email" placeholder="name@example.com" maxLength={254} />
               </label>
@@ -193,7 +193,7 @@ export function SupportRequestPageView({ kind }: { kind: SupportRequestKind }) {
                 </label>
               )}
               {kind === 'reports' && (
-                <div className={requestType === 'complaint' ? 'service-form-full' : styles.attachmentField}>
+                <div className={requestType === 'complaint' ? styles.attachmentField : 'service-form-full'}>
                   <label className={styles.attachmentPicker} htmlFor="reportPhoto">
                     <FieldLabel icon="foot-image">إرفاق صورة <small>(اختياري)</small></FieldLabel>
                     <small id="reportPhotoHint">حتى 10 ميجابايت</small>
