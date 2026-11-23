@@ -28,6 +28,7 @@ export const APPROVED_ACTION_TYPES = [
   'navigate_city',
   'navigate_faq',
   'focus_map_stop',
+  'open_directions',
   'add_to_trip',
   'preview_plan',
   'apply_plan',
@@ -336,6 +337,11 @@ export function validateGuideAction(raw: unknown): SmartGuideAction | null {
         autoExecute: type === 'add_to_trip' ? false : autoExecute,
         stopId,
       };
+    }
+    case 'open_directions': {
+      const guideItemId = candidate.guideItemId;
+      if (typeof guideItemId !== 'number' || !getGuide144ById(guideItemId)) return null;
+      return { type: 'open_directions', guideItemId, label: label || 'افتح الاتجاهات' };
     }
     case 'navigate_guide_place': {
       const guideId = typeof candidate.guideId === 'string' ? candidate.guideId.trim() : '';

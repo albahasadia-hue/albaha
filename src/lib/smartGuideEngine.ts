@@ -10,6 +10,7 @@ import {
   conciergeDays,
   conciergeRegions,
   images,
+  maxTripDays,
   places,
   seasons,
   stops,
@@ -30,7 +31,7 @@ import {
   detectGovernorate,
   getGuide144ById,
   getGuide144ByStopId,
-  getGuide144Items,
+  getGuide144ByTourGuideId,
   NEUTRAL_PLACEHOLDER_IMAGE,
   normalizeSearchText,
   searchGuide144,
@@ -53,10 +54,13 @@ export interface SmartGuideTurnComputation {
   intentKind:
     | 'greeting'
     | 'navigation'
+    | 'directions'
     | 'place_detail'
     | 'place_ambiguous'
     | 'price_or_availability'
     | 'area_recommendation'
+    | 'place_followup'
+    | 'trip_clarification'
     | 'trip_plan'
     | 'trip_modify_time'
     | 'trip_swap_stop'
@@ -67,25 +71,6 @@ export interface SmartGuideTurnComputation {
   usePreauthoredOnly: boolean;
   unconfirmedTopic?: string | null;
   referenceFact?: string | null;
-}
-
-function mergeUniqueGuideItems(
-  primary: EnrichedGuide144Item[],
-  secondary: EnrichedGuide144Item[],
-  max = 8
-): EnrichedGuide144Item[] {
-  const out: EnrichedGuide144Item[] = [];
-  const seen = new Set<number>();
-  for (const list of [primary, secondary]) {
-    for (const item of list) {
-      if (!seen.has(item.id)) {
-        seen.add(item.id);
-        out.push(item);
-        if (out.length >= max) return out;
-      }
-    }
-  }
-  return out;
 }
 
 const DAY_LABELS_AR = [
@@ -210,18 +195,40 @@ function buildShortRecommendationReason(item: EnrichedGuide144Item, contextHint?
   return parts.slice(0, 3).join(' · ');
 }
 
-function parseDaysCount(q: string): number | null {
-  const digit = q.match(/(?:^|\s)([1-7])\s*(?:يوم|ايام)(?:\s|$)/)?.[1];
+function parseDaysCount(q: string, expectingDuration = false): number | null {
+  const digit = q.match(/(?:^|\s)(\d+)\s*(?:يوم|ايام)(?:\s|$)/)?.[1] ||
+    (expectingDuration ? q.match(/^\d+$/)?.[0] : undefined);
   if (digit) return Number(digit);
-  if (/اسبوع|سبع(?:ه)?\s*ايام/.test(q)) return 7;
+  if (/(?:^|\s)(?:اسبوع|الاسبوع|سبع(?:ه)?\s*ايام)(?:\s|$)/.test(q)) return 7;
   if (/ست(?:ه)?\s*ايام/.test(q)) return 6;
   if (/خمس(?:ه)?\s*ايام/.test(q)) return 5;
   if (/اربع(?:ه)?\s*ايام/.test(q)) return 4;
-  if (/ثلاث(?:ه)?\s*ايام/.test(q)) return 3;
+  if (/(?:ثلاث|تلات)(?:ه)?\s*ايام/.test(q)) return 3;
   if (/يومين|يومان/.test(q)) return 2;
-  if (/يوم واحد|نفس اليوم|ليوم واحد|رحله يوم(?:\s|$)/.test(q)) return 1;
+  if (/(?:^|\s)(?:يوم|اليوم|نهارده|النهارده|هاليوم|بكره|غدا)(?:\s|$)/.test(q)) return 1;
+  if (expectingDuration) {
+    const numberWord = ['صفر', 'واحد', 'اثنين', 'ثلاث|تلات', 'اربع', 'خمس', 'ست', 'سبع'];
+    const parsed = numberWord.findIndex((word) => new RegExp(`^(?:${word})(?:ه)?$`).test(q));
+    if (parsed >= 0) return parsed;
+  }
   return null;
 }
+
+function parseTripStyle(q: string): TripStyle | null {
+  if (/عيال|عيلتي|عيله|عايل|عائلي|عائله|اطفال|اولاد|اسري|اسره|اسرتي/.test(q)) return 'family';
+  const heritage = /تراث|متاحف|تاريخي|قري قديمه/.test(q);
+  const nature = /طبيع|غابات|شلالات|جبال|هايكن|مغامر|استرخاء/.test(q);
+  if (heritage && nature) return 'all';
+  if (heritage) return 'heritage';
+  if (nature) return 'nature';
+  if (/متنوع|منوع|اي شي|اي حاجه|بدون تفضيل|ما عندي تفضيل|على ذوقك|اللي تشوفه|اللي يناسب|شباب|اصدقاء|لوحدي|لحالي|زوجتي|زوجي/.test(q)) {
+    return 'all';
+  }
+  return null;
+}
+
+const DIRECTIONS_QUESTION = /(?:^|\s)(?:كيف|ازاي|شلون|كيفيه)\s+(?:ا|ن)?(?:وصل|روح|اصل|اوصل|اروح|اذهب)|(?:^|\s)(?:وين|فين|اين|وش|ايه)\s+(?:موقع|عنوان|مكانه|مكانها|مكان (?:ال|فندق|مطعم|قريه|غابه))|(?:^|\s)(?:كيف الطريق|افتح الاتجاهات|عطني الاتجاهات|هات الاتجاهات|و?طريقه الوصول|وينه|فينه|ارسلي موقعه|ارسل موقعه)(?:\s|$)/;
+const PLACE_REFERENCE = /(?:^|\s)(?:له|لها|ليه|ليها|اليه|اليها|عليه|عليها|هناك|لهذا|لهذي|للمكان|للفندق|للوجهه|للمطعم|للمقهي|المكان ده|المكان دا|نفس المكان|المكان هذا|موقعه|مكانه|عنوانه|موقعها|مكانها|عنوانها|اوصله|اوصلها|اصله|اصلها|اروحه|اروحها|اروحله|اروحلها)(?:\s|$)/;
 
 function parseExplicitClockTime(q: string): number | null {
   // Handle Saudi colloquial expressions like "خلها من 8 الصبح", "من 8 الصباح", "الساعة 4 العصر", "10:30 ص", "ابدأ 9"
@@ -369,12 +376,9 @@ export function runSmartGuideTurn(payload: SmartGuideRequestPayload): SmartGuide
     interests: [...(baseCtx.interests || [])],
   };
 
-  const recentIds = [
-    ...new Set([
-      ...(nextCtx.recentPlaceIds || []),
-      ...(nextCtx.lastGuideItemId ? [nextCtx.lastGuideItemId] : []),
-    ]),
-  ].filter((id) => Number.isInteger(id));
+  const recentIds = [...new Set(nextCtx.recentPlaceIds?.length
+    ? nextCtx.recentPlaceIds
+    : nextCtx.lastGuideItemId ? [nextCtx.lastGuideItemId] : [])];
   const recentItems = recentIds
     .map((id) => getGuide144ById(id))
     .filter((x): x is EnrichedGuide144Item => Boolean(x))
@@ -388,6 +392,10 @@ export function runSmartGuideTurn(payload: SmartGuideRequestPayload): SmartGuide
   const rawText = (payload.question || '').trim();
   const q = normalizeSearchText(rawText);
   const intent = (payload.intent || '').trim();
+  const govDetected = detectGovernorate(q);
+  const isDirectionQuestion = !intent && DIRECTIONS_QUESTION.test(q);
+  const pageItem = (payload.guidePlaceId ? getGuide144ByTourGuideId(payload.guidePlaceId) : undefined) ||
+    (payload.placeId ? getGuide144ByStopId(payload.placeId) : undefined);
 
   const activePlan: TripPlan | null =
     nextCtx.lastPlan ||
@@ -405,7 +413,7 @@ export function runSmartGuideTurn(payload: SmartGuideRequestPayload): SmartGuide
   // 0) Simple Greeting / Thanks — Always let Gemini converse naturally!
   // ---------------------------------------------------------------------------
   const isThanksOnly =
-    !intent &&
+    !intent && !isDirectionQuestion &&
     q.length > 0 &&
     q.length <= 42 &&
     /^(?:شكرا|شكراً|الف شكر|يعطيك العافيه|الله يعطيك العافيه|تسلم|يسلمو|مشكور|ما قصرت|ممتاز|تمام|رائع|جميل)(?:\s+.*)?$/.test(
@@ -414,7 +422,7 @@ export function runSmartGuideTurn(payload: SmartGuideRequestPayload): SmartGuide
     !/فندق|مطعم|شاليه|رحله|خطه|خريطه|افتح|ودني|العقيق|بلجرشي|المندق|المخواه/.test(q);
 
   const isGreetingOnly =
-    !intent &&
+    !intent && !isDirectionQuestion &&
     q.length > 0 &&
     q.length <= 36 &&
     /^(?:السلام عليكم|وعليكم السلام|مرحبا|هلا|اهلا|اهلين|يا هلا|حياك|صباح الخير|مساء الخير|كيف حالك|وش اخبارك|ازيك|عامل ايه|اخبارك|هاي|hi|hello)(?:\s+.*)?$/.test(
@@ -439,6 +447,79 @@ export function runSmartGuideTurn(payload: SmartGuideRequestPayload): SmartGuide
         requestSeq: payload.requestSeq,
       },
     };
+  }
+
+  if (isDirectionQuestion) {
+    const namedDestination = q.match(/\sمن\s+.+?\s+(?:الي|الى)\s+(.+)$/)?.[1];
+    const destinationQuery = namedDestination || q.split(' من ')[0];
+    const refersToCurrentPlace = /^(?:وينه|فينه)$/.test(destinationQuery) ||
+      PLACE_REFERENCE.test(destinationQuery) ||
+      /^(?:(?:كيف|ازاي|شلون)\s+(?:ا|ن)?(?:اوصل|اصل|اروح|روح|وصل)|افتح الاتجاهات|عطني الاتجاهات|هات الاتجاهات)$/.test(destinationQuery);
+    const regionalAccess = !refersToCurrentPlace &&
+      /(?:\s|^)(?:ل|لل|الى )?(?:منطقه |مدينه )?الباحه(?:\s|$)/.test(destinationQuery) &&
+      !/فندق|مطعم|متحف|مقهي|قريه|منتزه|غابه|شلال|جبل/.test(destinationQuery);
+    const nameQuery = namedDestination || (refersToCurrentPlace ? destinationQuery : q);
+    const named = searchGuide144({ query: nameQuery, limit: 4 });
+    const priorLookup = refersToCurrentPlace && recentItems.length !== 1
+      ? (payload.history || []).slice(-6).reverse().find((entry) =>
+          entry.role === 'user' && !DIRECTIONS_QUESTION.test(normalizeSearchText(entry.text)))
+      : undefined;
+    const priorTarget = priorLookup
+      ? searchGuide144({ query: priorLookup.text, limit: 1 }).exactMatch
+      : null;
+    const ordinal = ['الاول', 'الثاني|التاني', 'الثالث|التالت', 'الرابع'].findIndex((word) =>
+      new RegExp(`(?:^|\\s)(?:ل|لل)?(?:${word})(?:\\s|$)`).test(destinationQuery));
+    const target = named.exactMatch || recentItems[ordinal] ||
+      (refersToCurrentPlace && !named.ambiguousMatches.length
+        ? recentItems.length === 1 ? recentItems[0] : priorTarget || (recentItems.length === 0 ? pageItem : undefined)
+        : undefined);
+    const options = named.ambiguousMatches.length ? named.ambiguousMatches : refersToCurrentPlace ? recentItems : [];
+
+    if (target) {
+      nextCtx.lastGuideItemId = target.id;
+      nextCtx.recentPlaceIds = [target.id];
+      const actions: SmartGuideAction[] = [{
+        type: 'open_directions',
+        guideItemId: target.id,
+        label: 'افتح الاتجاهات',
+      }];
+      if (target.stopId) {
+        actions.push({ type: 'focus_map_stop', stopId: target.stopId, label: 'على خريطة الباحة' });
+      }
+      return {
+        intentKind: 'directions',
+        usePreauthoredOnly: true,
+        retrievedItems: [target],
+        response: {
+          replyText: `أبشر، «${target.name}» ${target.address ? `عنوانه ${target.address}` : `في ${target.governorate}`}. افتح الاتجاهات عشان تحدد نقطة انطلاقك وتشوف المسار.`,
+          placeIds: [],
+          places: [],
+          itinerary: null,
+          actions,
+          context: nextCtx,
+          requestSeq: payload.requestSeq,
+        },
+      };
+    }
+
+    if (!regionalAccess) {
+      return {
+        intentKind: 'directions',
+        usePreauthoredOnly: true,
+        retrievedItems: [],
+        response: {
+          replyText: options.length > 1
+            ? `أي واحد تقصد من هالأماكن؟ ${options.map((item) => item.name).join('، ')}.`
+            : 'وش اسم المكان اللي تبي توصل له؟ وإذا تعرف المحافظة اذكرها لي عشان أساعدك بالاتجاهات.',
+          placeIds: [],
+          places: [],
+          itinerary: null,
+          actions: [],
+          context: nextCtx,
+          requestSeq: payload.requestSeq,
+        },
+      };
+    }
   }
 
   // ---------------------------------------------------------------------------
@@ -716,9 +797,9 @@ export function runSmartGuideTurn(payload: SmartGuideRequestPayload): SmartGuide
 
   // Follow-up time modification ("خلّها من 8 الصبح", "ابدأ الساعة 10", "غيّر الوقت إلى 4 العصر")
   const explicitNewStart = parseExplicitClockTime(q);
-  const explicitDaysInTurn = parseDaysCount(q);
+  const explicitDaysInTurn = parseDaysCount(q, nextCtx.pendingTrip?.days === null);
   const isTimeModification =
-    Boolean(activePlan) &&
+    Boolean(activePlan) && !nextCtx.pendingTrip &&
     explicitNewStart !== null &&
     explicitDaysInTurn === null &&
     !/فندق|مطعم|مقهي|كافيه|ابيت|اسكن|مبيت/.test(q) &&
@@ -780,152 +861,120 @@ export function runSmartGuideTurn(payload: SmartGuideRequestPayload): SmartGuide
     };
   }
 
-  // ---------------------------------------------------------------------------
-  // 3) Weather-Based Plan ("رتّب لي اليوم حسب الجو" / "خطة حسب الطقس في المخواة")
-  // ---------------------------------------------------------------------------
-  const govDetected = detectGovernorate(q);
-  const asksWeatherPlan =
-    intent === 'weather-plan' ||
-    intent === 'rain-demo' ||
-    Boolean(payload.demoRain) ||
-    (/طقس|الجو|اجواء|مطر|امطار|ضباب/.test(q) && /خطه|خطط|رتب|رحله|برنامج|جوله|جدول|اليوم|بكره|غدا/.test(q));
+  // Keep the requested trip separate from any previously displayed or saved plan.
+  const pendingTrip = nextCtx.pendingTrip;
+  const askedStyle = parseTripStyle(q);
+  const presetWeather = intent === 'weather-plan' || intent === 'rain-demo' || Boolean(payload.demoRain);
+  const planningRequest =
+    intent === 'plan' || intent === 'timed-plan' || presetWeather ||
+    /(?:^|\s)(?:و)?(?:ا?رتب(?:لي)?|ترتيب|ترتب|ا?خطط|تخطيط|خطه|برنامج|مسار|جوله|نظم|تنظيم|جدول|جهز\s?لي رحله)(?:\s|$)/.test(q) ||
+    (explicitDaysInTurn !== null && askedStyle !== null && !/فندق|شاليه|حجز|ليله|ليالي/.test(q));
+  const timeWindow = parseTimeWindowAndReturnAr(q);
+  const startInfo = parseStartPointAr(q);
+  const tripDay = parseVisitDayAr(q, nowRiyadh.dayOfWeek);
+  const continuesPlanning = pendingTrip &&
+    !/فندق|شاليه|مطعم|مقهي|حجز|ليله|ليالي|(?:^|\s)(?:هل|كيف|وين|فين|وش|ايه|ليه|ازاي)(?:\s|$)/.test(q) &&
+    (explicitDaysInTurn !== null || askedStyle !== null || explicitNewStart !== null ||
+      Boolean(startInfo || tripDay || timeWindow.budget || timeWindow.returnByEnd || govDetected));
 
-  if (asksWeatherPlan) {
-    const targetCityKey =
-      payload.city && Object.hasOwn(climateCities, payload.city)
-        ? payload.city
-        : govDetected
-          ? GOVERNORATE_TO_CITY_KEY[govDetected.canonical] || 'baha'
-          : REGION_TO_CITY_KEY[nextCtx.region] || 'baha';
-    const cityInfo = climateCities[targetCityKey] || climateCities.baha;
-    const dayMatch = parseVisitDayAr(q, nowRiyadh.dayOfWeek);
-    const visitDay = dayMatch?.dayOfWeek ?? nowRiyadh.dayOfWeek;
-    const dayLabel = dayMatch?.label || `اليوم (${WEEKDAY_NAMES_AR[visitDay]})`;
-    const isWetForecast = Boolean(payload.demoRain || payload.weather?.isWet || /مطر|امطار|ضباب/.test(q));
-    const startMin = explicitNewStart ?? (isWetForecast ? 10 * 60 : 9 * 60);
+  if (planningRequest || continuesPlanning) {
+    const weather = presetWeather || Boolean(pendingTrip?.weather) ||
+      /طقس|الجو|اجواء|مطر|امطار|ضباب/.test(q);
+    const wet = Boolean(payload.demoRain || pendingTrip?.wet || /مطر|امطار|ضباب/.test(q));
+    const cityKey = payload.city && Object.hasOwn(climateCities, payload.city)
+      ? payload.city
+      : govDetected
+        ? GOVERNORATE_TO_CITY_KEY[govDetected.canonical] || 'baha'
+        : startInfo
+          ? REGION_TO_CITY_KEY[startInfo.region] || 'baha'
+          : pendingTrip?.city || 'baha';
+    const cityInfo = climateCities[cityKey] || climateCities.baha;
+    const invalidDays = explicitDaysInTurn !== null &&
+      (explicitDaysInTurn < 1 || explicitDaysInTurn > maxTripDays);
+    const trip: NonNullable<ConciergeContextState['pendingTrip']> = {
+      days: invalidDays ? null : explicitDaysInTurn ?? pendingTrip?.days ?? (presetWeather ? 1 : null),
+      style: askedStyle ?? pendingTrip?.style ?? (presetWeather ? 'all' : null),
+      weather,
+      wet,
+      city: cityKey,
+      region: govDetected?.regionKey || startInfo?.region || pendingTrip?.region || null,
+      startPoint: startInfo?.label || govDetected?.canonical || pendingTrip?.startPoint || null,
+      visitDay: tripDay?.dayOfWeek ?? pendingTrip?.visitDay ?? null,
+      visitDateLabel: tripDay?.label ?? pendingTrip?.visitDateLabel ?? null,
+      start: explicitNewStart ?? timeWindow.start ?? pendingTrip?.start ?? null,
+      budget: timeWindow.budget ?? pendingTrip?.budget ?? null,
+      returnByEnd: timeWindow.returnByEnd ?? pendingTrip?.returnByEnd ?? null,
+      lessWalking: Boolean(pendingTrip?.lessWalking || /مشي خفيف|مشي اقل|بدون مشي|كبار السن|مريحه|سهله/.test(q)),
+    };
 
-    nextCtx.region = cityInfo.region;
-    nextCtx.visitDay = visitDay;
-    nextCtx.visitDateLabel = dayLabel;
-    nextCtx.start = startMin;
-    nextCtx.days = '1';
-    nextCtx.mode = 'plan';
-
-    const built = buildConstraintPlan({
-      days: 1,
-      region: cityInfo.region === 'city' ? 'all' : cityInfo.region,
-      style: nextCtx.withChildren ? 'family' : 'all',
-      season: nextCtx.season || nowRiyadh.season,
-      month: nextCtx.month,
-      start: startMin,
-      budget: 420,
-      returnByEnd: 18 * 60,
-      startPointLabel: cityInfo.name,
-      visitDay,
-      withChildren: nextCtx.withChildren,
-      lessWalking: isWetForecast || nextCtx.lessWalking,
-      indoorOnly: isWetForecast,
-      lockedIds: nextCtx.lockedIds,
-      completedIds: nextCtx.completedIds,
-    });
-    nextCtx.lastPlan = built.plan;
-    nextCtx.hasUnsavedPreview = true;
-
-    let weatherNote: string;
-    if (payload.demoRain) {
-      weatherNote = 'هذا سيناريو تجريبي لأجواء ماطرة؛ عند الرحلة الفعلية راجع التوقعات الحية قبل الانطلاق.';
-    } else if (payload.weather && typeof payload.weather.tempC === 'number') {
-      const tempTxt = `${formatNum(Math.round(payload.weather.tempC))}°م`;
-      const condTxt = payload.weather.conditionLabel || 'معتدلة';
-      weatherNote = `وفق توقعات ${cityInfo.name} المتاحة (${tempTxt} · ${condTxt}). التوقعات تغطي الساعات والأيام القريبة فقط وقد تتغير مع أجواء المرتفعات؛ يُفضّل التأكد قبل الانطلاق.`;
-    } else {
-      weatherNote = `توقعات الطقس الحية لـ${cityInfo.name} غير متاحة حالياً، فرتّبت الجولة وفق الأجواء المعتادة في فصل ${seasons[nowRiyadh.season].name}؛ يُنصح بمراجعة الطقس قبل التحرك.`;
+    if (trip.days === null || trip.style === null) {
+      nextCtx.pendingTrip = trip;
+      const daysQuestion = invalidDays
+        ? 'أقدر أرتّب لك من يوم إلى سبعة أيام. كم يوم يناسبك؟'
+        : 'كم يوم بتقضي في الباحة؟';
+      const styleQuestion = 'وش نوع الرحلة اللي تفضّله؟ عائلية، طبيعة ومغامرة، تراثية، أو منوّعة؟';
+      const replyText = [trip.days === null ? daysQuestion : '', trip.style === null ? styleQuestion : '']
+        .filter(Boolean).join(' ');
+      return {
+        intentKind: 'trip_clarification',
+        usePreauthoredOnly: true,
+        retrievedItems: [],
+        response: {
+          replyText,
+          placeIds: [],
+          places: [],
+          itinerary: null,
+          actions: [],
+          context: nextCtx,
+          requestSeq: payload.requestSeq,
+        },
+      };
     }
 
-    const itinerary = buildItineraryFromPlan(built.plan, {
-      title: `خطة ${dayLabel} حسب الجو — ${cityInfo.name}`,
-      weatherNote,
+    const daysCount = trip.days;
+    const style = trip.style;
+    const forecast = payload.weather?.city === cityKey ? payload.weather : null;
+    const isWetForecast = trip.weather && (trip.wet || Boolean(forecast?.isWet));
+    const startMin = trip.start ?? (isWetForecast ? 10 * 60 : 9 * 60);
+    const regionKey = trip.region || (trip.weather ? cityInfo.region : 'all');
+    const startPoint = trip.startPoint || (trip.weather ? cityInfo.name : 'مدينة الباحة');
+    const visitDay = trip.visitDay ?? nowRiyadh.dayOfWeek;
+    const dayLabel = trip.visitDateLabel || (trip.weather ? `اليوم (${WEEKDAY_NAMES_AR[visitDay]})` : WEEKDAY_NAMES_AR[visitDay]);
+    const budgetMin = trip.budget ?? (trip.weather ? 420 : 480);
+    const returnByEnd = trip.returnByEnd ?? (trip.weather ? 18 * 60 : null);
+    const withChildren = style === 'family';
+    const lessWalking = trip.lessWalking || withChildren || isWetForecast;
+
+    Object.assign(nextCtx, {
+      pendingTrip: null,
+      days: String(daysCount),
+      region: regionKey,
+      style,
+      withChildren,
+      lessWalking,
+      startPoint,
+      visitDay,
+      visitDateLabel: dayLabel,
+      start: startMin,
+      budget: budgetMin,
+      returnByEnd,
+      mode: 'plan',
     });
-    const linkedItems = built.plan.ids
-      .map((id) => getGuide144ByStopId(id))
-      .filter((x): x is EnrichedGuide144Item => Boolean(x));
-
-    return {
-      intentKind: 'weather_plan',
-      usePreauthoredOnly: false,
-      retrievedItems: linkedItems,
-      response: {
-        replyText: `${isWetForecast ? `بناءً على احتمال الأمطار أو الضباب في ${cityInfo.name} ${dayLabel}، ركّزت لك على خيارات مناسبة وأقل تعرضاً للانحدارات:` : `رتّبت لك جولة ${dayLabel} في ${cityInfo.name} بما يناسب الأجواء المتاحة:`} ${weatherNote}`,
-        placeIds: linkedItems.map((x) => x.id),
-        places: [],
-        itinerary,
-        actions: [
-          { type: 'apply_plan', plan: built.plan, label: 'أضف الخطة لرحلتي', primary: true },
-          { type: 'preview_plan', plan: built.plan, label: 'اعرض المسار على الخريطة' },
-        ],
-        context: nextCtx,
-        requestSeq: payload.requestSeq,
-      },
-    };
-  }
-
-  // ---------------------------------------------------------------------------
-  // 4) Full Trip Planning Request ("رتّب لي يومين مع العيال" / "خطط لي 3 أيام")
-  // ---------------------------------------------------------------------------
-  const withFamilyOrKids = /العيال|عيال|عايل|عائليه|عائله|عائلي|اطفال|اولاد|اسره|اسريه/.test(q);
-  const lessWalkingReq = /مشي خفيف|مشي اقل|بدون مشي|كبار السن|مريحه|سهله/.test(q) || withFamilyOrKids;
-  const requestedDays = explicitDaysInTurn;
-  const isPlanningAsk =
-    intent === 'plan' ||
-    intent === 'timed-plan' ||
-    /(?:رتب|ترتب|خطط|خطه|برنامج|مسار|جوله|نظم)\s/.test(`${q} `) ||
-    (requestedDays !== null && !/فندق|شاليه|حجز|ليله|ليالي/.test(q));
-
-  if (isPlanningAsk) {
-    const daysCount = requestedDays ?? Number(nextCtx.days || 1);
-    const startInfo = parseStartPointAr(q);
-    const dayMatch = parseVisitDayAr(q, nowRiyadh.dayOfWeek);
-    const timeWin = parseTimeWindowAndReturnAr(q);
-    const startMin = explicitNewStart ?? timeWin.start ?? nextCtx.start ?? 9 * 60;
-    const regionKey = govDetected?.regionKey || startInfo?.region || (requestedDays ? 'all' : nextCtx.region || 'all');
-    const style: TripStyle = withFamilyOrKids
-      ? 'family'
-      : /تراث|قري|متاحف|تاريخ/.test(q)
-        ? 'heritage'
-        : /طبيع|غابات|شلالات|جبال|هايكن/.test(q)
-          ? 'nature'
-          : nextCtx.style || 'all';
-    const startPoint = startInfo?.label || govDetected?.canonical || nextCtx.startPoint || 'مدينة الباحة';
-    const visitDay = dayMatch?.dayOfWeek ?? nextCtx.visitDay ?? nowRiyadh.dayOfWeek;
-    const budgetMin = timeWin.budget ?? 480;
-
-    nextCtx.days = String(daysCount);
-    nextCtx.region = regionKey;
-    nextCtx.style = style;
-    nextCtx.withChildren = withFamilyOrKids || nextCtx.withChildren;
-    nextCtx.lessWalking = lessWalkingReq || nextCtx.lessWalking;
-    nextCtx.startPoint = startPoint;
-    nextCtx.visitDay = visitDay;
-    nextCtx.visitDateLabel = dayMatch?.label || WEEKDAY_NAMES_AR[visitDay];
-    nextCtx.start = startMin;
-    nextCtx.budget = budgetMin;
-    nextCtx.returnByEnd = timeWin.returnByEnd ?? nextCtx.returnByEnd;
-    nextCtx.mode = 'plan';
 
     const built = buildConstraintPlan({
       days: daysCount,
-      region: regionKey,
+      region: trip.weather && regionKey === 'city' ? 'all' : regionKey,
       style,
       season: nextCtx.season || nowRiyadh.season,
       month: nextCtx.month,
       start: startMin,
       budget: budgetMin,
-      returnByEnd: nextCtx.returnByEnd,
+      returnByEnd,
       startPointLabel: startPoint,
       visitDay,
-      withChildren: nextCtx.withChildren,
-      lessWalking: nextCtx.lessWalking,
-      indoorOnly: false,
+      withChildren,
+      lessWalking,
+      indoorOnly: isWetForecast,
       excludeIds: nextCtx.excludedIds || [],
       lockedIds: nextCtx.lockedIds,
       completedIds: nextCtx.completedIds,
@@ -935,21 +984,37 @@ export function runSmartGuideTurn(payload: SmartGuideRequestPayload): SmartGuide
 
     nextCtx.lastPlan = built.plan;
     nextCtx.hasUnsavedPreview = true;
-    const itinerary = buildItineraryFromPlan(built.plan);
+    const daysPhrase = conciergeDays[String(daysCount)] || `${formatNum(daysCount)} أيام`;
+    let weatherNote: string | null = null;
+    if (trip.weather) {
+      if (payload.demoRain) {
+        weatherNote = 'هذا سيناريو تجريبي لأجواء ماطرة. راجع التوقعات الحية قبل الانطلاق.';
+      } else if (forecast && typeof forecast.tempC === 'number') {
+        const tempTxt = `${formatNum(Math.round(forecast.tempC))}°م`;
+        weatherNote = `حسب التوقعات المتاحة في ${cityInfo.name} (${tempTxt} · ${forecast.conditionLabel || 'معتدلة'}). الطقس يتغيّر، فشيّك على توقع كل يوم قبل الانطلاق.`;
+      } else if (trip.wet) {
+        weatherNote = 'راعيت احتمال المطر أو الضباب اللي ذكرتَه. شيّك على التوقعات قبل الانطلاق.';
+      } else {
+        weatherNote = `توقعات ${cityInfo.name} الحية ما هي متاحة حالياً. رتّبت الجولة على أجواء فصل ${seasons[nowRiyadh.season].name} المعتادة.`;
+      }
+    }
+
+    const itinerary = buildItineraryFromPlan(built.plan, {
+      title: trip.weather ? `خطة ${daysCount === 1 ? dayLabel : daysPhrase} حسب الجو — ${cityInfo.name}` : undefined,
+      weatherNote,
+    });
     const linkedItems = built.plan.ids
       .map((id) => getGuide144ByStopId(id))
       .filter((x): x is EnrichedGuide144Item => Boolean(x));
-
-    const daysPhrase = conciergeDays[String(daysCount)] || `${formatNum(daysCount)} أيام`;
-    const familyPhrase = nextCtx.withChildren ? ' مناسبة لك وللعيال بمشي مريح' : '';
+    const familyPhrase = withChildren ? ' مناسبة للعائلة وبمشي مريح' : '';
     const areaPhrase = regionKey === 'all' ? 'في الباحة' : `في ${conciergeRegions[regionKey] || startPoint}`;
 
     return {
-      intentKind: 'trip_plan',
+      intentKind: trip.weather ? 'weather_plan' : 'trip_plan',
       usePreauthoredOnly: false,
       retrievedItems: linkedItems,
       response: {
-        replyText: `أبشر، رتّبت لك خطة ${daysPhrase}${familyPhrase} ${areaPhrase} تبدأ الساعة ${clock(startMin)} بتوقيت السعودية. تقدر تعدّل الوقت مثل «خلّها من 8 الصبح» أو تقول «بدّل أول محطة».`,
+        replyText: `أبشر، رتّبت لك خطة ${daysPhrase}${familyPhrase} ${areaPhrase} تبدأ الساعة ${clock(startMin)} بتوقيت السعودية.${weatherNote ? ` ${weatherNote}` : ''}`,
         placeIds: linkedItems.map((x) => x.id),
         places: [],
         itinerary,
@@ -972,6 +1037,9 @@ export function runSmartGuideTurn(payload: SmartGuideRequestPayload): SmartGuide
     );
 
   const catIntent = detectCategoryIntent(q);
+  const asksForRecommendations =
+    /(?:^|\s)(?:رشح|اقترح|دلني|انصحني|تنصحني|ترشح|اعطني|عطني|ابغي|ابي|ابغا|ابغى|عايز|عاوز|اريد|محتاج|اقرب|افضل|احسن)(?:\s|$)/.test(q) ||
+    /(?:وين|فين|اين)\s+(?:اقدر\s+|ممكن\s+)?(?:ابيت|نبيت|اسكن|ننام|انام|اكل|اتغدي|اتعشي|افطر|اتقهوى|القي|الاقي|احصل|اقضي|نروح)/.test(q);
   const searchRes = searchGuide144({
     query: rawText,
     governorate: govDetected?.canonical || null,
@@ -984,9 +1052,7 @@ export function runSmartGuideTurn(payload: SmartGuideRequestPayload): SmartGuide
   if (asksPriceOrAvailability) {
     const targetItem =
       searchRes.exactMatch ||
-      (nextCtx.lastGuideItemId ? getGuide144ById(nextCtx.lastGuideItemId) : undefined) ||
-      searchRes.matches[0]?.item ||
-      null;
+      (!govDetected && recentItems.length === 1 && !searchRes.ambiguousMatches.length ? recentItems[0] : undefined);
 
     if (targetItem) {
       nextCtx.lastGuideItemId = targetItem.id;
@@ -1018,12 +1084,14 @@ export function runSmartGuideTurn(payload: SmartGuideRequestPayload): SmartGuide
   // 6) Specific Place by Name OR Ambiguous Similar Names
   // ---------------------------------------------------------------------------
   // Ambiguity check: multiple distinct places match the queried name fragment
+  const refersToPreviousPlaces = recentItems.length > 0 &&
+    (/فيهم|منهم|بينهم|الثلاثه|الاثنين|الاول|الثاني|التاني|الثالث|الاخير|قارن|مقارنه|اي واحد|انهي واحد|مين الاحسن|مين الافضل|مين الارخص/.test(q) ||
+      (!asksForRecommendations && !govDetected && /مسبح|فطور|افطار|حيوانات|متي يفتح|مواقف|واي فاي|رقمه|رقمهم/.test(q)));
   const looksLikeSpecificNameAsk =
-    !catIntent ||
-    /وش عندك عن|علمني عن|معلومات عن|تفاصيل|رقم|هاتف|عنوان|وين مكان/.test(q) ||
-    searchRes.exactMatch !== null;
+    /وش عندك عن|علمني عن|معلومات عن|تفاصيل|رقم|هاتف|عنوان|تعرف/.test(q) ||
+    (!govDetected && !asksForRecommendations && q.split(' ').length <= 3);
 
-  if (searchRes.ambiguousMatches.length >= 2 && !searchRes.exactMatch && looksLikeSpecificNameAsk) {
+  if (searchRes.ambiguousMatches.length >= 2 && !searchRes.exactMatch && looksLikeSpecificNameAsk && !refersToPreviousPlaces) {
     const cards = searchRes.ambiguousMatches.map((it) =>
       hydratePlaceCard(it, { reason: `${it.governorate} · ${it.type}` })
     );
@@ -1088,14 +1156,6 @@ export function runSmartGuideTurn(payload: SmartGuideRequestPayload): SmartGuide
     };
   }
 
-  // Conversational follow-up referencing previously discussed places ("أي واحد فيهم أقرب للمطار؟" / "قارن بينهم" / "الأول ولا الثاني؟")
-  const refersToPreviousPlaces =
-    recentItems.length > 0 &&
-    !govDetected &&
-    /فيهم|منهم|بينهم|الثلاثه|الاثنين|الاول|الثاني|التاني|الثالث|الاخير|قارن|مقارنه|الفرق بينهم|اي واحد|انهي واحد|مين الاحسن|مين الافضل|مين الارخص|غيرهم|خيارات ثانيه|خيارات تانيه|هل فيه|فيه مسبح|فيه فطور|يقبل حيوانات|متي يفتح|مواقف/.test(
-      q
-    );
-
   if (refersToPreviousPlaces) {
     // If asking about a specific single previously discussed item's unconfirmed attribute
     if (recentItems.length === 1) {
@@ -1135,25 +1195,16 @@ export function runSmartGuideTurn(payload: SmartGuideRequestPayload): SmartGuide
       };
     }
 
-    // Multiple previously shown places: hand all of them + any fresh matches to Gemini for natural comparison/filtering
-    const mergedFollowup = mergeUniqueGuideItems(
-      recentItems,
-      searchRes.matches.slice(0, 3).map((m) => m.item),
-      8
-    );
-    const fallbackCards = recentItems.slice(0, 3).map((it) =>
-      hydratePlaceCard(it, { reason: buildShortRecommendationReason(it) })
-    );
     return {
-      intentKind: 'general',
+      intentKind: 'place_followup',
       usePreauthoredOnly: false,
-      retrievedItems: mergedFollowup,
+      retrievedItems: recentItems,
       referenceFact:
         'الزائر يتابع الحديث أو يقارن بين الأماكن التي عُرضت للتو في السجلات المسترجعة. أجب مباشرة وبشكل طبيعي من وصف ومعلومات هذه السجلات، وأرجع في placeIds فقط المكان أو الأماكن التي تنطبق على سؤاله الحالي.',
       response: {
-        replyText: `من الخيارات اللي عرضتها لك قبل شوي، تقدر تقارن تفاصيلها من الدليل أدناه:`,
-        placeIds: fallbackCards.map((c) => c.id),
-        places: fallbackCards,
+        replyText: 'وش أهم شيء عندك في المقارنة بين الخيارات اللي عرضتها لك؟',
+        placeIds: [],
+        places: [],
         itinerary: null,
         actions: [],
         context: nextCtx,
@@ -1166,7 +1217,7 @@ export function runSmartGuideTurn(payload: SmartGuideRequestPayload): SmartGuide
   // 7) Stay / Dining / Places Recommendation by Area (e.g. "أنا في العقيق، وين أقدر أبيت؟")
   // ---------------------------------------------------------------------------
   const asksNearest = /اقرب|قريب مني|حولي|جنبي/.test(q);
-  if (catIntent || govDetected) {
+  if (catIntent && asksForRecommendations) {
     const topMatches = searchRes.matches.slice(0, 4);
     if (topMatches.length > 0) {
       const cards = topMatches.map((m) =>
@@ -1179,7 +1230,7 @@ export function runSmartGuideTurn(payload: SmartGuideRequestPayload): SmartGuide
       if (cards.length === 1) nextCtx.lastGuideItemId = cards[0].id;
 
       const areaTxt = govDetected ? `في ${govDetected.canonical}` : 'في منطقة الباحة';
-      const catTxt = catIntent?.labelAr || 'أبرز الوجهات';
+      const catTxt = catIntent.labelAr;
       const distNote = searchRes.sortedByDistance
         ? ' مرتّبة حسب الأقرب لموقعك.'
         : asksNearest
@@ -1221,27 +1272,15 @@ export function runSmartGuideTurn(payload: SmartGuideRequestPayload): SmartGuide
     if (pat.test(q)) {
       const faq = FAQ_ITEMS.find((f) => f.id === faqId);
       if (faq) {
-        let relatedItems: EnrichedGuide144Item[] = [];
-        if (faqId === 'faq-airport') {
-          relatedItems = [140, 141, 142].map(getGuide144ById).filter((x): x is EnrichedGuide144Item => Boolean(x));
-        } else if (faqId === 'faq-food') {
-          relatedItems = [38, 39, 133].map(getGuide144ById).filter((x): x is EnrichedGuide144Item => Boolean(x));
-        }
-        if (relatedItems.length) {
-          nextCtx.recentPlaceIds = relatedItems.map((it) => it.id);
-        }
-        const cards = relatedItems.map((it) =>
-          hydratePlaceCard(it, { reason: buildShortRecommendationReason(it) })
-        );
         return {
           intentKind: 'discovery_or_prep',
           usePreauthoredOnly: false,
-          retrievedItems: mergeUniqueGuideItems(relatedItems, recentItems, 6),
+          retrievedItems: recentItems,
           referenceFact: `معلومة موثّقة من دليل الباحة: ${faq.answer}`,
           response: {
             replyText: faq.answer,
-            placeIds: cards.map((c) => c.id),
-            places: cards,
+            placeIds: [],
+            places: [],
             itinerary: null,
             actions: [{ type: 'navigate_faq', faqId: faq.id, label: 'عرض التفاصيل في الأسئلة الشائعة' }],
             context: nextCtx,
@@ -1253,7 +1292,8 @@ export function runSmartGuideTurn(payload: SmartGuideRequestPayload): SmartGuide
   }
 
   // General discovery ask ("وش يميز الباحة؟" / "اقترح لي وجهات" / "اكتشف الباحة")
-  if (intent === 'discover' || /وش يميز|يميز الباحه|اكتشف|وجهات|معالم|السياحه في الباحه|اماكن حلوه|اماكن سياحيه/.test(q)) {
+  if (intent === 'discover' || /^(?:اكتشف|استكشف) الباحه$/.test(q) ||
+      (asksForRecommendations && !catIntent && /وجهات|معالم|اماكن حلوه|اماكن سياحيه/.test(q))) {
     const featuredIds = [65, 100, 73, 72]; // رغدان، ذي عين، الأمير حسام، جبل شدا
     const featured = featuredIds
       .map(getGuide144ById)
@@ -1279,41 +1319,20 @@ export function runSmartGuideTurn(payload: SmartGuideRequestPayload): SmartGuide
     };
   }
 
-  // Soft search / Open conversational query — give Gemini matching records + recent context to converse freely!
-  const softMatches = searchRes.matches.slice(0, 4).map((m) => m.item);
-  const combinedForLlm = mergeUniqueGuideItems(softMatches, recentItems, 8);
-  if (softMatches.length > 0) {
-    nextCtx.recentPlaceIds = softMatches.map((it) => it.id);
-    const cards = searchRes.matches.slice(0, 3).map((m) =>
-      hydratePlaceCard(m.item, {
-        reason: buildShortRecommendationReason(m.item),
-        distanceKm: m.distanceKm,
-      })
-    );
-    return {
-      intentKind: 'general',
-      usePreauthoredOnly: false,
-      retrievedItems: combinedForLlm,
-      response: {
-        replyText: 'هذي أقرب النتائج اللي لقيتها في دليل الباحة لسؤالك:',
-        placeIds: cards.map((c) => c.id),
-        places: cards,
-        itinerary: null,
-        actions: [],
-        context: nextCtx,
-        requestSeq: payload.requestSeq,
-      },
-    };
-  }
-
-  // Open conversational / general Al-Baha question (no forced canned buttons, Gemini converses naturally!)
+  // General questions reach Gemini with prior context but no speculative recommendations.
   return {
     intentKind: 'general',
     usePreauthoredOnly: false,
     retrievedItems: recentItems,
+    referenceFact: nextCtx.pendingTrip
+      ? `الزائر بدأ تخطيط رحلة وقد يسأل سؤالاً جانبياً. جاوب على رسالته أولاً. إذا كان يكمل التخطيط، اطلب فقط البيانات الناقصة: ${[
+        nextCtx.pendingTrip.days === null ? 'مدة الرحلة' : '',
+        nextCtx.pendingTrip.style === null ? 'نوع الرحلة' : '',
+      ].filter(Boolean).join('، ')}.`
+      : null,
     response: {
       replyText:
-        'الدليل ما فيه تأكيد مباشر عن هالنقطة حالياً، لكن أقدر أساعدك بأي فندق أو مطعم أو معلم في الباحة، أو أرتّب لك خطة رحلة حسب الأيام والمنطقة. وش ودّك تبحث عنه؟',
+        'عطني تفاصيل أكثر عن اللي تبي تعرفه، وبساعدك باللي أقدر عليه.',
       placeIds: [],
       places: [],
       itinerary: null,

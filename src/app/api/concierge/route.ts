@@ -83,12 +83,15 @@ function buildSystemInstruction(turn: SmartGuideTurnComputation, payload: SmartG
     '3. إذا سأل عن السعر الحالي أو التوفر اللحظي للغرف، وضّح أن الأسعار والتوفر تتغير ووجّهه لرابط الحجز أو وسيلة التواصل المتاحة.',
     '4. لا تذكر وجود واتساب لأي مكان إلا إذا كان hasWhatsApp يساوي true في سجله.',
     '5. عند الترشيح حسب منطقة أو مقارنة أماكن، اذكر المحافظة بوضوح وسبب اختيارك.',
-    '6. في حقل placeIds: أرجع فقط معرّفات id الموجودة فعلاً في السجلات المسترجعة أدناه (بحد أقصى 4) والتي تفيد الزائر في هذه الرسالة بالذات. إذا كانت الرسالة مجرد تحية أو شكر أو دردشة عامة أو استفسار لا يحتاج عرض بطاقات أماكن الآن، أرجع placeIds كمصفوفة فارغة [].',
+    '6. في placeIds اختر فقط البطاقات التي تخدم السؤال الحالي وتطابق المعرّفات المسموح بعرضها أدناه (بحد أقصى 4). أرجع [] في الردود العامة وأسئلة التوضيح. وجود اسم مكان في السجل أو المحادثة السابقة لا يعني أن الزائر يطلب بطاقة له.',
     '7. إذا كان هناك برنامج رحلة معتمد (itinerary)، قدّمه بأسلوب طبيعي ومختصر واذكر التعديل الذي تم إن وجد دون سرد كل البطاقات من جديد لأنها ستظهر منظمة أسفل ردك.',
     '8. لا تذكر أبداً اسم أي مزوّد ذكاء اصطناعي أو نموذج أو مفتاح برمجي.',
+    '9. افهم مقصد الرسالة من المحادثة: الضمائر والأسئلة القصيرة تكمل الموضوع السابق ما لم يذكر الزائر موضوعاً جديداً. جاوب السؤال نفسه. في الأسئلة العامة التي لا يغطيها الدليل، أعطِ نصيحة عامة مفيدة أو اسأل عن المعلومة الناقصة. اذكر حدود ما تعرفه إذا طلب تأكيداً على شيء محدد.',
+    '10. لا تقترح خطة أيام في نص الرد إلا إذا كان هناك برنامج معتمد أدناه. إذا بدأ الزائر التخطيط، اسأله عن مدة الرحلة ونوعها إن كانا ناقصين، وتقبّل أنه قد يجيب على كل سؤال في رسالة مختلفة.',
     ALBAHA_REGIONAL_OVERVIEW,
     contextHints.length ? contextHints.join('\n') : '',
     `السجلات المسترجعة من دليل الباحة (أحدث بحث + الأماكن التي ذُكرت في المحادثة):\n${retrievedJson}`,
+    `المعرّفات المسموح بعرضها كبطاقات لهذا الرد: ${JSON.stringify(getCardCandidateIds(turn))}`,
     itinerarySummary ? `برنامج الرحلة المعتمد:\n${itinerarySummary}` : '',
     weatherSummary ? `بيانات الطقس المتاحة:\n${weatherSummary}` : '',
   ]
@@ -219,17 +222,19 @@ async function callGeminiStructured(
   return { ok: false, status: lastStatus, reason: lastReason };
 }
 
+function getCardCandidateIds(turn: SmartGuideTurnComputation): number[] {
+  if (turn.response.itinerary) return [];
+  return turn.intentKind === 'place_followup'
+    ? turn.retrievedItems.map((item) => item.id)
+    : turn.response.placeIds;
+}
+
 function mergeValidatedLlmResult(
   turn: SmartGuideTurnComputation,
   llm: GeminiStructuredOutput
 ): SmartGuideResponseContract {
   const base = turn.response;
   const replyText = sanitizeVisitorFacingText(llm.replyText || base.replyText) || base.replyText;
-
-  // Validate placeIds strictly against active albaha_guide_144 catalog AND retrieved scope
-  const retrievedSet = new Set(turn.retrievedItems.map((it) => it.id));
-  const { validIds: llmValidIds } = validatePlaceIds(llm.placeIds);
-  const scopedLlmIds = llmValidIds.filter((id) => retrievedSet.has(id));
 
   // If itinerary response, keep places empty (stops live inside itinerary.groupedDays)
   if (base.itinerary) {
@@ -241,7 +246,10 @@ function mergeValidatedLlmResult(
     };
   }
 
-  // For conversational intents (greeting / general / discovery), respect Gemini's choice even when placeIds is []
+  const candidates = new Set(getCardCandidateIds(turn));
+  const { validIds: llmValidIds } = validatePlaceIds(llm.placeIds);
+  const scopedLlmIds = llmValidIds.filter((id) => candidates.has(id));
+
   const mustShowCardOnFallback =
     turn.intentKind === 'place_detail' ||
     turn.intentKind === 'place_ambiguous' ||
@@ -350,7 +358,8 @@ export async function POST(req: NextRequest) {
   const hasUsefulLocalData =
     turn.response.places.length > 0 ||
     Boolean(turn.response.itinerary) ||
-    turn.intentKind === 'discovery_or_prep';
+    turn.intentKind === 'discovery_or_prep' ||
+    turn.intentKind === 'place_followup';
 
   const fallbackText = hasUsefulLocalData
     ? sanitizeVisitorFacingText(turn.response.replyText)

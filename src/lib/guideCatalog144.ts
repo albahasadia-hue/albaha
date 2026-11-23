@@ -1128,18 +1128,12 @@ export function searchGuide144(options: Guide144SearchOptions): Guide144SearchRe
   let pool = baseItems;
   if (catFilter) {
     const catPool = pool.filter((item) => item.categoryKey === catFilter);
-    const subPool = options.subType
+    pool = options.subType
       ? catPool.filter((item) => matchesSubType(item, options.subType))
       : catPool;
-    pool = subPool.length ? subPool : catPool;
   }
   if (govFilter) {
-    const govPool = pool.filter((item) => matchesGovernorate(item, govFilter));
-    if (govPool.length) {
-      pool = govPool;
-    } else if (!catFilter) {
-      pool = baseItems.filter((item) => matchesGovernorate(item, govFilter));
-    }
+    pool = pool.filter((item) => matchesGovernorate(item, govFilter));
   }
 
   const nameScoreById = new Map(nameScored.map((n) => [n.item.id, n]));
@@ -1181,6 +1175,7 @@ export function searchGuide144(options: Guide144SearchOptions): Guide144SearchRe
   // Sort by distance ONLY when BOTH userLocation AND coordinates exist for candidates
   const canSortByDistance =
     hasUserLoc &&
+    scoredPool.length > 0 &&
     scoredPool.filter((m) => m.distanceKm !== null).length >= Math.min(2, scoredPool.length);
 
   if (canSortByDistance && !exactMatch) {

@@ -137,6 +137,7 @@ async function runTests() {
   }
 
   const envLocal = loadEnvLocal();
+  const offline = process.argv.includes('--offline');
   const baseCtx = {
     days: null,
     style: null,
@@ -175,7 +176,7 @@ async function runTests() {
   // -------------------------------------------------------------------------
   const portLive = 3091;
   const liveSrv = startNextServer(portLive, {
-    GEMINI_API_KEY: envLocal.GEMINI_API_KEY || process.env.GEMINI_API_KEY || '',
+    GEMINI_API_KEY: offline ? '' : envLocal.GEMINI_API_KEY || process.env.GEMINI_API_KEY || '',
     GEMINI_MODEL: envLocal.GEMINI_MODEL || 'gemini-3.5-flash-lite',
   });
   try {
@@ -196,7 +197,50 @@ async function runTests() {
     assert.ok(cloudCard.bookingLink?.url?.includes('almosafer.com'));
     assert.equal(cloudCard.internalHref, '#guide/place/hotels-02');
     assert.equal(t1.json.reply.retryable, false, 'Live Gemini call should succeed cleanly');
-    record('T1: Hotel by name + live Gemini + strict phone/booking/no-WhatsApp', true, t1.json.reply.replyText.slice(0, 72));
+    record('T1: Hotel by name + strict phone/booking/no-WhatsApp', true, t1.json.reply.replyText.slice(0, 72));
+
+    const directions = await askApi(portLive, {
+      question: 'كيف اصل ليه',
+      context: t1.json.reply.context,
+      placeId: 'ain',
+    });
+    assert.match(directions.json.reply.replyText, /مدينة السحاب/);
+    assert.deepEqual(directions.json.reply.placeIds, []);
+    assert.ok(directions.json.reply.actions.some((a) =>
+      a.type === 'open_directions' && a.guideItemId === 1 && !a.autoExecute));
+    const restoredDirections = await askApi(portLive, {
+      question: 'كيف اصل ليه',
+      context: { ...t1.json.reply.context, recentPlaceIds: [50, 65, 72] },
+      placeId: 'ain',
+      history: [
+        { role: 'user', text: 'وش عندك عن فندق مدينة السحاب؟' },
+        { role: 'assistant', text: t1.json.reply.replyText },
+        { role: 'user', text: 'كيف اصل ليه' },
+        { role: 'assistant', text: 'هذي أقرب النتائج اللي لقيتها في دليل الباحة لسؤالك:' },
+        { role: 'user', text: 'كيف اصل ليه' },
+      ],
+    });
+    assert.ok(restoredDirections.json.reply.actions.some((a) => a.type === 'open_directions' && a.guideItemId === 1));
+    record('Directions follow the chat even when another place page is open', true);
+
+    const draft = (await askApi(portLive, { question: 'عايز أرتب رحلة في الباحة', context: baseCtx })).json.reply;
+    assert.equal(draft.itinerary, null);
+    assert.match(draft.replyText, /كم يوم/);
+    assert.match(draft.replyText, /نوع الرحلة/);
+    assert.deepEqual(draft.placeIds, []);
+
+    const days = (await askApi(portLive, { question: 'يومين', context: draft.context })).json.reply;
+    assert.equal(days.itinerary, null);
+    assert.equal(days.context.pendingTrip.days, 2);
+    assert.match(days.replyText, /نوع الرحلة/);
+    assert.doesNotMatch(days.replyText, /كم يوم/);
+
+    const prefs = (await askApi(portLive, { question: 'مع العيلة', context: days.context })).json.reply;
+    assert.equal(prefs.itinerary.days, 2);
+    assert.equal(prefs.itinerary.groupedDays.length, 2);
+    assert.equal(prefs.itinerary.plan.style, 'family');
+    assert.equal(prefs.context.pendingTrip, null);
+    record('Trip intake collects duration and style across separate messages', true);
 
     // T2: Explicit WhatsApp vs No-phone WhatsApp text
     const t2a = await askApi(portLive, { question: 'وش عندك عن أكواخ سار الريفية؟', context: baseCtx, skipLlm: true });
@@ -220,7 +264,7 @@ async function runTests() {
     });
     assert.equal(t3.status, 200);
     assert.ok(t3.json.reply.places.some((p) => p.id === 1 && p.bookingLink));
-    record('T3: Live price/availability redirects to booking/contact', true, t3.json.reply.replyText.slice(0, 72));
+    record('T3: Price/availability redirects to booking/contact', true, t3.json.reply.replyText.slice(0, 72));
 
     // T4: Stay in Al-Aqiq (explicitly after previous place lookup context!)
     const t4 = await askApi(portLive, {
@@ -319,7 +363,7 @@ async function runTests() {
 
     // T8b: Weather-aware trip planning with forecast limits
     const t8b = await askApi(portLive, {
-      question: 'رتّب لي يوم حسب الجو في الباحة',
+      question: 'رتّب لي يوم عائلي حسب الجو في الباحة',
       context: baseCtx,
       weather: {
         city: 'baha',
@@ -375,35 +419,37 @@ async function runTests() {
     assert.ok(!/أنا المرشد الذكي، أقدر أدلّك على الفنادق/.test(t12.json.reply.replyText), 'Must not repeat canned greeting template');
     record('T12: Natural conversational thank-you (no canned template/buttons)', true, t12.json.reply.replyText.slice(0, 80));
 
-    // T13: Open-ended Egyptian-dialect conversational question (السراة vs تهامة)
-    const t13 = await askApi(portLive, {
-      question: 'أنا جاي الباحة أول مرة ومحتار، إيه الفرق بين السراة وتهامة وأحسن أبدأ منين؟',
-      context: baseCtx,
-    });
-    assert.equal(t13.status, 200);
-    assert.equal(t13.json.reply.retryable, false);
-    assert.ok(!/الدليل ما فيه تأكيد مباشر عن هالنقطة/.test(t13.json.reply.replyText), 'Open regional question must not hit robotic refusal');
-    assert.ok(/السرا|تهام/.test(t13.json.reply.replyText), 'Reply should naturally explain السراة and تهامة');
-    assert.equal(t13.json.reply.actions.length, 0, 'Open chat should not attach repetitive fallback starter buttons');
-    record('T13: Open-ended conversational question (Egyptian -> natural Saudi reply)', true, t13.json.reply.replyText.slice(0, 90));
+    if (!offline) {
+      // T13: Open-ended Egyptian-dialect conversational question (السراة vs تهامة)
+      const t13 = await askApi(portLive, {
+        question: 'أنا جاي الباحة أول مرة ومحتار، إيه الفرق بين السراة وتهامة وأحسن أبدأ منين؟',
+        context: baseCtx,
+      });
+      assert.equal(t13.status, 200);
+      assert.equal(t13.json.reply.retryable, false);
+      assert.ok(!/الدليل ما فيه تأكيد مباشر عن هالنقطة/.test(t13.json.reply.replyText), 'Open regional question must not hit robotic refusal');
+      assert.ok(/السرا|تهام/.test(t13.json.reply.replyText), 'Reply should naturally explain السراة and تهامة');
+      assert.equal(t13.json.reply.actions.length, 0, 'Open chat should not attach repetitive fallback starter buttons');
+      record('T13: Open-ended conversational question (Egyptian -> natural Saudi reply)', true, t13.json.reply.replyText.slice(0, 90));
 
-    // T14: Multi-turn follow-up referencing previously shown Al-Aqiq places
-    const t14 = await askApi(portLive, {
-      question: 'طيب أي واحد من الثلاثة دول أقرب للمطار وفيه مسبح؟',
-      context: t4.json.reply.context,
-      history: [
-        { role: 'user', text: 'أنا في العقيق، وين أقدر أبيت؟' },
-        {
-          role: 'assistant',
-          text: `${t4.json.reply.replyText}\n[الأماكن المعروضة: ${t4.json.reply.places.map((p) => `${p.name} (id:${p.id}، ${p.governorate})`).join(' | ')}]`,
-        },
-      ],
-    });
-    assert.equal(t14.status, 200);
-    assert.equal(t14.json.reply.retryable, false);
-    assert.ok(/المكان الأفضل|Best Place/i.test(t14.json.reply.replyText), `Follow-up should identify Best Place Hotel from previous options: ${t14.json.reply.replyText}`);
-    assert.ok(t14.json.reply.places.every((p) => p.id !== 141 && p.id !== 142), 'Must not hijack follow-up into car rentals');
-    record('T14: Multi-turn follow-up comparison across previously shown places', true, t14.json.reply.replyText.slice(0, 90));
+      // T14: Multi-turn follow-up referencing previously shown Al-Aqiq places
+      const t14 = await askApi(portLive, {
+        question: 'طيب أي واحد من الثلاثة دول أقرب للمطار وفيه مسبح؟',
+        context: t4.json.reply.context,
+        history: [
+          { role: 'user', text: 'أنا في العقيق، وين أقدر أبيت؟' },
+          {
+            role: 'assistant',
+            text: `${t4.json.reply.replyText}\n[الأماكن المعروضة: ${t4.json.reply.places.map((p) => `${p.name} (id:${p.id}، ${p.governorate})`).join(' | ')}]`,
+          },
+        ],
+      });
+      assert.equal(t14.status, 200);
+      assert.equal(t14.json.reply.retryable, false);
+      assert.ok(/المكان الأفضل|Best Place/i.test(t14.json.reply.replyText), `Follow-up should identify Best Place Hotel from previous options: ${t14.json.reply.replyText}`);
+      assert.ok(t14.json.reply.places.every((p) => p.id !== 141 && p.id !== 142), 'Must not hijack follow-up into car rentals');
+      record('T14: Multi-turn follow-up comparison across previously shown places', true, t14.json.reply.replyText.slice(0, 90));
+    }
   } finally {
     await liveSrv.stop();
   }
@@ -463,7 +509,13 @@ async function runTests() {
   // -------------------------------------------------------------------------
   // 5) Server WITH MOCK HALLUCINATING UPSTREAM (unauthorized IDs & provider leak)
   // -------------------------------------------------------------------------
-  const mockLlmServer = http.createServer((req, res) => {
+  let modelRequest;
+  const mockLlmServer = http.createServer(async (req, res) => {
+    let body = '';
+    for await (const chunk of req) body += chunk;
+    modelRequest = JSON.parse(body);
+    const question = modelRequest.contents.at(-1).parts[0].text;
+    const isGeneralQuestion = question.startsWith('إيه الفرق بين');
     res.writeHead(200, { 'Content-Type': 'application/json' });
     res.end(
       JSON.stringify({
@@ -473,7 +525,9 @@ async function runTests() {
               parts: [
                 {
                   text: JSON.stringify({
-                    replyText: 'توصية من Gemini 3.5 Flash: فندق مدينة السحاب خيار ممتاز في الباحة.',
+                    replyText: isGeneralQuestion
+                      ? 'إذا تحب الجو الأبرد، ابدأ بالسراة. تهامة أدفى وفيها تجربة مختلفة. وش الوقت اللي بتزورنا فيه؟'
+                      : 'توصية من Gemini 3.5 Flash: فندق مدينة السحاب خيار ممتاز في الباحة.',
                     placeIds: [99999, -5, 145, 77, 1],
                     placeReasons: [
                       { id: 99999, reason: 'مكان وهمي' },
@@ -511,6 +565,22 @@ async function runTests() {
       'Unauthorized stopId MUST never appear in actions'
     );
     record('T11: Hallucinated/unauthorized placeIds & provider leak rejected strictly', true, `Kept only validated placeIds=${JSON.stringify(rg.json.reply.placeIds)}`);
+
+    const general = (await askApi(portGuard, {
+      question: 'إيه الفرق بين السراة وتهامة وأحسن أبدأ منين؟',
+      context: rg.json.reply.context,
+      history: [
+        { role: 'user', text: 'وش عندك عن فندق مدينة السحاب؟' },
+        { role: 'assistant', text: rg.json.reply.replyText },
+      ],
+    })).json.reply;
+    assert.match(general.replyText, /السراة.*تهامة/);
+    assert.deepEqual(general.placeIds, []);
+    assert.deepEqual(general.places, []);
+    assert.deepEqual(general.actions, []);
+    assert.equal(general.context.lastGuideItemId, 1);
+    assert.match(modelRequest.contents[0].parts[0].text, /مدينة السحاب/);
+    record('Open questions use conversation history and suppress unrelated cards', true);
   } finally {
     await guardSrv.stop();
     await new Promise((resolve) => mockLlmServer.close(resolve));

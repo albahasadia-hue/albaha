@@ -676,6 +676,20 @@ export function createSmartGuideUiController(deps: ConciergeControllerDeps): {
       const bar = document.createElement('div');
       bar.className = 'sg-actions-bar';
       for (const action of visibleActions) {
+        if (action.type === 'open_directions' && action.guideItemId) {
+          const item = getGuide144ById(action.guideItemId);
+          if (!item) continue;
+          const destination = item.coordinates?.join(',') ||
+            [item.name, item.address, item.governorate, 'منطقة الباحة'].filter(Boolean).join('، ');
+          const link = document.createElement('a');
+          link.className = 'sg-secondary-link';
+          link.textContent = action.label;
+          link.href = `https://www.google.com/maps/dir/?${new URLSearchParams({ api: '1', destination })}`;
+          link.target = '_blank';
+          link.rel = 'noopener noreferrer';
+          bar.append(link);
+          continue;
+        }
         const btn = document.createElement('button');
         btn.type = 'button';
         btn.className = action.primary ? 'sg-primary-btn' : 'sg-secondary-link';
@@ -751,6 +765,7 @@ export function createSmartGuideUiController(deps: ConciergeControllerDeps): {
       intent === 'weather-plan' ||
       intent === 'weather-now' ||
       intent === 'rain-demo' ||
+      conciergeContext.pendingTrip?.weather ||
       /طقس|الجو|اجواء|مطر|امطار|ضباب/.test(norm);
     if (!needsWeather) return null;
 
@@ -760,7 +775,7 @@ export function createSmartGuideUiController(deps: ConciergeControllerDeps): {
         ? explicitCity
         : gov
           ? GOVERNORATE_TO_WEATHER_CITY[gov.canonical] || 'baha'
-          : 'baha';
+          : conciergeContext.pendingTrip?.city || 'baha';
 
     const timeout = new Promise<null>((resolve) => window.setTimeout(() => resolve(null), 1400));
     const data = await Promise.race([forecast(cityKey), timeout]);
@@ -804,7 +819,7 @@ export function createSmartGuideUiController(deps: ConciergeControllerDeps): {
     const normLabel = normalizeSearchText(displayLabel);
     const loadingPhrase = /رحل|يومين|ايام|رتب|خطط|بدل|خلها/.test(normLabel)
       ? 'أرتّب لك الجولة…'
-      : 'أبحث لك في الدليل…';
+      : 'لحظة وأردّ عليك…';
     showTypingIndicator(loadingPhrase);
 
     try {

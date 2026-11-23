@@ -318,6 +318,21 @@ export interface ConciergeContextState {
   excludedIds?: string[];
   lastGuideItemId?: number | null;
   recentPlaceIds?: number[];
+  pendingTrip?: {
+    days: number | null;
+    style: TripStyle | null;
+    weather: boolean;
+    wet: boolean;
+    city: string | null;
+    region: string | null;
+    startPoint: string | null;
+    visitDay: number | null;
+    visitDateLabel: string | null;
+    start: number | null;
+    budget: number | null;
+    returnByEnd: number | null;
+    lessWalking: boolean;
+  } | null;
   interests: string[];
   withChildren: boolean;
   lessWalking: boolean;
