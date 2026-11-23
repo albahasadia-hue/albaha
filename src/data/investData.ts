@@ -20,7 +20,7 @@ export interface InvestProject {
   title: string;
   location: string;
   summary: string;
-  highlights: string[];
+  highlights: { label: string; icon: string }[];
 }
 
 export interface InvestChannel {
@@ -30,6 +30,7 @@ export interface InvestChannel {
   href: string;
   linkLabel: string;
   external?: boolean;
+  categoryIcon: string;
   icon: string;
 }
 
@@ -99,36 +100,48 @@ export const INVEST_PROJECTS: InvestProject[] = [
     sector: 'hospitality',
     title: 'مشروع منتجع رغدان السياحي',
     location: 'غابة رغدان · مدينة الباحة',
-    summary:
-      'مشروع فندقي وسياحي متكامل يضم 120 مفتاحًا فندقيًا وقاعات متعددة الاستخدامات ومطاعم مطلة على غابة رغدان.',
-    highlights: ['120 مفتاحًا فندقيًا', 'قاعات متعددة الاستخدامات', 'إطلالة على غابة رغدان'],
+    summary: 'منتجع فندقي ومطاعم بإطلالة على رغدان.',
+    highlights: [
+      { label: '120 مفتاحًا فندقيًا', icon: '#i-directory-hotel' },
+      { label: 'قاعات متعددة الاستخدامات', icon: '#i-heritage' },
+      { label: 'إطلالة على غابة رغدان', icon: '#i-leaf' },
+    ],
   },
   {
     id: 'albaha-sky',
     sector: 'entertainment',
     title: 'مجمع «الباحة سكاي» الترفيهي',
     location: 'بين غابة رغدان ومنتزه القيم',
-    summary:
-      'مشروع ترفيهي وسياحي حديث على مساحة 8,994 م² يضم صالات تزلج وبولينج وواقع افتراضي وملاعب بادل ومقاهي.',
-    highlights: ['مساحة 8,994 م²', 'صالات ترفيه وملاعب بادل', 'مقاهٍ ومناطق عائلية'],
+    summary: 'تزلّج وبولينج وواقع افتراضي للعائلات.',
+    highlights: [
+      { label: 'مساحة 8,994 م²', icon: '#i-map' },
+      { label: 'صالات ترفيه وملاعب بادل', icon: '#i-nav-experience' },
+      { label: 'مقاهٍ ومناطق عائلية', icon: '#i-directory-coffee' },
+    ],
   },
   {
     id: 'rotana-plaza',
     sector: 'commercial',
     title: 'فندق روتانا إيدج ومشروع الباحة بلازا',
     location: 'المنطقة المركزية · مدينة الباحة',
-    summary:
-      'مشاريع ضيافة ومراكز تجارية حديثة بالمنطقة المركزية لتعزيز الجاذبية السياحية وتجربة التسوق والترفيه.',
-    highlights: ['ضيافة فندقية حديثة', 'مراكز تسوق وترفيه', 'موقع محوري وسط المدينة'],
+    summary: 'ضيافة وتسوق وترفيه في قلب الباحة.',
+    highlights: [
+      { label: 'ضيافة فندقية حديثة', icon: '#i-directory-hotel' },
+      { label: 'مراكز تسوق وترفيه', icon: '#i-directory-shopping' },
+      { label: 'موقع محوري وسط المدينة', icon: '#i-pin' },
+    ],
   },
   {
     id: 'furas-opportunities',
     sector: 'municipal',
     title: 'الفرص الاستثمارية عبر منصة «فرص»',
     location: 'مدينة الباحة والعقيق والمحافظات',
-    summary:
-      'طرح الفرص الاستثمارية التجارية والترفيهية والخدمية في مدينة الباحة والمحافظات، بما فيها 10 فرص جديدة بمحافظة العقيق وفرص المنطقة المركزية.',
-    highlights: ['10 فرص جديدة بالعقيق', 'فرص المنطقة المركزية', 'تقديم إلكتروني عبر منصة فرص'],
+    summary: 'فرص تجارية وترفيهية وخدمية في الباحة.',
+    highlights: [
+      { label: '10 فرص جديدة بالعقيق', icon: '#i-nav-invest' },
+      { label: 'فرص المنطقة المركزية', icon: '#i-pin' },
+      { label: 'تقديم إلكتروني عبر منصة فرص', icon: '#i-digital-services' },
+    ],
   },
 ];
 
@@ -140,6 +153,7 @@ export const INVEST_CHANNELS: InvestChannel[] = [
     href: 'https://furas.momra.gov.sa',
     linkLabel: 'الانتقال إلى منصة فرص',
     external: true,
+    categoryIcon: '#i-nav-invest',
     icon: '#i-external',
   },
   {
@@ -149,6 +163,7 @@ export const INVEST_CHANNELS: InvestChannel[] = [
     href: 'https://baha.gov.sa',
     linkLabel: 'زيارة البوابة الرسمية',
     external: true,
+    categoryIcon: '#i-digital-services',
     icon: '#i-external',
   },
   {
@@ -158,6 +173,7 @@ export const INVEST_CHANNELS: InvestChannel[] = [
     href: 'mailto:bahacare@baha.gov.sa',
     linkLabel: 'bahacare@baha.gov.sa',
     external: false,
+    categoryIcon: '#i-foot-headset',
     icon: '#i-foot-mail',
   },
 ];
