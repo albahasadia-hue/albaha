@@ -1,6 +1,6 @@
 import { formatNum, glyph, isMotionPaused } from './portalHelpers';
-import { climateCities, seasons } from './portalStaticData';
-import type { ForecastData, ForecastHour, MediaShowcaseItem, SeasonKey } from './portalTypes';
+import { climateCities, places, seasons } from './portalStaticData';
+import type { ForecastData, ForecastHour, MediaShowcaseItem, SeasonKey, StopBase } from './portalTypes';
 
 const saudiDate = new Intl.DateTimeFormat('en-CA', {
   timeZone: 'Asia/Riyadh',
@@ -48,15 +48,20 @@ export const isWet = (hour: ForecastHour): boolean => hour.rain >= 45 || hour.co
 const forecastCache = new Map<string, { at: number; promise: Promise<ForecastData | null> }>();
 export const weatherSource = 'https://open-meteo.com/';
 
-export function forecast(cityKey: string): Promise<ForecastData | null> {
-  const city = climateCities[cityKey];
-  if (!city) return Promise.resolve(null);
-  const cached = forecastCache.get(cityKey);
+type WeatherLocation = Pick<StopBase, 'lat' | 'lng'>;
+
+export function forecast(cityKey: string, location?: WeatherLocation): Promise<ForecastData | null> {
+  const point = location ?? climateCities[cityKey];
+  if (!point || !Number.isFinite(point.lat) || !Number.isFinite(point.lng)) {
+    return Promise.resolve(null);
+  }
+  const cacheKey = `${point.lat},${point.lng}`;
+  const cached = forecastCache.get(cacheKey);
   if (cached && Date.now() - cached.at < 10 * 60 * 1000) return cached.promise;
 
   const params = new URLSearchParams({
-    latitude: String(city.lat),
-    longitude: String(city.lng),
+    latitude: String(point.lat),
+    longitude: String(point.lng),
     timezone: 'Asia/Riyadh',
     forecast_days: '2',
     current: 'temperature_2m,weather_code',
@@ -97,42 +102,94 @@ export function forecast(cityKey: string): Promise<ForecastData | null> {
     .catch(() => null);
 
   const entry = { at: Date.now(), promise };
-  forecastCache.set(cityKey, entry);
+  forecastCache.set(cacheKey, entry);
   promise.then((data) => {
     if (!data) entry.at = Date.now() - 9.5 * 60 * 1000;
   });
   return promise;
 }
 
+const skyDescriptions: Partial<Record<number, string>> = {
+  0: 'والسماء صافية',
+  1: 'مع غيوم قليلة',
+  2: 'والسماء غائمة جزئيًا',
+  3: 'والسماء غائمة',
+  45: 'مع ضباب',
+  48: 'مع ضباب',
+};
+
+const precipitationDescriptions: Partial<Record<number, string>> = {
+  51: 'رذاذ خفيف',
+  53: 'رذاذ',
+  55: 'رذاذ كثيف',
+  56: 'رذاذ متجمّد',
+  57: 'رذاذ متجمّد',
+  61: 'أمطار خفيفة',
+  63: 'أمطار متوسطة',
+  65: 'أمطار غزيرة',
+  66: 'أمطار متجمّدة خفيفة',
+  67: 'أمطار متجمّدة غزيرة',
+  71: 'تساقط خفيف للثلوج',
+  73: 'تساقط للثلوج',
+  75: 'تساقط كثيف للثلوج',
+  77: 'تساقط حبيبات ثلجية',
+  80: 'زخات مطر خفيفة',
+  81: 'زخات مطر متوسطة',
+  82: 'زخات مطر غزيرة',
+  85: 'زخات ثلج خفيفة',
+  86: 'زخات ثلج كثيفة',
+  95: 'عواصف رعدية',
+  96: 'عواصف رعدية مع تساقط البَرَد',
+  97: 'عواصف رعدية قوية',
+  99: 'عواصف رعدية مع تساقط كثيف للبَرَد',
+};
+
+function describeForecastHour({ temp, code, rain }: ForecastHour): string {
+  let temperature = 'حارّة';
+  if (temp < 12) temperature = 'باردة';
+  else if (temp < 19) temperature = 'مائلة للبرودة';
+  else if (temp < 26) temperature = 'لطيفة';
+  else if (temp < 32) temperature = 'دافئة';
+
+  const description = `الأجواء ${temperature}`;
+  const precipitation = precipitationDescriptions[code];
+  if (precipitation) return `${description} مع ${precipitation}.`;
+
+  const sky = skyDescriptions[code];
+  const outlook = sky ? `${description} ${sky}` : description;
+  if (rain >= 50) return `${outlook}، والأمطار مرجّحة.`;
+  if (rain >= 25) return `${outlook}، مع احتمال هطول أمطار.`;
+  if (rain > 0) return `${outlook}، مع احتمال ضعيف لهطول أمطار.`;
+  return `${outlook}، ولا أمطار متوقعة.`;
+}
+
 export function renderWeatherCard(element: HTMLElement | null, cityKey: string): void {
   if (!element) return;
-  const city = climateCities[cityKey];
-  if (!city) return;
+  const location = places.get(element.dataset.weatherPlace ?? '');
 
-  function display({ current, hours }: ForecastData, sample = false) {
-    if (!element) return;
-    const next = hours.filter((hour) => hour.time > current.time).slice(0, 4);
-    element.innerHTML = `
-      <div class="weather-strip-main">
-        <div class="weather-reading">
-          <strong dir="ltr">${Math.round(current.temperature_2m)}°C</strong>
-          <div class="weather-reading-meta">
-            <span class="weather-cond">${weatherNames(current.weather_code)}</span>
-            <p class="time-note">${sample ? 'بيانات معاينة افتراضية' : `آخر تحديث <bdi dir="ltr">${current.time.slice(11)}</bdi> بتوقيت السعودية`}</p>
-          </div>
-        </div>
-        ${next.length ? `<ul class="weather-hours" aria-label="توقعات الساعات القادمة">${next.map((hour) => `<li><bdi dir="ltr">${hour.time.slice(11)}</bdi><strong dir="ltr">${Math.round(hour.temp)}°</strong><small>هطول ${hour.rain}%</small></li>`).join('')}</ul>` : ''}
-      </div>`;
-  }
-
-  element.innerHTML = '<span class="weather-loading">جارٍ تحديث حالة الطقس…</span>';
-  forecast(cityKey).then((data) => {
+  element.innerHTML = '<p class="m-0 text-sm text-baha-royal">جارٍ تحميل حالة الطقس…</p>';
+  forecast(cityKey, location).then((data) => {
     if (!element.isConnected) return;
-    if (data) {
-      display(data);
+    if (!data) {
+      element.innerHTML = '<p class="m-0 text-sm text-baha-royal">حالة الطقس غير متاحة حاليًا.</p>';
       return;
     }
-    element.innerHTML = `<div class="weather-offline-row"><p class="weather-offline-msg">تتعذر قراءة الطقس المباشر حاليًا، ويمكنك تخطيط المسار وفق أجواء الموسم.</p></div>`;
+
+    const { current, hours } = data;
+    const currentHour = Date.parse(`${current.time.slice(0, 13)}:00:00+03:00`);
+    const next = hours.find(({ time }) => Date.parse(`${time}:00+03:00`) === currentHour + 3_600_000);
+
+    element.innerHTML = `
+      <div class="place-weather-summary grid grid-cols-1 items-center gap-3 rounded-baha border border-solid border-slate-200 bg-gradient-to-br from-emerald-50 to-blue-50 px-4 py-3 sm:grid-cols-[auto_minmax(0,1fr)] sm:gap-5">
+        <div class="grid gap-1 sm:border-e sm:border-solid sm:border-slate-200 sm:pe-5">
+          <span class="text-sm font-semibold text-baha-royal">درجة الحرارة الآن</span>
+          <strong class="font-heading text-[clamp(1.65rem,2.6vw,2.25rem)] font-bold leading-tight tabular-nums text-baha-royalDeep"><bdi dir="ltr">${Math.round(current.temperature_2m)}°C</bdi></strong>
+        </div>
+        <div class="grid min-w-0 gap-1 border-t border-solid border-slate-200 pt-3 sm:border-t-0 sm:pt-0">
+          <span class="text-sm font-semibold text-baha-royal">خلال الساعة القادمة</span>
+          <p class="m-0 text-[0.9375rem] leading-relaxed text-baha-royalDeep">${next ? describeForecastHour(next) : 'التوقعات غير متاحة حاليًا.'}</p>
+        </div>
+      </div>`;
   });
 }
 
@@ -152,7 +209,7 @@ export function localWeatherMarkup(
       </div>
     </div>
     <div class="place-weather-body">
-      <div id="placeWeather" aria-live="polite"></div>
+      <div id="placeWeather" data-weather-place="${id}" aria-live="polite"></div>
     </div>
   </section>`;
 }
