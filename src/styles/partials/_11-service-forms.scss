@@ -1,0 +1,194 @@
+.service-form-page,
+.tour-guide:has(.guide-booking-page) {
+  padding-block: calc(var(--header) + clamp(.55rem, 2vw, 1.5rem)) clamp(1rem, 3vw, 2.75rem) !important;
+  background: radial-gradient(ellipse at top left, #eaf5ef 0%, transparent 55%), var(--paper) !important;
+}
+
+.service-form-layout {
+  width: min(100%, 46rem);
+  margin-inline: auto;
+}
+
+.service-form-layout > :is(nav, .service-form-back) {
+  display: flex;
+  align-items: center;
+  gap: .35rem;
+  width: fit-content;
+  margin-block-end: .55rem !important;
+  color: var(--gov-blue);
+  font-size: .78rem !important;
+  font-weight: 600;
+}
+
+.service-form-hero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: .7rem;
+  margin-block-end: .65rem;
+  padding: clamp(.65rem, 2.4vw, 1.25rem) clamp(.65rem, 2.6vw, 1.4rem);
+  border: 1px solid #28616f;
+  border-radius: .85rem;
+  background: radial-gradient(ellipse at 4% 80%, #278e6652, transparent 65%),
+    linear-gradient(125deg, var(--gov-navy), var(--gov-blue) 68%, #07513f);
+  color: white;
+  box-shadow: 0 8px 20px #061a3315;
+}
+
+.service-form-hero-icon {
+  display: grid;
+  flex: none;
+  width: clamp(1.95rem, 7.5vw, 2.75rem);
+  aspect-ratio: 1;
+  place-items: center;
+  border: 1px solid #ffffff42;
+  border-radius: .6rem;
+  background: #ffffff14;
+  color: #adedd0;
+}
+
+.service-form-hero-icon .ic { width: 56%; height: 56%; }
+.service-form-hero-copy { min-width: 0; }
+
+.service-form-hero :is(h1, p) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.service-form-hero h1 {
+  margin: 0 !important;
+  color: inherit !important;
+  font-size: clamp(1.02rem, 4.55vw, 1.75rem) !important;
+  font-weight: 650 !important;
+  line-height: 1.25 !important;
+  text-shadow: none !important;
+}
+
+.service-form-hero h1:focus { outline: none; }
+
+.service-form-hero p {
+  margin-block-start: .2rem;
+  color: var(--on-plum-muted);
+  font-size: clamp(.71rem, 3.25vw, .94rem);
+  line-height: 1.45;
+}
+
+.service-form-card {
+  padding: clamp(.65rem, 2.4vw, 1.25rem);
+  border: 1px solid var(--line);
+  border-radius: .9rem;
+  background: #fff;
+  color: var(--ink);
+  box-shadow: 0 12px 32px #061a3310;
+}
+
+.service-form-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: .58rem .7rem;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.service-form-full { grid-column: 1 / -1; }
+
+.service-form-field {
+  display: grid;
+  align-content: start;
+  min-width: 0;
+  gap: .25rem;
+  font-size: clamp(.75rem, 3.35vw, .92rem);
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.service-form-label {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  gap: .32rem;
+}
+
+.service-form-label .ic,
+.service-form-notice .ic { color: var(--gov-green); }
+
+.service-form-label .ic { width: .95em; height: .95em; }
+.service-form-label small { color: var(--muted); font-size: .85em; font-weight: 400; }
+
+.service-form-field :is(input, select, textarea) {
+  min-width: 0;
+  min-height: 2.75rem;
+  width: 100%;
+  padding: .38rem .6rem;
+  border: 1px solid #cadcea;
+  border-radius: .55rem;
+  background: linear-gradient(180deg, #fcfeff, #f3f8fa);
+  color: var(--ink);
+  font: inherit;
+  font-size: max(.86rem, .98em);
+  font-weight: 400;
+}
+
+.service-form-field select { appearance: auto; text-overflow: ellipsis; }
+.service-form-field textarea { min-height: 3.65rem; resize: vertical; }
+.service-form-field :is(input, textarea)::placeholder { color: #557081; opacity: 1; }
+
+.service-form-field :is(input, select, textarea):focus {
+  outline: 2px solid #0c7565;
+  outline-offset: 1px;
+  background: #fff;
+}
+
+.service-form-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: .35rem;
+  margin: 0;
+  color: var(--muted);
+  font-size: .73rem;
+  line-height: 1.35;
+}
+
+.service-form-notice .ic { width: .9rem; height: .9rem; }
+
+.service-form-footer {
+  display: grid;
+  gap: .45rem;
+  padding-block-start: .15rem;
+}
+
+.service-form-card .service-form-cta {
+  justify-content: center;
+  gap: .48rem;
+  min-height: 2.75rem !important;
+}
+
+.service-form-cta .ic { color: #b5ead5; }
+.service-form-cta:disabled { opacity: .62; cursor: wait; }
+
+@media (min-width: 1024px) {
+  .service-form-card { padding-inline: max(1.25rem, 4%); }
+}
+
+@media (min-width: 481px) and (max-height: 700px) {
+  .service-form-hero { padding-block: .65rem; }
+  .service-form-card { padding-block: .75rem; }
+  .service-form-fields { row-gap: .48rem; }
+  .service-form-page,
+  .tour-guide:has(.guide-booking-page) {
+    padding-block-start: calc(var(--header) + .5rem) !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .service-form-hero { gap: .48rem; }
+  .service-form-fields { gap: .45rem .45rem; }
+  .service-form-field :is(input, select, textarea) { padding-inline: .42rem; }
+}
+
+@media (max-width: 380px) {
+  .service-form-label { gap: .24rem; }
+}

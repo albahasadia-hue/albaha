@@ -1,13 +1,13 @@
 'use client';
 
-import { useEffect, useRef, useState, type ChangeEvent, type FormEvent } from 'react';
+import { useEffect, useRef, useState, type ChangeEvent, type FormEvent, type ReactNode } from 'react';
 import type { SupportRequestKind } from '@/lib/portalTypes';
 import styles from './SupportRequestPageView.module.scss';
 
 const requestPages = {
   reports: {
     title: 'البلاغات والشكاوى',
-    description: 'أرسل بلاغًا عن مخالفة أو شكوى حول إحدى الخدمات في منطقة الباحة.',
+    description: 'قدّم بلاغًا أو شكوى عن خدمات الباحة.',
     icon: '#i-foot-headset',
     options: [
       { value: 'violation', label: 'بلاغ عن مخالفة' },
@@ -19,7 +19,7 @@ const requestPages = {
   },
   feedback: {
     title: 'الملاحظات والاقتراحات',
-    description: 'شاركنا ملاحظتك أو اقتراحك لتطوير الخدمات في منطقة الباحة.',
+    description: 'شاركنا اقتراحك لتحسين خدمات الباحة.',
     icon: '#i-foot-message',
     options: [
       { value: 'note', label: 'ملاحظة' },
@@ -47,6 +47,14 @@ const issueCategories = [
 
 function clearValidation(event: FormEvent<HTMLInputElement | HTMLTextAreaElement>) {
   event.currentTarget.setCustomValidity('');
+}
+
+function FormIcon({ name }: { name: string }) {
+  return <svg className="ic tiny" aria-hidden="true"><use href={`#i-${name}`} /></svg>;
+}
+
+function FieldLabel({ icon, children }: { icon: string; children: ReactNode }) {
+  return <span className="service-form-label"><FormIcon name={icon} /><span>{children}</span></span>;
 }
 
 export function SupportRequestPageView({ kind }: { kind: SupportRequestKind }) {
@@ -126,28 +134,28 @@ export function SupportRequestPageView({ kind }: { kind: SupportRequestKind }) {
   }
 
   return (
-    <article id="supportRequestView" className={styles.page} aria-labelledby="supportRequestTitle">
+    <article id="supportRequestView" className="service-form-page" aria-labelledby="supportRequestTitle">
       <div className="container">
-        <div className={styles.layout}>
+        <div className="service-form-layout">
           <nav className="place-trail" aria-label="مسار الصفحة">
             <a href="/">الرئيسية</a>
             <span aria-hidden="true">/</span>
             <span aria-current="page">{page.title}</span>
           </nav>
-          <header className={styles.header}>
-            <span className={styles.headerIcon}>
+          <header className="service-form-hero">
+            <span className="service-form-hero-icon">
               <svg className="ic" aria-hidden="true"><use href={page.icon} /></svg>
             </span>
-            <div>
+            <div className="service-form-hero-copy">
               <h1 id="supportRequestTitle" tabIndex={-1}>{page.title}</h1>
               <p>{page.description}</p>
             </div>
           </header>
 
-          <form className={styles.form} method="post" onSubmit={submitRequest} aria-describedby="supportDemoNotice">
-            <fieldset className={styles.fields} disabled={!ready}>
-              <label>
-                نوع الطلب
+          <form className="service-form-card" method="post" onSubmit={submitRequest} aria-describedby="supportDemoNotice">
+            <fieldset className="service-form-fields" disabled={!ready}>
+              <label className={kind === 'reports' ? 'service-form-field' : 'service-form-field service-form-full'}>
+                <FieldLabel icon="details">نوع الطلب</FieldLabel>
                 <select name="type" required value={requestType} onChange={(event) => setRequestType(event.currentTarget.value)}>
                   <option value="" disabled>اختر نوع الطلب</option>
                   {page.options.map((option) => (
@@ -156,8 +164,8 @@ export function SupportRequestPageView({ kind }: { kind: SupportRequestKind }) {
                 </select>
               </label>
               {kind === 'reports' && (
-                <label>
-                  تصنيف المشكلة
+                <label className="service-form-field">
+                  <FieldLabel icon="city-archive">تصنيف المشكلة</FieldLabel>
                   <select name="category" required defaultValue="">
                     <option value="" disabled>اختر تصنيف المشكلة</option>
                     {issueCategories.map((category) => (
@@ -166,32 +174,29 @@ export function SupportRequestPageView({ kind }: { kind: SupportRequestKind }) {
                   </select>
                 </label>
               )}
-              <label>
-                الاسم الكامل
-                <input name="fullName" autoComplete="name" required maxLength={100} onInput={clearValidation} />
+              <label className="service-form-field">
+                <FieldLabel icon="form-user">الاسم الكامل</FieldLabel>
+                <input name="fullName" autoComplete="name" placeholder="الاسم الأول والعائلة" required maxLength={100} onInput={clearValidation} />
               </label>
-              <label>
-                رقم الهاتف أو واتساب
-                <input name="phone" type="tel" dir="ltr" autoComplete="tel" required maxLength={26} onInput={clearValidation} />
+              <label className="service-form-field">
+                <FieldLabel icon="foot-phone">الهاتف أو واتساب</FieldLabel>
+                <input name="phone" type="tel" dir="ltr" autoComplete="tel" placeholder="05XXXXXXXX" required maxLength={26} onInput={clearValidation} />
               </label>
-              <label>
-                <span>البريد الإلكتروني <small>(اختياري)</small></span>
-                <input name="email" type="email" dir="ltr" autoComplete="email" maxLength={254} />
+              <label className={kind === 'reports' ? 'service-form-field' : 'service-form-field service-form-full'}>
+                <FieldLabel icon="foot-mail">البريد الإلكتروني <small>(اختياري)</small></FieldLabel>
+                <input name="email" type="email" dir="ltr" autoComplete="email" placeholder="name@example.com" maxLength={254} />
               </label>
               {requestType === 'complaint' && (
-                <label>
-                  <span>الجهة أو مقدم الخدمة <small>(اختياري)</small></span>
+                <label className="service-form-field">
+                  <FieldLabel icon="section-baha">مقدم الخدمة <small>(اختياري)</small></FieldLabel>
                   <input name="organization" maxLength={120} />
                 </label>
               )}
-              <label className={styles.fullWidth}>
-                {page.detailsLabel}
-                <textarea name="details" rows={4} required maxLength={2000} onInput={clearValidation} />
-              </label>
               {kind === 'reports' && (
-                <div className={`${styles.attachment} ${styles.fullWidth}`}>
-                  <label htmlFor="reportPhoto">
-                    <span>صورة للمخالفة <small>(اختياري)</small></span>
+                <div className={requestType === 'complaint' ? 'service-form-full' : styles.attachmentField}>
+                  <label className={styles.attachmentPicker} htmlFor="reportPhoto">
+                    <FieldLabel icon="foot-image">إرفاق صورة <small>(اختياري)</small></FieldLabel>
+                    <small id="reportPhotoHint">حتى 10 ميجابايت</small>
                     <input
                       ref={fileInput}
                       id="reportPhoto"
@@ -202,7 +207,6 @@ export function SupportRequestPageView({ kind }: { kind: SupportRequestKind }) {
                       onChange={selectAttachment}
                     />
                   </label>
-                  <small id="reportPhotoHint">صورة واحدة بحد أقصى 10 ميجابايت.</small>
                   {attachmentError && <p className={styles.error} role="alert">{attachmentError}</p>}
                   {(attachment || attachmentError) && (
                     <div className={styles.attachmentSummary}>
@@ -214,14 +218,18 @@ export function SupportRequestPageView({ kind }: { kind: SupportRequestKind }) {
                         }} />
                       )}
                       {attachment && <bdi>{attachment.name}</bdi>}
-                      <button type="button" className="btn btn-soft" onClick={removeAttachment}>إزالة الصورة</button>
+                      <button type="button" className="btn btn-soft" onClick={removeAttachment}><FormIcon name="x" />إزالة الصورة</button>
                     </div>
                   )}
                 </div>
               )}
-              <div className={`${styles.formFooter} ${styles.fullWidth}`}>
-                <p id="supportDemoNotice">إرسال تجريبي. تبقى البيانات والمرفقات داخل هذه الصفحة.</p>
-                <button className="btn btn-dark" type="submit">{page.submitLabel}</button>
+              <label className="service-form-field service-form-full">
+                <FieldLabel icon="foot-message">{page.detailsLabel}</FieldLabel>
+                <textarea name="details" rows={2} placeholder={kind === 'reports' ? 'اذكر الموقع وما حدث' : 'اكتب ملاحظتك أو اقتراحك'} required maxLength={2000} onInput={clearValidation} />
+              </label>
+              <div className="service-form-footer service-form-full">
+                <p className="service-form-notice" id="supportDemoNotice"><FormIcon name="info" />إرسال تجريبي. تبقى البيانات داخل الصفحة.</p>
+                <button className="btn btn-dark service-form-cta" type="submit"><FormIcon name="form-send" />{page.submitLabel}</button>
               </div>
             </fieldset>
           </form>
@@ -236,7 +244,7 @@ export function SupportRequestPageView({ kind }: { kind: SupportRequestKind }) {
           <p>رقم الطلب التجريبي</p>
           <bdi className={styles.reference}>{reference}</bdi>
           <p>هذه محاكاة للإرسال. لم تُرسل بياناتك إلى الأمانة.</p>
-          <button type="button" className="btn btn-dark" onClick={() => receipt.current?.close()}>تم</button>
+          <button type="button" className="btn btn-dark" onClick={() => receipt.current?.close()}><FormIcon name="check" />تم</button>
         </div>
       </dialog>
     </article>

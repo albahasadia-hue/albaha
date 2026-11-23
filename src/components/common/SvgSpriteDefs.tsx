@@ -190,6 +190,8 @@ export function SvgSpriteDefs() {
     <symbol id="i-foot-image" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="9" cy="9" r="1.5"/><path d="m3 17 5-4 4 3 4-5 5 4"/></symbol>
     <symbol id="i-foot-phone" viewBox="0 0 24 24"><path d="M6 3h3l1.5 5-2.2 2.1a15 15 0 0 0 5.6 5.6l2.1-2.2 5 1.5v3a2 2 0 0 1-2.2 2A17.7 17.7 0 0 1 4 5.2 2 2 0 0 1 6 3Z"/></symbol>
     <symbol id="i-foot-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></symbol>
+    <symbol id="i-form-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.3"/><path d="M5 20v-1a5 5 0 0 1 5-5h4a5 5 0 0 1 5 5v1"/></symbol>
+    <symbol id="i-form-send" viewBox="0 0 24 24"><path d="m21 3-7 18-3.5-7.5L3 10l18-7ZM10.5 13.5 21 3"/></symbol>
     <symbol id="i-foot-headset" viewBox="0 0 24 24"><path d="M4 13v-2a8 8 0 0 1 16 0v4a5 5 0 0 1-5 5h-3"/><rect x="3" y="11" width="4" height="6" rx="1.5"/><rect x="17" y="11" width="4" height="6" rx="1.5"/></symbol>
     <symbol id="i-foot-message" viewBox="0 0 24 24"><path d="M5 4h14a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H9l-6 4V6a2 2 0 0 1 2-2Z"/><path d="M7 9h10m-10 4h6"/></symbol>
     <symbol id="i-foot-whatsapp" viewBox="0 0 24 24"><path d="M20.5 11.9a8.5 8.5 0 0 1-12.6 7.5l-4.4 1.1 1.1-4.3a8.5 8.5 0 1 1 15.9-4.3Z"/><path d="M9 7.5c-.8 0-1.3.7-1.3 1.5 0 2.7 3.7 6.4 6.4 6.4.8 0 1.4-.5 1.5-1.2l.1-.5-2.4-1.1-.9 1c-1.3-.6-2.3-1.6-2.9-2.9l1-.9-1.1-2.4Z" fill="currentColor" stroke="none"/></symbol>

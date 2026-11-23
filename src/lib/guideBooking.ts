@@ -22,28 +22,37 @@ export function guideBookingType(category: string, hasBookingLink: boolean): 'st
 
 export function guideBookingMarkup(safePlaceName: string, placeHref: string, type: 'stay' | 'visit'): string {
   const stay = type === 'stay';
-  return `<div class="container guide-booking-page"><section class="guide-booking" aria-labelledby="guideBookingTitle">
-    <a class="tour-guide-back" href="${placeHref}">${glyph('arrow', 'ic tiny')} العودة إلى تفاصيل المكان</a>
-    <header class="guide-booking-header">
-      <h1 id="guideBookingTitle" tabindex="-1">حجز في ${safePlaceName}</h1>
+  const field = (icon: string, label: string, input: string, full = false) =>
+    `<label class="service-form-field${full ? ' service-form-full' : ''}"><span class="service-form-label">${glyph(icon, 'ic tiny')}<span>${label}</span></span>${input}</label>`;
+
+  return `<div class="container guide-booking-page"><section class="guide-booking service-form-layout" aria-labelledby="guideBookingTitle">
+    <a class="tour-guide-back service-form-back" href="${placeHref}">${glyph('arrow', 'ic tiny')} العودة إلى تفاصيل المكان</a>
+    <header class="service-form-hero">
+      <span class="service-form-hero-icon">${glyph(stay ? 'directory-hotel' : 'city-calendar')}</span>
+      <div class="service-form-hero-copy">
+        <h1 id="guideBookingTitle" tabindex="-1">${stay ? 'حجز إقامة' : 'حجز موعد'}</h1>
+        <p title="${safePlaceName}">${safePlaceName}</p>
+      </div>
     </header>
-    <p class="guide-booking-notice" id="guideBookingNotice">حجز تجريبي لأغراض العرض. لا يُرسل الطلب إلى المنشأة.</p>
-    <form class="guide-booking-form" data-booking-form aria-describedby="guideBookingNotice">
-      <label class="guide-booking-wide">الاسم الكامل<input name="guest" autocomplete="name" maxlength="80" required></label>
-      <label>رقم الجوال<input name="phone" type="tel" dir="ltr" autocomplete="tel" maxlength="26" required></label>
-      <label>البريد الإلكتروني<input name="email" type="email" dir="ltr" autocomplete="email" maxlength="254" required></label>
-      <label>${stay ? 'تاريخ الوصول' : 'التاريخ'}<input name="date" type="date" required></label>
-      <label>${stay ? 'وقت الوصول' : 'الوقت'}<input name="time" type="time" required></label>
-      ${stay ? '<label>تاريخ المغادرة<input name="departure" type="date" required></label>' : ''}
-      <label>عدد الضيوف<input name="guests" type="number" min="1" max="999" step="1" required></label>
-      <p class="guide-booking-error guide-booking-wide" data-booking-error role="alert" hidden></p>
-      <button type="submit" class="btn btn-dark guide-booking-wide">حجز</button>
+    <form class="service-form-card service-form-fields" data-booking-form aria-describedby="guideBookingNotice">
+      ${field('form-user', 'الاسم الكامل', '<input name="guest" autocomplete="name" placeholder="الاسم الأول والعائلة" maxlength="80" required>', true)}
+      ${field('foot-phone', 'رقم الجوال', '<input name="phone" type="tel" dir="ltr" autocomplete="tel" placeholder="05XXXXXXXX" maxlength="26" required>')}
+      ${field('foot-mail', 'البريد الإلكتروني', '<input name="email" type="email" dir="ltr" autocomplete="email" placeholder="name@example.com" maxlength="254" required>')}
+      ${field('city-calendar', stay ? 'تاريخ الوصول' : 'التاريخ', '<input name="date" type="date" required>')}
+      ${field('clock', stay ? 'وقت الوصول' : 'الوقت', '<input name="time" type="time" required>')}
+      ${stay ? field('city-calendar', 'تاريخ المغادرة', '<input name="departure" type="date" required>') : ''}
+      ${field('family', 'عدد الضيوف', '<input name="guests" type="number" min="1" max="999" step="1" placeholder="1" required>', !stay)}
+      <p class="guide-booking-error service-form-full" data-booking-error role="alert" hidden></p>
+      <div class="service-form-footer service-form-full">
+        <p class="service-form-notice" id="guideBookingNotice">${glyph('info', 'ic tiny')} حجز تجريبي. لا يُرسل الطلب إلى المنشأة.</p>
+        <button type="submit" class="btn btn-dark service-form-cta">${glyph('city-calendar', 'ic tiny')} حجز</button>
+      </div>
     </form>
-    <section class="guide-booking-ticket" data-booking-ticket hidden>
-      <h2 tabindex="-1">تم الحجز التجريبي</h2>
+    <section class="guide-booking-ticket service-form-card" data-booking-ticket hidden>
+      <h2 tabindex="-1">${glyph('check', 'ic tiny')} تم الحجز التجريبي</h2>
       <dl></dl>
       <img alt="رمز QR لبطاقة الحجز التجريبي" width="240" height="240">
-      <a class="btn btn-dark" download="albaha-demo-booking.png">تحميل رمز الحجز</a>
+      <a class="btn btn-dark service-form-cta" download="albaha-demo-booking.png">${glyph('download', 'ic tiny')} تحميل رمز الحجز</a>
     </section>
   </section></div>`;
 }
