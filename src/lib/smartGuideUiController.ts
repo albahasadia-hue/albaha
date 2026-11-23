@@ -1,3 +1,4 @@
+import { navigatePortal } from './portalNavigation';
 import type {
   ConciergeContextState,
   RouteTiming,
@@ -173,14 +174,7 @@ export function createSmartGuideUiController(deps: ConciergeControllerDeps): {
 
   function navigateToInternalHref(href: string): void {
     maybeCloseOnMobileNavigation();
-    if (href.startsWith('#')) {
-      const target = href.slice(1);
-      if (window.location.hash === href) {
-        window.dispatchEvent(new HashChangeEvent('hashchange'));
-      } else {
-        window.location.hash = target;
-      }
-    }
+    navigatePortal(href);
   }
 
   function syncTripToggleButtons(): void {
@@ -236,14 +230,14 @@ export function createSmartGuideUiController(deps: ConciergeControllerDeps): {
         if (!action.stopId || !places.has(action.stopId)) return false;
         conciergeContext.activeStopId = action.stopId;
         conciergeContext.place = action.stopId;
-        navigateToInternalHref(`#place/${action.stopId}`);
+        navigateToInternalHref(`/place/${action.stopId}`);
         return true;
       }
       case 'navigate_guide_place': {
         if (!action.guideId || !deps.hasTourGuidePlace(action.guideId)) return false;
         conciergeContext.activeGuideId = action.guideId;
         if (action.guideItemId) conciergeContext.lastGuideItemId = action.guideItemId;
-        navigateToInternalHref(`#guide/place/${action.guideId}`);
+        navigateToInternalHref(`/guide/place/${action.guideId}`);
         return true;
       }
       case 'navigate_section': {
@@ -258,13 +252,13 @@ export function createSmartGuideUiController(deps: ConciergeControllerDeps): {
       }
       case 'navigate_city': {
         if (!action.cityKey || !Object.hasOwn(climateCities, action.cityKey)) return false;
-        navigateToInternalHref(`#city/${action.cityKey}`);
+        navigateToInternalHref(`/city/${action.cityKey}`);
         return true;
       }
       case 'navigate_faq': {
         maybeCloseOnMobileNavigation();
         if (deps.openFaq) deps.openFaq(action.faqId);
-        else navigateToInternalHref(action.faqId ? `#faq/${action.faqId}` : '#faq');
+        else navigateToInternalHref(action.faqId ? `/faq/${action.faqId}` : '/faq');
         return true;
       }
       case 'add_to_trip': {

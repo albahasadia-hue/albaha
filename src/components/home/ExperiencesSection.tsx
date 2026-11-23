@@ -13,7 +13,7 @@ interface ExperienceItem {
 
 const EXPERIENCES: ExperienceItem[] = [
   {
-    href: '#place/shada',
+    href: '/place/shada',
     tone: 'nature',
     photoKey: 'mountainCover',
     alt: '',
@@ -22,7 +22,7 @@ const EXPERIENCES: ExperienceItem[] = [
     action: 'اكتشف جبل شدا',
   },
   {
-    href: '#place/ain',
+    href: '/place/ain',
     tone: 'heritage',
     photoKey: 'culture',
     extraClass: 'experience-culture',
@@ -32,7 +32,7 @@ const EXPERIENCES: ExperienceItem[] = [
     action: 'اكتشف قرية ذي عين',
   },
   {
-    href: '#place/hussam',
+    href: '/place/hussam',
     tone: 'family',
     photoKey: 'hussamCover',
     alt: '',

@@ -130,7 +130,7 @@ export function SupportRequestPageView({ kind }: { kind: SupportRequestKind }) {
       <div className="container">
         <div className={styles.layout}>
           <nav className="place-trail" aria-label="مسار الصفحة">
-            <a href="/#home">الرئيسية</a>
+            <a href="/">الرئيسية</a>
             <span aria-hidden="true">/</span>
             <span aria-current="page">{page.title}</span>
           </nav>

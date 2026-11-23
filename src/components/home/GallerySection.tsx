@@ -42,7 +42,7 @@ export function GallerySection() {
               <p>مدرجات زراعية خضراء على سفوح جبال السروات</p>
             </figcaption>
           </figure>
-          <a className="gallery-shot scenic-card reveal" href="#place/ain">
+          <a className="gallery-shot scenic-card reveal" href="/place/ain">
             <img
               className="photo"
               data-photo="villages"
@@ -67,7 +67,7 @@ export function GallerySection() {
               </span>
             </div>
           </a>
-          <a className="gallery-shot scenic-card reveal" href="#place/raghdan">
+          <a className="gallery-shot scenic-card reveal" href="/place/raghdan">
             <img
               className="photo"
               data-photo="parks"

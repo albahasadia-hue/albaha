@@ -3,7 +3,6 @@
 #destCarousel .dest-card-action,
 .scenic-card,
 .tour-guide-card,
-.city-story,
 .ab-showcase-stage,
 .ab-showcase-zoom,
 .ab-showcase-step,
@@ -68,7 +67,7 @@
   padding: calc(var(--header) + 26px) 0 clamp(56px, 7vw, 88px) !important;
   background: linear-gradient(180deg, #F5F1E6 0%, #F7F4EC 52%, #FCFBF7 100%) !important;
 }
-.place-view:has(.place-hero--destination),
+.place-view:has(.place-hero--destination, .place-hero--city, .story-page),
 .tour-guide:has(.tour-guide-detail) {
   background: radial-gradient(ellipse at top left, #edf8f6 0%, transparent 48%),
     linear-gradient(180deg, #fbfaf7 0%, #fff 72%) !important;
@@ -2079,7 +2078,6 @@ html.motion-paused .ab-showcase-img.is-active {
   color: #FFFFFF;
 }
 
-/* Compact Horizontal Editorial Cards Grid */
 .city-story-grid {
   display: grid !important;
   grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
@@ -2088,27 +2086,23 @@ html.motion-paused .ab-showcase-img.is-active {
 }
 
 .city-story-grid[data-single] {
-  grid-template-columns: minmax(0, 740px) !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
 }
 
 .city-story {
   display: grid !important;
-  grid-template-columns: 184px minmax(0, 1fr) !important;
+  grid-template-rows: auto 1fr;
+  min-width: 0;
   align-items: stretch !important;
   height: 100%;
-  min-width: 0;
   overflow: hidden;
-  border-radius: 14px !important;
+  border-radius: 8px !important;
   border: 1px solid #D3E1EC !important;
   background: #FFFFFF !important;
   color: #061A33 !important;
   text-decoration: none !important;
   box-shadow: 0 6px 20px rgba(6, 26, 51, .05) !important;
   transition: border-color .2s var(--ease), transform .2s var(--ease), box-shadow .2s var(--ease) !important;
-}
-
-.city-story-grid[data-single] .city-story {
-  grid-template-columns: 236px minmax(0, 1fr) !important;
 }
 
 .city-story:is(:hover, :focus-visible) {
@@ -2123,19 +2117,20 @@ html.motion-paused .ab-showcase-img.is-active {
 }
 
 .city-story .city-story-media,
-.city-story--archive .city-story-media {
+.city-story-grid[data-single] .city-story .city-story-media {
   position: relative !important;
   display: block !important;
   isolation: isolate;
   width: 100% !important;
-  height: 100% !important;
-  min-height: 158px !important;
-  aspect-ratio: auto !important;
+  height: auto !important;
+  min-height: 0 !important;
+  aspect-ratio: 2 / 1 !important;
   margin: 0 !important;
   padding: 0 !important;
   overflow: hidden !important;
   background: #E8F0F6 !important;
   border: 0 !important;
+  border-radius: 0 !important;
 }
 
 .city-story .city-story-media::after,
@@ -2202,9 +2197,9 @@ html.motion-paused .ab-showcase-img.is-active {
   flex-direction: column !important;
   align-items: stretch !important;
   justify-content: flex-start !important;
-  gap: 6px !important;
+  gap: 8px !important;
   min-width: 0;
-  padding: 14px 16px !important;
+  padding: clamp(12px, 1.4vw, 19px) !important;
   background: #FFFFFF !important;
   color: #061A33 !important;
 }
@@ -2249,7 +2244,7 @@ html.motion-paused .ab-showcase-img.is-active {
 .city-story h3 {
   margin: 2px 0 0 !important;
   color: #061A33 !important;
-  font-size: clamp(.98rem, 1.18vw, 1.08rem) !important;
+  font-size: clamp(1rem, 1.2vw, 1.18rem) !important;
   font-weight: 700 !important;
   line-height: 1.38 !important;
   white-space: normal !important;
@@ -2264,7 +2259,7 @@ html.motion-paused .ab-showcase-img.is-active {
 .city-story-summary {
   margin: 0 !important;
   color: #415D72 !important;
-  font-size: .82rem !important;
+  font-size: .87rem !important;
   font-weight: 400 !important;
   line-height: 1.56 !important;
   display: -webkit-box !important;
@@ -2391,21 +2386,6 @@ html.motion-paused .ab-showcase-img.is-active {
   border-color: #C9DCE9 !important;
 }
 
-#placeView .story-page .place-hero-copy .place-actions {
-  display: flex !important;
-  flex-wrap: wrap !important;
-  align-items: center !important;
-  gap: 9px !important;
-}
-
-#placeView .story-page .place-hero-copy .place-actions > .btn {
-  width: auto !important;
-  min-width: 0 !important;
-  flex: 0 1 auto !important;
-  padding-inline: 16px !important;
-  white-space: nowrap !important;
-}
-
 .story-page-media .ab-showcase-stage {
   aspect-ratio: 16 / 10 !important;
   border-radius: 14px !important;
@@ -2425,22 +2405,22 @@ html.motion-paused .ab-showcase-img.is-active {
 .story-page-article {
   margin-top: 26px;
   padding: clamp(20px, 2.8vw, 32px);
-  border-radius: 16px;
+  border-radius: 8px;
   border: 1px solid #D3E1EC;
-  border-inline-start: 4px solid #006C35;
   background: #FFFFFF;
   box-shadow: 0 8px 24px rgba(6, 26, 51, .05);
 }
 
 .story-page-article-head h2 {
-  margin: 6px 0 14px !important;
+  margin: 6px 0 10px !important;
+  font-size: clamp(1.16rem, 1.65vw, 1.5rem) !important;
 }
 
 .story-page-body {
   margin: 0 !important;
   color: #1A3347;
-  font-size: clamp(.98rem, 1.15vw, 1.08rem);
-  line-height: 1.95;
+  font-size: clamp(.93rem, 1.05vw, 1.02rem);
+  line-height: 1.65;
 }
 
 .story-page-source-bar {
@@ -2478,14 +2458,22 @@ html.motion-paused .ab-showcase-img.is-active {
   margin: 4px 0 0 !important;
 }
 
-@media (max-width: 1024px) {
-  .city-story-grid {
+@media (min-width: 1025px) {
+  .city-story-grid.story-related-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .city-story-grid,
+  .city-story-grid[data-single] {
     grid-template-columns: minmax(0, 1fr) !important;
   }
 }
 
 @media (min-width: 769px) and (max-width: 1320px) {
-  html.has-smart-guide .city-story-grid {
+  html.has-smart-guide .city-story-grid,
+  html.has-smart-guide .city-story-grid[data-single] {
     grid-template-columns: minmax(0, 1fr) !important;
   }
 }
@@ -2496,19 +2484,8 @@ html.motion-paused .ab-showcase-img.is-active {
     grid-template-columns: minmax(0, 1fr) !important;
   }
 
-  #placeView .story-page .place-hero-copy .place-actions > .btn {
-    width: 100% !important;
-    flex: 1 1 100% !important;
-  }
-
-  .city-story,
-  .city-story-grid[data-single] .city-story {
-    grid-template-columns: minmax(0, 1fr) !important;
-  }
-
   .city-story .city-story-media,
-  .city-story--archive .city-story-media {
-    min-height: 0 !important;
+  .city-story-grid[data-single] .city-story .city-story-media {
     aspect-ratio: 16 / 9 !important;
   }
 

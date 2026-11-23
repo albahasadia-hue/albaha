@@ -23,7 +23,7 @@ export function StorySection() {
           </p>
         </div>
         <a
-          href="#place/ain"
+          href="/place/ain"
           className="story-art scenic-card reveal"
           aria-label="اكتشف قرية ذي عين"
         >
@@ -42,7 +42,7 @@ export function StorySection() {
             قرية ذي عين <span>محافظة المخواة</span>
           </div>
         </a>
-        <a href="#place/ain" className="btn btn-dark story-cta reveal">
+        <a href="/place/ain" className="btn btn-dark story-cta reveal">
           تعرّف على ذي عين{' '}
           <svg className="ic" aria-hidden="true">
             <use href="#i-arrow" />

@@ -1309,7 +1309,7 @@ export const cityStories: CityStory[] = [
     dateContext: 'تاريخ التغطية',
     location: 'سوق رغدان التاريخي | مدينة الباحة',
     summary: 'محاصيل موسمية وعسل محلي من المزارعين والنحّالين في أروقة سوق رغدان',
-    details: 'في النسخة الخامسة، التقى الزوار بالمزارعين والنحّالين في 15 ركنًا. عُرضت المحاصيل الموسمية ومنتجات العسل على مدار ثلاثة أيام، وأتاح السوق للزوار الشراء مباشرةً من المنتجين.',
+    details: '15 ركنًا للمحاصيل والعسل على مدى 3 أيام.',
     alt: 'زوار يطّلعون على المحاصيل في أحد أركان مهرجان خيرات الباحة',
     photoCaption: 'من جولة افتتاح النسخة الخامسة',
     credit: 'صحيفة سبق',
@@ -1367,7 +1367,7 @@ export const cityStories: CityStory[] = [
   },
 ];
 
-export const cityStoriesPath = '#city/baha/stories';
+export const cityStoriesPath = '/city/baha/stories';
 
 export const cityStoryFilters: [string, string, string][] = [
   ['all', 'الكل', 'city-stories'],

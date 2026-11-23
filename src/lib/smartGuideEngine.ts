@@ -141,7 +141,7 @@ function buildItineraryFromPlan(
       reason: row.reason,
       driveMinutes: row.drive_minutes ?? null,
       image: images[stop.image] || linkedGuide?.image || NEUTRAL_PLACEHOLDER_IMAGE,
-      internalHref: `#place/${stop.id}`,
+      internalHref: `/place/${stop.id}`,
       canShowOnMap: true,
       canAddToTrip: true,
     };

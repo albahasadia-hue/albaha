@@ -38,7 +38,7 @@ export function FaqTeaserSection() {
             </svg>
             <span>الأسئلة الشائعة</span>
           </h2>
-          <a href="#faq" className="btn btn-dark faq-teaser-cta">
+          <a href="/faq" className="btn btn-dark faq-teaser-cta">
             <span>كل الأسئلة الشائعة</span>
             <svg className="ic tiny" aria-hidden="true">
               <use href="#i-arrow" />
@@ -83,7 +83,7 @@ export function FaqTeaserSection() {
                         ))}
                       </div>
                     ) : null}
-                    <a href={`#faq/${item.id}`} className="faq-teaser-more">
+                    <a href={`/faq/${item.id}`} className="faq-teaser-more">
                       <span>المزيد في صفحة الأسئلة</span>
                       <svg className="ic tiny" aria-hidden="true">
                         <use href="#i-arrow" />

@@ -37,13 +37,13 @@ export function HeroSection() {
           إطلالات شاهقة من مرتفعات الباحة بين أشجار العرعر وأجواء الضباب
         </p>
         <div className="action-row">
-          <a className="btn btn-glass" href="#planner">
+          <a className="btn btn-glass" href="/planner">
             <svg className="ic hero-action-icon" aria-hidden="true">
               <use href="#i-hero-plan" />
             </svg>
             <span>خطّط رحلتك</span>
           </a>
-          <a className="btn btn-glass" href="#destinations">
+          <a className="btn btn-glass" href="/destinations">
             <svg className="ic hero-action-icon" aria-hidden="true">
               <use href="#i-hero-discover" />
             </svg>

@@ -47,21 +47,21 @@ export function VisitGuideSection() {
         </div>
 
         <nav className="guide-index reveal" aria-label="أقسام دليل الباحة">
-          <a href="#guideDaySection" aria-label="برامج الزيارة اليومية">
+          <a href="/guideDaySection" aria-label="برامج الزيارة اليومية">
             <svg className="ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
               <use href="#i-clock" width="24" height="24" />
             </svg>
             <span className="guide-label-full">برامج الزيارة اليومية</span>
             <span className="guide-label-short">البرامج</span>
           </a>
-          <a href="#dining" aria-label="المطاعم والأكلات">
+          <a href="/dining" aria-label="المطاعم والأكلات">
             <svg className="ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
               <use href="#i-guide-dining" width="24" height="24" />
             </svg>
             <span className="guide-label-full">المطاعم والأكلات</span>
             <span className="guide-label-short">المطاعم</span>
           </a>
-          <a href="#camping" aria-label="المخيمات والإقامة">
+          <a href="/camping" aria-label="المخيمات والإقامة">
             <svg className="ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
               <use href="#i-guide-tent" width="24" height="24" />
             </svg>
@@ -87,7 +87,7 @@ export function VisitGuideSection() {
           </div>
           <div className="guide-sights">
             <article className="guide-card guide-sight-feature reveal">
-              <a href="#place/ain" className="scenic-card">
+              <a href="/place/ain" className="scenic-card">
                 <img
                   className="photo"
                   data-photo="ain"
@@ -481,7 +481,7 @@ export function VisitGuideSection() {
                   </li>
                 </ol>
                 <div className="guide-links">
-                  <a href="#attractions">
+                  <a href="/attractions">
                     السوق والمتحف{' '}
                     <svg className="ic tiny" aria-hidden="true">
                       <use href="#i-arrow" />
@@ -518,13 +518,13 @@ export function VisitGuideSection() {
                   <li>توقّف للغداء في هالة على طريق الغابة. لو ناوي تبيت، راجع خيارات الإقامة.</li>
                 </ol>
                 <div className="guide-links">
-                  <a href="#dining">
+                  <a href="/dining">
                     تفاصيل المطعم{' '}
                     <svg className="ic tiny" aria-hidden="true">
                       <use href="#i-arrow" />
                     </svg>
                   </a>
-                  <a href="#camping">
+                  <a href="/camping">
                     خيارات المبيت{' '}
                     <svg className="ic tiny" aria-hidden="true">
                       <use href="#i-arrow" />
@@ -554,7 +554,7 @@ export function VisitGuideSection() {
                   <li>اسأل عن البن الشدوي كتذكار من الرحلة.</li>
                 </ol>
                 <div className="guide-links">
-                  <a href="#route/ain">
+                  <a href="/route/ain">
                     ذي عين على المخطط{' '}
                     <svg className="ic tiny" aria-hidden="true">
                       <use href="#i-route" />

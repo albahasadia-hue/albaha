@@ -106,11 +106,11 @@ export function FaqPageView({ initialHidden = true }: FaqPageViewProps) {
       <div className="container">
         <div className="tour-guide-detail-nav">
           <nav className="place-trail" aria-label="مسار الصفحة">
-            <a href="#home">الرئيسية</a>
+            <a href="/">الرئيسية</a>
             <span aria-hidden="true">/</span>
             <span aria-current="page">الأسئلة الشائعة</span>
           </nav>
-          <a className="tour-guide-back" href="#home">
+          <a className="tour-guide-back" href="/">
             <svg className="ic tiny" aria-hidden="true">
               <use href="#i-arrow" />
             </svg>

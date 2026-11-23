@@ -46,7 +46,7 @@ export function AlBahaPortalClient({ initialView = 'home' }: AlBahaPortalClientP
       <SvgSpriteDefs />
       <SkipLink />
       <SiteHeader />
-      <main id="content">
+      <main id="content" tabIndex={-1}>
         <div id="homeView" hidden={initialView !== 'home'}>
           <HeroSection />
           <DiscoverIntroSection />

@@ -50,9 +50,7 @@ export interface SubpageViewsDeps {
   getChoices: () => Set<string>;
   getRouteDraft: () => TripPlan | null;
   getSavedTiming: () => RouteTiming | null;
-  getScrollBehavior: () => ScrollBehavior;
   toggleStop: (stop: StopBase) => void;
-  setLastHash: (hash: string) => void;
 }
 
 export interface SubpageViewsController {
@@ -378,11 +376,6 @@ export function createSubpageViewsController(deps: SubpageViewsDeps): SubpageVie
         { signal: viewSignal }
       )
     );
-    byId('bahaStoriesJump')?.addEventListener(
-      'click',
-      () => scrollToCityStories(deps.getScrollBehavior()),
-      { signal: viewSignal }
-    );
   }
 
   function showCityStory(story: CityStory): void {
@@ -404,9 +397,9 @@ export function createSubpageViewsController(deps: SubpageViewsDeps): SubpageVie
     placeView.innerHTML = `<div class="container story-page">
       <div class="story-page-topbar">
         <nav class="place-trail" aria-label="مسار الصفحة">
-          <a href="#home">الرئيسية</a>
+          <a href="/">الرئيسية</a>
           <span aria-hidden="true">/</span>
-          <a href="#city/baha">مدينة الباحة</a>
+          <a href="/city/baha">مدينة الباحة</a>
           <span aria-hidden="true">/</span>
           <a href="${cityStoriesPath}">الفعاليات والأرشيف</a>
           <span aria-hidden="true">/</span>
@@ -429,9 +422,9 @@ export function createSubpageViewsController(deps: SubpageViewsDeps): SubpageVie
             <div><dt>${cardHead(glyph('city-stories', 'card-ic-svg'), 'المصدر الصحفي')}</dt><dd>${story.credit}</dd></div>
           </dl>
           <div class="place-actions">
-            <a class="btn btn-dark" href="${story.source}" target="_blank" rel="noopener">التغطية الأصلية ${glyph('external', 'ic tiny')}</a>
-            ${story.reference ? `<a class="btn btn-soft" href="${story.reference}" target="_blank" rel="noopener">أرشيف واس ${glyph('external', 'ic tiny')}</a>` : ''}
-            ${linkedStop ? `<a class="btn btn-soft" href="#place/${linkedStop.id}">استكشف ${linkedStop.name} ${glyph('arrow', 'ic tiny')}</a>` : `<a class="btn btn-soft" href="#city/baha">استكشف مدينة الباحة ${glyph('arrow', 'ic tiny')}</a>`}
+            <a class="btn btn-dark" href="${story.source}" target="_blank" rel="noopener"><span>التغطية الأصلية</span>${glyph('external', 'ic tiny')}</a>
+            ${story.reference ? `<a class="btn btn-soft" href="${story.reference}" target="_blank" rel="noopener"><span>أرشيف واس</span>${glyph('external', 'ic tiny')}</a>` : ''}
+            <a class="btn btn-soft" href="${linkedStop ? `/place/${linkedStop.id}` : '/city/baha'}"><span>استكشف ${linkedStop?.name ?? 'مدينة الباحة'}</span>${glyph('arrow', 'ic tiny')}</a>
           </div>
         </div>
         <div class="place-hero-media story-page-media${isArchive ? ' is-archive' : ''}">
@@ -442,7 +435,7 @@ export function createSubpageViewsController(deps: SubpageViewsDeps): SubpageVie
       <section class="story-page-article" aria-labelledby="storyDetailsHeading">
         <div class="story-page-article-head">
           <div class="caption section-kicker">${glyph(isArchive ? 'city-archive' : 'city-calendar', 'section-mark')}<span>${isArchive ? 'توثيق أرشيفي' : 'تفاصيل التغطية'}</span></div>
-          <h2 id="storyDetailsHeading">${isArchive ? 'عن هذه اللقطة من أرشيف المنطقة' : 'ملخص الفعالية والتغطية الميدانية'}</h2>
+          <h2 id="storyDetailsHeading">${isArchive ? 'عن هذه اللقطة من أرشيف المنطقة' : 'ملخص الفعالية'}</h2>
         </div>
         <p class="story-page-body">${story.details}</p>
         <div class="story-page-source-bar">
@@ -514,7 +507,7 @@ export function createSubpageViewsController(deps: SubpageViewsDeps): SubpageVie
     activePlace = stop;
     placeView.innerHTML = `
       <div class="container">
-        <nav class="place-trail" aria-label="مسار الصفحة"><a href="#home">الرئيسية</a><span aria-hidden="true">/</span><a href="#city/${visit.city}">${city.name}</a><span aria-hidden="true">/</span><span aria-current="page">${stop.name}</span></nav>
+        <nav class="place-trail" aria-label="مسار الصفحة"><a href="/">الرئيسية</a><span aria-hidden="true">/</span><a href="/city/${visit.city}">${city.name}</a><span aria-hidden="true">/</span><span aria-current="page">${stop.name}</span></nav>
         <div class="place-hero place-hero--destination">
           <div class="place-hero-copy">
             <div class="place-kicker-row">
@@ -528,7 +521,7 @@ export function createSubpageViewsController(deps: SubpageViewsDeps): SubpageVie
               <div><dt>${cardHead(subpageSvgMap.clock, 'مدة الزيارة')}</dt><dd>${formatNum(timed ? timed.end - timed.start : stop.min)} دقيقة</dd></div>
             </dl>
             <div class="place-actions">
-              <a class="btn btn-dark" href="#route/${stop.id}">ارجع إلى رحلتي ${glyph('route')}</a>
+              <a class="btn btn-dark" href="/route/${stop.id}">ارجع إلى رحلتي ${glyph('route')}</a>
               <button type="button" class="btn btn-soft" id="placeAdd" aria-pressed="false"></button>
               <a class="btn btn-soft" href="https://www.google.com/maps/search/?api=1&query=${stop.lat},${stop.lng}" target="_blank" rel="noopener">الخرائط ${glyph('external', 'ic tiny')}</a>
             </div>
@@ -564,7 +557,7 @@ export function createSubpageViewsController(deps: SubpageViewsDeps): SubpageVie
               ? `<div class="place-nearby"><h3>محطات قريبة في ${city.name}</h3><div class="city-links">${nearbyIds
                   .map((sid) => {
                     const sp = places.get(sid)!;
-                    return `<a class="city-stop-card" href="#place/${sid}"><img src="${images[sp.image] || ''}" alt="" loading="lazy" decoding="async"><span><strong>${sp.name}</strong><small>${sp.tag} · ${formatNum(sp.min)} دقيقة</small></span>${glyph('arrow', 'ic tiny')}</a>`;
+                    return `<a class="city-stop-card" href="/place/${sid}"><img src="${images[sp.image] || ''}" alt="" loading="lazy" decoding="async"><span><strong>${sp.name}</strong><small>${sp.tag} · ${formatNum(sp.min)} دقيقة</small></span>${glyph('arrow', 'ic tiny')}</a>`;
                   })
                   .join('')}</div></div>`
               : ''
@@ -596,7 +589,7 @@ export function createSubpageViewsController(deps: SubpageViewsDeps): SubpageVie
     }
     const viewSignal = newViewSignal();
     const currentSeason = deps.getCurrentSeason();
-    const mapLink = `<a class="btn btn-soft" href="#route/${city.ids[0]}">شاهد المنطقة على الخريطة ${glyph('route')}</a>`;
+    const mapLink = `<a class="btn btn-soft" href="/route/${city.ids[0]}"><span>شاهد المنطقة على الخريطة</span>${glyph('route')}</a>`;
     const seenKeys = new Set<string>();
     const showcaseItems: MediaShowcaseItem[] = [];
     const pushSlide = (imgKey: string, caption?: string) => {
@@ -627,8 +620,8 @@ export function createSubpageViewsController(deps: SubpageViewsDeps): SubpageVie
     const totalMins = cityStops.reduce((sum, sp) => sum + (sp.min || 60), 0);
     activePlace = null;
     placeView.innerHTML = `<div class="container">
-      <nav class="place-trail" aria-label="مسار الصفحة"><a href="#home">الرئيسية</a><span aria-hidden="true">/</span><a href="#destination-directory">الوجهات</a><span aria-hidden="true">/</span><span aria-current="page">${city.name}</span></nav>
-      <div class="place-hero">
+      <nav class="place-trail" aria-label="مسار الصفحة"><a href="/">الرئيسية</a><span aria-hidden="true">/</span><a href="/destination-directory">الوجهات</a><span aria-hidden="true">/</span><span aria-current="page">${city.name}</span></nav>
+      <div class="place-hero place-hero--city">
         <div class="place-hero-copy">
           <div class="place-kicker-row">
             <span class="place-cat-pill">${glyph('pin', 'ic tiny')} ${city.area}</span>
@@ -637,11 +630,11 @@ export function createSubpageViewsController(deps: SubpageViewsDeps): SubpageVie
           <h1 id="placeTitle" tabindex="-1">${city.name}</h1>
           <p class="lead">${city.intro}</p>
           <dl class="place-facts">
-            <div><dt>${cardHead(glyph('route', 'card-ic-svg'), 'المحطات على المسار')}</dt><dd>${formatNum(cityStops.length)} محطات</dd></div>
-            <div><dt>${cardHead(subpageSvgMap.clock, 'الوقت التقديري للجولة')}</dt><dd>${formatNum(totalMins)} دقيقة</dd></div>
-            <div><dt>${cardHead(glyph('weather', 'card-ic-svg'), 'الموسم المناسب الآن')}</dt><dd>${seasons[currentSeason].name}</dd></div>
+            <div><dt>${cardHead(glyph('route', 'card-ic-svg'), 'المحطات')}</dt><dd>${formatNum(cityStops.length)}</dd></div>
+            <div><dt>${cardHead(subpageSvgMap.clock, 'مدة الجولة')}</dt><dd>${formatNum(totalMins)} دقيقة</dd></div>
+            <div><dt>${cardHead(glyph('weather', 'card-ic-svg'), 'الموسم الحالي')}</dt><dd>${seasons[currentSeason].name}</dd></div>
           </dl>
-          <div class="place-actions">${hasStories ? `<button type="button" class="btn btn-dark" id="bahaStoriesJump">الفعاليات والأرشيف ${glyph('city-stories')}</button>` : `<a class="btn btn-dark" href="#guide">تصفّح دليل المنطقة ${glyph('section-guide')}</a>`}${mapLink}</div>
+          <div class="place-actions">${hasStories ? `<a class="btn btn-dark" href="${cityStoriesPath}"><span>الفعاليات والأرشيف</span>${glyph('city-stories')}</a>` : `<a class="btn btn-dark" href="/guide"><span>تصفّح دليل المنطقة</span>${glyph('section-guide')}</a>`}${mapLink}</div>
         </div>
         <div class="place-hero-media">
           ${mediaShowcaseMarkup({ id: 'cityHeroShowcase', items: showcaseItems, title: city.name })}
@@ -655,7 +648,7 @@ export function createSubpageViewsController(deps: SubpageViewsDeps): SubpageVie
           <div class="caption section-kicker">${glyph('pin', 'section-mark')}<span>محطات ومزارات مختارة</span></div>
           <h2 id="cityStops">محطات تستحق الوقفة في ${city.name}</h2>
         </div>
-        <div class="city-links">${cityStops.map((sp) => `<a class="city-stop-card" href="#place/${sp.id}"><img src="${images[sp.image] || ''}" alt="" loading="lazy" decoding="async"><span><strong>${sp.name}</strong><small>${sp.tag} · ${formatNum(sp.min)} دقيقة</small></span>${glyph('arrow', 'ic tiny')}</a>`).join('')}</div>
+        <div class="city-links">${cityStops.map((sp) => `<a class="city-stop-card" href="/place/${sp.id}"><img src="${images[sp.image] || ''}" alt="" loading="lazy" decoding="async"><span><strong>${sp.name}</strong><small>${sp.tag} · ${formatNum(sp.min)} دقيقة</small></span>${glyph('arrow', 'ic tiny')}</a>`).join('')}</div>
       </section>
     </div>`;
     bindMediaShowcase(byId('cityHeroShowcase'), showcaseItems, {

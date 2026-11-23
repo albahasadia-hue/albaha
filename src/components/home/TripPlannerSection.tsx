@@ -325,7 +325,7 @@ export function TripPlannerSection() {
                       </svg>{' '}
                       أضف إلى رحلتي
                     </button>
-                    <a className="btn btn-soft" id="routePlace" href="#place/raghdan">
+                    <a className="btn btn-soft" id="routePlace" href="/place/raghdan">
                       <svg className="ic" aria-hidden="true">
                         <use href="#i-details" />
                       </svg>{' '}

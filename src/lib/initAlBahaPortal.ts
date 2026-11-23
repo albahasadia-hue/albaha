@@ -54,6 +54,13 @@ import {
   tripLeg,
   wrap,
 } from './portalHelpers';
+import {
+  canonicalizeLegacyPortalLink,
+  isPortalPath,
+  navigatePortal,
+  portalNavigationEvent,
+  portalSectionId,
+} from './portalNavigation';
 import { bindSwipe } from './portalHelpers';
 import { forecast, localTime, weatherNames } from './weatherAndShowcase';
 import { createTripPdf, saveTripFile } from './tripPdfExport';
@@ -137,8 +144,8 @@ export function initAlBahaPortal(initialView: PortalInitialView = 'home'): () =>
   let zoom = 1;
   let toastTimer = 0;
   let didWarnStorage = false;
-  let lastHash = '';
-  let homeHash = '';
+  let lastPath = '/';
+  let homePath = '/';
   let homeScroll = 0;
 
   let liveMap: {
@@ -190,7 +197,7 @@ export function initAlBahaPortal(initialView: PortalInitialView = 'home'): () =>
     destinationGrid.innerHTML = destinationAreas
       .map(
         (area) => `
-    <a class="destination-area" href="#city/${area.id}">
+    <a class="destination-area" href="/city/${area.id}">
       <img src="${images[area.image] || ''}" alt="" loading="lazy" decoding="async">
       ${glyph('arrow', 'ic tiny')}
       <strong>${area.name}</strong><small>${area.tag}</small>
@@ -1793,7 +1800,7 @@ export function initAlBahaPortal(initialView: PortalInitialView = 'home'): () =>
     );
     if (seasonTip) seasonTip.textContent = city.tips?.[key] || '';
     if (seasonCity) {
-      seasonCity.href = `#city/${cityKey}`;
+      seasonCity.href = `/city/${cityKey}`;
       seasonCity.innerHTML = `أجواء ${city.name} ${glyph('arrow', 'ic tiny')}`;
     }
     const seasonFacts = byId('seasonFacts');
@@ -1887,7 +1894,7 @@ export function initAlBahaPortal(initialView: PortalInitialView = 'home'): () =>
     const stopCity = byId<HTMLAnchorElement>('stopCity');
     const stopWeather = byId('stopWeather');
     if (stopCity) {
-      stopCity.href = `#city/${cityKey}`;
+      stopCity.href = `/city/${cityKey}`;
       stopCity.textContent = city.name;
     }
     if (stopWeather) stopWeather.textContent = seasons[currentSeason].name;
@@ -2041,7 +2048,7 @@ export function initAlBahaPortal(initialView: PortalInitialView = 'home'): () =>
     if (counter) counter.textContent = `المحطة ${formatNum(station + 1)} من ${formatNum(chosen.length)}`;
     if (stopTitle) stopTitle.textContent = stop.name;
     if (stopCategory) stopCategory.innerHTML = `${glyph(typeIcons[stop.types[0]], 'ic tiny')} ${stop.tag}`;
-    if (routePlace) routePlace.href = `#place/${stop.id}`;
+    if (routePlace) routePlace.href = `/place/${stop.id}`;
     const timed = (routeDraft?.timing || savedTiming)?.stations.find((row) => row.id === stop.id);
     if (duration) {
       if (timed) {
@@ -2949,7 +2956,7 @@ export function initAlBahaPortal(initialView: PortalInitialView = 'home'): () =>
   );
 
   function goToSection(id: string): void {
-    if (homeView?.hidden) window.location.hash = id;
+    if (homeView?.hidden) navigatePortal(id === 'home' ? '/' : `/${id}`);
     else byId(id)?.scrollIntoView({ behavior: smooth });
   }
 
@@ -3097,8 +3104,7 @@ export function initAlBahaPortal(initialView: PortalInitialView = 'home'): () =>
     }
 
     if (homeView?.hidden) {
-      window.location.hash = 'planner';
-      syncPage();
+      navigatePortal('/planner');
     }
 
     const savedHasStop = choices.has(stopId);
@@ -3132,8 +3138,8 @@ export function initAlBahaPortal(initialView: PortalInitialView = 'home'): () =>
     byId('stopTitle')?.focus({ preventScroll: true });
   }
 
-  function mountPendingGuideDock(currentHash: string): void {
-    if (!pendingGuideDock || currentHash !== `#guide/place/${pendingGuideDock.guideId}`) return;
+  function mountPendingGuideDock(currentPath: string): void {
+    if (!pendingGuideDock || currentPath !== `/guide/place/${pendingGuideDock.guideId}`) return;
     const { guideId, name, message, missingCoordinates } = pendingGuideDock;
     renderGuideDock(
       {
@@ -3187,24 +3193,20 @@ export function initAlBahaPortal(initialView: PortalInitialView = 'home'): () =>
       missingCoordinates: Boolean(opts?.missingCoordinates),
     };
 
-    const targetHash = `guide/place/${guideId}`;
-    if (window.location.hash !== `#${targetHash}`) {
-      window.location.hash = targetHash;
-      syncPage();
-    } else {
-      mountPendingGuideDock(window.location.hash);
-    }
+    const targetPath = `/guide/place/${guideId}`;
+    if (window.location.pathname !== targetPath) navigatePortal(targetPath);
+    else mountPendingGuideDock(targetPath);
 
     window.requestAnimationFrame(() => {
       if (signal.aborted) return;
-      mountPendingGuideDock(window.location.hash);
+      mountPendingGuideDock(window.location.pathname);
     });
   }
 
   function getActivePageContext() {
-    const h = window.location.hash;
-    const placeId = h.startsWith('#place/') ? h.slice(7) : subpageViews.getActivePlace()?.id || null;
-    const guidePlaceId = h.startsWith('#guide/place/') ? h.slice(13) : null;
+    const h = window.location.pathname;
+    const placeId = h.startsWith('/place/') ? h.slice(7) : subpageViews.getActivePlace()?.id || null;
+    const guidePlaceId = h.startsWith('/guide/place/') ? h.slice(13) : null;
     return {
       placeId,
       guidePlaceId,
@@ -3221,7 +3223,7 @@ export function initAlBahaPortal(initialView: PortalInitialView = 'home'): () =>
     document.querySelector<HTMLDialogElement>('dialog[open]')?.close();
     document.documentElement.classList.remove('has-dialog');
     if (homeView?.hidden) {
-      window.location.hash = `route/${id}`;
+      navigatePortal(`/route/${id}`);
       return;
     }
     if (routeDraft && !chosen.some((stop) => stop.id === id)) {
@@ -3254,17 +3256,13 @@ export function initAlBahaPortal(initialView: PortalInitialView = 'home'): () =>
     getChoices: () => choices,
     getRouteDraft: () => routeDraft,
     getSavedTiming: () => savedTiming,
-    getScrollBehavior: () => smooth,
     toggleStop: (stop) => toggleStopFn(stop),
-    setLastHash: (hash) => {
-      lastHash = hash;
-    },
   });
 
   const tourGuideController = createTourGuideController({
     signal,
     getChoices: () => choices,
-    getLastHash: () => lastHash,
+    getLastPath: () => lastPath,
     getScrollBehavior: getReducedBehavior,
     toggleStop: (stop) => toggleStopFn(stop),
   });
@@ -3356,7 +3354,7 @@ export function initAlBahaPortal(initialView: PortalInitialView = 'home'): () =>
     hasTourGuidePlace: (id: string) => tourGuideController.hasPlace(id),
     openGuideFilter: (opts) => tourGuideController.openFiltered(opts),
     openFaq: (faqId) => {
-      window.location.hash = faqId ? `faq/${faqId}` : 'faq';
+      navigatePortal(faqId ? `/faq/${faqId}` : '/faq');
     },
   });
   conciergeRef = concierge;
@@ -3471,11 +3469,11 @@ export function initAlBahaPortal(initialView: PortalInitialView = 'home'): () =>
         (byId('searchPanel') as HTMLDialogElement | null)?.close();
         document.documentElement.classList.remove('has-dialog');
         const faqId = target.dataset.faqJump || '';
-        window.location.hash = faqId ? `faq/${faqId}` : 'faq';
+        navigatePortal(faqId ? `/faq/${faqId}` : '/faq');
       } else if (target.hasAttribute('data-guide-place')) {
         (byId('searchPanel') as HTMLDialogElement | null)?.close();
         document.documentElement.classList.remove('has-dialog');
-        window.location.hash = `guide/place/${target.dataset.guidePlace}`;
+        navigatePortal(`/guide/place/${target.dataset.guidePlace}`);
       } else if (target.hasAttribute('data-guide-topic')) {
         (byId('searchPanel') as HTMLDialogElement | null)?.close();
         document.documentElement.classList.remove('has-dialog');
@@ -3592,14 +3590,14 @@ export function initAlBahaPortal(initialView: PortalInitialView = 'home'): () =>
   function syncHeaderActiveNav(): void {
     const navLinks = qsAll<HTMLAnchorElement>('#header .nav-links a');
     if (!navLinks.length) return;
-    let activeHref: string | null = '#home';
+    let activeHref: string | null = '/';
 
     if (investView && !investView.hidden) {
-      activeHref = '#invest';
+      activeHref = '/invest';
     } else if (tourGuideView && !tourGuideView.hidden) {
-      activeHref = '#guide';
+      activeHref = '/guide';
     } else if (placeView && !placeView.hidden) {
-      activeHref = '#destinations';
+      activeHref = '/destinations';
     } else if ((faqView && !faqView.hidden) || (supportView && !supportView.hidden)) {
       activeHref = null;
     } else if (homeView && !homeView.hidden) {
@@ -3615,11 +3613,11 @@ export function initAlBahaPortal(initialView: PortalInitialView = 'home'): () =>
       );
 
       if (destRect && destRect.top <= headerLine && destGroupBottom > headerLine) {
-        activeHref = '#destinations';
+        activeHref = '/destinations';
       } else if (expRect && expRect.top <= headerLine && (!destRect || destRect.top > headerLine)) {
-        activeHref = '#experiences';
+        activeHref = '/experiences';
       } else {
-        activeHref = '#home';
+        activeHref = '/';
       }
     }
 
@@ -3653,25 +3651,25 @@ export function initAlBahaPortal(initialView: PortalInitialView = 'home'): () =>
   syncHeaderState();
   window.addEventListener('scroll', scheduleScroll, { passive: true, signal });
 
-  // Hash router
-  function syncPage(): void {
-    const hash = window.location.hash;
-    const place = hash.startsWith('#place/') ? places.get(hash.slice(7)) : null;
+  function syncPage(restoreHomeScroll = false): void {
+    const path = window.location.pathname;
+    const place = path.startsWith('/place/') ? places.get(path.slice(7)) : null;
     const storySection =
-      hash === '#city/baha/stories' || hash.startsWith('#city/baha/stories/');
-    const cityKey = storySection ? 'baha' : hash.slice(6);
+      path === '/city/baha/stories' || path.startsWith('/city/baha/stories/');
+    const cityKey = storySection ? 'baha' : path.slice(6);
     const city =
-      hash.startsWith('#city/') && Object.hasOwn(climateCities, cityKey) ? cityKey : null;
-    const routeId = hash.startsWith('#route/') ? hash.slice(7) : null;
-    const guideRoute = hash === '#guide' || hash.startsWith('#guide/place/');
-    const faqRoute = hash === '#faq' || hash.startsWith('#faq/') || (!hash && initialView === 'faq');
+      path.startsWith('/city/') && Object.hasOwn(climateCities, cityKey) ? cityKey : null;
+    const routeId = path.startsWith('/route/') ? path.slice(7) : null;
+    const guideRoute = path === '/guide' || path.startsWith('/guide/place/');
+    const faqRoute = path === '/faq' || path.startsWith('/faq/');
     const investRoute =
-      hash === '#invest' || hash.startsWith('#invest/') || (!hash && initialView === 'invest');
-    const supportRoute = Boolean(supportView && !hash);
+      path === '/invest' || path.startsWith('/invest/');
+    const supportRoute = Boolean(supportView && path === `/${initialView}`);
+    const sectionId = portalSectionId(path);
     const returning = Boolean(homeView?.hidden);
 
     if ((place || city || guideRoute || faqRoute || investRoute || supportRoute) && !returning) {
-      homeHash = lastHash;
+      homePath = lastPath;
       homeScroll = window.scrollY;
     }
 
@@ -3680,12 +3678,12 @@ export function initAlBahaPortal(initialView: PortalInitialView = 'home'): () =>
       else link.removeAttribute('aria-current');
     });
 
-    qsAll<HTMLElement>('a[href="#faq"]').forEach((link) => {
+    qsAll<HTMLElement>('a[href="/faq"]').forEach((link) => {
       if (faqRoute) link.setAttribute('aria-current', 'page');
       else link.removeAttribute('aria-current');
     });
 
-    qsAll<HTMLElement>('a[href="#invest"]').forEach((link) => {
+    qsAll<HTMLElement>('a[href="/invest"]').forEach((link) => {
       if (investRoute) link.setAttribute('aria-current', 'page');
       else link.removeAttribute('aria-current');
     });
@@ -3717,7 +3715,7 @@ export function initAlBahaPortal(initialView: PortalInitialView = 'home'): () =>
       if (investView) investView.hidden = true;
       if (faqView) faqView.hidden = false;
       document.title = 'الأسئلة الشائعة | بوابة منطقة الباحة';
-      const targetFaqId = hash.startsWith('#faq/') ? hash.slice(5) : '';
+      const targetFaqId = path.startsWith('/faq/') ? path.slice(5) : '';
       window.requestAnimationFrame(() => {
         if (signal.aborted) return;
         const faqEl = targetFaqId ? byId(targetFaqId) : null;
@@ -3741,9 +3739,9 @@ export function initAlBahaPortal(initialView: PortalInitialView = 'home'): () =>
       if (faqView) faqView.hidden = true;
       if (investView) investView.hidden = true;
       tourGuideController.showTourGuide(
-        hash === '#guide' ? undefined : hash.slice(13) || 'missing'
+        path === '/guide' ? undefined : path.slice(13) || 'missing'
       );
-      mountPendingGuideDock(hash);
+      mountPendingGuideDock(path);
     } else if (place || city) {
       tourGuideController.cleanupView();
       if (tourGuideView) tourGuideView.hidden = true;
@@ -3753,7 +3751,7 @@ export function initAlBahaPortal(initialView: PortalInitialView = 'home'): () =>
       else if (city) {
         subpageViews.showCity(
           city,
-          storySection ? hash.slice('#city/baha/stories/'.length) : null
+          storySection ? path.slice('/city/baha/stories/'.length) : null
         );
       }
     } else if (returning || (routeId && places.has(routeId))) {
@@ -3774,13 +3772,19 @@ export function initAlBahaPortal(initialView: PortalInitialView = 'home'): () =>
         measureCarousel();
         if (routeId && places.has(routeId)) {
           selectDestination(routeId);
-        } else if (hash === homeHash || !hash) {
+        } else if (restoreHomeScroll && path === homePath) {
           window.scrollTo({ top: homeScroll, behavior: 'instant' });
+        } else if (sectionId) {
+          byId(sectionId)?.scrollIntoView({ behavior: 'instant' });
         } else {
-          byId(hash.slice(1))?.scrollIntoView({ behavior: 'instant' });
+          window.scrollTo({ top: 0, behavior: 'instant' });
         }
         scheduleScroll();
       });
+    } else if (sectionId) {
+      byId(sectionId)?.scrollIntoView({ behavior: getReducedBehavior(), block: 'start' });
+    } else if (path === '/' && !restoreHomeScroll && !window.location.hash) {
+      window.scrollTo({ top: 0, behavior: 'instant' });
     }
     if (!guideRoute && activeDockKind === 'guide') {
       activeDockKind = 'none';
@@ -3788,7 +3792,7 @@ export function initAlBahaPortal(initialView: PortalInitialView = 'home'): () =>
       syncSingleAvatarPresence('floating');
     }
 
-    lastHash = hash;
+    lastPath = path;
     syncHeaderActiveNav();
     scheduleScroll();
   }
@@ -3813,6 +3817,8 @@ export function initAlBahaPortal(initialView: PortalInitialView = 'home'): () =>
         !title ||
         (tourGuideView?.hidden && placeView?.hidden && faqView?.hidden && investView?.hidden)
       ) {
+        event.preventDefault();
+        byId('content')?.focus();
         return;
       }
       event.preventDefault();
@@ -3820,7 +3826,29 @@ export function initAlBahaPortal(initialView: PortalInitialView = 'home'): () =>
     },
     { signal }
   );
-  window.addEventListener('hashchange', syncPage, { signal });
+  document.addEventListener(
+    'click',
+    (event) => {
+      if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey ||
+          event.shiftKey || event.altKey) return;
+      const element = event.target instanceof Element ? event.target : null;
+      const anchor = element?.closest<HTMLAnchorElement>('a[href^="/"]');
+      if (!anchor || anchor.hasAttribute('download') || (anchor.target && anchor.target !== '_self')) return;
+      const target = new URL(anchor.href);
+      if (target.origin !== window.location.origin || !isPortalPath(target.pathname)) return;
+      event.preventDefault();
+      navigatePortal(target.href);
+    },
+    { signal }
+  );
+  window.addEventListener(portalNavigationEvent, () => syncPage(), { signal });
+  window.addEventListener('popstate', () => {
+    canonicalizeLegacyPortalLink();
+    syncPage(true);
+  }, { signal });
+  window.addEventListener('hashchange', () => {
+    if (canonicalizeLegacyPortalLink()) syncPage();
+  }, { signal });
 
   // KPI counters & Scroll reveal entrances
   const kpiRafs = new Set<number>();
@@ -4020,7 +4048,8 @@ export function initAlBahaPortal(initialView: PortalInitialView = 'home'): () =>
   restoreTrip();
   rebuildRoute();
   measureCarousel();
-  syncPage();
+  canonicalizeLegacyPortalLink();
+  syncPage(true);
 
   const syncHeaderSpace = () => {
     if (!header) return;

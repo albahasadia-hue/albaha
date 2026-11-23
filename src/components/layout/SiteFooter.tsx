@@ -68,11 +68,11 @@ export function SiteFooter() {
         <div className="container">
           <div className="footer-grid">
             <div className="footer-identity">
-              <a href="#home" className="foot-brand-emblem" aria-label="الباحة، الصفحة الرئيسية">
+              <a href="/" className="foot-brand-emblem" aria-label="الباحة، الصفحة الرئيسية">
                 <img className="foot-logo" data-logo="" src={domMedia.goldLogo} alt="" />
               </a>
               <div className="footer-brand-copy">
-                <a href="#home" className="foot-brand-wordmark" aria-label="الباحة، الصفحة الرئيسية">
+                <a href="/" className="foot-brand-wordmark" aria-label="الباحة، الصفحة الرئيسية">
                   <img
                     className="brand-wordmark"
                     data-wordmark=""
@@ -92,7 +92,7 @@ export function SiteFooter() {
               </h2>
               <ul className="footer-list">
                 <li>
-                  <a href="#destinations">
+                  <a href="/destinations">
                     <svg className="ic" aria-hidden="true">
                       <use href="#i-pin" />
                     </svg>
@@ -100,7 +100,7 @@ export function SiteFooter() {
                   </a>
                 </li>
                 <li>
-                  <a href="#experiences">
+                  <a href="/experiences">
                     <svg className="ic" aria-hidden="true">
                       <use href="#i-mountain" />
                     </svg>
@@ -108,7 +108,7 @@ export function SiteFooter() {
                   </a>
                 </li>
                 <li>
-                  <a href="#destination-directory">
+                  <a href="/destination-directory">
                     <svg className="ic" aria-hidden="true">
                       <use href="#i-foot-image" />
                     </svg>
@@ -116,7 +116,7 @@ export function SiteFooter() {
                   </a>
                 </li>
                 <li>
-                  <a href="#visit-guide">
+                  <a href="/visit-guide">
                     <svg className="ic" aria-hidden="true">
                       <use href="#i-compass" />
                     </svg>
@@ -132,7 +132,7 @@ export function SiteFooter() {
               </h2>
               <ul className="footer-list">
                 <li>
-                  <a href="#planner">
+                  <a href="/planner">
                     <svg className="ic" aria-hidden="true">
                       <use href="#i-route" />
                     </svg>
@@ -140,7 +140,7 @@ export function SiteFooter() {
                   </a>
                 </li>
                 <li>
-                  <a href="#summary">
+                  <a href="/summary">
                     <svg className="ic" aria-hidden="true">
                       <use href="#i-check" />
                     </svg>
@@ -156,7 +156,7 @@ export function SiteFooter() {
                   </button>
                 </li>
                 <li>
-                  <a href="#app">
+                  <a href="/app">
                     <svg className="ic" aria-hidden="true">
                       <use href="#i-download" />
                     </svg>
@@ -196,7 +196,7 @@ export function SiteFooter() {
                   </a>
                 </li>
                 <li>
-                  <a href="#faq">
+                  <a href="/faq">
                     <svg className="ic" aria-hidden="true">
                       <use href="#i-foot-faq" />
                     </svg>

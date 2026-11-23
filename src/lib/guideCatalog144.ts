@@ -314,7 +314,7 @@ function classifyLinks(item: RawGuide144Item): {
 
 /**
  * Curated ID-based cross-references from `albaha_guide_144.json` numeric `id`
- * to actual website stops (`#place/<stopId>`), directory records (`#guide/place/<tourGuideId>`),
+ * to actual website stops (`/place/<stopId>`), directory records (`/guide/place/<tourGuideId>`),
  * verified real destination photos, and verified coordinates.
  */
 interface SiteAssetBinding {
@@ -754,10 +754,10 @@ function buildEnrichedCatalog(dataset: RawGuide144Dataset): {
       (tgRec?.coordinates ? [tgRec.coordinates[0], tgRec.coordinates[1]] : null);
 
     const internalHref = stopRec
-      ? `#place/${stopRec.id}`
+      ? `/place/${stopRec.id}`
       : tgRec
-        ? `#guide/place/${tgRec.id}`
-        : `#guide/place/g-${item.id}`;
+        ? `/guide/place/${tgRec.id}`
+        : `/guide/place/g-${item.id}`;
 
     const searchNormName = normalizeSearchText(item.name);
     const aliasText = (binding?.aliases || []).join(' ');

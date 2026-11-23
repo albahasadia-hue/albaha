@@ -6,13 +6,13 @@ interface MenuLink {
 }
 
 const MENU_LINKS: MenuLink[] = [
-  { href: '#home', label: 'الرئيسية', icon: '#i-nav-home' },
-  { href: '#experiences', label: 'التجارب', icon: '#i-nav-experience' },
-  { href: '#destinations', label: 'الوجهات', icon: '#i-nav-destination' },
-  { href: '#guide', label: 'الدليل', icon: '#i-nav-guide', isGuide: true },
-  { href: '#invest', label: 'الاستثمار', icon: '#i-nav-invest' },
-  { href: '#planner', label: 'خطّط رحلتك', icon: '#i-route' },
-  { href: '#visit-season', label: 'أجواء الزيارة', icon: '#i-weather' },
+  { href: '/', label: 'الرئيسية', icon: '#i-nav-home' },
+  { href: '/experiences', label: 'التجارب', icon: '#i-nav-experience' },
+  { href: '/destinations', label: 'الوجهات', icon: '#i-nav-destination' },
+  { href: '/guide', label: 'الدليل', icon: '#i-nav-guide', isGuide: true },
+  { href: '/invest', label: 'الاستثمار', icon: '#i-nav-invest' },
+  { href: '/planner', label: 'خطّط رحلتك', icon: '#i-route' },
+  { href: '/visit-season', label: 'أجواء الزيارة', icon: '#i-weather' },
 ];
 
 export function MenuDialog() {

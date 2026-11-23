@@ -14,7 +14,7 @@ const REEL_CARDS: ReelCardItem[] = [
   {
     id: 'royal-visit',
     kind: 'archive',
-    href: '#city/baha/stories/royal-visit',
+    href: '/city/baha/stories/royal-visit',
     ariaLabel: 'زيارة الملك عبدالله لمنطقة الباحة',
     tagIcon: '#i-city-archive',
     tag: 'زيارة ملكية',
@@ -23,7 +23,7 @@ const REEL_CARDS: ReelCardItem[] = [
   {
     id: 'khair',
     kind: 'event',
-    href: '#city/baha/stories/khair',
+    href: '/city/baha/stories/khair',
     ariaLabel: 'مهرجان خيرات الباحة',
     tagIcon: '#i-city-calendar',
     tag: 'منتجات محلية',
@@ -32,7 +32,7 @@ const REEL_CARDS: ReelCardItem[] = [
   {
     id: 'raghdan-market',
     kind: 'event',
-    href: '#city/baha/stories/raghdan-market',
+    href: '/city/baha/stories/raghdan-market',
     ariaLabel: 'افتتاح سوق رغدان التاريخي',
     tagIcon: '#i-city-calendar',
     tag: 'حِرف وتراث',
@@ -41,7 +41,7 @@ const REEL_CARDS: ReelCardItem[] = [
   {
     id: 'honey-festival',
     kind: 'event',
-    href: '#city/baha/stories/honey-festival',
+    href: '/city/baha/stories/honey-festival',
     ariaLabel: 'مهرجان العسل في رغدان',
     tagIcon: '#i-city-calendar',
     tag: 'عسل ونحّالون',
@@ -73,7 +73,7 @@ export function DiscoverIntroSection() {
           </div>
 
           <div className="intro-actions reveal">
-            <a className="btn btn-soft" href="#city/baha">
+            <a className="btn btn-soft" href="/city/baha">
               <svg className="section-mark section-mark--baha" aria-hidden="true">
                 <use href="#i-section-baha" width="24" height="24" />
               </svg>

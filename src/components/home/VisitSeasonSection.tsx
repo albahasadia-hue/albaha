@@ -60,7 +60,7 @@ export function VisitSeasonSection() {
             </div>
             <div className="season-card-bottom">
               <p id="seasonTip" />
-              <a id="seasonCity" href="#city/baha" />
+              <a id="seasonCity" href="/city/baha" />
             </div>
           </div>
         </article>

@@ -69,7 +69,7 @@ export function DestinationsCarouselSection() {
                 key={dest.id}
                 className="dest-card scenic-card"
                 data-dest-tone={dest.id}
-                href={`#place/${dest.id}`}
+                href={`/place/${dest.id}`}
               >
                 <picture className="scenic-picture">
                   <img

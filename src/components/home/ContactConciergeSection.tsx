@@ -22,7 +22,7 @@ export function ContactConciergeSection() {
               <use href="#i-arrow" />
             </svg>
           </button>
-          <a href="#planner" className="btn btn-soft">
+          <a href="/planner" className="btn btn-soft">
             افتح مخطط الرحلة{' '}
             <svg className="ic" aria-hidden="true">
               <use href="#i-route" />

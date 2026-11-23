@@ -36,11 +36,11 @@ export function InvestPageView({ initialHidden = true }: InvestPageViewProps) {
       <div className="container">
         <div className="tour-guide-detail-nav">
           <nav className="place-trail" aria-label="مسار الصفحة">
-            <a href="#home">الرئيسية</a>
+            <a href="/">الرئيسية</a>
             <span aria-hidden="true">/</span>
             <span aria-current="page">الاستثمار</span>
           </nav>
-          <a className="tour-guide-back" href="#home">
+          <a className="tour-guide-back" href="/">
             <svg className="ic tiny" aria-hidden="true">
               <use href="#i-arrow" />
             </svg>
@@ -75,7 +75,7 @@ export function InvestPageView({ initialHidden = true }: InvestPageViewProps) {
                 <use href="#i-external" />
               </svg>
             </a>
-            <a href="#official-portal" className="btn btn-soft">
+            <a href="/official-portal" className="btn btn-soft">
               <span>مؤشرات التنمية</span>
               <svg className="ic tiny" aria-hidden="true">
                 <use href="#i-arrow" />

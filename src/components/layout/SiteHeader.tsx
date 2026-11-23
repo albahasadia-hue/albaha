@@ -8,18 +8,18 @@ interface NavLinkItem {
 }
 
 const NAV_LINKS: NavLinkItem[] = [
-  { href: '#home', icon: '#i-nav-home', label: 'الرئيسية' },
-  { href: '#experiences', icon: '#i-nav-experience', label: 'التجارب' },
-  { href: '#destinations', icon: '#i-nav-destination', label: 'الوجهات' },
-  { href: '#guide', icon: '#i-nav-guide', label: 'الدليل', isGuide: true },
-  { href: '#invest', icon: '#i-nav-invest', label: 'الاستثمار' },
+  { href: '/', icon: '#i-nav-home', label: 'الرئيسية' },
+  { href: '/experiences', icon: '#i-nav-experience', label: 'التجارب' },
+  { href: '/destinations', icon: '#i-nav-destination', label: 'الوجهات' },
+  { href: '/guide', icon: '#i-nav-guide', label: 'الدليل', isGuide: true },
+  { href: '/invest', icon: '#i-nav-invest', label: 'الاستثمار' },
 ];
 
 export function SiteHeader() {
   return (
     <header className="header visible" id="header">
       <nav className="nav container" aria-label="القائمة الرئيسية">
-        <a href="#home" className="nav-brand">
+        <a href="/" className="nav-brand">
           <img id="goldLogo" src={domMedia.goldLogo} alt="" />
           <img
             className="brand-wordmark"
@@ -50,7 +50,7 @@ export function SiteHeader() {
               <use href="#i-search" />
             </svg>
           </button>
-          <a href="#planner" className="btn btn-dark header-plan-button" aria-label="خطط رحلتك">
+          <a href="/planner" className="btn btn-dark header-plan-button" aria-label="خطط رحلتك">
             خطّط رحلتك{' '}
             <svg className="ic" aria-hidden="true">
               <use href="#i-route" />

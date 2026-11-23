@@ -1,3 +1,4 @@
+import { navigatePortal } from './portalNavigation';
 import type {
   GuideCategory,
   GuideRecord,
@@ -54,7 +55,7 @@ export interface TourGuideFilterState {
 export interface TourGuideControllerDeps {
   signal: AbortSignal;
   getChoices: () => Set<string>;
-  getLastHash: () => string;
+  getLastPath: () => string;
   getScrollBehavior: () => ScrollBehavior;
   toggleStop: (stop: StopBase) => void;
 }
@@ -149,7 +150,7 @@ function guideQueryTerms(query: string): string[] {
   return meaningful.length ? meaningful : raw;
 }
 
-const tourGuideHref = (place: { id: string }): string => `#guide/place/${place.id}`;
+const tourGuideHref = (place: { id: string }): string => `/guide/place/${place.id}`;
 
 function guideCardBrief(place: GuideRecord): string {
   if (tourGuideShortSubtitles[place.id]) return tourGuideShortSubtitles[place.id];
@@ -177,9 +178,9 @@ function guideCardBrief(place: GuideRecord): string {
 }
 
 function guideTrail(place?: GuideRecord | null): string {
-  return `<nav class="place-trail" aria-label="مسار الصفحة"><a href="#home">الرئيسية</a><span aria-hidden="true">/</span>${
+  return `<nav class="place-trail" aria-label="مسار الصفحة"><a href="/">الرئيسية</a><span aria-hidden="true">/</span>${
     place
-      ? `<a href="#guide">الدليل</a><span aria-hidden="true">/</span><span aria-current="page">${guideText(place.name)}</span>`
+      ? `<a href="/guide">الدليل</a><span aria-hidden="true">/</span><span aria-current="page">${guideText(place.name)}</span>`
       : '<span aria-current="page">الدليل السياحي</span>'
   }</nav>`;
 }
@@ -1192,7 +1193,7 @@ export function createTourGuideController(deps: TourGuideControllerDeps): TourGu
       extraFacts.push(['نطاق الأسعار التقريبي', item144.priceRange]);
     }
     return `<div class="container">
-      <div class="tour-guide-detail-nav">${guideTrail(place)}<a class="tour-guide-back" href="#guide">${glyph('arrow', 'ic tiny')} العودة للدليل</a></div>
+      <div class="tour-guide-detail-nav">${guideTrail(place)}<a class="tour-guide-back" href="/guide">${glyph('arrow', 'ic tiny')} العودة للدليل</a></div>
       <section class="tour-guide-detail">
         <div class="directory-intro-copy">
           <div class="place-kicker-row">
@@ -1208,7 +1209,7 @@ export function createTourGuideController(deps: TourGuideControllerDeps): TourGu
             ${contactActions.join('')}
             <a class="btn ${contactActions.some((c) => c.includes('btn-dark')) ? 'btn-soft' : 'btn-dark'}" href="${guideText(place.map || place.accessMap || search)}" target="_blank" rel="noopener noreferrer">${glyph('map')} ${mapLabel}</a>
             ${place.trip ? `<button class="btn btn-soft" type="button" data-guide-trip="${place.trip}"></button>` : ''}
-            <a class="btn btn-soft" href="#guide">${glyph('section-guide', 'ic tiny')} تصفّح أماكن أخرى</a>
+            <a class="btn btn-soft" href="/guide">${glyph('section-guide', 'ic tiny')} تصفّح أماكن أخرى</a>
           </div>
         </div>
         <div class="directory-gallery">
@@ -1318,9 +1319,9 @@ export function createTourGuideController(deps: TourGuideControllerDeps): TourGu
 
   function showTourGuide(id?: string): void {
     if (!tourGuideView) return;
-    const lastHash = deps.getLastHash();
-    if (id && lastHash === '#guide') tourGuideListScroll = window.scrollY;
-    if (lastHash !== '#guide' && !lastHash.startsWith('#guide/place/')) tourGuideListScroll = 0;
+    const lastPath = deps.getLastPath();
+    if (id && lastPath === '/guide') tourGuideListScroll = window.scrollY;
+    if (lastPath !== '/guide' && !lastPath.startsWith('/guide/place/')) tourGuideListScroll = 0;
     const viewSignal = newViewSignal();
     const resolved = id ? resolveGuidePlaceById(id) : null;
     const place = resolved?.place || null;
@@ -1328,7 +1329,7 @@ export function createTourGuideController(deps: TourGuideControllerDeps): TourGu
     tourGuideView.innerHTML = id
       ? place
         ? tourGuideDetail(place, item144)
-        : `<div class="container">${guideTrail()}<div class="tour-guide-empty"><h1 id="tourGuideTitle" class="tour-guide-title" tabindex="-1" style="font-size:2rem;text-shadow:none">المكان غير متاح</h1><a class="tour-guide-source" href="#guide">العودة إلى الدليل</a></div></div>`
+        : `<div class="container">${guideTrail()}<div class="tour-guide-empty"><h1 id="tourGuideTitle" class="tour-guide-title" tabindex="-1" style="font-size:2rem;text-shadow:none">المكان غير متاح</h1><a class="tour-guide-source" href="/guide">العودة إلى الدليل</a></div></div>`
       : tourGuideList();
     tourGuideView.hidden = false;
     let focusTarget: HTMLElement | null = byId('tourGuideTitle');
@@ -1379,7 +1380,7 @@ export function createTourGuideController(deps: TourGuideControllerDeps): TourGu
       }
       syncTourGuideCategoryNav();
       const returningPlace =
-        lastHash.startsWith('#guide/place/') && tourGuidePlaces.get(lastHash.slice(13));
+        lastPath.startsWith('/guide/place/') && tourGuidePlaces.get(lastPath.slice(13));
       if (returningPlace) {
         focusTarget =
           byId('tourGuideResults')?.querySelector<HTMLElement>(
@@ -1697,8 +1698,8 @@ export function createTourGuideController(deps: TourGuideControllerDeps): TourGu
     const districtSelect = byId('tourGuideDistrict') as HTMLSelectElement | null;
     if (searchInput) searchInput.value = filter.query;
     if (districtSelect) districtSelect.value = filter.district;
-    if (window.location.hash !== '#guide') {
-      window.location.hash = 'guide';
+    if (window.location.pathname !== '/guide') {
+      navigatePortal('/guide');
     } else {
       showTourGuide();
     }

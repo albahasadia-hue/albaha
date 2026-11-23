@@ -1,3 +1,4 @@
+import { navigatePortal } from './portalNavigation';
 import { SMART_GUIDE_NAME } from './smartGuideName';
 import type {
   ConciergeAction,
@@ -1073,13 +1074,13 @@ export function simulateConcierge(
       const actions: ConciergeAction[] = [
         { type: 'faq', value: specific.id, label: 'افتح الإجابة في الأسئلة الشائعة' },
       ];
-      if (specific.actionHref?.startsWith('#guide/place/')) {
+      if (specific.actionHref?.startsWith('/guide/place/')) {
         actions.push({
           type: 'guide-place',
           value: specific.actionHref.slice(13),
           label: specific.actionLabel || 'افتح الصفحة',
         });
-      } else if (specific.actionHref === '#guide') {
+      } else if (specific.actionHref === '/guide') {
         actions.push({
           type: 'guide-filter',
           value: {},
@@ -1867,7 +1868,7 @@ export function createConciergeController(deps: ConciergeControllerDeps): {
           deps.dockAtGuidePlace(guideId, { message: label });
         } else {
           conciergePanel?.close();
-          window.location.hash = `guide/place/${guideId}`;
+          navigatePortal(`/guide/place/${guideId}`);
         }
         break;
       }
@@ -1899,7 +1900,7 @@ export function createConciergeController(deps: ConciergeControllerDeps): {
         const cityKey = String(value || '');
         if (!Object.hasOwn(climateCities, cityKey)) return;
         conciergePanel?.close();
-        window.location.hash = `city/${cityKey}`;
+        navigatePortal(`/city/${cityKey}`);
         break;
       }
       case 'preview-plan': {
@@ -1914,14 +1915,14 @@ export function createConciergeController(deps: ConciergeControllerDeps): {
         const placeId = String(value || '');
         if (!places.has(placeId)) return;
         conciergePanel?.close();
-        window.location.hash = `place/${placeId}`;
+        navigatePortal(`/place/${placeId}`);
         break;
       }
       case 'guide-place': {
         const guideId = String(value || '');
         if (!deps.hasTourGuidePlace(guideId)) return;
         conciergePanel?.close();
-        window.location.hash = `guide/place/${guideId}`;
+        navigatePortal(`/guide/place/${guideId}`);
         break;
       }
       case 'guide-filter': {
@@ -1930,7 +1931,7 @@ export function createConciergeController(deps: ConciergeControllerDeps): {
         if (deps.openGuideFilter) {
           deps.openGuideFilter(opts);
         } else {
-          window.location.hash = 'guide';
+          navigatePortal('/guide');
         }
         break;
       }
@@ -1940,7 +1941,7 @@ export function createConciergeController(deps: ConciergeControllerDeps): {
         if (deps.openFaq) {
           deps.openFaq(faqId);
         } else {
-          window.location.hash = faqId ? `faq/${faqId}` : 'faq';
+          navigatePortal(faqId ? `/faq/${faqId}` : '/faq');
         }
         break;
       }
