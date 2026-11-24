@@ -2238,6 +2238,29 @@ body:has(#homeView:not([hidden])) #sirajLauncher.bot {
   line-height: 1.7 !important;
 }
 
+@media (min-width: 1500px) {
+  #homeView :is(
+    #discover-title,
+    #experiences .experiences-heading,
+    #destinations .section-top h2,
+    #plannerTitle,
+    #directoryTitle,
+    #storyTitle,
+    #galleryTitle,
+    #visitGuideTitle,
+    #season-title,
+    #app-title,
+    #officialPortalTitle,
+    #homeFaqTitle
+  ) {
+    font-size: 2.125rem !important;
+
+    + p {
+      font-size: 1rem !important;
+    }
+  }
+}
+
 @media (max-width: 640px) {
   #home .hero-title,
   #home .hero-copy h1 {
