@@ -560,12 +560,87 @@
 .app-store-links strong { font-size: .95rem; font-weight: 650; white-space: nowrap; }
 
 .app-phone { justify-self: center; margin: 0; width: min(100%, 244px); }
-.app-phone-app-screenshot {
-  display: block;
-  width: 100%;
-  height: auto;
-  border-radius: 1.5rem;
-  box-shadow: 0 24px 52px rgba(2, 10, 24, .52);
+.app-phone-frame {
+  position: relative;
+  aspect-ratio: 9 / 18.1;
+  border: 1px solid #c5a8bf;
+  border-radius: 35px;
+  background: linear-gradient(145deg, #827280, #241c24 20%, #151116 76%, #9e8498);
+  box-shadow: 0 24px 54px #1e0c1a65, 0 0 0 2px #191119;
+  transform: rotate(-7deg);
+}
+.app-phone-screen {
+  position: absolute;
+  color: #fff;
+  inset: 6px;
+  isolation: isolate;
+  overflow: hidden;
+  border-radius: 28px;
+  background: #30202b;
+  text-align: center;
+}
+.app-phone-photo, .app-phone-screen::before { position: absolute; inset: 0; width: 100%; height: 100%; }
+.app-phone-photo { z-index: -2; object-fit: cover; object-position: 55% 50%; }
+.app-phone-screen::before {
+  content: ""; z-index: -1;
+  background: linear-gradient(180deg, transparent 31%, #21172b9c 63%, #21172bbe 100%);
+}
+.app-phone-camera {
+  position: absolute;
+  z-index: 1;
+  top: 7px;
+  left: 50%;
+  width: 29%;
+  height: 12px;
+  border-radius: 20px;
+  background: #151116;
+  transform: translateX(-50%);
+}
+.app-phone-header {
+  position: absolute;
+  inset: 29px 11px auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.app-phone-header > img { width: 29px; height: 35px; object-fit: contain; }
+.app-phone-tools { display: flex; gap: 5px; }
+.app-phone-tools span {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border: 1px solid #fff8;
+  border-radius: 50%;
+  background: var(--hero-glass);
+}
+.app-phone-tools .ic { width: 11px; height: 11px; }
+.app-phone-hero { position: absolute; inset: auto 10px 14%; text-shadow: 0 1px 5px #160912; }
+.app-phone-eyebrow { font-size: .61rem; }
+.app-phone-hero strong { display: block; margin-block: 3px 5px; font-size: 1.56rem; line-height: 1.15; }
+.app-phone-hero strong em { color: #86efac; font-style: normal; }
+.app-phone-hero p { max-width: 25ch; margin: 0 auto; font-size: .59rem; line-height: 1.65; }
+.app-phone-actions { display: flex; justify-content: center; gap: 5px; margin-block-start: 9px; }
+.app-phone-actions span { padding: 4px 8px; border: 1px solid #fff8; border-radius: 30px; background: var(--hero-glass); font-size: .55rem; }
+.app-phone-actions span:first-child { background: var(--action); color: #fff; }
+.app-phone-footer {
+  position: absolute;
+  inset: auto 12px 14px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: .55rem;
+}
+.app-phone-scroll { display: inline-block; height: 12px; width: 1px; background: #f9d88e; }
+.app-phone-home {
+  position: absolute;
+  bottom: 5px;
+  left: 50%;
+  width: 30%;
+  height: 2px;
+  border-radius: 10px;
+  background: #ffffffa6;
+  transform: translateX(-50%);
 }
 .app-phone figcaption { margin-block-start: 18px; text-align: center; color: var(--on-plum-muted); font-size: .75rem; }
 
@@ -573,6 +648,8 @@
   .app-promo-layout { grid-template-columns: 1fr; gap: 29px; text-align: center; }
   .app-promo-copy .caption, .app-store-links { justify-content: center; }
   .app-phone { width: min(100%, 208px); }
+  .app-phone-frame { transform: rotate(-4deg); }
+  .app-phone-header { inset-block-start: 25px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .app-store-links a { transition: none; }
@@ -1300,6 +1377,19 @@ html:has(.city-report[open]) { overflow: hidden; }
 @media(max-width:600px){.directory-feature-photo{min-height:0;aspect-ratio:1.32}.directory-thumbnails{gap:5px}.directory-thumbnails button{border-radius:9px}.directory-thumbnails small{font-size:.59rem}.directory-meta-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.directory-visit-guide{border-radius:18px}.directory-lightbox{max-width:100vw;width:100%;max-height:100dvh;border-radius:0}.dl-layout>img{max-height:75dvh}}
 
 
+.app-phone-screen--app-preview::before { content: none; }
+.app-phone-app-screenshot {
+  position: absolute;
+  /* Fit the 834 × 1735 screen at (38, 16) within the 900 × 1777 source. */
+  inset: calc(-16 / 1735 * 100%) auto auto calc(-38 / 834 * 100%);
+  display: block;
+  width: calc(900 / 834 * 100%);
+  height: calc(1777 / 1735 * 100%);
+  max-width: none;
+  object-fit: fill;
+  border: 0;
+  filter: none;
+}
 .app-promo-copy h2 {
   font-size: clamp(2.85rem, 5.2vw, 5.5rem);
   line-height: 1.09;

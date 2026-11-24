@@ -54,15 +54,19 @@ export function AppPromoSection() {
           </div>
         </div>
         <figure className="app-phone">
-          <img
-            className="app-phone-app-screenshot"
-            src={domMedia.appPhoneScreenshot}
-            alt="واجهة تطبيق الباحة تعرض غابة رغدان والمساعد السياحي ومخطط الرحلة"
-            loading="lazy"
-            decoding="async"
-            width={900}
-            height={1777}
-          />
+          <div className="app-phone-frame">
+            <div className="app-phone-screen app-phone-screen--app-preview">
+              <img
+                className="app-phone-app-screenshot"
+                src={domMedia.appPhoneScreenshot}
+                alt="واجهة تطبيق الباحة تعرض غابة رغدان والمساعد السياحي ومخطط الرحلة"
+                loading="lazy"
+                decoding="async"
+                width={900}
+                height={1777}
+              />
+            </div>
+          </div>
           <figcaption>معاينة تطبيق الباحة الآن</figcaption>
         </figure>
       </div>
