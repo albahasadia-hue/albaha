@@ -73,7 +73,7 @@ export function DiscoverIntroSection() {
           </div>
 
           <div className="intro-actions reveal">
-            <a className="btn btn-soft" href="/city/baha">
+            <a className="btn btn-glass intro-explore-button" href="/city/baha">
               <svg className="section-mark section-mark--baha" aria-hidden="true">
                 <use href="#i-section-baha" width="24" height="24" />
               </svg>
