@@ -2219,6 +2219,10 @@ body:has(#homeView:not([hidden])) #sirajLauncher.bot {
   font-weight: 700 !important;
 }
 
+#homeView #discover-title {
+  font-size: clamp(1.48rem, 0.75rem + 1.43vw, 2.2rem) !important;
+}
+
 #homeView .lead,
 #homeView .section-top p:not(.caption),
 #homeView .intro-copy .intro-lead,
