@@ -13,6 +13,7 @@ import type {
 import {
   HERO_VIDEO_PLAYBACK_RATE,
   climateCities,
+  conciergeDays,
   createGuideRecordIndex,
   destinationAreas,
   domMedia,
@@ -68,9 +69,12 @@ import { bindSwipe } from './portalHelpers';
 import { forecast, localTime, weatherNames } from './weatherAndShowcase';
 import { createTripPdf, saveTripFile } from './tripPdfExport';
 import {
+  buildPlatformShareLinks,
+  buildSharedTripUrl,
+  decodeSharedTrip,
   routeTimingValid,
   timedSchedule,
-} from './conciergeEngine';
+} from './tripSharing';
 import { createSmartGuideUiController } from './smartGuideUiController';
 import { bindCityReel, createSubpageViewsController } from './subpageViews';
 import { createTourGuideController } from './tourGuideController';
@@ -2567,6 +2571,8 @@ export function initAlBahaPortal(initialView: PortalInitialView = 'home'): () =>
     }
     const downloadBtn = byId('downloadTripPdf');
     if (downloadBtn) downloadBtn.hidden = !approved;
+    const shareBtn = byId('shareTripBtn');
+    if (shareBtn) shareBtn.hidden = !approved;
     renderTodayTripPanel(plan);
   }
 
@@ -2935,6 +2941,115 @@ export function initAlBahaPortal(initialView: PortalInitialView = 'home'): () =>
     { signal }
   );
 
+  async function copyTextSafe(text: string): Promise<boolean> {
+    try {
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(text);
+        return true;
+      }
+    } catch {
+      /* Fallback to selection copy below */
+    }
+    try {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      const ok = document.execCommand('copy');
+      ta.remove();
+      return ok;
+    } catch {
+      return false;
+    }
+  }
+
+  function openShareTripDialog(): void {
+    const trip = approved;
+    const dialog = byId<HTMLDialogElement>('shareTripDialog');
+    if (!trip || !dialog) return;
+
+    const shareUrl = buildSharedTripUrl(trip, window.location.origin);
+    const links = buildPlatformShareLinks(trip, shareUrl);
+
+    const metaEl = byId('shareTripMeta');
+    if (metaEl) {
+      const daysTxt = conciergeDays[String(trip.days)] || `${formatNum(trip.days)} أيام`;
+      metaEl.textContent = `${daysTxt} · ${formatNum(trip.stations.length)} محطات معتمدة`;
+    }
+
+    const urlInput = byId<HTMLInputElement>('shareTripUrlInput');
+    if (urlInput) urlInput.value = shareUrl;
+
+    const waLink = byId<HTMLAnchorElement>('shareTripWhatsapp');
+    if (waLink) waLink.href = links.whatsappUrl;
+
+    const tgLink = byId<HTMLAnchorElement>('shareTripTelegram');
+    if (tgLink) tgLink.href = links.telegramUrl;
+
+    const xLink = byId<HTMLAnchorElement>('shareTripX');
+    if (xLink) xLink.href = links.xUrl;
+
+    const mailLink = byId<HTMLAnchorElement>('shareTripMail');
+    if (mailLink) mailLink.href = links.mailtoUrl;
+
+    const nativeBtn = byId<HTMLButtonElement>('shareTripNativeBtn');
+    if (nativeBtn) {
+      nativeBtn.hidden = typeof navigator.share !== 'function';
+      nativeBtn.onclick = async () => {
+        try {
+          await navigator.share({
+            title: links.title,
+            text: links.summaryText,
+            url: shareUrl,
+          });
+        } catch {
+          /* User cancelled native share sheet */
+        }
+      };
+    }
+
+    const copyUrlBtn = byId<HTMLButtonElement>('copyTripUrlBtn');
+    if (copyUrlBtn) {
+      const labelSpan = copyUrlBtn.querySelector('span');
+      if (labelSpan) labelSpan.textContent = 'نسخ الرابط';
+      copyUrlBtn.onclick = async () => {
+        const ok = await copyTextSafe(shareUrl);
+        if (ok) {
+          if (labelSpan) labelSpan.textContent = 'تم النسخ ✓';
+          toast('تم نسخ رابط خطة الرحلة.');
+          window.setTimeout(() => {
+            if (!signal.aborted && labelSpan) labelSpan.textContent = 'نسخ الرابط';
+          }, 2000);
+        } else {
+          urlInput?.select();
+          toast('انسخ الرابط المحدد يدويًا.');
+        }
+      };
+    }
+
+    const copySummaryBtn = byId<HTMLButtonElement>('copyTripSummaryBtn');
+    if (copySummaryBtn) {
+      copySummaryBtn.onclick = async () => {
+        const ok = await copyTextSafe(links.summaryText);
+        toast(ok ? 'تم نسخ ملخص الخطة مع الرابط.' : 'تعذّر النسخ التلقائي.');
+      };
+    }
+
+    if (!dialog.open) {
+      dialog.showModal();
+      document.documentElement.classList.add('has-dialog');
+    }
+  }
+
+  byId('shareTripBtn')?.addEventListener('click', openShareTripDialog, { signal });
+  byId('shareTripClose')?.addEventListener(
+    'click',
+    () => byId<HTMLDialogElement>('shareTripDialog')?.close(),
+    { signal }
+  );
   byId('downloadTripPdf')?.addEventListener('click', () => void downloadTripPdf(), { signal });
 
   region.addEventListener('change', () => editTrip(true, true), { signal });
@@ -4052,10 +4167,48 @@ export function initAlBahaPortal(initialView: PortalInitialView = 'home'): () =>
   bindCityReel(signal, () => Boolean(homeView?.hidden));
   observeEntrances();
 
-  restoreTrip();
+  function restoreSharedTripFromUrl(): ReturnType<typeof decodeSharedTrip> {
+    try {
+      const token = new URLSearchParams(window.location.search).get('plan');
+      if (!token) return null;
+      const decoded = decodeSharedTrip(token);
+      if (!decoded) return null;
+      if (region && Array.from(region.options).some((opt) => opt.value === decoded.region)) {
+        region.value = decoded.region;
+      }
+      if (days && Array.from(days.options).some((opt) => opt.value === decoded.days)) {
+        days.value = decoded.days;
+      }
+      style = decoded.style;
+      choices = new Set(decoded.ids);
+      lockedIds = new Set();
+      completedIds = new Set();
+      savedTiming = decoded.timing;
+      approved = decoded.approved;
+      return decoded;
+    } catch {
+      return null;
+    }
+  }
+
+  const sharedUrlPlan = restoreSharedTripFromUrl();
+  if (!sharedUrlPlan) {
+    restoreTrip();
+  }
   rebuildRoute();
   measureCarousel();
   syncPage(true);
+  if (sharedUrlPlan) {
+    for (const row of sharedUrlPlan.approved.stations) {
+      openDays.add(row.day);
+    }
+    renderSummary();
+    window.requestAnimationFrame(() => {
+      if (signal.aborted) return;
+      byId('summary')?.scrollIntoView({ behavior: smooth });
+      toast('تم فتح خطة الرحلة المشتركة بنجاح.');
+    });
+  }
 
   const syncHeaderSpace = () => {
     if (!header) return;

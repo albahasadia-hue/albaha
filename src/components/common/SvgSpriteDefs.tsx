@@ -229,6 +229,9 @@ export function SvgSpriteDefs() {
     <symbol id="i-guide-dining" viewBox="0 0 24 24"><path d="M4 3v5a3 3 0 0 0 6 0V3M7 3v18m11-7h-3V8c0-2.7 1.2-4.2 3-5v18"/></symbol>
     <symbol id="i-check" viewBox="0 0 24 24"><path d="m4 12 5 5L20 6"/></symbol>
     <symbol id="i-car" viewBox="0 0 24 24"><path d="M5 10 7 5h10l2 5 2 2v6H3v-6l2-2ZM3 14h18M5 18v2m14-2v2M7 14h2m6 0h2"/></symbol>
+    <symbol id="i-share" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4m0-11-6.8 4"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></symbol>
+    <symbol id="i-telegram" viewBox="0 0 24 24"><path d="m21.5 4.5-18 7 6.5 2.4 2.5 6.1 3.5-3.6 4.5 3.1 1-15ZM10 13.9l8.2-6.4"/></symbol>
     </defs></svg>
   );
 }

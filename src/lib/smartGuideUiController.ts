@@ -25,6 +25,8 @@ import {
   validateGuideAction,
   validateGuideActions,
   validatePlaceIds,
+  type ConciergeControllerDeps,
+  type ConciergeInput,
   type SmartGuideAction,
   type SmartGuideConversationTurn,
   type SmartGuideItinerary,
@@ -32,7 +34,6 @@ import {
   type SmartGuideRequestPayload,
   type SmartGuideResponseContract,
 } from './smartGuideContract';
-import type { ConciergeControllerDeps, ConciergeInput } from './conciergeEngine';
 
 const SESSION_STORAGE_KEY = 'albaha-smart-guide-session-v1';
 

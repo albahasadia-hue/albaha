@@ -375,6 +375,12 @@ export function TripPlannerSection() {
                       <use href="#i-check" />
                     </svg>
                   </button>
+                  <button type="button" className="btn btn-soft" id="shareTripBtn" hidden>
+                    <span>مشاركة الخطة</span>{' '}
+                    <svg className="ic" aria-hidden="true">
+                      <use href="#i-share" />
+                    </svg>
+                  </button>
                   <button type="button" className="btn btn-dark" id="downloadTripPdf" hidden>
                     <span>نزّل مخطط الرحلة PDF</span>{' '}
                     <svg className="ic" aria-hidden="true">
@@ -393,6 +399,125 @@ export function TripPlannerSection() {
           </div>
         </div>
       </div>
+
+      <dialog
+        id="shareTripDialog"
+        className="share-trip-dialog"
+        aria-labelledby="shareTripTitle"
+      >
+        <div className="share-trip-card">
+          <div className="share-trip-head">
+            <div className="share-trip-title-wrap">
+              <span className="share-trip-icon" aria-hidden="true">
+                <svg className="ic">
+                  <use href="#i-share" />
+                </svg>
+              </span>
+              <div>
+                <h3 id="shareTripTitle">مشاركة خطة الرحلة</h3>
+                <p id="shareTripMeta">شارك المسار المعتمد مع عائلتك أو أصدقائك</p>
+              </div>
+            </div>
+            <button
+              type="button"
+              className="share-trip-close"
+              id="shareTripClose"
+              aria-label="إغلاق نافذة المشاركة"
+            >
+              <svg className="ic tiny" aria-hidden="true">
+                <use href="#i-x" />
+              </svg>
+            </button>
+          </div>
+
+          <div className="share-trip-link-box">
+            <input
+              type="text"
+              id="shareTripUrlInput"
+              className="share-trip-url"
+              dir="ltr"
+              readOnly
+              aria-label="رابط خطة الرحلة"
+            />
+            <button type="button" className="btn btn-dark share-copy-btn" id="copyTripUrlBtn">
+              <svg className="ic tiny" aria-hidden="true">
+                <use href="#i-copy" />
+              </svg>
+              <span>نسخ الرابط</span>
+            </button>
+          </div>
+
+          <div className="share-trip-platforms" role="group" aria-label="منصات المشاركة">
+            <button
+              type="button"
+              className="share-platform-btn is-native"
+              id="shareTripNativeBtn"
+              hidden
+            >
+              <svg className="ic" aria-hidden="true">
+                <use href="#i-share" />
+              </svg>
+              <span>مشاركة عبر الجهاز</span>
+            </button>
+            <a
+              id="shareTripWhatsapp"
+              className="share-platform-btn"
+              href="https://wa.me/"
+              target="_blank"
+              rel="noopener"
+            >
+              <svg className="ic" aria-hidden="true">
+                <use href="#i-foot-whatsapp" />
+              </svg>
+              <span>واتساب</span>
+            </a>
+            <a
+              id="shareTripTelegram"
+              className="share-platform-btn"
+              href="https://t.me/share/url"
+              target="_blank"
+              rel="noopener"
+            >
+              <svg className="ic" aria-hidden="true">
+                <use href="#i-telegram" />
+              </svg>
+              <span>تيليجرام</span>
+            </a>
+            <a
+              id="shareTripX"
+              className="share-platform-btn"
+              href="https://x.com/intent/tweet"
+              target="_blank"
+              rel="noopener"
+            >
+              <svg className="ic" aria-hidden="true">
+                <use href="#i-foot-x" />
+              </svg>
+              <span>إكس (X)</span>
+            </a>
+            <a
+              id="shareTripMail"
+              className="share-platform-btn"
+              href="mailto:"
+            >
+              <svg className="ic" aria-hidden="true">
+                <use href="#i-foot-mail" />
+              </svg>
+              <span>البريد</span>
+            </a>
+            <button
+              type="button"
+              className="share-platform-btn"
+              id="copyTripSummaryBtn"
+            >
+              <svg className="ic" aria-hidden="true">
+                <use href="#i-details" />
+              </svg>
+              <span>نسخ النص والرابط</span>
+            </button>
+          </div>
+        </div>
+      </dialog>
 
       <svg className="heritage-divider planner-heritage-divider" aria-hidden="true" focusable="false">
         <rect width="100%" height="100%" fill="url(#experiences-woven-band-thin)" />

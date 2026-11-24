@@ -1,9 +1,77 @@
 import { SMART_GUIDE_NAME } from './smartGuideName';
 import type {
   ConciergeContextState,
+  IndexedGuideRecord,
   RouteTiming,
+  ScheduledStation,
+  SeasonKey,
+  StopBase,
+  TravelProfileKey,
   TripPlan,
+  TripStyle,
 } from './portalTypes';
+
+export interface ConciergeInput {
+  intent?: string;
+  text?: string;
+  profile?: TravelProfileKey | string;
+  field?: string;
+  value?: unknown;
+  id?: string;
+  city?: string;
+}
+
+export interface ConciergeSimulationDeps {
+  getCurrentSeason: () => SeasonKey;
+  scheduleTrip: (stopIds?: Set<string>, totalDays?: string) => { stations: ScheduledStation[] };
+  getGuideRecords: () => IndexedGuideRecord[];
+}
+
+export interface ConciergeControllerDeps extends ConciergeSimulationDeps {
+  signal: AbortSignal;
+  getState: () => {
+    choices: Set<string>;
+    approved: boolean;
+    region: string;
+    days: string;
+    style: TripStyle;
+    savedTiming: RouteTiming | null;
+    routeDraft: TripPlan | null;
+    completedIds?: string[];
+    lockedIds?: string[];
+    activeStopId?: string | null;
+  };
+  getActivePageContext?: () => {
+    placeId: string | null;
+    guidePlaceId: string | null;
+    activeStopId: string | null;
+    lockedIds: string[];
+    completedIds: string[];
+  };
+  applySavedPlan: (plan: TripPlan) => void;
+  setRouteDraft: (plan: TripPlan | null) => void;
+  toggleStop: (stop: StopBase) => void;
+  goToSection: (id: string) => void;
+  selectDestination: (id: string) => void;
+  focusStopFromConcierge?: (
+    stopId: string,
+    opts?: { message?: string; isExploration?: boolean }
+  ) => Promise<void> | void;
+  dockAtGuidePlace?: (
+    guideId: string,
+    opts?: { missingCoordinates?: boolean; message?: string }
+  ) => void;
+  toggleLockStop?: (stopId: string) => boolean;
+  markStopVisited?: (stopId: string) => void;
+  onSpeakReply?: (text: string) => void;
+  onModeBadgeChange?: (mode: 'live' | 'demo') => void;
+  openPanel: (kind: string) => void;
+  closePanel: () => void;
+  downloadTripPdf: () => void;
+  hasTourGuidePlace: (id: string) => boolean;
+  openGuideFilter?: (opts: { category?: string; district?: string; query?: string }) => void;
+  openFaq?: (faqId?: string) => void;
+}
 import {
   climateCities,
   conciergeDays,
