@@ -342,7 +342,10 @@ const SITE_ASSET_BINDINGS: Record<number, SiteAssetBinding> = {
   12: { tourGuideId: 'hotels-08', aliases: ['غيوم', 'فلل غيوم'] },
   13: { aliases: ['diyar home', 'ديار هوم'] },
   14: { aliases: ['mera', 'ميرا', 'مساكن ميرا'] },
-  15: { aliases: ['best place', 'المكان الافضل', 'المكان الأفضل', 'بيست بليس', 'فندق العقيق'] },
+  15: {
+    realPhoto: images['aqiq-best-place-hotel'],
+    aliases: ['best place', 'المكان الافضل', 'المكان الأفضل', 'بيست بليس', 'فندق العقيق'],
+  },
   16: { aliases: ['دار عوضة', 'دار عوضه', 'الاطاولة', 'الأطاولة'] },
   17: {
     tourGuideId: 'gamra-resort',
@@ -358,7 +361,10 @@ const SITE_ASSET_BINDINGS: Record<number, SiteAssetBinding> = {
   },
   27: { tourGuideId: 'farms-17', aliases: ['ريف الازهر', 'ريف الأزهر'] },
   28: { tourGuideId: 'chalets-13', aliases: ['blue sky', 'بلو سكاي', 'فلل العقيق'] },
-  29: { aliases: ['ميرو', 'شاليهات ميرو', 'شاليه ميرو'] },
+  29: {
+    realPhoto: images['aqiq-miro-chalets'],
+    aliases: ['ميرو', 'شاليهات ميرو', 'شاليه ميرو'],
+  },
   30: { aliases: ['منتجع الريف', 'الريف بلجرشي'] },
   31: { tourGuideId: 'chalets-11', aliases: ['garden city', 'قاردن سيتي', 'جاردن سيتي', 'مدينة الحدائق'] },
   35: { tourGuideId: 'chalets-07', aliases: ['اكواخ سار', 'أكواخ سار'] },

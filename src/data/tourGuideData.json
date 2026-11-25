@@ -1329,7 +1329,14 @@
       "category": "chalets",
       "address": "الباحة - العقيق",
       "district": "العقيق",
-      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=5"
+      "photo": "aqiq-blue-sky",
+      "gallery": [
+        {
+          "photo": "aqiq-blue-sky",
+          "caption": "الجلسة الخارجية في فلل بلو سكاي"
+        }
+      ],
+      "source": "https://baha.gov.sa/ar/Departments/ImageAlbum/478?deptId=112"
     },
     {
       "id": "chalets-14",

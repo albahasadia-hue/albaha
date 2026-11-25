@@ -319,7 +319,6 @@ export function createSmartGuideUiController(deps: ConciergeControllerDeps): {
     const li = document.createElement('li');
     li.className = 'sg-place-row';
 
-    // Single clickable link wrapping thumbnail + green name + diagonal ↖ arrow + short description
     const link = document.createElement('a');
     link.className = 'sg-place-link';
     link.href = card.internalHref;
@@ -345,21 +344,16 @@ export function createSmartGuideUiController(deps: ConciergeControllerDeps): {
       { signal }
     );
 
-    const img = document.createElement('img');
-    img.className = 'sg-place-thumb';
-    img.src = card.image || NEUTRAL_PLACEHOLDER_IMAGE;
-    img.alt = '';
-    img.loading = 'lazy';
-    img.decoding = 'async';
-    img.addEventListener(
-      'error',
-      () => {
-        if (!img.src.endsWith('guide-neutral.svg')) {
-          img.src = NEUTRAL_PLACEHOLDER_IMAGE;
-        }
-      },
-      { once: true, signal }
-    );
+    if (card.image && !card.imageIsFallback) {
+      const img = document.createElement('img');
+      img.className = 'sg-place-thumb';
+      img.alt = '';
+      img.loading = 'lazy';
+      img.decoding = 'async';
+      img.addEventListener('error', () => img.remove(), { once: true, signal });
+      img.src = card.image;
+      link.append(img);
+    }
 
     const copy = document.createElement('span');
     copy.className = 'sg-place-copy';
@@ -387,7 +381,7 @@ export function createSmartGuideUiController(deps: ConciergeControllerDeps): {
     descEl.textContent = metaBits.join(' · ');
 
     copy.append(titleRow, descEl);
-    link.append(img, copy);
+    link.append(copy);
     li.append(link);
 
     // Light text-link action bar (strictly showing only available verified channels)

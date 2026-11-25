@@ -1,4 +1,4 @@
-import { formatNum, glyph, isMotionPaused } from './portalHelpers';
+import { bindSwipe, formatNum, glyph, isMotionPaused } from './portalHelpers';
 import { climateCities, places, seasons } from './portalStaticData';
 import type { ForecastData, ForecastHour, MediaShowcaseItem, SeasonKey, StopBase } from './portalTypes';
 
@@ -270,16 +270,24 @@ function renderUnifiedLightbox() {
   const captionEl = panel.querySelector('[data-dl-caption]');
   if (captionEl) captionEl.textContent = current.caption || title || '';
   const counterEl = panel.querySelector('[data-dl-counter]');
-  if (counterEl) counterEl.textContent = `${formatNum(index + 1)} / ${formatNum(items.length)}`;
-  const actionsEl = panel.querySelector<HTMLElement>('.dl-actions');
-  if (actionsEl) actionsEl.hidden = items.length < 2;
+  if (counterEl) counterEl.textContent = `${formatNum(index + 1)} من ${formatNum(items.length)}`;
+  panel.querySelectorAll<HTMLButtonElement>('[data-dl-step]').forEach((button) => {
+    button.hidden = items.length < 2;
+  });
+}
+
+function stepUnifiedLightbox(step: number): void {
+  const { items, index } = unifiedLightboxState;
+  if (items.length < 2) return;
+  unifiedLightboxState.index = (index + step + items.length) % items.length;
+  renderUnifiedLightbox();
 }
 
 export function openUnifiedLightbox(
   title: string,
   items: MediaShowcaseItem[],
   index = 0,
-  signal?: AbortSignal
+  signal: AbortSignal
 ): void {
   if (!items?.length) return;
   let panel = document.getElementById('directory-lightbox') as HTMLDialogElement | null;
@@ -287,7 +295,24 @@ export function openUnifiedLightbox(
     panel = document.createElement('dialog');
     panel.id = 'directory-lightbox';
     panel.className = 'directory-lightbox';
-    panel.innerHTML = `<div class="dl-layout" dir="rtl"><div class="dl-bar"><strong data-dl-title>معرض الصور</strong><button type="button" data-dl-close aria-label="إغلاق المعرض">×</button></div><div class="dl-stage"><img data-dl-image alt=""></div><div class="dl-foot"><div class="dl-info"><span data-dl-caption></span><span data-dl-counter></span></div><div class="dl-actions"><button type="button" data-dl-step="-1" aria-label="الصورة السابقة">${glyph('arrow', 'ic tiny')} السابق</button><button type="button" data-dl-step="1" aria-label="الصورة التالية">التالي ${glyph('arrow', 'ic tiny')}</button></div></div></div>`;
+    panel.dir = 'rtl';
+    panel.setAttribute('aria-labelledby', 'directory-lightbox-title');
+    panel.innerHTML = `
+      <div class="dl-layout">
+        <div class="dl-bar">
+          <h2 id="directory-lightbox-title" data-dl-title>معرض الصور</h2>
+          <button type="button" data-dl-close aria-label="إغلاق المعرض" autofocus>${glyph('x')}</button>
+        </div>
+        <figure class="dl-figure">
+          <div class="dl-stage"><img data-dl-image alt=""></div>
+          <figcaption class="dl-caption" data-dl-caption></figcaption>
+        </figure>
+        <div class="dl-actions">
+          <button type="button" data-dl-step="-1" aria-label="الصورة السابقة">${glyph('arrow')} <span>السابق</span></button>
+          <span class="dl-counter" data-dl-counter aria-live="polite" aria-atomic="true"></span>
+          <button type="button" data-dl-step="1" aria-label="الصورة التالية"><span>التالي</span> ${glyph('arrow')}</button>
+        </div>
+      </div>`;
     document.body.append(panel);
     panel.addEventListener(
       'click',
@@ -298,12 +323,7 @@ export function openUnifiedLightbox(
           return;
         }
         const step = target.closest<HTMLElement>('[data-dl-step]');
-        if (step && unifiedLightboxState.items.length > 1) {
-          const total = unifiedLightboxState.items.length;
-          unifiedLightboxState.index =
-            (unifiedLightboxState.index + Number(step.dataset.dlStep) + total) % total;
-          renderUnifiedLightbox();
-        }
+        if (step) stepUnifiedLightbox(Number(step.dataset.dlStep));
       },
       { signal }
     );
@@ -315,15 +335,20 @@ export function openUnifiedLightbox(
           (e.key === 'ArrowLeft' || e.key === 'ArrowRight')
         ) {
           e.preventDefault();
-          const total = unifiedLightboxState.items.length;
-          unifiedLightboxState.index =
-            (unifiedLightboxState.index + (e.key === 'ArrowLeft' ? 1 : -1) + total) % total;
-          renderUnifiedLightbox();
+          stepUnifiedLightbox(e.key === 'ArrowLeft' ? 1 : -1);
         }
       },
       { signal }
     );
-    signal?.addEventListener(
+    const stage = panel.querySelector<HTMLElement>('.dl-stage');
+    if (stage) {
+      bindSwipe(stage, {
+        end: (delta) => {
+          if (Math.abs(delta) >= 42) stepUnifiedLightbox(delta > 0 ? 1 : -1);
+        },
+      }, signal);
+    }
+    signal.addEventListener(
       'abort',
       () => {
         if (panel?.open) panel.close();

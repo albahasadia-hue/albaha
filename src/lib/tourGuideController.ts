@@ -422,6 +422,9 @@ export function createTourGuideController(deps: TourGuideControllerDeps): TourGu
     }
     const category = tourGuideCategories.get(place.category)!;
     const caption = `${place.name} · ${place.district || category.label}`;
+    if (!place.photo && item144?.image && !item144.imageIsFallback) {
+      return [{ src: item144.image, caption, alt: place.name }];
+    }
     if (item144?.imageIsFallback && item144.image === NEUTRAL_PLACEHOLDER_IMAGE) {
       return [{ src: NEUTRAL_PLACEHOLDER_IMAGE, caption, alt: place.name }];
     }
