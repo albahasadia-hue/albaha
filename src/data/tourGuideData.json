@@ -1231,6 +1231,7 @@
       "category": "restaurants",
       "address": "الباحة",
       "district": "الباحة",
+      "description": "مشاوي وأطباق أرز وسلطات طازجة، بطابع يجمع بين الضيافة السعودية والطهي العصري.",
       "photo": "meshraq",
       "gallery": [
         { "photo": "meshraq", "caption": "أطباق مطعم مشراق" }
