@@ -217,6 +217,28 @@
       ]
     },
     {
+      "id": "dhee-ain-visitor-center",
+      "name": "مركز زوار قرية ذي عين التراثية",
+      "category": "museums",
+      "address": "قرية ذي عين، المخواة",
+      "district": "المخواة",
+      "description": "مركز تعريفي في مبنى حجري مُرمّم بقرية ذي عين في المخواة. تعرض قاعاته تاريخ القرية وعمارتها والحرف التقليدية في الباحة باستخدام لوحات وعروض مرئية.",
+      "photo": "dhee-ain-center-facade",
+      "gallery": [
+        { "photo": "dhee-ain-center-facade", "caption": "الواجهة الحجرية لمركز زوار قرية ذي عين" },
+        { "photo": "dhee-ain-center-history", "caption": "قاعة تعرض تاريخ الباحة وعمارة ذي عين" },
+        { "photo": "dhee-ain-center-display", "caption": "لوحات مصوّرة عن قرى الباحة وتاريخها" },
+        { "photo": "dhee-ain-center-crafts", "caption": "معروضات عن الحرف التقليدية والأكلات الشعبية" }
+      ],
+      "coordinates": [19.9314638, 41.4425802],
+      "map": "https://www.google.com/maps/search/?api=1&query=19.9314638,41.4425802",
+      "source": "https://www.visitsaudi.com/ar/al-baha/attractions/visitor-center-thee-ain-heritage-village",
+      "sourceLabel": "روح السعودية",
+      "facts": [
+        ["مساحة المبنى", "نحو 700 م²"]
+      ]
+    },
+    {
       "id": "khairah-waterfall",
       "name": "شلال خيرة",
       "category": "water",
