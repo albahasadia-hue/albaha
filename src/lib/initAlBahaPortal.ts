@@ -136,6 +136,9 @@ export function initAlBahaPortal(initialView: PortalInitialView = 'home'): () =>
   let completedIds = new Set<string>();
   let style: TripStyle = 'all';
   let approved: ApprovedTrip | null = null;
+  const manualDays = new Map<string, number>();
+  let manualOrder: string[] = [];
+  let hasManualDayEdits = false;
   let chosen: StopBase[] = stops;
   let station = -1;
   let activeDockKind: 'none' | 'map' | 'guide' = 'none';
@@ -249,6 +252,16 @@ export function initAlBahaPortal(initialView: PortalInitialView = 'home'): () =>
       if (Array.isArray(saved.choices)) {
         choices = new Set(saved.choices.filter((id: string) => places.has(id)));
       }
+      if (days && Array.isArray(saved.manualStops)) {
+        const dayCount = Number(days.value);
+        for (const row of saved.manualStops) {
+          if (row && choices.has(row.id) && Number.isInteger(row.day) && row.day >= 1 && row.day <= dayCount) {
+            manualDays.set(row.id, row.day);
+          }
+        }
+        manualOrder = [...manualDays.keys()];
+        hasManualDayEdits = manualOrder.length > 0;
+      }
       if (Array.isArray(saved.lockedIds)) {
         lockedIds = new Set(saved.lockedIds.filter((id: string) => places.has(id)));
       }
@@ -286,6 +299,9 @@ export function initAlBahaPortal(initialView: PortalInitialView = 'home'): () =>
           lockedIds: [...lockedIds],
           completedIds: [...completedIds],
           timing: savedTiming,
+          manualStops: hasManualDayEdits
+            ? manualOrder.map((id) => ({ id, day: manualDays.get(id) }))
+            : undefined,
           approved,
         })
       );
@@ -333,8 +349,10 @@ export function initAlBahaPortal(initialView: PortalInitialView = 'home'): () =>
       button.addEventListener(
         'click',
         () => {
-          select.value = option.value;
-          select.dispatchEvent(new Event('change', { bubbles: true }));
+          if (select.value !== option.value) {
+            select.value = option.value;
+            select.dispatchEvent(new Event('change', { bubbles: true }));
+          }
           close(true);
         },
         { signal }
@@ -2263,9 +2281,6 @@ export function initAlBahaPortal(initialView: PortalInitialView = 'home'): () =>
     { once: true }
   );
 
-  const manualDays = new Map<string, number>();
-  let manualOrder: string[] = [];
-  let hasManualDayEdits = false;
   let activeEditDay: number | null = null;
   let draggedStopId: string | null = null;
   const openDays = new Set<number>();
@@ -2311,6 +2326,9 @@ export function initAlBahaPortal(initialView: PortalInitialView = 'home'): () =>
     const totalDays = Math.max(1, Number(days?.value || 1));
     const clampedDay = Math.max(1, Math.min(totalDays, targetDay));
     if (!choices.has(stopId)) return;
+    const targetStops = scheduleTrip().stations.filter((row) => row.day === clampedDay);
+    const currentIndex = targetStops.findIndex((row) => row.id === stopId);
+    if (currentIndex >= 0 && (beforeStopId === stopId || targetStops[currentIndex + 1]?.id === beforeStopId)) return;
     snapshotCurrentDaysToManual();
     manualDays.set(stopId, clampedDay);
     manualOrder = manualOrder.filter((id) => id !== stopId);
@@ -2321,9 +2339,7 @@ export function initAlBahaPortal(initialView: PortalInitialView = 'home'): () =>
       manualOrder.push(stopId);
     }
     openDays.add(clampedDay);
-    approved = null;
-    savedTiming = null;
-    renderSummary();
+    editTrip(false, true);
     const stop = places.get(stopId);
     if (stop) toast(`نُقلت ${stop.name} إلى اليوم ${formatNum(clampedDay)}.`);
   }
@@ -2556,8 +2572,8 @@ export function initAlBahaPortal(initialView: PortalInitialView = 'home'): () =>
     }
     const approveBtn = byId<HTMLButtonElement>('approveTrip');
     if (approveBtn) {
+      approveBtn.hidden = Boolean(approved);
       approveBtn.disabled = !plan.stations.length || Boolean(approved) || Boolean(unscheduled.length);
-      approveBtn.innerHTML = `${approved ? 'اعتُمدت الرحلة' : 'اعتمد رحلتي'} ${glyph('check')}`;
     }
     const downloadBtn = byId('downloadTripPdf');
     if (downloadBtn) downloadBtn.hidden = !approved;
@@ -2659,7 +2675,6 @@ export function initAlBahaPortal(initialView: PortalInitialView = 'home'): () =>
         const d = Number(editBtn.dataset.editDay);
         activeEditDay = activeEditDay === d ? null : d;
         if (activeEditDay) {
-          snapshotCurrentDaysToManual();
           openDays.add(activeEditDay);
         }
         renderSummary();
@@ -2870,7 +2885,13 @@ export function initAlBahaPortal(initialView: PortalInitialView = 'home'): () =>
     }
     if (rebuild) rebuildRoute();
     else renderSummary();
-    saveTrip();
+    if (saveTrip()) {
+      const url = new URL(window.location.href);
+      if (url.searchParams.has('plan')) {
+        url.searchParams.delete('plan');
+        window.history.replaceState(window.history.state, '', url);
+      }
+    }
   }
 
   async function downloadTripPdf(): Promise<void> {
@@ -2898,8 +2919,9 @@ export function initAlBahaPortal(initialView: PortalInitialView = 'home'): () =>
 
   byId('approveTrip')?.addEventListener(
     'click',
-    () => {
-      if (!region || !days) return;
+    (event) => {
+      if (approved || !region || !days) return;
+      const hadFocus = event.currentTarget === document.activeElement;
       const plan = scheduleTrip();
       if (!plan.stations.length || plan.unscheduled?.length) return;
       approved = {
@@ -2922,6 +2944,7 @@ export function initAlBahaPortal(initialView: PortalInitialView = 'home'): () =>
       };
       const saved = saveTrip();
       renderSummary();
+      if (hadFocus) byId('shareTripBtn')?.focus({ preventScroll: true });
       toast(
         saved
           ? 'اعتُمدت رحلتك وحُفظت على هذا المتصفح.'
@@ -3057,7 +3080,9 @@ export function initAlBahaPortal(initialView: PortalInitialView = 'home'): () =>
     button.addEventListener(
       'click',
       () => {
-        style = (button.dataset.style as TripStyle) || 'all';
+        const nextStyle = (button.dataset.style as TripStyle) || 'all';
+        if (style === nextStyle) return;
+        style = nextStyle;
         editTrip(true, true);
       },
       { signal }
@@ -3377,6 +3402,7 @@ export function initAlBahaPortal(initialView: PortalInitialView = 'home'): () =>
   });
 
   toggleStopFn = (stop: StopBase) => {
+    if (activeEditDay) snapshotCurrentDaysToManual();
     if (choices.has(stop.id)) {
       choices.delete(stop.id);
       manualDays.delete(stop.id);
@@ -3385,7 +3411,6 @@ export function initAlBahaPortal(initialView: PortalInitialView = 'home'): () =>
     } else {
       choices.add(stop.id);
       if (activeEditDay) {
-        snapshotCurrentDaysToManual();
         const totalDays = Math.max(1, Number(days?.value || 1));
         const targetDay = Math.min(totalDays, activeEditDay);
         manualDays.set(stop.id, targetDay);
@@ -3592,13 +3617,13 @@ export function initAlBahaPortal(initialView: PortalInitialView = 'home'): () =>
         selectStationByUser(Number(target.dataset.station));
       } else if (target.hasAttribute('data-remove')) {
         const removedId = target.dataset.remove;
-        if (removedId) {
-          choices.delete(removedId);
-          manualDays.delete(removedId);
-          manualOrder = manualOrder.filter((id) => id !== removedId);
-          lockedIds.delete(removedId);
-          completedIds.delete(removedId);
-        }
+        if (!removedId || !choices.has(removedId)) return;
+        if (activeEditDay) snapshotCurrentDaysToManual();
+        choices.delete(removedId);
+        manualDays.delete(removedId);
+        manualOrder = manualOrder.filter((id) => id !== removedId);
+        lockedIds.delete(removedId);
+        completedIds.delete(removedId);
         editTrip();
         renderAddButton();
       } else if (target.dataset.destination) {
