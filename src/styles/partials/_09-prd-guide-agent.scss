@@ -5090,6 +5090,25 @@ body:has(#homeView[hidden]) #header .header-plan-button {
   flex: none !important;
 }
 
+@media (max-width: 540px) {
+  #placeView .place-weather-head h2 {
+    gap: 6px !important;
+    font-size: clamp(.83rem, 3.5vw, 1rem) !important;
+    line-height: 1.4 !important;
+  }
+
+  #placeView .place-weather-head .place-weather-ic {
+    width: 17px !important;
+    height: 17px !important;
+  }
+
+  #placeView .place-weather-head .btn {
+    min-height: 44px !important;
+    padding-inline: 8px !important;
+    font-size: clamp(.74rem, 3vw, .8rem) !important;
+  }
+}
+
 #placeView .place-weather-body {
   display: block !important;
   grid-template-columns: minmax(0, 1fr) !important;

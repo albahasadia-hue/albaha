@@ -210,12 +210,8 @@ export function localWeatherMarkup(
 ): string {
   return `<section class="place-weather-strip" aria-labelledby="weatherTitle">
     <div class="place-weather-head">
-      <div class="place-weather-title">
-        <h2 id="weatherTitle">${glyph('weather', 'ic place-weather-ic')}<span>الأحوال والطقس (${seasons[currentSeason].name})</span></h2>
-      </div>
-      <div class="seraj-city-actions">
-        <button type="button" class="btn btn-dark" data-weather-plan="${cityKey}" data-visit-id="${id}">خطّط حسب الأجواء ${glyph('route')}</button>
-      </div>
+      <h2 id="weatherTitle">${glyph('weather', 'ic place-weather-ic')}<span>الأحوال والطقس (${seasons[currentSeason].name})</span></h2>
+      <button type="button" class="btn btn-dark" data-weather-plan="${cityKey}" data-visit-id="${id}">${glyph('route')}<span>خطّط حسب الأجواء</span></button>
     </div>
     <div class="place-weather-body">
       <div id="placeWeather" data-weather-place="${id}" aria-live="polite"></div>

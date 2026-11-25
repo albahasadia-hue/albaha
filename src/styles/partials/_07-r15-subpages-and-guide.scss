@@ -432,19 +432,12 @@ html.motion-paused .ab-showcase-img.is-active {
   box-shadow: 0 9px 19px #173c5d13, 0 2px 5px #173c5d0c, inset 0 1px #fff;
 }
 .place-weather-head {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
-  justify-content: space-between;
-  gap: 10px 14px;
+  gap: clamp(8px, 2vw, 14px);
   padding-bottom: 11px;
   border-bottom: 1px solid #dce8ef;
-}
-.place-weather-title {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 8px 12px;
 }
 .place-weather-badge {
   display: inline-flex;
@@ -461,10 +454,17 @@ html.motion-paused .ab-showcase-img.is-active {
   margin: 0 !important;
   font-size: clamp(1.02rem, 1.22vw, 1.14rem) !important;
 }
-.place-weather-strip .btn {
+.place-weather-head .btn {
   min-height: 36px !important;
   padding: 6px 13px !important;
   font-size: .8rem !important;
+  gap: 6px;
+  white-space: nowrap;
+}
+.place-weather-head .btn .ic {
+  flex: none;
+  inline-size: 1.25em;
+  block-size: 1.25em;
 }
 .place-weather-strip .place-source {
   display: inline-flex;
