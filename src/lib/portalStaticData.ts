@@ -1102,6 +1102,8 @@ export const seasons: Record<SeasonKey, SeasonConfig> = {
   winter: { name: 'الشتاء', months: 'ديسمبر إلى فبراير', city: 'makhwah', image: 'ain', start: 10 * 60 },
 };
 
+const raghdanGuideGallery = tourGuide.records.find((place) => place.id === 'raghdan')?.gallery ?? [];
+
 export const stopVisit: Record<string, StopVisitConfig> = {
   raghdan: {
     city: 'baha',
@@ -1110,7 +1112,10 @@ export const stopVisit: Record<string, StopVisitConfig> = {
     short: 60,
     gallery: [
       ['hero-raghdan', 'مشهد بانورامي لرغدان والسراة'],
-      ['raghdan', 'الطريق بين أشجار رغدان'],
+      ['raghdan', 'إطلالة على المنتزه ومرتفعات الباحة'],
+      ...raghdanGuideGallery
+        .filter(({ photo }) => photo !== 'raghdan')
+        .map(({ photo, caption }): [string, string] => [photo, caption]),
     ],
   },
   hussam: {
