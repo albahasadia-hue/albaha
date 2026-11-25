@@ -78,7 +78,6 @@ import {
 import { createSmartGuideUiController } from './smartGuideUiController';
 import { bindCityReel, createSubpageViewsController } from './subpageViews';
 import { createTourGuideController } from './tourGuideController';
-import { FAQ_ITEMS } from '@/data/faqData';
 import {
   buildConstraintPlan,
   findNearestStopTo,
@@ -522,7 +521,10 @@ export function initAlBahaPortal(initialView: PortalInitialView = 'home'): () =>
 
     panel.showModal();
     document.documentElement.classList.add('has-dialog');
-    if (name === 'search') byId('searchInput')?.focus({ preventScroll: true });
+    if (name === 'search') {
+      byId('searchInput')?.focus({ preventScroll: true });
+      window.dispatchEvent(new Event('albaha:search-open'));
+    }
   }
 
   qsAll<HTMLDialogElement>('dialog').forEach((dialog) => {
@@ -603,31 +605,7 @@ export function initAlBahaPortal(initialView: PortalInitialView = 'home'): () =>
     )
   );
 
-  // Search Overlay
-  const guideTopics = [
-    {
-      id: 'attractions',
-      name: 'المزارات السياحية',
-      aliases: 'سوق السبت بلجرشي المتحف الأبنوي غابة خيرة شلال',
-      desc: '',
-      tag: 'دليل الباحة',
-    },
-    {
-      id: 'dining',
-      name: 'المطاعم والأكلات',
-      aliases: 'هالة البستان الخبزة المقناة الدغابيس البن الشدوي قهوة طعام',
-      desc: '',
-      tag: 'دليل الباحة',
-    },
-    {
-      id: 'camping',
-      name: 'المخيمات والإقامة',
-      aliases: 'تخييم مخيم خيمة تصريح مبيت منتجع ماكامايا الكهف الشفا شدا الأسفل',
-      desc: '',
-      tag: 'دليل الباحة',
-    },
-  ];
-
+  // Global Guide Index (shared with Tour Guide controller; Search UI is managed by SearchDialog)
   let globalGuideData: ReturnType<typeof createGuideRecordIndex> | null = null;
   function getGlobalGuideData() {
     if (!globalGuideData) {
@@ -635,78 +613,6 @@ export function initAlBahaPortal(initialView: PortalInitialView = 'home'): () =>
     }
     return globalGuideData;
   }
-
-  function showResults(value: string): void {
-    const resultsEl = byId('searchResults');
-    if (!resultsEl) return;
-    const terms = normalizeAr(value).split(/\s+/).filter(Boolean);
-    const matches = ({
-      name,
-      tag,
-      aliases,
-      desc,
-    }: {
-      name: string;
-      tag: string;
-      aliases?: string;
-      desc: string;
-    }) => {
-      const searchText = normalizeAr([name, tag, aliases || '', desc].join(' '));
-      return terms.every((term) => searchText.includes(term));
-    };
-    const safe = (s: unknown) =>
-      String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
-    const destinations = stops.filter(matches).map(
-      (stop) => `
-      <button type="button" class="search-result" data-destination="${stop.id}">
-        <span>${stop.name}</span><small>${stop.tag}</small>
-      </button>`
-    );
-    const guideRecords = terms.length
-      ? getGlobalGuideData()
-          .filter((place) => terms.every((term) => place.searchBlob.includes(term)))
-          .slice(0, 24)
-          .map(
-            (place) => `
-      <button type="button" class="search-result" data-guide-place="${safe(place.id)}">
-        <span>${safe(place.name)}</span><small>${safe(place.district || 'الباحة')} · ${safe(place.categoryLabel)}</small>
-      </button>`
-          )
-      : [];
-    const topics = guideTopics.filter(matches).map(
-      (topic) => `
-      <button type="button" class="search-result" data-guide-topic="${topic.id}">
-        <span>${topic.name}</span><small>دليل الباحة</small>
-      </button>`
-    );
-    const faqResults = terms.length
-      ? FAQ_ITEMS.filter((item) => {
-          const blob = normalizeAr([item.question, item.answer, ...(item.highlights || [])].join(' '));
-          return terms.every((term) => blob.includes(term));
-        })
-          .slice(0, 6)
-          .map(
-            (item) => `
-      <button type="button" class="search-result" data-faq-jump="${safe(item.id)}">
-        <span>${safe(item.question)}</span><small>الأسئلة الشائعة</small>
-      </button>`
-          )
-      : [];
-    resultsEl.innerHTML =
-      guideRecords.concat(destinations, faqResults, topics).join('') ||
-      '<p class="muted">لم نجد نتيجة. جرّب اسم وجهة أو محافظة أو نوع تجربة.</p>';
-  }
-
-  const searchInput = byId<HTMLInputElement>('searchInput');
-  searchInput?.addEventListener('input', (event) => {
-    showResults((event.target as HTMLInputElement).value);
-  }, { signal });
-  searchInput?.addEventListener('keydown', (event) => {
-    if (event.key !== 'Enter') return;
-    event.preventDefault();
-    byId('searchResults')?.querySelector<HTMLButtonElement>('button')?.click();
-  }, { signal });
-  showResults('');
 
   // Hero video & cues
   const hero = byId('home');
