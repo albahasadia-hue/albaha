@@ -308,9 +308,9 @@ export function openUnifiedLightbox(
           <figcaption class="dl-caption" data-dl-caption></figcaption>
         </figure>
         <div class="dl-actions">
-          <button type="button" data-dl-step="-1" aria-label="الصورة السابقة">${glyph('arrow')} <span>السابق</span></button>
+          <button type="button" data-dl-step="1" aria-label="الصورة التالية">${glyph('arrow')} <span>التالي</span></button>
           <span class="dl-counter" data-dl-counter aria-live="polite" aria-atomic="true"></span>
-          <button type="button" data-dl-step="1" aria-label="الصورة التالية"><span>التالي</span> ${glyph('arrow')}</button>
+          <button type="button" data-dl-step="-1" aria-label="الصورة السابقة"><span>السابق</span> ${glyph('arrow')}</button>
         </div>
       </div>`;
     document.body.append(panel);
@@ -335,7 +335,7 @@ export function openUnifiedLightbox(
           (e.key === 'ArrowLeft' || e.key === 'ArrowRight')
         ) {
           e.preventDefault();
-          stepUnifiedLightbox(e.key === 'ArrowLeft' ? 1 : -1);
+          stepUnifiedLightbox(e.key === 'ArrowRight' ? 1 : -1);
         }
       },
       { signal }

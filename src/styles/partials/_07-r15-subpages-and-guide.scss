@@ -2053,9 +2053,9 @@ html.motion-paused .ab-showcase-img.is-active {
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
-.dl-actions button[data-dl-step="-1"] { grid-column: 1; justify-self: start; }
-.dl-actions button[data-dl-step="-1"] .ic { transform: rotate(180deg); }
-.dl-actions button[data-dl-step="1"] { grid-column: 3; justify-self: end; }
+.dl-actions button[data-dl-step="1"] { grid-column: 1; justify-self: start; }
+.dl-actions button[data-dl-step="1"] .ic { transform: rotate(180deg); }
+.dl-actions button[data-dl-step="-1"] { grid-column: 3; justify-self: end; }
 
 /* ==========================================================================
    City Events & Archive Section + Full-Page Story View (Unified Editorial)
