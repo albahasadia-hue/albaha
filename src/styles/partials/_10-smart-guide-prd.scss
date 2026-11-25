@@ -48,6 +48,11 @@ html.has-smart-guide #sirajLauncher.bot {
     grid-template-columns: minmax(0, 1fr) !important;
   }
 
+  html.has-smart-guide .tour-guide-detail {
+    grid-template-areas: "intro" "gallery" "actions";
+    grid-template-rows: none;
+  }
+
   html.has-smart-guide .tour-guide-facts dl,
   html.has-smart-guide .tour-guide-facts dl[data-cols="4"],
   html.has-smart-guide .place-facts {

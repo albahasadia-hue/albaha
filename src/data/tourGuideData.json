@@ -322,6 +322,17 @@
           "الخدمات المنشورة",
           "مقهى لخدمة الزوار"
         ]
+      ],
+      "photo": "almond-farm-grounds",
+      "gallery": [
+        {
+          "photo": "almond-farm-grounds",
+          "caption": "المساحات الخارجية في مزرعة بساتين اللوز"
+        },
+        {
+          "photo": "almond-farm-cabin",
+          "caption": "كوخ خشبي في مزرعة بساتين اللوز"
+        }
       ]
     },
     {
@@ -829,7 +840,18 @@
       "category": "farms",
       "address": "الباحة - العقيق",
       "district": "العقيق",
-      "source": "https://baha.gov.sa/ar/Albums/Sites?type=15"
+      "source": "https://baha.gov.sa/ar/Departments/ImageAlbum/485?deptId=112",
+      "photo": "fal-al-ezz-grounds",
+      "gallery": [
+        {
+          "photo": "fal-al-ezz-grounds",
+          "caption": "الساحة الخارجية في مركز فال العز للفروسية"
+        },
+        {
+          "photo": "fal-al-ezz-stables",
+          "caption": "الإسطبلات في مركز فال العز للفروسية"
+        }
+      ]
     },
     {
       "id": "farms-15",
@@ -886,7 +908,18 @@
       "category": "heritage",
       "address": "الباحة - القرى",
       "district": "القرى",
-      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Heritage&type=19"
+      "source": "https://baha.gov.sa/ar/Albums/ImageDetails/361",
+      "photo": "bakhroush-fort",
+      "gallery": [
+        {
+          "photo": "bakhroush-fort",
+          "caption": "أحد المباني الحجرية في قرية حصون بخروش"
+        },
+        {
+          "photo": "bakhroush-stonework",
+          "caption": "واجهة حجرية في قرية حصون بخروش"
+        }
+      ]
     },
     {
       "id": "alabadil-heritage-village",
@@ -1137,7 +1170,18 @@
       "category": "hotels",
       "address": "الباحة - الزرقاء",
       "district": "الباحة",
-      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=4"
+      "source": "https://baha.gov.sa/en/Albums/ImageDetails/Cloud-City-Hotel",
+      "photo": "cloud-city-lobby",
+      "gallery": [
+        {
+          "photo": "cloud-city-lobby",
+          "caption": "ردهة فندق مدينة السحاب"
+        },
+        {
+          "photo": "cloud-city-facade",
+          "caption": "واجهة فندق مدينة السحاب"
+        }
+      ]
     },
     {
       "id": "hotels-03",
@@ -1161,7 +1205,18 @@
       "category": "hotels",
       "address": "الباحة",
       "district": "الباحة",
-      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=4"
+      "source": "https://baha.gov.sa/ar/Albums/ImageDetails/493",
+      "photo": "sakura-facade",
+      "gallery": [
+        {
+          "photo": "sakura-facade",
+          "caption": "واجهة فندق ساكورا سيتي"
+        },
+        {
+          "photo": "sakura-room",
+          "caption": "إحدى غرف فندق ساكورا سيتي"
+        }
+      ]
     },
     {
       "id": "hotels-06",
@@ -1169,7 +1224,7 @@
       "category": "hotels",
       "address": "بلجرشي - طريق الملك عبدالعزيز",
       "district": "بلجرشي",
-      "source": "https://bso.gov.sa/assets/tourist_guide_albaha_arabic_241f20cb54/tourist_guide_albaha_arabic_241f20cb54.pdf",
+      "source": "https://baha.gov.sa/ar/Departments/ImageAlbum/252?deptId=110",
       "coordinates": [
         19.86,
         41.56
@@ -1189,6 +1244,17 @@
           "الخدمات المنشورة",
           "مطعم ومقهى (الدليل السياحي للمنطقة)"
         ]
+      ],
+      "photo": "national-park-hotel-facade",
+      "gallery": [
+        {
+          "photo": "national-park-hotel-facade",
+          "caption": "واجهة فندق المنتزه الوطني في بلجرشي"
+        },
+        {
+          "photo": "national-park-hotel-lounge",
+          "caption": "الجلسات الداخلية في فندق المنتزه الوطني"
+        }
       ]
     },
     {
@@ -1205,7 +1271,18 @@
       "category": "hotels",
       "address": "الباحة - بلجرشي",
       "district": "بلجرشي",
-      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=4"
+      "source": "https://baha.gov.sa/ar/Albums/ImageDetails/250",
+      "photo": "ghuyoom-villas",
+      "gallery": [
+        {
+          "photo": "ghuyoom-villas",
+          "caption": "واجهات فلل غيوم في بلجرشي"
+        },
+        {
+          "photo": "ghuyoom-bedroom",
+          "caption": "إحدى غرف النوم في فلل غيوم"
+        }
+      ]
     },
     {
       "id": "g-5",
@@ -1334,6 +1411,14 @@
         {
           "photo": "aqiq-blue-sky",
           "caption": "الجلسة الخارجية في فلل بلو سكاي"
+        },
+        {
+          "photo": "aqiq-blue-sky-pool",
+          "caption": "المسبح في فلل بلو سكاي"
+        },
+        {
+          "photo": "aqiq-blue-sky-lounge",
+          "caption": "جلسة داخلية في فلل بلو سكاي"
         }
       ],
       "source": "https://baha.gov.sa/ar/Departments/ImageAlbum/478?deptId=112"
@@ -1368,7 +1453,18 @@
       "category": "restaurants",
       "address": "الباحة",
       "district": "الباحة",
-      "source": "https://baha.gov.sa/ar/Albums/Sites?type=7"
+      "source": "https://baha.gov.sa/ar/Albums/ImageDetails/262",
+      "photo": "fifth-season-dining",
+      "gallery": [
+        {
+          "photo": "fifth-season-dining",
+          "caption": "إحدى جلسات مطعم فيفث سيزون"
+        },
+        {
+          "photo": "fifth-season-food",
+          "caption": "أطباق من مطعم فيفث سيزون"
+        }
+      ]
     },
     {
       "id": "restaurants-02",

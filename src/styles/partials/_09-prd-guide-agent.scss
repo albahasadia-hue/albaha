@@ -1260,16 +1260,25 @@ body:has(#homeView:not([hidden])) #sirajLauncher.bot {
 
 .tour-guide-detail {
   grid-template-columns: minmax(0, 1.02fr) minmax(0, .98fr) !important;
-  gap: clamp(18px, 3vw, 34px) !important;
+  grid-template-areas:
+    "intro gallery"
+    "actions gallery";
+  grid-template-rows: auto 1fr;
+  gap: 16px clamp(18px, 3vw, 34px) !important;
   align-items: start !important;
 }
 
 .directory-intro-copy {
-  order: 0 !important;
+  grid-area: intro;
 }
 
 .directory-gallery {
-  order: 1 !important;
+  grid-area: gallery;
+}
+
+.directory-actions {
+  grid-area: actions;
+  min-inline-size: 0;
 }
 
 .tour-guide-intro {
@@ -1283,6 +1292,8 @@ body:has(#homeView:not([hidden])) #sirajLauncher.bot {
 @media (max-width: 900px) {
   .tour-guide-detail {
     grid-template-columns: minmax(0, 1fr) !important;
+    grid-template-areas: "intro" "gallery" "actions";
+    grid-template-rows: none;
   }
 }
 

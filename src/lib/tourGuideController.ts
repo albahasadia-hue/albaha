@@ -1219,16 +1219,6 @@ export function createTourGuideController(deps: TourGuideControllerDeps): TourGu
           </div>
           <h1 class="tour-guide-title" id="tourGuideTitle" tabindex="-1">${guideText(place.name)}</h1>
           ${summary ? `<p class="lead">${guideText(summary)}</p>` : ''}
-          <div class="directory-meta-grid" data-cols="${metadata.length}">
-            ${metadata.map(([label, value, icon]) => `<div><small>${cardHead(icon, label)}</small><strong>${guideText(value)}</strong></div>`).join('')}
-          </div>
-          <div class="place-actions">
-            ${contactActions.join('')}
-            <a class="btn ${bookingType ? 'btn-soft' : 'btn-dark'}" href="${guideText(place.map || place.accessMap || search)}" target="_blank" rel="noopener noreferrer">${glyph('map')} ${mapLabel}</a>
-            ${place.trip ? `<button class="btn btn-soft" type="button" data-guide-trip="${place.trip}"></button>` : ''}
-            <a class="btn btn-soft" href="/guide">${glyph('section-guide', 'ic tiny')} تصفّح أماكن أخرى</a>
-          </div>
-          ${item144?.bookingLink ? `<a class="directory-booking-provider" href="${guideText(item144.bookingLink.url)}" target="_blank" rel="noopener noreferrer">${guideText(item144.bookingLink.label)} ${glyph('external', 'ic tiny')}</a>` : ''}
         </div>
         <div class="directory-gallery">
           <div class="directory-feature-photo">
@@ -1239,6 +1229,18 @@ export function createTourGuideController(deps: TourGuideControllerDeps): TourGu
               ? `<div class="directory-thumbnails" id="directoryThumbnails" role="group" aria-label="صور ${guideText(place.name)}">${showcaseItems.map((item, i) => `<button type="button" data-showcase-thumb="${i}" aria-current="${i === 0}" aria-label="عرض الصورة ${formatNum(i + 1)}"><img src="${item.src}" alt="" loading="eager" decoding="async"></button>`).join('')}</div>`
               : ''
           }
+        </div>
+        <div class="directory-actions">
+          <div class="directory-meta-grid" data-cols="${metadata.length}">
+            ${metadata.map(([label, value, icon]) => `<div><small>${cardHead(icon, label)}</small><strong>${guideText(value)}</strong></div>`).join('')}
+          </div>
+          <div class="place-actions">
+            ${contactActions.join('')}
+            <a class="btn ${bookingType ? 'btn-soft' : 'btn-dark'}" href="${guideText(place.map || place.accessMap || search)}" target="_blank" rel="noopener noreferrer">${glyph('map')} ${mapLabel}</a>
+            ${place.trip ? `<button class="btn btn-soft" type="button" data-guide-trip="${place.trip}"></button>` : ''}
+            <a class="btn btn-soft" href="/guide">${glyph('section-guide', 'ic tiny')} تصفّح أماكن أخرى</a>
+          </div>
+          ${item144?.bookingLink ? `<a class="directory-booking-provider" href="${guideText(item144.bookingLink.url)}" target="_blank" rel="noopener noreferrer">${guideText(item144.bookingLink.label)} ${glyph('external', 'ic tiny')}</a>` : ''}
         </div>
       </section>
       ${extraFacts.length ? `<section class="tour-guide-facts" aria-labelledby="tourGuideFactsTitle"><div class="tour-guide-rowhead"><h2 id="tourGuideFactsTitle">معلومات منشورة عن المكان</h2></div><dl data-cols="${extraFacts.length <= 4 ? extraFacts.length : 3}">${extraFacts.map(([label, value]) => `<div><dt>${cardHead(guideFactIcon(label), guideText(label))}</dt><dd>${guideText(value)}</dd></div>`).join('')}</dl></section>` : ''}
