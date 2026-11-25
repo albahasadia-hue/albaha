@@ -54,14 +54,7 @@ export function ExperiencesSection() {
       <div className="container">
         <div className="section-top experiences-top reveal">
           <div className="experiences-intro">
-            <h2 className="experiences-heading">
-              <span className="experiences-heading-icon" aria-hidden="true">
-                <svg className="section-mark" viewBox="0 0 24 24" focusable="false">
-                  <use href="#i-section-experiences" width="24" height="24" />
-                </svg>
-              </span>
-              <span>عِش المتعة في منطقة الباحة</span>
-            </h2>
+            <h2 className="experiences-heading">عِش المتعة في منطقة الباحة</h2>
             <div className="exp-cat-strip" role="navigation" aria-label="تصنيفات تجارب الباحة">
               {EXPERIENCES.map((item) => (
                 <a
