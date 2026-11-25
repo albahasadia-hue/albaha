@@ -529,8 +529,8 @@ export const promotedGuideStops: StopBase[] = [
     min: 70,
     lat: 20.0763061,
     lng: 41.5692638,
-    image: 'mishari',
-    photoAlt: 'مزرعة الزيتونة في العقيق',
+    image: 'zaytouna-greenhouse',
+    photoAlt: 'تجربة زراعة عائلية في مزرعة الزيتونة',
     aliases: 'الزيتونة مزرعة الزيتونة العقيق',
   },
   {
@@ -1105,6 +1105,7 @@ export const seasons: Record<SeasonKey, SeasonConfig> = {
 const raghdanGuideGallery = tourGuide.records.find((place) => place.id === 'raghdan')?.gallery ?? [];
 const dheeAynGuideGallery = tourGuide.records.find((place) => place.id === 'dhee-ain')?.gallery ?? [];
 const shadaGuideGallery = tourGuide.records.find((place) => place.id === 'shada')?.gallery ?? [];
+const zaytounaGuideGallery = tourGuide.records.find((place) => place.id === 'farms-13')?.gallery ?? [];
 
 export const stopVisit: Record<string, StopVisitConfig> = {
   raghdan: {
@@ -1202,6 +1203,10 @@ for (const stop of promotedGuideStops) {
       : {}),
     gallery: [[stop.image, stop.photoAlt || stop.name]],
   };
+}
+
+if (zaytounaGuideGallery.length) {
+  stopVisit['farms-13'].gallery = zaytounaGuideGallery.map(({ photo, caption }) => [photo, caption]);
 }
 
 export const monthWords: RegExp[] = [

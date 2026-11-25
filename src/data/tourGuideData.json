@@ -784,15 +784,23 @@
       "id": "farms-13",
       "name": "مزرعة الزيتونة",
       "category": "farms",
-      "address": "الباحة - العقيق",
+      "address": "مركز بهر، طريق العقيق",
       "district": "العقيق",
-      "source": "https://baha.gov.sa/ar/Departments/ImageAlbum/245?deptId=112",
+      "source": "https://www.visitsaudi.com/ar/al-baha/attractions/olive-farms-in-al-baha",
+      "sourceLabel": "روح السعودية",
       "coordinates": [
         20.0763061,
         41.5692638
       ],
       "map": "https://maps.app.goo.gl/4KVcEBmy7H3oLSn5A",
-      "description": "مزرعة سياحية تجمع مدرجات الزيتون وتجارب الزراعة. يذكر دليل الأمانة زراعة الفراولة مائيًا ووجود حديقة للطيور.",
+      "description": "مزرعة سياحية في مركز بهر تجمع مدرجات الزيتون والزراعة المائية للفراولة، مع حديقة للطيور.",
+      "photo": "zaytouna-greenhouse",
+      "gallery": [
+        { "photo": "zaytouna-greenhouse", "caption": "تجربة زراعة عائلية داخل أحد البيوت المحمية" },
+        { "photo": "zaytouna-dome", "caption": "إطلالة على الجبال من داخل إحدى القباب" },
+        { "photo": "zaytouna-terraces", "caption": "لقطة جوية لمدرّجات مزرعة الزيتونة على سفوح الجبال" },
+        { "photo": "zaytouna-harvest", "caption": "ثمار المزرعة في سلة تقليدية" }
+      ],
       "facts": [
         [
           "المحافظة",
