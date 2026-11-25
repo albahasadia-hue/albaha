@@ -8,6 +8,7 @@ export function SvgSpriteDefs() {
     <symbol id="i-directory-museum" viewBox="0 0 24 24"><path d="M3 8 12 3l9 5H3Zm1 12h16M6 11v6m4-6v6m4-6v6m4-6v6"/></symbol>
     <symbol id="i-directory-shopping" viewBox="0 0 24 24"><path d="M5 8h14l1.5 12h-17ZM9 10V6a3 3 0 1 1 6 0v4"/></symbol>
     <symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol>
+    <symbol id="i-maximize" viewBox="0 0 24 24"><path d="M8 4H4v4m12-4h4v4M4 16v4h4m12-4v4h-4"/></symbol>
     <symbol id="i-pin" viewBox="0 0 24 24"><path d="M20 10c0 5-8 11-8 11s-8-6-8-11a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></symbol>
       <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v13m-5-5 5 5 5-5M4 16v5h16v-5"/></symbol>
       <symbol id="i-mic" viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3m-4 0h8"/></symbol>

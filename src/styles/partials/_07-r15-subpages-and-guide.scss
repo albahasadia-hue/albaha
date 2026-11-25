@@ -348,17 +348,15 @@ html.motion-paused .ab-showcase-img.is-active {
   top: 11px;
   left: 11px;
   z-index: 4;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  min-height: 36px;
-  padding: 6px 12px;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
   border: 1px solid rgba(255, 255, 255, .28);
   background: rgba(6, 26, 51, .72);
   backdrop-filter: blur(8px);
   color: #FFFFFF;
-  font-size: .78rem;
-  font-weight: 600;
   cursor: pointer;
   transition: background .2s var(--ease), border-color .2s var(--ease);
 }

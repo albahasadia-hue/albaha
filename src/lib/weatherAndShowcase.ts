@@ -230,7 +230,7 @@ export function mediaShowcaseMarkup({
   return `<div class="ab-showcase" id="${id}" data-showcase data-count="${items.length}">
     <div class="ab-showcase-stage">
       ${items.map((item, i) => `<img class="ab-showcase-img${i === 0 ? ' is-active' : ''}" src="${item.src}" alt="${item.alt || title}" loading="eager" decoding="async" data-showcase-slide="${i}">`).join('')}
-      <button type="button" class="ab-showcase-zoom" data-showcase-zoom ${zoomAttrs} aria-label="عرض صور ${title} بملء الشاشة">${glyph('image', 'ic tiny')}<span>تكبير العرض${multi ? ` (${formatNum(items.length)})` : ''}</span></button>
+      <button type="button" class="ab-showcase-zoom" data-showcase-zoom ${zoomAttrs} aria-label="عرض صور ${title} بملء الشاشة">${glyph('maximize')}</button>
       ${multi ? `<button type="button" class="ab-showcase-step prev" data-showcase-step="-1" aria-label="الصورة السابقة">${glyph('arrow', 'ic tiny')}</button><button type="button" class="ab-showcase-step next" data-showcase-step="1" aria-label="الصورة التالية">${glyph('arrow', 'ic tiny')}</button>` : ''}
       <div class="ab-showcase-bar">
         <span class="ab-showcase-caption" data-showcase-caption>${first?.caption || title}</span>
