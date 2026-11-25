@@ -68,6 +68,13 @@ export function VisitGuideSection() {
             <span className="guide-label-full">المخيمات والإقامة</span>
             <span className="guide-label-short">المبيت</span>
           </a>
+          <a href="/guide" data-tour-guide-nav="" aria-label="الدليل الشامل">
+            <svg className="ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <use href="#i-nav-guide" width="24" height="24" />
+            </svg>
+            <span className="guide-label-full">الدليل الشامل</span>
+            <span className="guide-label-short">الدليل الشامل</span>
+          </a>
         </nav>
 
         <section id="attractions" className="guide-section" aria-labelledby="attractionsTitle">
@@ -232,6 +239,13 @@ export function VisitGuideSection() {
             </div>
             <div className="dining-spots">
               <article className="dining-spot">
+                <img
+                  className="dining-spot-bg"
+                  src="/media/art-guide-dining.webp"
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+                />
                 <div className="dining-spot-top">
                   <div className="dining-spot-id">
                     <span className="guide-icon-badge" aria-hidden="true">
@@ -263,6 +277,13 @@ export function VisitGuideSection() {
                 </div>
               </article>
               <article className="dining-spot">
+                <img
+                  className="dining-spot-bg"
+                  src="/media/art-guide-dining-alt.webp"
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+                />
                 <div className="dining-spot-top">
                   <div className="dining-spot-id">
                     <span className="guide-icon-badge" aria-hidden="true">

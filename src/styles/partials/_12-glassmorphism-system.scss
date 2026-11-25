@@ -392,7 +392,6 @@ body:has(#homeView[hidden]) #header .header-plan-button {
 #visit-guide .guide-index,
 #visit-guide .guide-card:not(.guide-sight-feature),
 #visit-guide .guide-dining-list,
-#visit-guide .dining-spot,
 #visit-season .season-fact-card,
 #visit-season .season-switch,
 #planner .planner-chooser--merged .route-field,
@@ -480,7 +479,6 @@ body:has(#homeView[hidden]) #header .header-plan-button {
 .faq-teaser-item:hover,
 .faq-teaser-item.is-open,
 #visit-guide .guide-card:not(.guide-sight-feature):hover,
-#visit-guide .dining-spot:hover,
 #faqView .faq-item:hover,
 #faqView .faq-support-card:hover,
 .invest-project-card:hover,
@@ -728,7 +726,6 @@ body:has(#homeView[hidden]) #header .nav-icon:is(:hover, :focus-visible),
 .vision-card h4,
 .faq-teaser-q,
 #visit-guide .guide-card:not(.guide-sight-feature) :is(h3, h4),
-#visit-guide .dining-spot :is(h3, h4, strong),
 #visit-season .season-fact-card dd,
 #planner .planner-chooser--merged .route-picker-trigger .route-picker-value,
 #planner #routeSticky :is(h3, #stopTitle),
@@ -776,7 +773,6 @@ body:has(#homeView[hidden]) #header .nav-icon:is(:hover, :focus-visible),
 .vision-card p,
 .faq-teaser-answer,
 #visit-guide .guide-card:not(.guide-sight-feature) p,
-#visit-guide .dining-spot p,
 #planner #routeSticky #stopDesc,
 #faqView .faq-answer-text,
 #faqView .faq-support-card p,
@@ -874,7 +870,7 @@ body:has(#homeView[hidden]) #header .nav-icon:is(:hover, :focus-visible),
 
 /* 4.7 Inner Micro-Badges, Chips & Nested Cards (Prevent Blending into Translucent Surface) */
 #faqView .faq-highlights li,
-#visit-guide .guide-tag,
+#visit-guide .guide-card:not(.guide-sight-feature) .guide-tag,
 #planner .trip-summary--board .summary-stop-dur,
 #faqView .faq-cat-pill:not(.is-active) .faq-cat-count,
 .guide-district-option:not([aria-selected="true"]) .guide-district-option-meta small {
@@ -932,8 +928,48 @@ body:has(#homeView[hidden]) #header .nav-icon:is(:hover, :focus-visible),
 
 /* ==========================================================================
    5. Scenic Seasonal Showcase Card (#visit-season .season-card)
-      Top Floating Location + Live Atmosphere Pills & Full-Width High-Transparency Glass Bar
+      Exact Top/Bottom Card Alignment, Centered Months & High-Transparency Glass Bar
    ========================================================================== */
+#visit-season .season-header {
+  margin-bottom: clamp(14px, 1.8vw, 20px) !important;
+}
+
+#visit-season .season-header #season-title {
+  margin-block: 0.14em 0 !important;
+}
+
+#visit-season .season-intro .season-switch {
+  margin-block-start: 0 !important;
+  max-width: 100% !important;
+  width: 100% !important;
+}
+
+#visit-season .season-intro .season-facts-grid {
+  margin-bottom: 0 !important;
+}
+
+@media (min-width: 821px) {
+  #visit-season .season-grid {
+    align-items: stretch !important;
+  }
+
+  #visit-season .season-intro {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    gap: 10px !important;
+  }
+
+  #visit-season .season-intro .season-cities {
+    margin: 0 !important;
+  }
+
+  #visit-season .season-intro .season-facts-grid {
+    margin: 0 !important;
+    flex: 1 1 auto;
+  }
+}
+
 #visit-season .season-card {
   position: relative !important;
   isolation: isolate !important;
@@ -946,7 +982,9 @@ body:has(#homeView[hidden]) #header .nav-icon:is(:hover, :focus-visible),
   max-width: 100% !important;
   min-width: 0 !important;
   aspect-ratio: auto !important;
-  min-height: clamp(248px, 21vw, 290px) !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  align-self: stretch !important;
   border-radius: 14px !important;
   border: 1px solid rgba(255, 255, 255, 0.76) !important;
   background: #071b34 !important;
@@ -1068,20 +1106,18 @@ body:has(#homeView[hidden]) #header .nav-icon:is(:hover, :focus-visible),
 }
 
 #visit-season .season-card-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 6px 12px;
-}
-
-#visit-season .season-card-title {
-  display: inline-flex;
-  align-items: baseline;
-  gap: 8px;
+  display: grid !important;
+  grid-template-columns: 1fr auto 1fr !important;
+  align-items: center !important;
+  gap: 6px 12px !important;
 }
 
 #visit-season #seasonName {
+  justify-self: start;
+  margin: 0 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
   color: #ffffff !important;
   font-size: clamp(1.06rem, 1.24vw, 1.24rem) !important;
   font-weight: 800 !important;
@@ -1089,8 +1125,9 @@ body:has(#homeView[hidden]) #header .nav-icon:is(:hover, :focus-visible),
   text-shadow: 0 1px 6px rgba(3, 12, 24, 0.6);
 }
 
-/* Unboxed Season Months & Best Time Text */
-#visit-season #seasonMonths {
+/* Unboxed Season Months Centered in Strip & Matched 1:1 with Best Time */
+#visit-season #seasonMonths,
+#visit-season .season-best-pill {
   margin: 0 !important;
   padding: 0 !important;
   border-radius: 0 !important;
@@ -1099,33 +1136,27 @@ body:has(#homeView[hidden]) #header .nav-icon:is(:hover, :focus-visible),
   -webkit-backdrop-filter: none !important;
   border: 0 !important;
   box-shadow: none !important;
-  color: #fde6b4 !important;
-  font-size: 0.77rem !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  color: rgba(244, 249, 255, 0.96) !important;
+  font-size: 0.76rem !important;
   font-weight: 600 !important;
   line-height: 1.3 !important;
+  white-space: nowrap !important;
   text-shadow: 0 1px 5px rgba(3, 12, 24, 0.65) !important;
 }
 
+#visit-season #seasonMonths {
+  justify-self: center;
+  color: #fde6b4 !important;
+}
+
 #visit-season #seasonMonths::before {
-  content: '·';
-  margin-inline-end: 7px;
-  color: rgba(253, 230, 180, 0.72);
+  display: none !important;
 }
 
 #visit-season .season-best-pill {
-  display: inline-flex;
-  align-items: center;
-  padding: 0 !important;
-  border-radius: 0 !important;
-  background: transparent !important;
-  border: 0 !important;
-  box-shadow: none !important;
-  color: rgba(238, 246, 255, 0.94);
-  font-size: 0.75rem;
-  font-weight: 600;
-  line-height: 1.3;
-  white-space: nowrap;
-  text-shadow: 0 1px 5px rgba(3, 12, 24, 0.65);
+  justify-self: end;
 }
 
 #visit-season .season-card-bottom {
@@ -1196,6 +1227,13 @@ body:has(#homeView[hidden]) #header .nav-icon:is(:hover, :focus-visible),
     inset 0 1px 0 #ffffff !important;
 }
 
+@media (max-width: 820px) {
+  #visit-season .season-card {
+    height: auto !important;
+    min-height: clamp(238px, 58vw, 272px) !important;
+  }
+}
+
 @media (max-width: 680px) {
   #visit-season .season-card {
     min-height: clamp(232px, 58vw, 262px) !important;
@@ -1217,8 +1255,14 @@ body:has(#homeView[hidden]) #header .nav-icon:is(:hover, :focus-visible),
     gap: 4px !important;
   }
 
+  #visit-season .season-card-top {
+    grid-template-columns: auto 1fr auto !important;
+    gap: 4px 8px !important;
+  }
+
+  #visit-season #seasonMonths,
   #visit-season .season-best-pill {
-    font-size: 0.7rem;
+    font-size: 0.68rem !important;
   }
 
   #visit-season .season-card-bottom {
@@ -1236,5 +1280,210 @@ body:has(#homeView[hidden]) #header .nav-icon:is(:hover, :focus-visible),
     font-size: 0.69rem !important;
   }
 }
+
+/* ==========================================================================
+   6. #visit-guide 4-Button Section Bar & Scenic Restaurant Cards (.dining-spot)
+   ========================================================================== */
+#visit-guide .guide-index {
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  width: min(100%, 54rem) !important;
+  gap: 8px !important;
+  padding: 6px !important;
+}
+
+#visit-guide .guide-index a[data-tour-guide-nav] {
+  border: 1px solid rgba(243, 208, 137, 0.38) !important;
+}
+
+@media (max-width: 720px) {
+  #visit-guide .guide-index {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    width: 100% !important;
+    gap: 6px !important;
+  }
+
+  #visit-guide .guide-index .guide-label-full {
+    display: inline !important;
+  }
+
+  #visit-guide .guide-index .guide-label-short {
+    display: none !important;
+  }
+}
+
+/* Scenic Background-Photo Restaurant Cards (مطعم هالة & مطعم البستان) */
+#visit-guide #dining .dining-spots {
+  display: grid !important;
+  gap: 12px !important;
+}
+
+#visit-guide #dining .dining-spot {
+  position: relative !important;
+  isolation: isolate !important;
+  overflow: hidden !important;
+  min-height: 148px !important;
+  padding: 14px 16px 13px !important;
+  border-radius: 12px !important;
+  border: 1px solid rgba(255, 255, 255, 0.9) !important;
+  background: #081d34 !important;
+  box-shadow:
+    0 14px 30px -12px rgba(6, 26, 51, 0.34),
+    0 2px 6px rgba(6, 26, 51, 0.1) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  gap: 8px !important;
+  transition:
+    transform 0.26s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.26s cubic-bezier(0.22, 1, 0.36, 1) !important;
+}
+
+#visit-guide #dining .dining-spot:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 18px 36px -12px rgba(6, 26, 51, 0.42),
+    0 0 0 1px rgba(243, 208, 137, 0.52) !important;
+}
+
+#visit-guide #dining .dining-spot img.dining-spot-bg {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center 54% !important;
+  z-index: -2 !important;
+  transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1) !important;
+}
+
+#visit-guide #dining .dining-spot:hover img.dining-spot-bg {
+  transform: scale(1.06);
+}
+
+#visit-guide #dining .dining-spot::after {
+  content: '' !important;
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: -1 !important;
+  background:
+    linear-gradient(
+      270deg,
+      rgba(6, 20, 38, 0.86) 0%,
+      rgba(8, 25, 45, 0.64) 54%,
+      rgba(8, 25, 45, 0.26) 100%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(5, 16, 30, 0.16) 0%,
+      rgba(5, 16, 30, 0.72) 100%
+    ) !important;
+  pointer-events: none !important;
+}
+
+#visit-guide #dining .dining-spot .dining-spot-top,
+#visit-guide #dining .dining-spot > p,
+#visit-guide #dining .dining-spot .guide-links {
+  position: relative;
+  z-index: 2;
+}
+
+#visit-guide #dining .dining-spot .guide-icon-badge {
+  width: 34px !important;
+  height: 34px !important;
+  border-radius: 8px !important;
+  background: rgba(255, 255, 255, 0.16) !important;
+  backdrop-filter: blur(10px) saturate(140%) !important;
+  -webkit-backdrop-filter: blur(10px) saturate(140%) !important;
+  border: 1px solid rgba(243, 208, 137, 0.48) !important;
+  box-shadow: 0 4px 12px rgba(3, 10, 22, 0.22) !important;
+}
+
+#visit-guide #dining .dining-spot .guide-icon-badge .ic {
+  color: #fde6b4 !important;
+}
+
+#visit-guide #dining .dining-spot h5 {
+  color: #ffffff !important;
+  font-size: clamp(1rem, 1.14vw, 1.1rem) !important;
+  font-weight: 800 !important;
+  text-shadow: 0 2px 8px rgba(3, 10, 22, 0.68) !important;
+}
+
+#visit-guide #dining .dining-spot .guide-tag {
+  padding: 4px 10px !important;
+  border-radius: 999px !important;
+  background: rgba(6, 22, 42, 0.58) !important;
+  backdrop-filter: blur(12px) saturate(150%) !important;
+  -webkit-backdrop-filter: blur(12px) saturate(150%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.28) !important;
+  box-shadow: 0 4px 12px rgba(3, 10, 22, 0.24) !important;
+  color: #ffffff !important;
+  font-size: 0.72rem !important;
+  font-weight: 700 !important;
+}
+
+#visit-guide #dining .dining-spot .guide-tag .ic {
+  color: #f3d089 !important;
+}
+
+#visit-guide #dining .dining-spot > p {
+  color: rgba(246, 250, 255, 0.96) !important;
+  font-size: 0.82rem !important;
+  font-weight: 500 !important;
+  line-height: 1.54 !important;
+  text-shadow: 0 1px 6px rgba(3, 10, 22, 0.72) !important;
+}
+
+#visit-guide #dining .dining-spot .guide-links {
+  padding-top: 8px !important;
+  gap: 8px !important;
+}
+
+#visit-guide #dining .dining-spot .guide-links::before {
+  width: 100% !important;
+  background: linear-gradient(
+    270deg,
+    rgba(255, 255, 255, 0.24) 0%,
+    rgba(255, 255, 255, 0.08) 72%,
+    transparent 100%
+  ) !important;
+}
+
+#visit-guide #dining .dining-spot .guide-links a {
+  min-height: 27px !important;
+  height: 27px !important;
+  padding: 0 10px !important;
+  gap: 5px !important;
+  border-radius: 7px !important;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.88) 0%,
+    rgba(236, 245, 251, 0.8) 100%
+  ) !important;
+  backdrop-filter: blur(12px) saturate(165%) !important;
+  -webkit-backdrop-filter: blur(12px) saturate(165%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.95) !important;
+  box-shadow:
+    0 4px 12px rgba(4, 15, 30, 0.22),
+    inset 0 1px 0 #ffffff !important;
+  color: var(--ab-glass-ink-strong) !important;
+  font-size: 0.72rem !important;
+  font-weight: 700 !important;
+  text-decoration: none !important;
+  transition: transform 0.18s ease, background 0.18s ease, color 0.18s ease !important;
+}
+
+#visit-guide #dining .dining-spot .guide-links a .ic {
+  color: var(--ab-glass-emerald) !important;
+}
+
+#visit-guide #dining .dining-spot .guide-links a:is(:hover, :focus-visible) {
+  transform: translateY(-1px) !important;
+  background: rgba(255, 255, 255, 0.97) !important;
+  color: var(--ab-glass-emerald) !important;
+  text-decoration: none !important;
+}
+
 
 
