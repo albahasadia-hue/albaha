@@ -869,11 +869,24 @@
     },
     {
       "id": "museums-01",
-      "name": "نزل العائد",
+      "name": "متحف بيت العايد",
       "category": "museums",
-      "address": "الباحة -بني كبير",
+      "address": "بني كبير، الباحة",
       "district": "الباحة",
-      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Heritage&type=12"
+      "description": "متحف تراثي في بني كبير يضم بيوتًا حجرية مُرمّمة تعرض أثاثًا قديمًا وأدوات منزلية وعملات ورقية، وتعرّف مجالسه الشعبية الزوّار بتقاليد الضيافة في الباحة.",
+      "photo": "bayt-alayed-courtyard",
+      "gallery": [
+        { "photo": "bayt-alayed-courtyard", "caption": "فناء متحف بيت العايد مضاءً ليلًا" },
+        { "photo": "bayt-alayed-interior", "caption": "باب خشبي مزخرف يفتح على إحدى غرف المتحف" },
+        { "photo": "bayt-alayed-majlis", "caption": "جلسة شعبية تحت سقف خشبي تطل على الفناء" }
+      ],
+      "coordinates": [19.9444396, 41.5651054],
+      "map": "https://www.google.com/maps/search/?api=1&query=19.9444396,41.5651054",
+      "source": "https://www.visitsaudi.com/ar/al-baha/attractions/al-ayed-heritage-museum",
+      "sourceLabel": "روح السعودية",
+      "facts": [
+        ["يُعرف أيضًا باسم", "نزل العائد"]
+      ]
     },
     {
       "id": "museums-02",
