@@ -1231,6 +1231,10 @@
       "category": "restaurants",
       "address": "الباحة",
       "district": "الباحة",
+      "photo": "meshraq",
+      "gallery": [
+        { "photo": "meshraq", "caption": "أطباق مطعم مشراق" }
+      ],
       "source": "https://baha.gov.sa/ar/Albums/Sites?type=7"
     },
     {
