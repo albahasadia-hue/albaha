@@ -1274,10 +1274,7 @@ body:has(#homeView[hidden]) #header .nav-icon:is(:hover, :focus-visible),
   }
 
   #visit-season #seasonCity {
-    min-height: 26px !important;
-    height: 26px !important;
-    padding: 0 9px !important;
-    font-size: 0.69rem !important;
+    display: none !important;
   }
 }
 
