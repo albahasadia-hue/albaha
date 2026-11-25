@@ -1050,7 +1050,7 @@ export function createTourGuideController(deps: TourGuideControllerDeps): TourGu
           <span><strong>${formatNum(tourGuide.categories.length)}</strong> فئات متنوعة</span>
           <span><strong>${formatNum(coordCount)}</strong> على الخريطة</span>
         </div>
-        <svg class="tour-guide-trim" aria-hidden="true" focusable="false"><rect width="100%" height="100%" fill="url(#woven-band)"/></svg>
+        <svg class="heritage-divider tour-guide-trim" aria-hidden="true" focusable="false"><rect width="100%" height="100%" fill="url(#experiences-woven-band-thin)"/></svg>
       </section>
 
       <div class="tour-guide-controls tour-guide-jump-target" id="tourGuideFilters" tabindex="-1" role="search" aria-label="البحث في الدليل السياحي">

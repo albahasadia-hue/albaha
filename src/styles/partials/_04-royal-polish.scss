@@ -861,16 +861,18 @@ body:has(#homeView:not([hidden])) #sirajLauncher {
   opacity: .76;
   mask-image: radial-gradient(ellipse at 84% 28%, #0006, #000b 46%, #000);
 }
-#experiences .heritage-divider, #visit-guide .heritage-divider, #app .heritage-divider {
+#experiences .heritage-divider, #visit-guide .heritage-divider, #app .heritage-divider,
+.tour-guide-cover > .tour-guide-trim {
   height: 22px;
   background: repeating-linear-gradient(106deg, #ffffff0e 0 1px, transparent 1px 3px),
     linear-gradient(90deg, #132b43, #26384f 48%, #15383a) !important;
   border-block-color: #d5a46254;
   box-shadow: inset 0 2px 4px #030a18b0, inset 0 -1px #ffffff23;
 }
-#experiences .heritage-divider, #app .heritage-divider { height: 18px; }
+#experiences .heritage-divider, #app .heritage-divider, .tour-guide-cover > .tour-guide-trim { height: 18px; }
 #experiences .heritage-divider rect, #visit-guide .heritage-divider rect,
-#app .heritage-divider rect, #visit-guide .guide-embroidery-band rect {
+#app .heritage-divider rect, #visit-guide .guide-embroidery-band rect,
+.tour-guide-cover > .tour-guide-trim rect {
   filter: drop-shadow(0 1px 0 #070c1b) drop-shadow(0 -1px 0 #e0c9a94d);
 }
 #experiences .lead { color: #e8f1f8; }
