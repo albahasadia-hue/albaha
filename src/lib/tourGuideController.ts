@@ -271,9 +271,10 @@ export function createTourGuideController(deps: TourGuideControllerDeps): TourGu
   }
 
   function resolveGuidePlaceById(id: string): { place: GuideRecord; item144: EnrichedGuide144Item | null } | null {
-    const existing = tourGuidePlaces.get(id);
+    // Preserve the original catalog URL for Al Hamda Waterfall.
+    const existing = tourGuidePlaces.get(id === 'g-70' ? 'water-08' : id);
     if (existing) {
-      return { place: existing, item144: getGuide144ByTourGuideId(id) || null };
+      return { place: existing, item144: getGuide144ByTourGuideId(existing.id) || null };
     }
     const dynMatch = id.match(/^g-(\d+)$/);
     if (dynMatch) {

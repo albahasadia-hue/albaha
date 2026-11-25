@@ -412,6 +412,7 @@ const SITE_ASSET_BINDINGS: Record<number, SiteAssetBinding> = {
     coordinates: [20.050882, 41.4740586],
     aliases: ['شهبة', 'شهبه', 'غابة شهبة'],
   },
+  70: { tourGuideId: 'water-08' },
   72: {
     tourGuideId: 'shada',
     stopId: 'shada',

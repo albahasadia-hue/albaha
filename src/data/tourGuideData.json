@@ -600,11 +600,25 @@
     },
     {
       "id": "water-08",
-      "name": "شلال الحمده",
+      "name": "شلال الحمدة",
       "category": "water",
-      "address": "الباحة - بلجرشي",
-      "district": "بلجرشي",
-      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=20"
+      "address": "حي النزهة، الباحة 65711",
+      "district": "الباحة",
+      "description": "شلال متدرّج وسط الصخور والأشجار.",
+      "coordinates": [20.0244112, 41.4942794],
+      "map": "https://maps.app.goo.gl/dQspDwGPT9oms6PcA?g_st=ic",
+      "photo": "hamda-cascade",
+      "gallery": [
+        { "photo": "hamda-cascade", "caption": "مياه شلال الحمدة تتدرّج بين المنحدرات الخضراء" },
+        { "photo": "hamda-stream", "caption": "المياه تنساب فوق حافة صخرية في مجرى الشلال" },
+        { "photo": "hamda-valley", "caption": "مجرى وادي الحمدة بين الصخور والأشجار" }
+      ],
+      "source": "https://www.visitsaudi.com/ar/al-baha/attractions/al-hamda-waterfall",
+      "sourceLabel": "روح السعودية",
+      "facts": [
+        ["يُعرف أيضًا باسم", "شلال ووادي قرية الحمدة"],
+        ["الدخول", "مجاني"]
+      ]
     },
     {
       "id": "water-09",
