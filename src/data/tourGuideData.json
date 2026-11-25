@@ -750,6 +750,27 @@
       "source": "https://baha.gov.sa/ar/Albums/Sites?category=Heritage&type=19"
     },
     {
+      "id": "alabadil-heritage-village",
+      "name": "قرية العبادل التراثية",
+      "category": "heritage",
+      "address": "بني كبير - بلجرشي",
+      "district": "بلجرشي",
+      "description": "قرية تراثية في بني كبير، تبعد نحو 14 كم شمال مركز بلجرشي. تتميّز ببيوتها الحجرية القديمة التي شُيّدت بطابق أو طابقين بطرق بناء تقليدية.",
+      "coordinates": [
+        19.9449832,
+        41.5610161
+      ],
+      "map": "https://www.google.com/maps/search/?api=1&query=19.9449832,41.5610161",
+      "photo": "alabadil-houses",
+      "gallery": [
+        { "photo": "alabadil-houses", "caption": "البيوت الحجرية في قرية العبادل" },
+        { "photo": "alabadil-lane", "caption": "ممر بين البيوت الحجرية في قرية العبادل" },
+        { "photo": "alabadil-roof", "caption": "العوارض الخشبية والجدران الحجرية في القرية" }
+      ],
+      "source": "https://www.visitsaudi.com/ar/al-baha/attractions/alabadil-heritage-village",
+      "sourceLabel": "روح السعودية"
+    },
+    {
       "id": "museums-01",
       "name": "نزل العائد",
       "category": "museums",
