@@ -591,6 +591,12 @@ body,
 #home .hero-lens {
   background: linear-gradient(0deg, #04111ed4, #04111e67 23%, #04111e16 43%, transparent 62%);
 }
+#home > .hero-heritage-divider {
+  position: absolute;
+  inset: auto 0 0;
+  z-index: 2;
+  pointer-events: none;
+}
 #home .hero-copy {
   position: relative;
   inset: auto;
@@ -862,17 +868,18 @@ body:has(#homeView:not([hidden])) #sirajLauncher {
   mask-image: radial-gradient(ellipse at 84% 28%, #0006, #000b 46%, #000);
 }
 #experiences .heritage-divider, #visit-guide .heritage-divider, #app .heritage-divider,
-.tour-guide-cover > .tour-guide-trim {
+.tour-guide-cover > .tour-guide-trim, #home > .hero-heritage-divider {
   height: 22px;
   background: repeating-linear-gradient(106deg, #ffffff0e 0 1px, transparent 1px 3px),
     linear-gradient(90deg, #132b43, #26384f 48%, #15383a) !important;
   border-block-color: #d5a46254;
   box-shadow: inset 0 2px 4px #030a18b0, inset 0 -1px #ffffff23;
 }
-#experiences .heritage-divider, #app .heritage-divider, .tour-guide-cover > .tour-guide-trim { height: 18px; }
+#experiences .heritage-divider, #app .heritage-divider,
+.tour-guide-cover > .tour-guide-trim, #home > .hero-heritage-divider { height: 18px; }
 #experiences .heritage-divider rect, #visit-guide .heritage-divider rect,
 #app .heritage-divider rect, #visit-guide .guide-embroidery-band rect,
-.tour-guide-cover > .tour-guide-trim rect {
+.tour-guide-cover > .tour-guide-trim rect, #home > .hero-heritage-divider rect {
   filter: drop-shadow(0 1px 0 #070c1b) drop-shadow(0 -1px 0 #e0c9a94d);
 }
 #experiences .lead { color: #e8f1f8; }

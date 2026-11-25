@@ -51,6 +51,9 @@ export function HeroSection() {
           </a>
         </div>
       </div>
+      <svg className="heritage-divider hero-heritage-divider" aria-hidden="true" focusable="false">
+        <rect width="100%" height="100%" fill="url(#experiences-woven-band-thin)" />
+      </svg>
     </section>
   );
 }

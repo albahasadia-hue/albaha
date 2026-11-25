@@ -1102,7 +1102,7 @@ body:has(#homeView:not([hidden])) #sirajLauncher,
 
 /* 2026-11-13: Hero bottom docking + Siraj elevation above buttons + uniform 16:10/16:9 image framing */
 #home {
-  padding-bottom: max(clamp(16px, 2.4svh, 26px), calc(env(safe-area-inset-bottom) + 14px));
+  padding-bottom: calc(18px + max(clamp(16px, 2.4svh, 26px), calc(env(safe-area-inset-bottom) + 14px)));
 }
 #sirajLauncher.bot {
   transition: transform .22s var(--ease), box-shadow .22s, bottom .28s var(--ease);
