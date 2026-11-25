@@ -1599,9 +1599,21 @@
       "id": "cafes-12",
       "name": "مقهى بوكا دي كافيه",
       "category": "cafes",
-      "address": "الباحة",
+      "address": "حي الباهر، مدينة الباحة",
       "district": "الباحة",
-      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=8"
+      "description": "مقهى للقهوة المختصة في حي الباهر، يقدّم مخبوزات طازجة ووجبات خفيفة مع جلسات داخلية وخارجية.",
+      "coordinates": [20.0225573, 41.4719223],
+      "map": "https://maps.app.goo.gl/gFA5WJsv58okwHjz9",
+      "photo": "bocca-facade",
+      "gallery": [
+        { "photo": "bocca-facade", "caption": "الواجهة الزجاجية لمقهى بوكا دي كافيه في حي الباهر" }
+      ],
+      "facts": [
+        ["ساعات العمل المنشورة", "السبت إلى الخميس من 6:30 صباحًا، والجمعة من 2 ظهرًا. الإغلاق الساعة 2:30 فجر اليوم التالي."],
+        ["يُعرف أيضًا باسم", "مقهى بوكا (Bocca)"]
+      ],
+      "source": "https://www.visitsaudi.com/ar/al-baha/attractions/bocca-di-cafe",
+      "sourceLabel": "روح السعودية"
     },
     {
       "id": "cafes-13",
