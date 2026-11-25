@@ -30,18 +30,27 @@ export const seasonForMonth = (month: number): SeasonKey =>
         ? 'autumn'
         : 'winter';
 
-export const weatherNames = (code: number): string =>
-  code === 0
-    ? 'صحو'
-    : code <= 3
-      ? 'غيوم'
-      : code === 45 || code === 48
-        ? 'ضباب'
-        : code >= 95
-          ? 'عواصف رعدية'
-          : code >= 51 && code <= 82
-            ? 'هطول'
-            : 'حالة متغيرة';
+export const weatherNames = (code: number, tempC?: number): string => {
+  if (code === 0) {
+    if (typeof tempC === 'number' && Number.isFinite(tempC)) {
+      if (tempC < 13) return 'أجواء باردة وصافية';
+      if (tempC < 21) return 'نسيم عليل وسماء صافية';
+      if (tempC <= 29) return 'أجواء معتدلة وصافية';
+      return 'أجواء مشمسة ودافئة';
+    }
+    return 'سماء صافية';
+  }
+  if (code === 1) return 'سماء صافية جزئياً';
+  if (code === 2) return 'غائم جزئياً';
+  if (code === 3) return 'أجواء غائمة';
+  if (code === 45 || code === 48) return 'ضباب جبلي';
+  if (code >= 51 && code <= 57) return 'رذاذ مطري لطيف';
+  if (code >= 61 && code <= 67) return 'أجواء ماطرة';
+  if (code >= 71 && code <= 77) return 'برودة جبلية';
+  if (code >= 80 && code <= 82) return 'زخات مطر منعشة';
+  if (code >= 95) return 'سحب رعدية ممطرة';
+  return 'أجواء متقلّبة';
+};
 
 export const isWet = (hour: ForecastHour): boolean => hour.rain >= 45 || hour.code >= 51;
 

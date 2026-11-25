@@ -828,7 +828,7 @@ export function createSmartGuideUiController(deps: ConciergeControllerDeps): {
       city: cityKey,
       cityName: climateCities[cityKey]?.name || 'الباحة',
       tempC: data.current.temperature_2m,
-      conditionLabel: weatherNames(data.current.weather_code),
+      conditionLabel: weatherNames(data.current.weather_code, data.current.temperature_2m),
       isWet: Boolean(wet),
       source: 'Open-Meteo',
       observedAt: data.current.time,

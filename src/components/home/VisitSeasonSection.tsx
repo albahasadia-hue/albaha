@@ -45,6 +45,15 @@ export function VisitSeasonSection() {
         </div>
         <article className="season-card" aria-live="polite">
           <img id="seasonPhoto" alt="" decoding="async" loading="lazy" />
+          <div className="season-card-head">
+            <span className="season-location-pill" id="seasonLocationPill">
+              <svg className="ic tiny" aria-hidden="true">
+                <use href="#i-pin" />
+              </svg>
+              <span id="seasonLocationText">مرتفعات السراة · مدينة الباحة</span>
+            </span>
+            <p id="seasonWeather" hidden />
+          </div>
           <div className="season-card-copy">
             <div className="season-card-top">
               <div className="season-card-title">
@@ -56,7 +65,7 @@ export function VisitSeasonSection() {
                 </h3>
                 <p id="seasonMonths" />
               </div>
-              <p id="seasonWeather" hidden />
+              <span className="season-best-pill" id="seasonBestTime" />
             </div>
             <div className="season-card-bottom">
               <p id="seasonTip" />

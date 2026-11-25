@@ -1781,35 +1781,126 @@ export function initAlBahaPortal(initialView: PortalInitialView = 'home'): () =>
     const status = byId('seasonWeather');
     if (!status) return;
     status.hidden = false;
-    status.textContent = 'جارٍ جلب الأجواء الحالية';
+    status.textContent = 'تحديث الأجواء الحية…';
     const data = await forecast(cityKey);
     if (request !== seasonWeatherRequest || signal.aborted) return;
-    status.textContent = data
-      ? `${weatherNames(data.current.weather_code)} · ${formatNum(Math.round(data.current.temperature_2m))}°م`
-      : 'الطقس الحالي غير متاح';
+    if (data) {
+      const temp = Math.round(data.current.temperature_2m);
+      status.textContent = `${weatherNames(data.current.weather_code, temp)} · ${formatNum(temp)}°م`;
+    } else {
+      status.textContent = cityKey === 'makhwah' ? 'أجواء تهامية معتدلة' : 'نسيم جبلي معتدل';
+    }
   }
+
+  const seasonVisualProfiles: Record<
+    string,
+    Record<
+      SeasonKey,
+      {
+        photo: string;
+        alt: string;
+        locationLabel: string;
+        bestTime: string;
+        highlight: string;
+      }
+    >
+  > = {
+    baha: {
+      spring: {
+        photo: '/media/hero-khairah-wide.webp',
+        alt: 'شلالات ومدرجات خيرة الخضراء في ربيع مرتفعات الباحة',
+        locationLabel: 'مرتفعات السراة · مدينة الباحة',
+        bestTime: 'أفضل وقت: الصباح والعصر',
+        highlight:
+          'تزدهر المدرجات الخضراء ومجاري الشلالات في خيرة ورغدان مع نسيم جبلي منعش طوال النهار.',
+      },
+      summer: {
+        photo: '/media/embedded-raghdan.webp',
+        alt: 'غابة رغدان وإطلالة مرتفعات السراة الخضراء في صيف الباحة',
+        locationLabel: 'مرتفعات السراة · مدينة الباحة',
+        bestTime: 'أفضل وقت: بعد العصر والمساء',
+        highlight:
+          'مصيف جبلي بارد النسيم مقارنة بالمدن المنخفضة؛ مثالي لنزهات رغدان وبحيرة منتزه الأمير حسام.',
+      },
+      autumn: {
+        photo: '/media/hero-mishari-wide.webp',
+        alt: 'الضباب الذهبي والأودية الجبلية في خريف منطقة الباحة',
+        locationLabel: 'مرتفعات السراة · مدينة الباحة',
+        bestTime: 'أفضل وقت: عصراً قبيل الغروب',
+        highlight:
+          'أجواء هادئة وسماء صافية تتخللها سحب المساء على المطلّات الجبلية والأسواق التراثية.',
+      },
+      winter: {
+        photo: '/media/photo-mountainCover.webp',
+        alt: 'السحب والضباب الجبلي الكثيف على قمم السراة في الشتاء',
+        locationLabel: 'مرتفعات السراة · مدينة الباحة',
+        bestTime: 'أفضل وقت: ضحى النهار',
+        highlight:
+          'يعانق الضباب قمم السراة في مشهد شتوي ساحر يناسب المقاهي المطلة والجولات النهارية الدافئة.',
+      },
+    },
+    makhwah: {
+      spring: {
+        photo: '/media/photo-terraces.webp',
+        alt: 'مزارع الموز والنخيل الخضراء في أودية تهامة وقرية ذي عين',
+        locationLabel: 'تهامة الباحة · المخواة',
+        bestTime: 'أفضل وقت: الصباح الباكر',
+        highlight:
+          'اخضرار كثيف في مزارع الموز والريحان بأسفل ذي عين مع اعتدال صباحي جميل للتنزه والتصوير.',
+      },
+      summer: {
+        photo: '/media/photo-parks.webp',
+        alt: 'المطلات الجبلية عند الغروب بين عقبة الباحة وتهامة',
+        locationLabel: 'تهامة الباحة · المخواة',
+        bestTime: 'أفضل وقت: الصباح الباكر أو الغروب',
+        highlight:
+          'جولات خفيفة عند شروق الشمس أو قبيل الغروب بين القرى الحجرية وسفوح جبل شدا.',
+      },
+      autumn: {
+        photo: '/media/hero-shada-wide.webp',
+        alt: 'تكوينات الجرانيت الشاهقة في جبل شدا الأعلى بالمخواة',
+        locationLabel: 'تهامة الباحة · المخواة',
+        bestTime: 'أفضل وقت: الصباح وآخر النهار',
+        highlight:
+          'تميل الأجواء للاعتدال التدريجي؛ فرصة رائعة لاستكشاف كهوف جبل شدا ومزارع البن الشدوي.',
+      },
+      winter: {
+        photo: '/media/hero-ain-wide.webp',
+        alt: 'قرية ذي عين الأثرية مضاءة عند المساء وسط مزارعها في الشتاء',
+        locationLabel: 'تهامة الباحة · المخواة',
+        bestTime: 'أفضل وقت: طوال النهار والغروب',
+        highlight:
+          'مشتى الباحة الدافئ؛ أجواء مثالية طوال اليوم للتجول في أزقة ذي عين الحجرية والتخييم الشتوي.',
+      },
+    },
+  };
 
   function renderSeason(key: SeasonKey): void {
     selectedSeason = key;
     const season = seasons[key];
     const cityKey = seasonRegion ?? season.city;
     const city = climateCities[cityKey] || climateCities.baha;
+    const visual = (seasonVisualProfiles[cityKey] || seasonVisualProfiles.baha)[key];
     const seasonLabel = byId('seasonLabel');
     const seasonMonths = byId('seasonMonths');
     const seasonIcon = byId('seasonIcon');
     const seasonTip = byId('seasonTip');
     const seasonCity = byId<HTMLAnchorElement>('seasonCity');
+    const seasonLocationText = byId('seasonLocationText');
+    const seasonBestTime = byId('seasonBestTime');
     if (seasonLabel) seasonLabel.textContent = season.name;
     if (seasonMonths) seasonMonths.textContent = season.months;
     if (seasonIcon) seasonIcon.setAttribute('href', `#i-season-${key}`);
+    if (seasonLocationText) seasonLocationText.textContent = visual.locationLabel;
+    if (seasonBestTime) seasonBestTime.textContent = visual.bestTime;
     showSeasonPhoto(
-      images[city.image] || images[season.image] || '',
-      `مشهد من ${city.name}`
+      visual.photo || images[season.image] || images[city.image] || '',
+      visual.alt
     );
-    if (seasonTip) seasonTip.textContent = city.tips?.[key] || '';
+    if (seasonTip) seasonTip.textContent = visual.highlight || city.tips?.[key] || '';
     if (seasonCity) {
       seasonCity.href = `/city/${cityKey}`;
-      seasonCity.innerHTML = `أجواء ${city.name} ${glyph('arrow', 'ic tiny')}`;
+      seasonCity.innerHTML = `استكشف ${city.name} ${glyph('arrow', 'ic tiny')}`;
     }
     const seasonFacts = byId('seasonFacts');
     if (seasonFacts) {
@@ -1915,7 +2006,8 @@ export function initAlBahaPortal(initialView: PortalInitialView = 'home'): () =>
     }
     void forecast(cityKey).then((data) => {
       if (signal.aborted || chosen[station]?.id !== stop.id || !data || !stopWeather) return;
-      stopWeather.textContent = `${Math.round(data.current.temperature_2m)}° | ${weatherNames(data.current.weather_code)} | ${data.current.time.slice(11)}`;
+      const temp = Math.round(data.current.temperature_2m);
+      stopWeather.textContent = `${temp}°م · ${weatherNames(data.current.weather_code, temp)}`;
     });
   }
 

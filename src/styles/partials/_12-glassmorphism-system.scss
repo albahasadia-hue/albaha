@@ -75,18 +75,305 @@
 }
 
 /* ==========================================================================
-   1. Scrolled / Subpage Frosted Glass Top Navigation Bar
+   1. Executive Top Navigation Bar (#header) — Hero & Scrolled / Subpage States
    ========================================================================== */
+#header,
+#header.visible {
+  transition:
+    background 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.28s ease !important;
+}
+
+/* Unscrolled Homepage Hero State: Protective Top Scrim + Floating Royal Glass Capsules */
+body:has(#homeView:not([hidden])) #header:not(.is-scrolled),
+body:has(#homeView:not([hidden])) #header.visible:not(.is-scrolled) {
+  background: linear-gradient(
+    180deg,
+    rgba(4, 15, 30, 0.62) 0%,
+    rgba(4, 15, 30, 0.24) 68%,
+    rgba(4, 15, 30, 0) 100%
+  ) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border-bottom: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Scrolled & Subpage State: Crisp Frosted Pearl-Ice Bar + Subtle Royal Crown Accent */
 #header.is-scrolled,
-body:has(#homeView[hidden]) #header {
-  background: rgba(248, 252, 255, 0.82) !important;
-  backdrop-filter: blur(16px) saturate(165%) !important;
-  -webkit-backdrop-filter: blur(16px) saturate(165%) !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.92) !important;
+#header.visible.is-scrolled,
+body:has(#homeView[hidden]) #header,
+body:has(#homeView[hidden]) #header.visible {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.94) 0%,
+    rgba(243, 249, 253, 0.9) 100%
+  ) !important;
+  backdrop-filter: blur(20px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+  border-bottom: 1px solid rgba(180, 132, 64, 0.26) !important;
   box-shadow:
-    0 1px 0 rgba(12, 46, 84, 0.08),
-    0 10px 28px rgba(6, 26, 51, 0.075),
-    inset 0 -1px 0 rgba(255, 255, 255, 0.7) !important;
+    0 10px 30px rgba(6, 26, 51, 0.085),
+    0 1px 3px rgba(6, 26, 51, 0.04),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.85) !important;
+}
+
+#header.is-scrolled::before,
+body:has(#homeView[hidden]) #header::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 2px;
+  background: linear-gradient(90deg, #006c35 0%, #c89d54 50%, #0a2e5c 100%);
+  opacity: 0.88;
+  pointer-events: none;
+}
+
+#header .nav {
+  min-height: 64px !important;
+  padding-block: 6px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: clamp(12px, 1.5vw, 24px) !important;
+}
+
+#header.is-scrolled .nav,
+body:has(#homeView[hidden]) #header .nav {
+  min-height: 60px !important;
+}
+
+/* Brand Lockup */
+#header .nav-brand {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  padding: 4px 2px !important;
+  flex-shrink: 0 !important;
+  transition: opacity 0.2s ease, transform 0.2s ease !important;
+}
+
+#header .nav-brand:hover {
+  opacity: 0.92;
+}
+
+#header .nav-brand img#goldLogo {
+  width: 31px !important;
+  height: 38px !important;
+  filter: drop-shadow(0 2px 6px rgba(6, 26, 51, 0.14));
+}
+
+#header .nav-brand .brand-wordmark {
+  width: clamp(66px, 5vw, 82px) !important;
+  height: auto !important;
+}
+
+@media (min-width: 980px) {
+  #header.is-scrolled .nav-brand,
+  body:has(#homeView[hidden]) #header .nav-brand {
+    padding-inline-end: 16px !important;
+    border-inline-end: 1px solid rgba(10, 46, 92, 0.1) !important;
+  }
+
+  body:has(#homeView:not([hidden])) #header:not(.is-scrolled) .nav-brand {
+    padding-inline-end: 16px !important;
+    border-inline-end: 1px solid rgba(255, 255, 255, 0.2) !important;
+  }
+}
+
+/* Center Segmented Navigation Capsule Dock (Desktop >= 941px) */
+@media (min-width: 941px) {
+  #header .nav-links {
+    flex: 0 1 auto !important;
+    width: fit-content;
+    align-items: center;
+    justify-content: center;
+    gap: 3px !important;
+    padding: 4px 5px !important;
+    border-radius: 12px !important;
+  }
+
+  /* Hero Capsule Dock */
+  body:has(#homeView:not([hidden])) #header:not(.is-scrolled) .nav-links {
+    background: rgba(6, 22, 43, 0.42) !important;
+    backdrop-filter: blur(16px) saturate(160%) !important;
+    -webkit-backdrop-filter: blur(16px) saturate(160%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    box-shadow:
+      0 10px 26px rgba(3, 12, 26, 0.24),
+      inset 0 1px 0 rgba(255, 255, 255, 0.16) !important;
+  }
+
+  /* Scrolled / Subpage Recessed Pearl Track */
+  #header.is-scrolled .nav-links,
+  body:has(#homeView[hidden]) #header .nav-links {
+    background: rgba(231, 241, 248, 0.72) !important;
+    border: 1px solid rgba(10, 46, 92, 0.09) !important;
+    box-shadow:
+      inset 0 1px 2px rgba(6, 26, 51, 0.045),
+      0 1px 0 rgba(255, 255, 255, 0.9) !important;
+  }
+}
+
+#header .nav-links a {
+  position: relative;
+  min-height: 36px !important;
+  padding: 6px clamp(10px, 0.95vw, 15px) !important;
+  border-radius: 9px !important;
+  font-size: clamp(0.83rem, 0.88vw, 0.91rem) !important;
+  font-weight: 700 !important;
+  gap: 6px !important;
+  border: 1px solid transparent !important;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease !important;
+}
+
+#header .nav-links a::after {
+  display: none !important;
+}
+
+/* Scrolled / Subpage Nav Links & Elevated Active Pill */
+#header.is-scrolled .nav-links a:not([aria-current="page"]),
+body:has(#homeView[hidden]) #header .nav-links a:not([aria-current="page"]) {
+  color: var(--ab-glass-ink-strong) !important;
+  background: transparent !important;
+}
+
+#header.is-scrolled .nav-links a:not([aria-current="page"]) .nav-item-icon,
+body:has(#homeView[hidden]) #header .nav-links a:not([aria-current="page"]) .nav-item-icon {
+  color: #9a6d2d !important;
+}
+
+#header.is-scrolled .nav-links a:not([aria-current="page"]):is(:hover, :focus-visible),
+body:has(#homeView[hidden]) #header .nav-links a:not([aria-current="page"]):is(:hover, :focus-visible) {
+  background: rgba(255, 255, 255, 0.82) !important;
+  border-color: rgba(10, 46, 92, 0.08) !important;
+  color: var(--ab-glass-emerald) !important;
+}
+
+#header.is-scrolled .nav-links a[aria-current="page"],
+body:has(#homeView[hidden]) #header .nav-links a[aria-current="page"] {
+  background: #ffffff !important;
+  border-color: rgba(0, 108, 53, 0.22) !important;
+  box-shadow:
+    0 3px 10px rgba(6, 26, 51, 0.085),
+    inset 0 1px 0 #ffffff !important;
+  color: var(--ab-glass-emerald) !important;
+}
+
+#header.is-scrolled .nav-links a[aria-current="page"] .nav-item-icon,
+body:has(#homeView[hidden]) #header .nav-links a[aria-current="page"] .nav-item-icon {
+  color: #006c35 !important;
+}
+
+/* Unscrolled Hero Nav Links & Luminous Active Pill */
+body:has(#homeView:not([hidden])) #header:not(.is-scrolled) .nav-links a {
+  color: rgba(255, 255, 255, 0.94) !important;
+  text-shadow: 0 1px 3px rgba(2, 12, 26, 0.5) !important;
+}
+
+body:has(#homeView:not([hidden])) #header:not(.is-scrolled) .nav-links .nav-item-icon {
+  color: #f3d089 !important;
+}
+
+body:has(#homeView:not([hidden])) #header:not(.is-scrolled) .nav-links a:is(:hover, :focus-visible) {
+  background: rgba(255, 255, 255, 0.12) !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+  color: #ffffff !important;
+}
+
+body:has(#homeView:not([hidden])) #header:not(.is-scrolled) .nav-links a[aria-current="page"] {
+  background: rgba(255, 255, 255, 0.18) !important;
+  border-color: rgba(243, 208, 137, 0.48) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.24) !important;
+  color: #ffffff !important;
+}
+
+/* Action Controls: Matched 38px Search Icon + Executive Royal-Emerald Plan CTA */
+#header .nav-actions {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+
+#header .nav-actions .nav-icon {
+  width: 38px !important;
+  height: 38px !important;
+  border-radius: 10px !important;
+}
+
+body:has(#homeView:not([hidden])) #header:not(.is-scrolled) .nav-actions .nav-icon {
+  background: rgba(6, 22, 43, 0.44) !important;
+  backdrop-filter: blur(14px) saturate(150%) !important;
+  -webkit-backdrop-filter: blur(14px) saturate(150%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.24) !important;
+  color: #f3d089 !important;
+}
+
+body:has(#homeView:not([hidden])) #header:not(.is-scrolled) .nav-actions .nav-icon:is(:hover, :focus-visible) {
+  background: rgba(6, 22, 43, 0.68) !important;
+  border-color: rgba(243, 208, 137, 0.62) !important;
+  color: #ffffff !important;
+}
+
+#header.is-scrolled .nav-actions .nav-icon,
+body:has(#homeView[hidden]) #header .nav-actions .nav-icon {
+  color: #0a2e5c !important;
+}
+
+#header .header-plan-button,
+#header.is-scrolled .header-plan-button,
+body:has(#homeView[hidden]) #header .header-plan-button {
+  height: 38px !important;
+  min-height: 38px !important;
+  padding: 0 16px !important;
+  border-radius: 10px !important;
+  background: linear-gradient(135deg, #061a33 0%, #0a2e5c 54%, #006c35 100%) !important;
+  border: 1px solid rgba(218, 175, 105, 0.48) !important;
+  box-shadow:
+    0 6px 18px rgba(6, 26, 51, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22) !important;
+  color: #ffffff !important;
+  font-size: 0.83rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease, filter 0.18s ease !important;
+}
+
+#header .header-plan-button:is(:hover, :focus-visible) {
+  transform: translateY(-1px);
+  filter: brightness(1.08);
+  border-color: rgba(243, 208, 137, 0.8) !important;
+  box-shadow:
+    0 10px 22px rgba(6, 26, 51, 0.26),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
+}
+
+#header .header-plan-button .ic {
+  color: #f3d089 !important;
+}
+
+@media (max-width: 680px) {
+  #header .nav,
+  #header.is-scrolled .nav,
+  body:has(#homeView[hidden]) #header .nav {
+    min-height: 54px !important;
+    padding-block: 4px !important;
+  }
+
+  #header .nav-brand img#goldLogo {
+    width: 27px !important;
+    height: 33px !important;
+  }
+
+  #header .nav-actions .nav-icon {
+    width: 36px !important;
+    height: 36px !important;
+  }
 }
 
 /* ==========================================================================
@@ -106,7 +393,6 @@ body:has(#homeView[hidden]) #header {
 #visit-guide .guide-card:not(.guide-sight-feature),
 #visit-guide .guide-dining-list,
 #visit-guide .dining-spot,
-#visit-season .season-card,
 #visit-season .season-fact-card,
 #visit-season .season-switch,
 #planner .planner-chooser--merged .route-field,
@@ -422,9 +708,7 @@ body:has(#homeView[hidden]) #header .nav-icon:is(:hover, :focus-visible),
       while keeping dark scenic cards and active dark buttons untouched.
    ========================================================================== */
 
-/* 4.1 Scrolled / Subpage Glass Navbar & Experiences Frosted Strip Legibility */
-#header.is-scrolled .nav-links a:not(.active):not(:hover),
-body:has(#homeView[hidden]) #header .nav-links a:not(.active):not(:hover),
+/* 4.1 Experiences Frosted Strip Legibility */
 #experiences .exp-cat-strip .exp-cat-pill {
   color: var(--ab-glass-ink-strong) !important;
 }
@@ -445,7 +729,6 @@ body:has(#homeView[hidden]) #header .nav-links a:not(.active):not(:hover),
 .faq-teaser-q,
 #visit-guide .guide-card:not(.guide-sight-feature) :is(h3, h4),
 #visit-guide .dining-spot :is(h3, h4, strong),
-#visit-season .season-card :is(h3, h4),
 #visit-season .season-fact-card dd,
 #planner .planner-chooser--merged .route-picker-trigger .route-picker-value,
 #planner #routeSticky :is(h3, #stopTitle),
@@ -494,7 +777,6 @@ body:has(#homeView[hidden]) #header .nav-links a:not(.active):not(:hover),
 .faq-teaser-answer,
 #visit-guide .guide-card:not(.guide-sight-feature) p,
 #visit-guide .dining-spot p,
-#visit-season .season-card p,
 #planner #routeSticky #stopDesc,
 #faqView .faq-answer-text,
 #faqView .faq-support-card p,
@@ -647,4 +929,256 @@ body:has(#homeView[hidden]) #header .nav-links a:not(.active):not(:hover),
 #agentPanel.smart-guide-panel .sg-suggestions {
   border-top-color: rgba(10, 46, 92, 0.16) !important;
 }
+
+/* ==========================================================================
+   5. Scenic Seasonal Showcase Card (#visit-season .season-card)
+      Top Floating Location + Live Atmosphere Pills & Bottom Frosted Editorial Dock
+   ========================================================================== */
+#visit-season .season-card {
+  position: relative !important;
+  isolation: isolate !important;
+  overflow: hidden !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  align-items: stretch !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  aspect-ratio: auto !important;
+  min-height: clamp(304px, 25vw, 356px) !important;
+  border-radius: 14px !important;
+  border: 1px solid rgba(255, 255, 255, 0.72) !important;
+  background: #071b34 !important;
+  box-shadow:
+    0 20px 44px -18px rgba(6, 26, 51, 0.42),
+    0 2px 8px rgba(6, 26, 51, 0.14) !important;
+  color: #ffffff !important;
+}
+
+#visit-season .season-card img#seasonPhoto {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center 42% !important;
+  z-index: -2 !important;
+  transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.35s ease !important;
+}
+
+#visit-season .season-card:hover img#seasonPhoto {
+  transform: scale(1.03);
+}
+
+#visit-season .season-card::after {
+  content: '' !important;
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: -1 !important;
+  background: linear-gradient(
+    180deg,
+    rgba(5, 19, 36, 0.56) 0%,
+    rgba(5, 19, 36, 0.08) 28%,
+    rgba(5, 19, 36, 0.14) 48%,
+    rgba(5, 19, 36, 0.78) 76%,
+    rgba(5, 19, 36, 0.94) 100%
+  ) !important;
+  pointer-events: none !important;
+}
+
+#visit-season .season-card-head {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px 10px;
+  padding: clamp(12px, 1.5vw, 16px) clamp(14px, 1.8vw, 20px) 0;
+}
+
+#visit-season .season-location-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: rgba(6, 24, 46, 0.64);
+  backdrop-filter: blur(12px) saturate(150%);
+  -webkit-backdrop-filter: blur(12px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  color: #ffffff;
+  font-size: 0.76rem;
+  font-weight: 700;
+  line-height: 1.3;
+  box-shadow: 0 4px 14px rgba(4, 14, 28, 0.24);
+}
+
+#visit-season .season-location-pill .ic {
+  width: 13px;
+  height: 13px;
+  color: #f3d089;
+  flex: none;
+}
+
+#visit-season #seasonWeather {
+  position: static !important;
+  margin: 0 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 7px !important;
+  padding: 5px 12px !important;
+  border-radius: 999px !important;
+  background: rgba(6, 30, 48, 0.68) !important;
+  backdrop-filter: blur(12px) saturate(150%) !important;
+  -webkit-backdrop-filter: blur(12px) saturate(150%) !important;
+  border: 1px solid rgba(110, 231, 183, 0.36) !important;
+  color: #f0fdf8 !important;
+  font-size: 0.76rem !important;
+  font-weight: 700 !important;
+  line-height: 1.3 !important;
+  box-shadow: 0 4px 14px rgba(4, 14, 28, 0.24) !important;
+}
+
+#visit-season #seasonWeather[hidden] {
+  display: none !important;
+}
+
+#visit-season .season-card-copy {
+  position: relative;
+  z-index: 2;
+  margin: clamp(10px, 1.3vw, 14px);
+  padding: clamp(13px, 1.5vw, 17px) clamp(15px, 1.8vw, 20px) !important;
+  width: auto !important;
+  border-radius: 11px;
+  background: linear-gradient(
+    145deg,
+    rgba(7, 25, 48, 0.74) 0%,
+    rgba(6, 21, 40, 0.88) 100%
+  );
+  backdrop-filter: blur(14px) saturate(155%);
+  -webkit-backdrop-filter: blur(14px) saturate(155%);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow:
+    0 12px 28px rgba(3, 12, 24, 0.34),
+    inset 0 1px 0 rgba(255, 255, 255, 0.14);
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+#visit-season .season-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+}
+
+#visit-season #seasonName {
+  color: #ffffff !important;
+  font-size: clamp(1.16rem, 1.4vw, 1.38rem) !important;
+  font-weight: 800 !important;
+}
+
+#visit-season #seasonMonths {
+  margin: 0 !important;
+  padding: 3px 10px !important;
+  border-radius: 6px !important;
+  background: rgba(243, 208, 137, 0.16) !important;
+  border: 1px solid rgba(243, 208, 137, 0.38) !important;
+  color: #fce5b4 !important;
+  font-size: 0.75rem !important;
+  font-weight: 700 !important;
+}
+
+#visit-season .season-best-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: #e2effa;
+  font-size: 0.74rem;
+  font-weight: 600;
+  line-height: 1.35;
+  white-space: nowrap;
+}
+
+#visit-season .season-card-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 16px;
+  padding-top: 9px !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.15) !important;
+}
+
+#visit-season #seasonTip {
+  margin: 0 !important;
+  color: rgba(244, 249, 255, 0.96) !important;
+  font-size: clamp(0.8rem, 0.88vw, 0.89rem) !important;
+  font-weight: 500 !important;
+  line-height: 1.56 !important;
+  text-shadow: 0 1px 4px rgba(3, 12, 24, 0.5);
+}
+
+#visit-season #seasonCity {
+  min-height: 36px !important;
+  padding: 6px 14px !important;
+  border-radius: 8px !important;
+  background: linear-gradient(135deg, #006c35 0%, #058746 55%, #0a2e5c 100%) !important;
+  border: 1px solid rgba(243, 208, 137, 0.45) !important;
+  box-shadow:
+    0 6px 16px rgba(3, 12, 24, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22) !important;
+  color: #ffffff !important;
+  font-size: 0.8rem !important;
+  font-weight: 700 !important;
+  white-space: nowrap !important;
+  transition: transform 0.18s ease, filter 0.18s ease, border-color 0.18s ease !important;
+}
+
+#visit-season #seasonCity:is(:hover, :focus-visible) {
+  transform: translateY(-1px);
+  filter: brightness(1.08);
+  border-color: rgba(243, 208, 137, 0.78) !important;
+  color: #ffffff !important;
+}
+
+@media (max-width: 680px) {
+  #visit-season .season-card {
+    min-height: clamp(286px, 70vw, 326px) !important;
+  }
+
+  #visit-season .season-card-head {
+    padding: 10px 10px 0;
+    gap: 6px;
+  }
+
+  #visit-season .season-location-pill,
+  #visit-season #seasonWeather {
+    font-size: 0.71rem !important;
+    padding: 4px 9px !important;
+  }
+
+  #visit-season .season-card-copy {
+    margin: 9px;
+    padding: 11px 12px !important;
+  }
+
+  #visit-season .season-card-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  #visit-season .season-best-pill {
+    font-size: 0.7rem;
+    padding: 2px 8px;
+    white-space: normal;
+  }
+}
+
 
