@@ -627,7 +627,7 @@ export const promotedGuideStops: StopBase[] = [
     min: 60,
     lat: 20.0555526,
     lng: 41.3967222,
-    image: 'guide-chalet',
+    image: 'gamra-aerial',
     photoAlt: 'منتجع قمرة الجبلي في بني حسن',
     aliases: 'قمرة منتجع قمرة جبل خيرة',
   },

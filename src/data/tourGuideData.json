@@ -1585,6 +1585,12 @@
       "category": "hotels",
       "address": "بني حسن - جبل خيرة",
       "district": "بني حسن",
+      "photo": "gamra-aerial",
+      "gallery": [
+        { "photo": "gamra-aerial", "caption": "إطلالة جوية على منتجع قمرة الجبلي" },
+        { "photo": "gamra-terraces", "caption": "الجلسات المظللة على سفح جبل خيرة" },
+        { "photo": "gamra-night", "caption": "منتجع قمرة الجبلي ليلًا" }
+      ],
       "source": "https://www.gamramountainresort.com/where-we-are/",
       "coordinates": [
         20.0555526,

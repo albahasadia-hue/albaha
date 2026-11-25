@@ -405,11 +405,22 @@ export function createTourGuideController(deps: TourGuideControllerDeps): TourGu
     return terms.every((term) => guideTermVariants(term).some((variant) => blob.includes(variant)));
   }
 
-  function guideShowcaseItems(place: GuideRecord): MediaShowcaseItem[] {
+  function guideShowcaseItems(place: GuideRecord, item144: EnrichedGuide144Item | null): MediaShowcaseItem[] {
+    if (place.gallery?.length) {
+      return place.gallery.map(({ photo, caption }) => ({
+        src: tourGuideImageUrl(photo),
+        caption,
+        alt: caption,
+      }));
+    }
     const category = tourGuideCategories.get(place.category)!;
+    const caption = `${place.name} · ${place.district || category.label}`;
+    if (item144?.imageIsFallback && item144.image === NEUTRAL_PLACEHOLDER_IMAGE) {
+      return [{ src: NEUTRAL_PLACEHOLDER_IMAGE, caption, alt: place.name }];
+    }
     return directoryMedia(place).map((photo) => ({
       src: tourGuideImageUrl(photo.key),
-      caption: `${place.name} · ${place.district || category.label}`,
+      caption,
       alt: place.name,
     }));
   }
@@ -1126,16 +1137,7 @@ export function createTourGuideController(deps: TourGuideControllerDeps): TourGu
     const rating = typeof item144?.rating === 'number'
       ? item144.ratingRaw || formatNum(item144.rating)
       : '';
-    const showcaseItems: MediaShowcaseItem[] =
-      item144 && item144.imageIsFallback && item144.image === NEUTRAL_PLACEHOLDER_IMAGE
-        ? [
-            {
-              src: NEUTRAL_PLACEHOLDER_IMAGE,
-              caption: `${place.name} · ${place.district || category.label}`,
-              alt: place.name,
-            },
-          ]
-        : guideShowcaseItems(place);
+    const showcaseItems = guideShowcaseItems(place, item144);
     const search = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${place.name} ${place.address} الباحة`)}`;
     const mapLabel = place.map
       ? 'الموقع على الخريطة'
@@ -1403,17 +1405,7 @@ export function createTourGuideController(deps: TourGuideControllerDeps): TourGu
           ) || focusTarget;
       }
     } else if (place) {
-      const showcaseItems: MediaShowcaseItem[] =
-        item144 && item144.imageIsFallback && item144.image === NEUTRAL_PLACEHOLDER_IMAGE
-          ? [
-              {
-                src: NEUTRAL_PLACEHOLDER_IMAGE,
-                caption: `${place.name} · ${place.district || ''}`,
-                alt: place.name,
-              },
-            ]
-          : guideShowcaseItems(place);
-      bindMediaShowcase(byId('directoryShowcase'), showcaseItems, {
+      bindMediaShowcase(byId('directoryShowcase'), guideShowcaseItems(place, item144), {
         thumbsEl: byId('directoryThumbnails'),
         title: place.name,
         interval: 3600,
@@ -1451,7 +1443,7 @@ export function createTourGuideController(deps: TourGuideControllerDeps): TourGu
       if (place) {
         openUnifiedLightbox(
           place.name,
-          guideShowcaseItems(place),
+          guideShowcaseItems(place, getGuide144ByTourGuideId(place.id) || null),
           Number(btn.dataset.directoryIndex || 0),
           viewAbortController?.signal || signal
         );

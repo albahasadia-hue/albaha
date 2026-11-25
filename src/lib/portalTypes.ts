@@ -115,6 +115,7 @@ export interface GuideRecord {
   source?: string;
   sourceLabel?: string;
   photo?: string;
+  gallery?: Array<{ photo: string; caption: string }>;
   map?: string;
   accessMap?: string;
   trip?: string;
