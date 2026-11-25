@@ -43,14 +43,24 @@ html.has-smart-guide #sirajLauncher.bot {
   html.has-smart-guide .tour-guide-detail,
   html.has-smart-guide .place-view .place-hero,
   html.has-smart-guide .place-weather-body,
-  html.has-smart-guide .place-guide-bento,
-  html.has-smart-guide .tour-guide-cover {
+  html.has-smart-guide .place-guide-bento {
     grid-template-columns: minmax(0, 1fr) !important;
   }
 
   html.has-smart-guide .tour-guide-detail {
     grid-template-areas: "intro" "gallery" "actions";
     grid-template-rows: none;
+  }
+
+  html.has-smart-guide .tour-guide-cover {
+    --guide-cover-inset: 17px;
+    grid-template-columns: minmax(0, 1fr) !important;
+    grid-template-areas: "intro" "media" "stats";
+    grid-template-rows: none;
+  }
+
+  html.has-smart-guide .tour-guide-intro {
+    padding-block-end: 13px;
   }
 
   html.has-smart-guide #placeView .place-hero:has(> .place-hero-details) {

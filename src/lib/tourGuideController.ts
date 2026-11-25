@@ -1041,14 +1041,14 @@ export function createTourGuideController(deps: TourGuideControllerDeps): TourGu
         <div class="tour-guide-intro">
           <h1 class="tour-guide-title" id="tourGuideTitle" tabindex="-1">${glyph('section-guide')}<span>دليل الباحة السياحي</span></h1>
           <p>استكشف معالم الباحة وتجاربها.</p>
-          <div class="tour-guide-stats">
-            <span><strong>${formatNum(tourGuide.records.length)}</strong> معلم ووجهة</span>
-            <span><strong>${formatNum(tourGuide.categories.length)}</strong> فئات متنوعة</span>
-            <span><strong>${formatNum(coordCount)}</strong> على الخريطة</span>
-          </div>
         </div>
         <div class="tour-guide-cover-media">
           ${mediaShowcaseMarkup({ id: 'guideCoverShowcase', items: coverSlides, title: 'معالم منطقة الباحة' })}
+        </div>
+        <div class="tour-guide-stats">
+          <span><strong>${formatNum(tourGuide.records.length)}</strong> معلم ووجهة</span>
+          <span><strong>${formatNum(tourGuide.categories.length)}</strong> فئات متنوعة</span>
+          <span><strong>${formatNum(coordCount)}</strong> على الخريطة</span>
         </div>
         <svg class="tour-guide-trim" aria-hidden="true" focusable="false"><rect width="100%" height="100%" fill="url(#woven-band)"/></svg>
       </section>

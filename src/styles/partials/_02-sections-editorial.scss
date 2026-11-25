@@ -1118,12 +1118,15 @@ html:has(.city-report[open]) { overflow: hidden; }
 [data-tour-guide-nav][aria-current="page"] { color: var(--purple-deep); font-weight: 700; }
 
 .tour-guide-cover {
+  --guide-cover-inset: clamp(22px, 3.3vw, 40px);
   position: relative; isolation: isolate; display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1fr);
+  grid-template-areas: ". media" "intro media" "stats media" ". media";
+  grid-template-rows: 1fr auto auto 1fr;
   min-height: 265px; overflow: hidden; border: 1px solid #155e75;
   border-radius: 26px; background: linear-gradient(137deg, #0b4f6c 0%, #006c35 66%);
   color: #ffffff; box-shadow: 0 20px 43px #0b4f6c23;
 }
-.tour-guide-intro { position: relative; z-index: 1; padding: clamp(22px, 3.3vw, 40px); align-self: center; }
+.tour-guide-intro { grid-area: intro; position: relative; z-index: 1; padding: var(--guide-cover-inset) var(--guide-cover-inset) 0; }
 .tour-guide-kicker { display: inline-flex; align-items: center; gap: 8px; color: #ffdfa6; font-size: .82rem; font-weight: 650; }
 .tour-guide-cover h1 {
   margin: 7px 0 8px; font-size: clamp(2.35rem, 4.5vw, 4.05rem); line-height: 1.1;
@@ -1131,14 +1134,19 @@ html:has(.city-report[open]) { overflow: hidden; }
 }
 .tour-guide-cover h1 em { font-style: normal; color: #a7f3d0; }
 .tour-guide-intro > p { max-width: 37ch; color: #EEF4FA; font-size: .92rem; }
-.tour-guide-cover-media { position: relative; margin: 0; min-width: 0; }
+.tour-guide-cover-media { grid-area: media; position: relative; margin: 0; min-width: 0; }
 .tour-guide-cover-media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 52%; }
 .tour-guide-cover-media::after {
   content: ""; position: absolute; inset: 0; pointer-events: none;
   background: linear-gradient(to left, #0A2E5C, #0A2E5C32 24%, transparent 50%), linear-gradient(0deg, #051e2d86, transparent 32%);
 }
 .tour-guide-cover-media figcaption { position: absolute; z-index: 1; inset: auto auto 16px 20px; color: #fff; font-size: .75rem; font-weight: 650; }
-.tour-guide-stats { display: flex; flex-wrap: wrap; gap: 7px 13px; margin-top: 13px; color: #E6EFF8; font-size: .77rem; }
+.tour-guide-stats {
+  grid-area: stats;
+  display: flex; flex-wrap: wrap; gap: 7px 13px;
+  margin: 13px var(--guide-cover-inset) var(--guide-cover-inset);
+  color: #E6EFF8; font-size: .77rem;
+}
 .tour-guide-stats span { display: inline-flex; align-items: center; gap: 5px; }
 .tour-guide-stats strong { color: #ffdb9f; font-size: .93rem; }
 .tour-guide-trim { position: absolute; z-index: 1; inset: auto 0 0; display: block; width: 100%; height: 6px; opacity: .78; pointer-events: none; }
@@ -1294,10 +1302,8 @@ html:has(.city-report[open]) { overflow: hidden; }
 @media (max-width: 700px) {
   .tour-guide { padding-top: calc(var(--header) + 12px); }
   .tour-guide-cover { min-height: 0; grid-template-columns: 1fr; border-radius: 19px; }
-  .tour-guide-intro { padding: 17px 17px 13px; }
   .tour-guide-cover h1 { font-size: clamp(2rem, 7.55vw, 3.15rem); }
   .tour-guide-intro > p { font-size: .85rem; }
-  .tour-guide-stats { margin-top: 8px; }
   .tour-guide-cover-media { height: clamp(87px, 25vw, 155px); }
   .tour-guide-cover-media::after { background: linear-gradient(180deg, #0A2E5C, #0A2E5C10 46%, transparent 72%), linear-gradient(0deg, #2614219a, transparent 44%); }
   .tour-guide-cover-media figcaption { left: 12px; bottom: 8px; }

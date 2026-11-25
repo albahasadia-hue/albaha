@@ -1281,14 +1281,6 @@ body:has(#homeView:not([hidden])) #sirajLauncher.bot {
   min-inline-size: 0;
 }
 
-.tour-guide-intro {
-  order: 0 !important;
-}
-
-.tour-guide-cover-media {
-  order: 1 !important;
-}
-
 @media (max-width: 900px) {
   .tour-guide-detail {
     grid-template-columns: minmax(0, 1fr) !important;

@@ -2575,10 +2575,16 @@ html.motion-paused .ab-showcase-img.is-active {
 @media (max-width: 900px) {
   .place-view .place-hero,
   .place-weather-body,
-  .place-guide-bento,
-  .tour-guide-cover {
+  .place-guide-bento {
     grid-template-columns: minmax(0, 1fr) !important;
   }
+  .tour-guide-cover {
+    --guide-cover-inset: 17px;
+    grid-template-columns: minmax(0, 1fr) !important;
+    grid-template-areas: "intro" "media" "stats";
+    grid-template-rows: none;
+  }
+  .tour-guide-intro { padding-block-end: 13px; }
   .tour-guide-cover-media { min-height: 180px; }
   .tour-guide-controls { grid-template-columns: minmax(0, 1fr) !important; }
 }
