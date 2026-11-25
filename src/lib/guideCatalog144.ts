@@ -330,7 +330,7 @@ const SITE_ASSET_BINDINGS: Record<number, SiteAssetBinding> = {
   2: { tourGuideId: 'hotels-05', aliases: ['sakura', 'ساكورا', 'ساكورا سيتي'] },
   3: { aliases: ['high view', 'هاي فيو', 'ذا هاي فيو', 'هاي ڤيو'] },
   4: { aliases: ['qimam', '7 qimam', 'قمم بارك', 'قمم 7'] },
-  5: { aliases: ['makamaya', 'ماكامايا', 'مكامايا'] },
+  5: { tourGuideId: 'g-5', aliases: ['makamaya', 'ماكامايا', 'مكامايا'] },
   7: { aliases: ['abyat', 'ابيات', 'أبيات'] },
   8: { tourGuideId: 'hotels-01', aliases: ['الفاضل', 'شقق الفاضل'] },
   10: {

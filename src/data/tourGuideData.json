@@ -1056,6 +1056,26 @@
       "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=4"
     },
     {
+      "id": "g-5",
+      "name": "منتجع ماكامايا",
+      "category": "hotels",
+      "address": "الشفا 54، BAGC8129، قرب غابة رغدان، الباحة",
+      "district": "مدينة الباحة",
+      "description": "أكواخ وقباب زجاجية قرب غابة رغدان.",
+      "photo": "makamaya-deer",
+      "gallery": [
+        { "photo": "makamaya-deer", "caption": "الغزلان في الساحة الخارجية للمنتجع" },
+        { "photo": "makamaya-interior", "caption": "غرفة نوم بنوافذ بانورامية داخل إحدى الكبائن" },
+        { "photo": "makamaya-panorama", "caption": "إطلالة على قباب المنتجع وجبال الباحة" },
+        { "photo": "makamaya-cabin", "caption": "كابينة بواجهة زجاجية وجلسة خارجية" }
+      ],
+      "source": "https://www.visitsaudi.com/ar/al-baha/attractions/makamaya-resorts",
+      "sourceLabel": "روح السعودية",
+      "facts": [
+        ["التواصل والحجز", "هاتف: 966-55-844-5301 | حجز مباشر عبر الموقع الرسمي أو Booking.com أو الهاتف"]
+      ]
+    },
+    {
       "id": "chalets-01",
       "name": "المنتجع الريفي",
       "category": "chalets",
