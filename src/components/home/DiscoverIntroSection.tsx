@@ -78,8 +78,11 @@ export function DiscoverIntroSection() {
                 <use href="#i-section-baha" width="24" height="24" />
               </svg>
               <span>استكشف مدينة الباحة</span>
-              <svg className="ic tiny" aria-hidden="true">
+              <svg className="ic tiny intro-explore-arrow" aria-hidden="true">
                 <use href="#i-arrow" />
+              </svg>
+              <svg className="btn-heritage-band" aria-hidden="true" focusable="false">
+                <rect width="100%" height="100%" fill="url(#btn-woven-band)" />
               </svg>
             </a>
           </div>

@@ -145,6 +145,7 @@ export function SvgSpriteDefs() {
         <path d="M73 5v24m67-24v24m75-24v24m81-24v24" stroke="#f0c58d" strokeWidth="1" opacity=".21"/>
       </pattern>
       <pattern id="experiences-woven-band-thin" href="#experiences-woven-band" width="100" height="15"/>
+      <pattern id="btn-woven-band" href="#experiences-woven-band" width="95" height="10.5"/>
       <pattern id="woven-band-vertical" href="#woven-band" width="112" height="17" patternTransform="translate(26 0) rotate(90)"/>
       <pattern id="engraved-band-vertical" href="#experiences-woven-band" width="108" height="17" patternTransform="translate(22 0) rotate(90)"/>
       <filter id="woven-plum-ink" colorInterpolationFilters="sRGB">

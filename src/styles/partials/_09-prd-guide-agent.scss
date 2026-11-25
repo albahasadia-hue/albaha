@@ -5273,3 +5273,84 @@ body:has(#homeView[hidden]) #header .header-plan-button {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   }
 }
+
+/* ==========================================================================
+   14. Premium Embroidered Heritage Band on "استكشف مدينة الباحة" CTA Button
+   ========================================================================== */
+#discover .intro-actions a.intro-explore-button.btn {
+  position: relative;
+  overflow: hidden;
+  min-height: 52px !important;
+  padding: 9px 22px 20px !important;
+  border-radius: 8px !important;
+  border: 1px solid rgba(213, 164, 98, 0.48) !important;
+  background: linear-gradient(135deg, #081C33 0%, #102D4C 54%, #0D3538 100%) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    0 8px 22px rgba(6, 26, 51, 0.18),
+    0 2px 6px rgba(6, 26, 51, 0.1) !important;
+  color: #FFFFFF !important;
+  font-weight: 700;
+  letter-spacing: 0;
+  transition:
+    transform 0.22s var(--ease),
+    border-color 0.22s var(--ease),
+    box-shadow 0.22s var(--ease),
+    background 0.22s var(--ease);
+}
+
+#discover .intro-actions a.intro-explore-button.btn > :not(.btn-heritage-band) {
+  position: relative;
+  z-index: 2;
+}
+
+#discover .intro-actions a.intro-explore-button.btn .section-mark--baha {
+  width: 21px;
+  height: 21px;
+  flex: none;
+  filter: drop-shadow(0 1px 3px rgba(3, 10, 22, 0.45));
+}
+
+#discover .intro-actions a.intro-explore-button.btn .intro-explore-arrow {
+  color: #F3D089 !important;
+  transition: transform 0.22s var(--ease), color 0.22s var(--ease);
+}
+
+#discover .intro-actions a.intro-explore-button.btn .btn-heritage-band {
+  position: absolute;
+  inset: auto 0 0 0;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: 11px;
+  pointer-events: none;
+  border-top: 1px solid rgba(213, 164, 98, 0.44);
+  background:
+    repeating-linear-gradient(106deg, rgba(255, 255, 255, 0.055) 0 1px, transparent 1px 3px),
+    linear-gradient(90deg, #122940 0%, #24374E 48%, #143638 100%);
+  box-shadow: inset 0 1px 3px rgba(3, 10, 24, 0.65);
+  transition: filter 0.22s var(--ease);
+}
+
+#discover .intro-actions a.intro-explore-button.btn .btn-heritage-band rect {
+  filter: drop-shadow(0 1px 0 #070c1b) drop-shadow(0 -1px 0 rgba(224, 201, 169, 0.28));
+}
+
+#discover .intro-actions a.intro-explore-button.btn:is(:hover, :focus-visible) {
+  transform: translateY(-2px);
+  border-color: rgba(236, 192, 126, 0.78) !important;
+  background: linear-gradient(135deg, #0B2440 0%, #14385D 54%, #104245 100%) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.26),
+    0 14px 30px rgba(6, 26, 51, 0.25),
+    0 0 0 1px rgba(213, 164, 98, 0.16) !important;
+}
+
+#discover .intro-actions a.intro-explore-button.btn:is(:hover, :focus-visible) .intro-explore-arrow {
+  transform: translateX(-3px);
+  color: #FFE4AD !important;
+}
+
+#discover .intro-actions a.intro-explore-button.btn:is(:hover, :focus-visible) .btn-heritage-band {
+  filter: brightness(1.12) saturate(1.12);
+}
