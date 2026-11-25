@@ -672,8 +672,8 @@ export const stops: StopBase[] = [
     min: 65,
     lat: 20.01047,
     lng: 41.44972,
-    image: images.hussam ? 'hussam' : 'city',
-    photoAlt: images.hussam ? 'منتزه الأمير حسام' : 'إطلالة على مدينة الباحة',
+    image: 'hussam',
+    photoAlt: 'منتزه الأمير حسام ومرتفعات الباحة فوق السحب',
   },
   {
     id: 'raghdan',
@@ -1127,8 +1127,7 @@ export const stopVisit: Record<string, StopVisitConfig> = {
     best: 'بعد العصر في الصيف',
     short: 30,
     gallery: [
-      ['hussamCover', 'إطلالة واسعة على المنتزه'],
-      ['hussam', 'البحيرة وممرات منتزه الأمير حسام'],
+      ['hussam', 'منتزه الأمير حسام ومرتفعات الباحة فوق السحب'],
     ],
   },
   ain: {
