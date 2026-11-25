@@ -534,7 +534,7 @@ export function createSubpageViewsController(deps: SubpageViewsDeps): SubpageVie
             <div class="place-bento-card place-ideas-card">
               <div class="place-bento-head">
                 <div class="caption section-kicker">${glyph('section-day', 'section-mark')}<span>إرشادات وتجربة الزيارة</span></div>
-                <h2 id="placeGuideTitle">أفكار ومقترحات في ${stop.name}</h2>
+                <h2 id="placeGuideTitle">مقترحات في ${stop.name}</h2>
               </div>
               <ol class="place-ideas-list">${topIdeas.map((idea, idx) => `<li><span class="place-idea-num">${formatNum(idx + 1).padStart(2, '0')}</span><p>${idea}</p></li>`).join('')}</ol>
             </div>
