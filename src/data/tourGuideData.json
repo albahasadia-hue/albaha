@@ -868,6 +868,29 @@
       "sourceLabel": "روح السعودية"
     },
     {
+      "id": "g-103",
+      "name": "قرية الأطاولة التراثية",
+      "category": "heritage",
+      "address": "الأطاولة، محافظة القرى 65792",
+      "district": "القرى",
+      "description": "قرية حجرية تشتهر بسوق ربوع قريش.",
+      "coordinates": [20.250397, 41.3616835],
+      "map": "https://www.google.com/maps/search/?api=1&query=20.250397,41.3616835",
+      "photo": "alatawilah-houses",
+      "gallery": [
+        { "photo": "alatawilah-houses", "caption": "البيوت الحجرية والسلالم في قرية الأطاولة" },
+        { "photo": "alatawilah-square", "caption": "ساحة القرية الحجرية بجوار متحف الشملاني" },
+        { "photo": "alatawilah-crafts", "caption": "عرض الحرف والمنتجات التراثية في الأطاولة" },
+        { "photo": "alatawilah-market", "caption": "التوابل والمنتجات المحلية في أحد أركان السوق" }
+      ],
+      "source": "https://www.visitsaudi.com/ar/al-baha/attractions/al-atawilah-heritage-village",
+      "sourceLabel": "روح السعودية",
+      "facts": [
+        ["يُعرف أيضًا باسم", "القرية الأثرية بالأطاولة"],
+        ["التواصل والحجز", "هاتف: 966-55-192-5605"]
+      ]
+    },
+    {
       "id": "museums-01",
       "name": "متحف بيت العايد",
       "category": "museums",

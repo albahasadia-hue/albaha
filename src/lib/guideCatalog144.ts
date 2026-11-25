@@ -480,7 +480,7 @@ const SITE_ASSET_BINDINGS: Record<number, SiteAssetBinding> = {
     aliases: ['dhee ain', 'thee ain', 'ذي عين', 'ذى عين', 'ذي العين', 'قرية ذي عين', 'القرية الرخامية'],
   },
   101: { tourGuideId: 'g-101', aliases: ['قلعة الملد', 'حصنا التوأمين', 'حصنا الملد'] },
-  103: { aliases: ['الاطاولة', 'الأطاولة', 'الاطاوله'] },
+  103: { tourGuideId: 'g-103', aliases: ['الاطاولة', 'الأطاولة', 'الاطاوله'] },
   104: { aliases: ['دار عوضة', 'دار عوضه', 'الاطاولة', 'الأطاولة'] },
   105: { tourGuideId: 'farms-11', aliases: ['الاطلال', 'الأطلال'] },
   108: {
