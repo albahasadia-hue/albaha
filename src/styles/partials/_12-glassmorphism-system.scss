@@ -6,51 +6,59 @@
 :root {
   --ab-glass-bg: linear-gradient(
     135deg,
-    rgba(255, 255, 255, 0.84) 0%,
-    rgba(234, 243, 250, 0.77) 52%,
-    rgba(230, 243, 245, 0.73) 100%
+    rgba(255, 255, 255, 0.88) 0%,
+    rgba(238, 246, 252, 0.82) 52%,
+    rgba(234, 245, 246, 0.78) 100%
   );
   --ab-glass-bg-hover: linear-gradient(
     135deg,
-    rgba(255, 255, 255, 0.94) 0%,
-    rgba(241, 248, 253, 0.89) 56%,
-    rgba(237, 248, 246, 0.86) 100%
+    rgba(255, 255, 255, 0.96) 0%,
+    rgba(243, 249, 253, 0.92) 56%,
+    rgba(239, 249, 247, 0.89) 100%
   );
   --ab-glass-popover-bg: linear-gradient(
     145deg,
-    rgba(255, 255, 255, 0.97) 0%,
-    rgba(242, 249, 253, 0.95) 100%
+    rgba(255, 255, 255, 0.98) 0%,
+    rgba(244, 250, 254, 0.96) 100%
   );
   --ab-glass-btn-bg: linear-gradient(
     135deg,
-    rgba(255, 255, 255, 0.86) 0%,
-    rgba(233, 242, 249, 0.79) 100%
+    rgba(255, 255, 255, 0.89) 0%,
+    rgba(237, 245, 251, 0.83) 100%
   );
   --ab-glass-btn-hover: linear-gradient(
     135deg,
-    rgba(255, 255, 255, 0.96) 0%,
-    rgba(242, 249, 253, 0.92) 100%
+    rgba(255, 255, 255, 0.97) 0%,
+    rgba(244, 250, 254, 0.94) 100%
   );
   --ab-glass-blur: blur(14px) saturate(160%);
-  --ab-glass-border-color: rgba(255, 255, 255, 0.94);
+  --ab-glass-border-color: rgba(255, 255, 255, 0.95);
   --ab-glass-card-shadow:
-    0 0 0 1px rgba(12, 46, 84, 0.085),
+    0 0 0 1px rgba(10, 46, 92, 0.105),
     0 12px 30px rgba(8, 28, 54, 0.08),
     0 2px 6px rgba(8, 28, 54, 0.035),
     inset 0 1px 0 rgba(255, 255, 255, 0.98);
   --ab-glass-card-shadow-hover:
-    0 0 0 1px rgba(0, 108, 53, 0.22),
+    0 0 0 1px rgba(0, 108, 53, 0.25),
     0 16px 34px rgba(8, 28, 54, 0.11),
     0 4px 10px rgba(8, 28, 54, 0.045),
     inset 0 1px 0 #ffffff;
   --ab-glass-btn-shadow:
-    0 0 0 1px rgba(12, 46, 84, 0.1),
+    0 0 0 1px rgba(10, 46, 92, 0.12),
     0 6px 18px rgba(8, 28, 54, 0.075),
     inset 0 1px 0 rgba(255, 255, 255, 0.98);
   --ab-glass-btn-shadow-hover:
-    0 0 0 1px rgba(0, 108, 53, 0.28),
+    0 0 0 1px rgba(0, 108, 53, 0.3),
     0 10px 22px rgba(8, 28, 54, 0.11),
     inset 0 1px 0 #ffffff;
+  /* WCAG AA+/AAA High-Contrast Ink Tokens Tuned for Frosted Pearl-Ice Surfaces */
+  --ab-glass-ink-strong: #04162c;
+  --ab-glass-ink-body: #152b40;
+  --ab-glass-ink-muted: #29435a;
+  --ab-glass-ink-placeholder: #38536b;
+  --ab-glass-emerald: #00592b;
+  --ab-glass-navy-accent: #082850;
+  --ab-glass-divider: rgba(10, 46, 92, 0.135);
 }
 
 /* Subtle ambient depth behind light sections so backdrop-filter refracts softly */
@@ -173,7 +181,8 @@ body:has(#homeView[hidden]) #header {
 }
 
 .faq-teaser-panel {
-  background: rgba(255, 255, 255, 0.45) !important;
+  background: rgba(255, 255, 255, 0.72) !important;
+  border-top: 1px solid var(--ab-glass-divider) !important;
 }
 
 /* Interactive Card Hover Elevation */
@@ -280,13 +289,13 @@ body:has(#homeView[hidden]) #header {
 .share-trip-link-box,
 #faqView .faq-search-box,
 .tour-guide-input {
-  background: rgba(255, 255, 255, 0.76) !important;
+  background: rgba(255, 255, 255, 0.88) !important;
   backdrop-filter: blur(10px) saturate(150%) !important;
   -webkit-backdrop-filter: blur(10px) saturate(150%) !important;
-  border: 1px solid rgba(255, 255, 255, 0.92) !important;
+  border: 1px solid rgba(255, 255, 255, 0.96) !important;
   box-shadow:
-    0 0 0 1px rgba(12, 46, 84, 0.09),
-    inset 0 1px 2px rgba(8, 28, 54, 0.03) !important;
+    0 0 0 1px rgba(10, 46, 92, 0.135),
+    inset 0 1px 2px rgba(8, 28, 54, 0.035) !important;
 }
 
 #faqView .faq-search-box:focus-within,
@@ -406,3 +415,236 @@ body:has(#homeView[hidden]) #header .nav-icon:is(:hover, :focus-visible),
   border-color: #006c35 !important;
   color: #ffffff !important;
 }
+
+/* ==========================================================================
+   4. High-Contrast WCAG AA+/AAA Typography, Placeholders, Badges & Dividers
+      Guarantees razor-sharp legibility across all frosted pearl-ice surfaces
+      while keeping dark scenic cards and active dark buttons untouched.
+   ========================================================================== */
+
+/* 4.1 Scrolled / Subpage Glass Navbar & Experiences Frosted Strip Legibility */
+#header.is-scrolled .nav-links a:not(.active):not(:hover),
+body:has(#homeView[hidden]) #header .nav-links a:not(.active):not(:hover),
+#experiences .exp-cat-strip .exp-cat-pill {
+  color: var(--ab-glass-ink-strong) !important;
+}
+
+#experiences .exp-cat-strip .exp-cat-pill + .exp-cat-pill::before {
+  background: rgba(10, 46, 92, 0.2) !important;
+}
+
+/* 4.2 Primary Headings, Titles, KPI Values & Control Values (~15:1 AAA) */
+.directory-card :is(h3, h4, .directory-card-title),
+#official-portal .kpi-card .kpi-value,
+#official-portal .official-disclosure summary span,
+#official-portal .official-detail-card h4,
+.project-card h4,
+.eservice-item h4,
+.muni-card h4,
+.vision-card h4,
+.faq-teaser-q,
+#visit-guide .guide-card:not(.guide-sight-feature) :is(h3, h4),
+#visit-guide .dining-spot :is(h3, h4, strong),
+#visit-season .season-card :is(h3, h4),
+#visit-season .season-fact-card dd,
+#planner .planner-chooser--merged .route-picker-trigger .route-picker-value,
+#planner #routeSticky :is(h3, #stopTitle),
+#planner .trip-summary--board .summary-day-title,
+#planner .trip-summary--board .summary-stop-name,
+#faqView .faq-q-text,
+#faqView .faq-support-card h3,
+#faqView .faq-empty h3,
+#faqView .faq-search-box input,
+.invest-info-card :is(h3, h4, strong),
+.invest-kpi-card :is(strong, .invest-kpi-num, dd),
+.invest-project-card h3,
+.invest-channel-card h3,
+.tour-guide-input input,
+.tour-guide-facts dd,
+.tour-guide-suggest-copy strong,
+.route-picker-list button,
+.guide-district-option-label,
+.invest-sector-option:not([aria-selected="true"]),
+#placeView .place-facts dd,
+#placeView .weather-reading strong,
+#placeView .place-bento-card :is(h2, h3),
+#placeView .place-ideas-list h3,
+#placeView .place-field-row h3,
+#placeView .city-stop-card h3,
+.city-story h3,
+.story-page-article :is(h1, h2, h3),
+.service-form-card :is(h2, h3, label),
+.service-form-field :is(input, select, textarea),
+.share-trip-head h3,
+.share-trip-link-box input,
+#agentPanel.smart-guide-panel .sg-welcome-copy h3,
+#agentPanel.smart-guide-panel .sg-starter-btn:not(:hover):not(:focus-visible) .sg-starter-text strong,
+#agentPanel.smart-guide-panel .sg-place-row:not(:hover) .sg-place-name,
+#agentPanel.smart-guide-panel #conciergeInput {
+  color: var(--ab-glass-ink-strong) !important;
+}
+
+/* 4.3 Body Copy, Answers, Descriptions & List Items (~11.8:1 AAA) */
+.directory-card p,
+#official-portal .official-detail-card p,
+.project-card p,
+.eservice-item p,
+.muni-card p,
+.vision-card p,
+.faq-teaser-answer,
+#visit-guide .guide-card:not(.guide-sight-feature) p,
+#visit-guide .dining-spot p,
+#visit-season .season-card p,
+#planner #routeSticky #stopDesc,
+#faqView .faq-answer-text,
+#faqView .faq-support-card p,
+#faqView .faq-empty p,
+.invest-info-card p,
+.invest-kpi-card p,
+.invest-project-card p,
+.invest-project-card .invest-highlights li,
+.invest-channel-card p,
+#placeView .place-bento-card p,
+#placeView .place-ideas-list p,
+#placeView .place-field-row p,
+#placeView .city-stop-card p,
+.city-story .city-story-summary,
+.story-page-body,
+.story-page-body p,
+.story-page-lead,
+#agentPanel.smart-guide-panel .sg-msg:not(.is-visitor),
+#agentPanel.smart-guide-panel .sg-msg:not(.is-visitor) .sg-msg-text {
+  color: var(--ab-glass-ink-body) !important;
+}
+
+/* 4.4 Secondary Metadata, Subtitles, Hints, Locations, Dates & Labels (~8.1:1 AAA) */
+#official-portal .kpi-card :is(.kpi-label, .kpi-note),
+.eservice-item small,
+#planner .planner-chooser--merged .route-field label,
+#planner #routeSticky .route-title-row .route-info,
+#planner .trip-summary--board .trip-summary-hint,
+#planner .trip-summary--board .summary-day-span,
+#planner .trip-summary--board .summary-stop-meta,
+#planner .trip-summary--board .summary-stop-drive,
+#planner .trip-summary--board .summary-day-empty-drop,
+#planner .trip-summary--board .summary-stop-remove:not(:hover):not(:focus-visible),
+#faqView .faq-count,
+.invest-project-loc,
+.invest-kpi-label,
+.tour-guide-facts dt,
+.tour-guide-suggest-head,
+.tour-guide-suggest-copy small,
+.guide-district-chev,
+.tour-guide-input > .ic,
+#faqView .faq-search-box > .ic,
+#placeView .place-facts dt,
+#placeView .weather-reading .time-note,
+#placeView .weather-strip-main .weather-hours bdi,
+.city-story-date,
+.city-story-loc,
+.story-page-source-bar,
+.story-page-meta,
+.service-form-notice,
+.service-form-label small,
+.share-trip-head p,
+#agentPanel.smart-guide-panel .sg-welcome-copy p,
+#agentPanel.smart-guide-panel .sg-starter-text small,
+#agentPanel.smart-guide-panel .sg-place-desc {
+  color: var(--ab-glass-ink-muted) !important;
+}
+
+#planner .trip-summary--board .summary-drag-handle {
+  color: var(--ab-glass-ink-placeholder) !important;
+}
+
+/* 4.5 Rich Saudi Emerald Overlines, Tags & Accent Links on Cool Frosted Glass (~6.9:1 AA+) */
+#faqView .faq-cat-overline,
+#faqView .faq-support-tag,
+.invest-info-label,
+#visit-season .season-fact-card dt,
+#placeView .weather-cond,
+#placeView .weather-strip-main .weather-hours small,
+#agentPanel.smart-guide-panel .sg-msg-sender,
+#agentPanel.smart-guide-panel .sg-place-arrow {
+  color: var(--ab-glass-emerald) !important;
+}
+
+#official-portal .official-detail-card a:not(:hover),
+.eservice-item a:not(:hover),
+.faq-teaser-more:not(:hover) {
+  color: var(--ab-glass-navy-accent) !important;
+  font-weight: 700;
+}
+
+/* 4.6 Crisp Input Placeholders Inside Frosted Search & Form Wells (~6.2:1 AA+) */
+#faqView .faq-search-box input::placeholder,
+.tour-guide-input input::placeholder,
+.service-form-field :is(input, textarea)::placeholder,
+#agentPanel.smart-guide-panel #conciergeInput::placeholder {
+  color: var(--ab-glass-ink-placeholder) !important;
+  opacity: 1 !important;
+}
+
+#agentPanel.smart-guide-panel .sg-form:not(:focus-within) {
+  background: rgba(255, 255, 255, 0.9) !important;
+  border-color: rgba(10, 46, 92, 0.18) !important;
+}
+
+/* 4.7 Inner Micro-Badges, Chips & Nested Cards (Prevent Blending into Translucent Surface) */
+#faqView .faq-highlights li,
+#visit-guide .guide-tag,
+#planner .trip-summary--board .summary-stop-dur,
+#faqView .faq-cat-pill:not(.is-active) .faq-cat-count,
+.guide-district-option:not([aria-selected="true"]) .guide-district-option-meta small {
+  background: rgba(255, 255, 255, 0.92) !important;
+  border: 1px solid rgba(10, 46, 92, 0.16) !important;
+  color: var(--ab-glass-ink-strong) !important;
+  box-shadow: 0 1px 2px rgba(6, 26, 51, 0.04) !important;
+}
+
+.faq-teaser-chip,
+.invest-sector-badge {
+  background: rgba(232, 247, 239, 0.95) !important;
+  border: 1px solid rgba(0, 89, 43, 0.24) !important;
+  color: var(--ab-glass-emerald) !important;
+  font-weight: 700 !important;
+}
+
+#agentPanel.smart-guide-panel .sg-place-row:not(:hover) {
+  background: rgba(255, 255, 255, 0.88) !important;
+  border-color: rgba(10, 46, 92, 0.13) !important;
+}
+
+#agentPanel.smart-guide-panel .sg-place-time {
+  background: rgba(232, 242, 251, 0.96) !important;
+  border: 1px solid rgba(10, 46, 92, 0.15) !important;
+  color: var(--ab-glass-navy-accent) !important;
+}
+
+#agentPanel.smart-guide-panel .sg-text-link:not(:hover):not(.is-added),
+#agentPanel.smart-guide-panel .sg-suggestion-chip:not(:hover):not(:focus-visible) {
+  background: rgba(234, 248, 241, 0.95) !important;
+  border-color: rgba(0, 89, 43, 0.28) !important;
+  color: var(--ab-glass-emerald) !important;
+}
+
+/* 4.8 Structural Hairline Dividers Inside Frosted Glass Cards */
+#faqView .faq-answer-text,
+#faqView .faq-answer-footer,
+.invest-project-card .invest-highlights,
+.city-story .city-story-foot,
+#planner .trip-summary--board .summary-stop-meta,
+#official-portal .official-detail-body,
+#agentPanel.smart-guide-panel .sg-actions-bar {
+  border-top-color: var(--ab-glass-divider) !important;
+}
+
+#placeView .place-weather-head {
+  border-bottom-color: var(--ab-glass-divider) !important;
+}
+
+#agentPanel.smart-guide-panel .sg-row-actions,
+#agentPanel.smart-guide-panel .sg-suggestions {
+  border-top-color: rgba(10, 46, 92, 0.16) !important;
+}
+
