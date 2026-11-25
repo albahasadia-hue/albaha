@@ -2,12 +2,33 @@
 
 import { useMemo, useState } from 'react';
 import { GuideCharacter } from '@/components/common/GuideCharacter';
-import { FAQ_CATEGORIES, FAQ_ITEMS, type FaqCategoryId, type FaqItem } from '@/data/faqData';
+import { FAQ_CATEGORIES, FAQ_ITEMS, type FaqCategoryId } from '@/data/faqData';
 import { SMART_GUIDE_NAME } from '@/lib/smartGuideName';
 
 interface FaqPageViewProps {
   initialHidden?: boolean;
 }
+
+const SUPPORT_CHANNELS = [
+  {
+    tag: 'أمانة منطقة الباحة',
+    number: '940',
+    description: 'البلاغات البلدية والملاحظات والخدمات الميدانية',
+    icon: '#i-heritage',
+  },
+  {
+    tag: 'العناية بالسياح',
+    number: '930',
+    description: 'الاستفسارات السياحية والإرشاد للزوار يوميًا',
+    icon: '#i-foot-headset',
+  },
+  {
+    tag: 'البلاغات الطارئة',
+    number: '911',
+    description: 'رقم الطوارئ الموحد للحالات الإسعافية والسلامة',
+    icon: '#i-foot-phone',
+  },
+] as const;
 
 function normalizeQuery(text: string): string {
   return text
@@ -80,22 +101,6 @@ export function FaqPageView({ initialHidden = true }: FaqPageViewProps) {
     }
   }
 
-  function renderHighlightList(item: FaqItem) {
-    if (!item.highlights?.length) return null;
-    return (
-      <ul className="faq-highlights">
-        {item.highlights.map((note) => (
-          <li key={note}>
-            <svg className="ic tiny" aria-hidden="true">
-              <use href="#i-check" />
-            </svg>
-            <span>{note}</span>
-          </li>
-        ))}
-      </ul>
-    );
-  }
-
   return (
     <article
       id="faqView"
@@ -120,106 +125,125 @@ export function FaqPageView({ initialHidden = true }: FaqPageViewProps) {
 
         <header className="faq-hero-card">
           <div className="faq-hero-copy">
-            <h1 id="faqTitle" tabIndex={-1}>
-              <svg className="ic" aria-hidden="true">
-                <use href="#i-foot-faq" />
+            <div className="caption section-kicker faq-hero-kicker">
+              <svg className="section-mark" viewBox="0 0 24 24" aria-hidden="true">
+                <use href="#i-foot-faq" width="24" height="24" />
               </svg>
-              <span>الأسئلة الشائعة لزيارة منطقة الباحة</span>
+              <span>دليل الزائر · إجابات موثقة ومحدثة</span>
+            </div>
+            <h1 id="faqTitle" tabIndex={-1}>
+              الأسئلة الشائعة لزيارة منطقة الباحة
             </h1>
             <p className="lead">
-              إجابات موثقة حول الوصول والأجواء والوجهات وتخطيط رحلتك في الباحة.
+              كل ما تحتاجه حول الوصول والأجواء والوجهات وتخطيط رحلتك في السراة وتهامة.
             </p>
           </div>
           <div className="faq-hero-actions">
-            <button type="button" className="btn" data-open="agent" aria-haspopup="dialog" aria-controls="agentPanel">
-              <GuideCharacter size={24} className="faq-hero-guide-icon" />
-              اسأل {SMART_GUIDE_NAME}
+            <button
+              type="button"
+              className="btn faq-hero-btn"
+              data-open="agent"
+              aria-haspopup="dialog"
+              aria-controls="agentPanel"
+            >
+              <GuideCharacter size={22} className="faq-hero-guide-icon" />
+              <span>اسأل {SMART_GUIDE_NAME}</span>
             </button>
           </div>
         </header>
 
-        <section className="faq-toolbar" aria-label="تصفية الأسئلة الشائعة">
-          <form
-            className="faq-search-box"
-            role="search"
-            onSubmit={(event) => {
-              event.preventDefault();
-              document
-                .getElementById('faqAccordionList')
-                ?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-            }}
-          >
-            <svg className="ic tiny faq-search-ic" aria-hidden="true">
-              <use href="#i-search" />
-            </svg>
-            <input
-              type="search"
-              id="faqSearchInput"
-              value={query}
-              onChange={(event) => setQuery(event.target.value)}
-              placeholder="ابحث في الأسئلة: مطار العقيق، الطقس، ذي عين، PDF..."
-              aria-label="ابحث في الأسئلة الشائعة"
-            />
-            {query ? (
+        <section className="faq-filter-panel" aria-label="البحث وتصفية الأسئلة الشائعة">
+          <div className="faq-toolbar-row">
+            <form
+              className="faq-search-box"
+              role="search"
+              onSubmit={(event) => {
+                event.preventDefault();
+                document
+                  .getElementById('faqAccordionList')
+                  ?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+              }}
+            >
+              <svg className="ic tiny faq-search-ic" aria-hidden="true">
+                <use href="#i-search" />
+              </svg>
+              <input
+                type="search"
+                id="faqSearchInput"
+                value={query}
+                onChange={(event) => setQuery(event.target.value)}
+                placeholder="ابحث بكلمة مفتاحية: مطار العقيق، الطقس، ذي عين، PDF..."
+                aria-label="ابحث في الأسئلة الشائعة"
+              />
+              {query ? (
+                <button
+                  type="button"
+                  className="faq-search-clear"
+                  onClick={() => setQuery('')}
+                  aria-label="مسح البحث"
+                >
+                  <svg className="ic tiny" aria-hidden="true">
+                    <use href="#i-x" />
+                  </svg>
+                </button>
+              ) : null}
+            </form>
+
+            <div className="faq-toolbar-meta">
+              <p className="faq-count" aria-live="polite">
+                <strong>{formatArabicCount(filteredItems.length)}</strong> من{' '}
+                {formatArabicCount(FAQ_ITEMS.length)} سؤالًا
+              </p>
               <button
                 type="button"
-                className="faq-search-clear"
-                onClick={() => setQuery('')}
-                aria-label="مسح البحث"
+                className={`faq-expand-btn${allExpanded ? ' is-expanded' : ''}`}
+                onClick={toggleExpandAll}
+                disabled={!filteredItems.length}
               >
                 <svg className="ic tiny" aria-hidden="true">
-                  <use href="#i-x" />
+                  <use href="#i-chevron" />
                 </svg>
+                <span>{allExpanded ? 'طي الكل' : 'فتح الكل'}</span>
               </button>
-            ) : null}
-            <button type="submit" className="faq-search-btn" id="faqSearchBtn">
-              بحث
-            </button>
-          </form>
+            </div>
+          </div>
 
-          <div className="faq-select-wrap">
-            <svg className="ic tiny faq-select-icon" aria-hidden="true">
-              <use href={categoryLookup.get(selectedCategory)?.icon || '#i-foot-faq'} />
-            </svg>
-            <select
-              id="faqCategorySelect"
-              className="faq-category-select"
-              value={selectedCategory}
-              onChange={(event) => setSelectedCategory(event.target.value as FaqCategoryId)}
-              aria-label="تصفية الأسئلة حسب المحور"
-            >
-              {FAQ_CATEGORIES.map((cat) => (
-                <option key={cat.id} value={cat.id}>
-                  {cat.label} ({formatArabicCount(categoryCounts.get(cat.id) ?? 0)})
-                </option>
-              ))}
-            </select>
-            <svg className="ic tiny faq-select-chev" aria-hidden="true">
-              <use href="#i-chevron" />
-            </svg>
+          <div className="faq-cat-pills" role="group" aria-label="تصفية الأسئلة حسب المحور">
+            {FAQ_CATEGORIES.map((cat) => {
+              const isActive = selectedCategory === cat.id;
+              return (
+                <button
+                  key={cat.id}
+                  type="button"
+                  className={`faq-cat-pill${isActive ? ' is-active' : ''}`}
+                  aria-pressed={isActive}
+                  onClick={() => setSelectedCategory(cat.id)}
+                >
+                  <svg className="ic tiny" aria-hidden="true">
+                    <use href={cat.icon} />
+                  </svg>
+                  <span>{cat.label}</span>
+                  <bdi className="faq-cat-count">
+                    {formatArabicCount(categoryCounts.get(cat.id) ?? 0)}
+                  </bdi>
+                </button>
+              );
+            })}
           </div>
         </section>
-
-        <div className="faq-results-bar">
-          <p className="faq-count">
-            عرض {formatArabicCount(filteredItems.length)} من{' '}
-            {formatArabicCount(FAQ_ITEMS.length)} سؤالًا
-          </p>
-          <button
-            type="button"
-            className="faq-expand-btn"
-            onClick={toggleExpandAll}
-            disabled={!filteredItems.length}
-          >
-            {allExpanded ? 'طي جميع الإجابات' : 'فتح جميع الإجابات'}
-          </button>
-        </div>
 
         {filteredItems.length ? (
           <div className="faq-list" id="faqAccordionList">
             {filteredItems.map((item) => {
               const isOpen = openIds.has(item.id);
               const catMeta = categoryLookup.get(item.category);
+              const hasHighlights = Boolean(item.highlights?.length);
+              const hasActions = Boolean((item.actionHref && item.actionLabel) || item.askPrompt);
+              const askButtonLabel =
+                !item.actionHref && item.actionLabel
+                  ? item.actionLabel
+                  : `اسأل ${SMART_GUIDE_NAME}`;
+
               return (
                 <article
                   key={item.id}
@@ -234,50 +258,63 @@ export function FaqPageView({ initialHidden = true }: FaqPageViewProps) {
                       aria-controls={`${item.id}-panel`}
                       onClick={() => toggleItem(item.id)}
                     >
-                      <span className="faq-trigger-meta">
-                        <span className="faq-item-badge">
-                          <svg className="ic tiny" aria-hidden="true">
-                            <use href={catMeta?.icon || '#i-foot-faq'} />
-                          </svg>
-                          {catMeta?.label}
-                        </span>
+                      <span className="faq-q-icon" data-cat={item.category} aria-hidden="true">
+                        <svg className="ic">
+                          <use href={catMeta?.icon || '#i-foot-faq'} />
+                        </svg>
+                      </span>
+                      <span className="faq-trigger-copy">
+                        <span className="faq-cat-overline">{catMeta?.label}</span>
                         <span className="faq-item-question">{item.question}</span>
                       </span>
                       <span className="faq-chevron" aria-hidden="true">
                         <svg className="ic tiny">
-                          <use href="#i-plus" />
+                          <use href="#i-chevron" />
                         </svg>
                       </span>
                     </button>
                   </h2>
+
                   <div
                     id={`${item.id}-panel`}
                     className="faq-answer"
                     hidden={!isOpen}
                   >
-                    <p>{item.answer}</p>
-                    {renderHighlightList(item)}
-                    {(item.actionHref || item.askPrompt) && (
-                      <div className="faq-item-actions">
-                        {item.actionHref && item.actionLabel ? (
-                          <a href={item.actionHref} className="faq-item-link">
-                            <span>{item.actionLabel}</span>
-                            <svg className="ic tiny" aria-hidden="true">
-                              <use href="#i-arrow" />
-                            </svg>
-                          </a>
+                    <p className="faq-answer-text">{item.answer}</p>
+
+                    {(hasHighlights || hasActions) && (
+                      <div className="faq-answer-footer">
+                        {hasHighlights ? (
+                          <ul className="faq-highlights" aria-label="نقاط سريعة">
+                            {item.highlights!.map((note) => (
+                              <li key={note}>{note}</li>
+                            ))}
+                          </ul>
                         ) : null}
-                        {item.askPrompt ? (
-                          <button
-                            type="button"
-                            className="faq-item-ask"
-                            data-concierge-ask={item.askPrompt}
-                          >
-                            <svg className="ic tiny" aria-hidden="true">
-                              <use href="#i-compass" />
-                            </svg>
-                            <span>اسأل المساعد عن هذا الموضوع</span>
-                          </button>
+
+                        {hasActions ? (
+                          <div className="faq-item-actions">
+                            {item.actionHref && item.actionLabel ? (
+                              <a href={item.actionHref} className="faq-item-link">
+                                <span>{item.actionLabel}</span>
+                                <svg className="ic tiny" aria-hidden="true">
+                                  <use href="#i-arrow" />
+                                </svg>
+                              </a>
+                            ) : null}
+                            {item.askPrompt ? (
+                              <button
+                                type="button"
+                                className="faq-item-ask"
+                                data-concierge-ask={item.askPrompt}
+                              >
+                                <svg className="ic tiny" aria-hidden="true">
+                                  <use href="#i-sparkle" />
+                                </svg>
+                                <span>{askButtonLabel}</span>
+                              </button>
+                            ) : null}
+                          </div>
                         ) : null}
                       </div>
                     )}
@@ -303,33 +340,30 @@ export function FaqPageView({ initialHidden = true }: FaqPageViewProps) {
         )}
 
         <section className="faq-support-grid" aria-label="أرقام الدعم والبلاغات السريعة">
-          <div className="faq-support-card">
-            <span className="faq-support-tag">أمانة منطقة الباحة</span>
-            <strong>940</strong>
-            <p>البلاغات البلدية والملاحظات والخدمات الميدانية</p>
-            <a
-              href="tel:940"
-              className="faq-support-link"
-            >
-              اتصال مباشر <svg className="ic tiny" aria-hidden="true"><use href="#i-foot-phone" /></svg>
-            </a>
-          </div>
-          <div className="faq-support-card">
-            <span className="faq-support-tag">العناية بالسياح</span>
-            <strong>930</strong>
-            <p>الاستفسارات السياحية والإرشاد للزوار يوميًا</p>
-            <a href="tel:930" className="faq-support-link">
-              اتصال مباشر <svg className="ic tiny" aria-hidden="true"><use href="#i-foot-phone" /></svg>
-            </a>
-          </div>
-          <div className="faq-support-card">
-            <span className="faq-support-tag">البلاغات الطارئة</span>
-            <strong>911</strong>
-            <p>رقم الطوارئ الموحد للحالات الإسعافية والسلامة</p>
-            <a href="tel:911" className="faq-support-link">
-              اتصال مباشر <svg className="ic tiny" aria-hidden="true"><use href="#i-foot-phone" /></svg>
-            </a>
-          </div>
+          {SUPPORT_CHANNELS.map((channel) => (
+            <div key={channel.number} className="faq-support-card">
+              <div className="faq-support-head">
+                <span className="faq-support-icon" aria-hidden="true">
+                  <svg className="ic">
+                    <use href={channel.icon} />
+                  </svg>
+                </span>
+                <div className="faq-support-meta">
+                  <span className="faq-support-tag">{channel.tag}</span>
+                  <strong>
+                    <bdi dir="ltr">{channel.number}</bdi>
+                  </strong>
+                </div>
+              </div>
+              <p>{channel.description}</p>
+              <a href={`tel:${channel.number}`} className="faq-support-link">
+                <span>اتصال مباشر</span>
+                <svg className="ic tiny" aria-hidden="true">
+                  <use href="#i-foot-phone" />
+                </svg>
+              </a>
+            </div>
+          ))}
         </section>
       </div>
     </article>
