@@ -1652,6 +1652,29 @@
       "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=8"
     },
     {
+      "id": "suhail-viewpoint-cafe",
+      "name": "إطلالة ومقهى سهيل",
+      "category": "cafes",
+      "address": "مركز بني كبير، طريق الباحة–بلجرشي",
+      "district": "بلجرشي",
+      "description": "مقهى جبلي في بني كبير على طريق الباحة إلى بلجرشي. تُقدّم فيه القهوة المختصة والشاي في جلسات مفتوحة تطلّ على قرى المنطقة وأوديتها.",
+      "coordinates": [19.950876, 41.528123],
+      "map": "https://www.google.com/maps/search/?api=1&query=19.950876,41.528123",
+      "photo": "suhail-lookout",
+      "gallery": [
+        { "photo": "suhail-lookout", "caption": "منصة الرصد في مطل سهيل" },
+        { "photo": "suhail-entrance", "caption": "الممرّ المؤدّي إلى المقهى تحت مظلات مزخرفة بالخط العربي" },
+        { "photo": "suhail-terrace", "caption": "جلسات المقهى الخارجية المطلة على الجبال" },
+        { "photo": "suhail-coffee", "caption": "تحميص حبوب البن بأدوات تقليدية" }
+      ],
+      "facts": [
+        ["ساعات العمل", "الاثنين إلى الخميس من 11 صباحًا، والجمعة إلى الأحد من 3 عصرًا. الإغلاق يوميًا الساعة 3 فجر اليوم التالي."],
+        ["يُعرف أيضًا باسم", "كوفي ومطل سهيل، شتوية سهيل"]
+      ],
+      "source": "https://www.visitsaudi.com/ar/al-baha/attractions/suhail-viewpoint-and-cafe",
+      "sourceLabel": "روح السعودية"
+    },
+    {
       "id": "malls-01",
       "name": "الباحة مول",
       "category": "malls",
