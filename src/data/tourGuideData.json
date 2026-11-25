@@ -1597,6 +1597,12 @@
       "category": "heritage",
       "address": "بلجرشي - سوق السبت التاريخي",
       "district": "بلجرشي",
+      "photo": "saturday-market-alley",
+      "gallery": [
+        { "photo": "saturday-market-alley", "caption": "ممر حجري في سوق السبت التاريخي ببلجرشي" },
+        { "photo": "saturday-market-spices", "caption": "أكياس التوابل والأعشاب المعروضة في السوق" },
+        { "photo": "saturday-market-dallah", "caption": "دلال القهوة التقليدية والمنتجات المعروضة في السوق" }
+      ],
       "source": "https://saudipedia.com/أين-يقع-سوق-السبت-التاريخي؟",
       "description": "سوق شعبي أسبوعي في بلجرشي، يبيع فيه التجار العسل والسمن والمنتجات الزراعية والمشغولات اليدوية.",
       "facts": [
