@@ -845,11 +845,22 @@
     },
     {
       "id": "museums-03",
-      "name": "متحف الفيان",
+      "name": "متحف الفيان للتراث",
       "category": "museums",
       "address": "الباحة - الأطاولة",
       "district": "الباحة",
-      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Heritage&type=12"
+      "description": "أسّس ناصر الفيان هذا المتحف في قرية الأطاولة، وبناه على طراز بيوت الباحة الحجرية القديمة. تعرض غرفه مخطوطات إسلامية وعملات قديمة ومنسوجات وأدوات من الحياة اليومية، ويضمّ مقهى بجلسات شعبية.",
+      "photo": "fayan-art",
+      "gallery": [
+        { "photo": "fayan-art", "caption": "ركن الرسم داخل متحف الفيان للتراث" },
+        { "photo": "fayan-courtyard", "caption": "زائران في ساحة المتحف أمام البرج الحجري" },
+        { "photo": "fayan-entrance", "caption": "بوابة متحف ناصر الفيان" },
+        { "photo": "fayan-architecture", "caption": "المبنى الحجري للمتحف من الفناء الداخلي" },
+        { "photo": "fayan-textiles", "caption": "منسوجات شعبية معروضة في ساحة المتحف" },
+        { "photo": "fayan-room", "caption": "غرفة بتفاصيل نسيج تراثي" }
+      ],
+      "source": "https://www.visitsaudi.com/ar/al-baha/attractions/al-fian-heritage-museum",
+      "sourceLabel": "روح السعودية"
     },
     {
       "id": "museums-04",
