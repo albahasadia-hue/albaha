@@ -109,6 +109,7 @@ export interface GuideRecord {
   lng?: number;
   coordinates?: [number, number];
   facts?: [string, string][];
+  visitStatus?: string;
   hours?: string;
   phone?: string;
   url?: string;

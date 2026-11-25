@@ -501,6 +501,7 @@ const SITE_ASSET_BINDINGS: Record<number, SiteAssetBinding> = {
   112: { tourGuideId: 'heritage-02', aliases: ['بخروش', 'قلعة بخروش'] },
   113: { tourGuideId: 'museums-05', aliases: ['ابن مصبح', 'محمد بن مصبح'] },
   114: { tourGuideId: 'museums-10', aliases: ['بني جرة', 'بني جره'] },
+  115: { tourGuideId: 'museums-07', aliases: ['المتحف المركزي في الباحة'] },
   118: {
     tourGuideId: 'saturday-market',
     stopId: 'baljurashi-center',

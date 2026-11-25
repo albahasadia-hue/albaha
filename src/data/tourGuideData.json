@@ -864,6 +864,23 @@
       "source": "https://baha.gov.sa/ar/Albums/Sites?type=15"
     },
     {
+      "id": "ibn-raqoush-palace",
+      "name": "قصر بن رقوش الأثري",
+      "category": "heritage",
+      "address": "قرية بني سار",
+      "district": "الباحة",
+      "description": "شُيّد القصر عام 1249هـ على سفح تلّة في قرية بني سار شمال مدينة الباحة. ويضمّ خمسة بيوت حجرية، ودارًا للضيافة يتقدّمها مجلس زهران.",
+      "visitStatus": "مغلق مؤقتًا بحسب روح السعودية",
+      "coordinates": [20.101534, 41.445842],
+      "map": "https://www.google.com/maps/search/?api=1&query=20.101534,41.445842",
+      "photo": "ibn-raqoush-palace",
+      "gallery": [
+        { "photo": "ibn-raqoush-palace", "caption": "المباني الحجرية لقصر بن رقوش على سفح التل في بني سار" }
+      ],
+      "source": "https://www.visitsaudi.com/ar/al-baha/attractions/ben-rakosh-historic-palace-in-al-baha",
+      "sourceLabel": "روح السعودية"
+    },
+    {
       "id": "heritage-02",
       "name": "قرية حصون بخروش بن علاس",
       "category": "heritage",
@@ -1011,11 +1028,23 @@
     },
     {
       "id": "museums-07",
-      "name": "المتحف المركزي في الباحة",
+      "name": "متحف الباحة الإقليمي للآثار والتراث",
       "category": "museums",
-      "address": "الباحة",
+      "address": "حي الحازم، قرب قرية رغدان السياحية",
       "district": "الباحة",
-      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Heritage&type=12"
+      "description": "متحف يوثّق تاريخ الباحة وتراثها. خُصّصت قاعاته الثماني لعرض مقتنيات أثرية تمتدّ من العصر الحجري إلى العصور الإسلامية.",
+      "visitStatus": "تحقّق من إتاحة الزيارة قبل التوجّه",
+      "coordinates": [20.024783, 41.443927],
+      "map": "https://www.google.com/maps/search/?api=1&query=20.024783,41.443927",
+      "photo": "albaha-regional-museum",
+      "gallery": [
+        { "photo": "albaha-regional-museum", "caption": "الواجهة الحجرية لمتحف الباحة الإقليمي للآثار والتراث" }
+      ],
+      "facts": [
+        ["يُعرف أيضًا باسم", "المتحف المركزي في الباحة"]
+      ],
+      "source": "https://www.visitsaudi.com/ar/al-baha/attractions/al-baha-museum",
+      "sourceLabel": "روح السعودية"
     },
     {
       "id": "museums-08",

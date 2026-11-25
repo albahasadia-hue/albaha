@@ -152,6 +152,10 @@ function guideQueryTerms(query: string): string[] {
 }
 
 const tourGuideHref = (place: { id: string }): string => `/guide/place/${place.id}`;
+const guidePlaceAliases = new Map([
+  ['g-70', 'water-08'],
+  ['g-115', 'museums-07'],
+]);
 
 function guideCardBrief(place: GuideRecord): string {
   if (tourGuideShortSubtitles[place.id]) return tourGuideShortSubtitles[place.id];
@@ -271,8 +275,7 @@ export function createTourGuideController(deps: TourGuideControllerDeps): TourGu
   }
 
   function resolveGuidePlaceById(id: string): { place: GuideRecord; item144: EnrichedGuide144Item | null } | null {
-    // Preserve the original catalog URL for Al Hamda Waterfall.
-    const existing = tourGuidePlaces.get(id === 'g-70' ? 'water-08' : id);
+    const existing = tourGuidePlaces.get(guidePlaceAliases.get(id) || id);
     if (existing) {
       return { place: existing, item144: getGuide144ByTourGuideId(existing.id) || null };
     }
@@ -1153,6 +1156,9 @@ export function createTourGuideController(deps: TourGuideControllerDeps): TourGu
     ];
     if (rating) {
       metadata.push(['التقييم', rating, glyph('foot-message', 'card-ic-svg')]);
+    }
+    if (place.visitStatus) {
+      metadata.push(['حالة الزيارة', place.visitStatus, glyph('clock', 'card-ic-svg')]);
     }
     const bookingType = guideBookingType(place.category, Boolean(item144?.bookingLink));
     const contactActions: string[] = [];
