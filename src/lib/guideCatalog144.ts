@@ -375,7 +375,7 @@ const SITE_ASSET_BINDINGS: Record<number, SiteAssetBinding> = {
   51: { aliases: ['calma', 'كالما'] },
   52: { aliases: ['labella', 'لابيلا'] },
   53: { aliases: ['hills', 'ذي هيلز', 'هيلز المندق'] },
-  54: { aliases: ['soul', 'سول'] },
+  54: { tourGuideId: 'restaurants-15', aliases: ['soul', 'سول', 'سول كافي'] },
   57: { aliases: ['kaila', 'كيلة', 'كيله'] },
   58: { aliases: ['one bite', 'ون بايت'] },
   61: { tourGuideId: 'restaurants-02', aliases: ['البستان'] },

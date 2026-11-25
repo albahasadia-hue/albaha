@@ -1480,11 +1480,27 @@
     },
     {
       "id": "restaurants-15",
-      "name": "سول",
+      "name": "مطعم ومقهى سول",
       "category": "restaurants",
-      "address": "الباحة",
+      "address": "وسط مدينة الباحة",
       "district": "الباحة",
-      "source": "https://baha.gov.sa/ar/Albums/Sites?type=7"
+      "description": "مطعم ومقهى بطابع أندلسي في وسط الباحة، يقدّم أطباقًا عالمية وقهوة وحلويات في جلسات داخلية وخارجية.",
+      "coordinates": [20.0045625, 41.4604375],
+      "map": "https://maps.app.goo.gl/wEL7jp6SNTPPPMot7",
+      "photo": "soul-facade",
+      "gallery": [
+        { "photo": "soul-facade", "caption": "الواجهة الحجرية والفناء الخارجي لمطعم سول" },
+        { "photo": "soul-dining-room", "caption": "جلسات داخلية في مطعم سول" },
+        { "photo": "soul-window-seating", "caption": "جلسة بجوار النوافذ المطلة على الأشجار" },
+        { "photo": "soul-main-hall", "caption": "قاعة الطعام الرئيسية في سول" },
+        { "photo": "soul-table", "caption": "تشكيلة من أطباق مطعم سول" }
+      ],
+      "facts": [
+        ["ساعات العمل", "يوميًا من 7 صباحًا إلى منتصف الليل"],
+        ["يُعرف أيضًا باسم", "سول كافي (Soul)"]
+      ],
+      "source": "https://www.visitsaudi.com/ar/al-baha/attractions/soul",
+      "sourceLabel": "روح السعودية"
     },
     {
       "id": "restaurants-16",
@@ -1550,14 +1566,6 @@
     {
       "id": "cafes-07",
       "name": "مقهى شورت ستوب",
-      "category": "cafes",
-      "address": "الباحة",
-      "district": "الباحة",
-      "source": "https://baha.gov.sa/ar/Albums/Sites?category=Entertainment&type=8"
-    },
-    {
-      "id": "cafes-08",
-      "name": "سول كافي",
       "category": "cafes",
       "address": "الباحة",
       "district": "الباحة",

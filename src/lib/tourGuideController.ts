@@ -153,6 +153,8 @@ function guideQueryTerms(query: string): string[] {
 
 const tourGuideHref = (place: { id: string }): string => `/guide/place/${place.id}`;
 const guidePlaceAliases = new Map([
+  ['cafes-08', 'restaurants-15'],
+  ['g-54', 'restaurants-15'],
   ['g-70', 'water-08'],
   ['g-115', 'museums-07'],
 ]);
