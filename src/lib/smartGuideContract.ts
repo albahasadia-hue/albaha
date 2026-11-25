@@ -249,9 +249,26 @@ export interface SmartGuideResponseContract {
   places: SmartGuidePlaceCard[];
   itinerary: SmartGuideItinerary | null;
   actions: SmartGuideAction[];
+  suggestions?: string[];
   context: ConciergeContextState;
   retryable?: boolean;
   requestSeq?: number;
+}
+
+export function sanitizeSuggestions(raw: unknown): string[] {
+  if (!Array.isArray(raw)) return [];
+  const seen = new Set<string>();
+  const clean: string[] = [];
+  for (const item of raw) {
+    if (typeof item !== 'string') continue;
+    const text = sanitizeVisitorFacingText(item).replace(/^[-•✦\s]+/, '').trim();
+    if (!text || text.length < 3 || text.length > 56) continue;
+    if (seen.has(text)) continue;
+    seen.add(text);
+    clean.push(text);
+    if (clean.length >= 3) break;
+  }
+  return clean;
 }
 
 export function isValidGuideId(guideId: unknown): guideId is string {

@@ -62,6 +62,7 @@ export interface SmartGuideTurnComputation {
     | 'place_followup'
     | 'trip_clarification'
     | 'trip_plan'
+    | 'trip_modify_plan'
     | 'trip_modify_time'
     | 'trip_swap_stop'
     | 'weather_plan'
@@ -195,22 +196,47 @@ function buildShortRecommendationReason(item: EnrichedGuide144Item, contextHint?
   return parts.slice(0, 3).join(' · ');
 }
 
-function parseDaysCount(q: string, expectingDuration = false): number | null {
-  const digit = q.match(/(?:^|\s)(\d+)\s*(?:يوم|ايام)(?:\s|$)/)?.[1] ||
-    (expectingDuration ? q.match(/^\d+$/)?.[0] : undefined);
+function parseDaysCount(
+  q: string,
+  expectingDuration = false,
+  currentDays: number | null = null
+): number | null {
+  // Strip comparative suffix like "بدل يوم واحد" / "بدلاً من يومين" so the target duration wins
+  const targetClause = q.replace(/\s+(?:بدل|بدلا من|عوض|مو|مش)\s+.*$/, '').trim();
+
+  if (currentDays !== null) {
+    if (/(?:زود|زيد|اضف|ضيف)\s+(?:كمان\s+)?يوم(?:\s|$)/.test(targetClause)) {
+      return Math.min(maxTripDays, currentDays + 1);
+    }
+    if (/(?:نقص|قلل|احذف|شيل)\s+يوم(?:\s|$)/.test(targetClause)) {
+      return Math.max(1, currentDays - 1);
+    }
+  }
+
+  const digit =
+    targetClause.match(/(?:^|\s)(\d+)\s*(?:يوم|يوما|ايام|أيام)(?:\s|$)/)?.[1] ||
+    (expectingDuration ? targetClause.match(/^\d+$/)?.[0] : undefined);
   if (digit) return Number(digit);
-  if (/(?:^|\s)(?:اسبوع|الاسبوع|سبع(?:ه)?\s*ايام)(?:\s|$)/.test(q)) return 7;
-  if (/ست(?:ه)?\s*ايام/.test(q)) return 6;
-  if (/خمس(?:ه)?\s*ايام/.test(q)) return 5;
-  if (/اربع(?:ه)?\s*ايام/.test(q)) return 4;
-  if (/(?:ثلاث|تلات)(?:ه)?\s*ايام/.test(q)) return 3;
-  if (/يومين|يومان/.test(q)) return 2;
-  if (/يوم واحد|نفس اليوم|(?:رحله|جوله|رتب لي|خطط لي|جدول) يوم(?:\s|$)/.test(q) ||
-      /(?:^|\s)(?:اليوم|نهارده|النهارده|هاليوم|بكره|غدا)(?:\s|$)/.test(q) ||
-      (expectingDuration && /^(?:يوم|ليوم)(?:\s|$)/.test(q))) return 1;
+  if (/(?:^|\s)(?:اسبوع|الاسبوع|سبع(?:ه)?\s*ايام)(?:\s|$)/.test(targetClause)) return 7;
+  if (/ست(?:ه)?\s*ايام/.test(targetClause)) return 6;
+  if (/خمس(?:ه)?\s*ايام/.test(targetClause)) return 5;
+  if (/اربع(?:ه)?\s*ايام/.test(targetClause)) return 4;
+  if (/(?:ثلاث|تلات|تلت)(?:ه)?\s*ايام/.test(targetClause)) return 3;
+  if (/يومين|يومان/.test(targetClause)) return 2;
+  if (
+    /يوم واحد|نفس اليوم|(?:رحله|جوله|رتب لي|خطط لي|جدول|خلي الرحله|خل الرحله|خليها|خلها)\s*(?:لي\s*)?يوم(?:\s|$)/.test(
+      targetClause
+    ) ||
+    /(?:^|\s)(?:اليوم|نهارده|النهارده|هاليوم|بكره|غدا)(?:\s|$)/.test(targetClause) ||
+    (expectingDuration && /^(?:يوم|ليوم)(?:\s|$)/.test(targetClause))
+  ) {
+    return 1;
+  }
   if (expectingDuration) {
-    const numberWord = ['صفر', 'واحد', 'اثنين', 'ثلاث|تلات', 'اربع', 'خمس', 'ست', 'سبع'];
-    const parsed = numberWord.findIndex((word) => new RegExp(`^(?:${word})(?:ه)?$`).test(q));
+    const numberWord = ['صفر', 'واحد', 'اثنين|اتنين', 'ثلاث|تلات|تلت', 'اربع', 'خمس', 'ست', 'سبع'];
+    const parsed = numberWord.findIndex((word) =>
+      new RegExp(`^(?:${word})(?:ه)?$`).test(targetClause)
+    );
     if (parsed >= 0) return parsed;
   }
   return null;
@@ -798,8 +824,13 @@ export function runSmartGuideTurn(payload: SmartGuideRequestPayload): SmartGuide
   }
 
   // Follow-up time modification ("خلّها من 8 الصبح", "ابدأ الساعة 10", "غيّر الوقت إلى 4 العصر")
+  const activeDaysNum = activePlan ? Number(activePlan.days || nextCtx.days || 1) : null;
   const explicitNewStart = parseExplicitClockTime(q);
-  const explicitDaysInTurn = parseDaysCount(q, nextCtx.pendingTrip?.days === null);
+  const explicitDaysInTurn = parseDaysCount(
+    q,
+    nextCtx.pendingTrip?.days === null,
+    activeDaysNum
+  );
   const isTimeModification =
     Boolean(activePlan) && !nextCtx.pendingTrip &&
     explicitNewStart !== null &&
@@ -849,7 +880,7 @@ export function runSmartGuideTurn(payload: SmartGuideRequestPayload): SmartGuide
       usePreauthoredOnly: false,
       retrievedItems: linkedItems,
       response: {
-        replyText: `أبشر، عدّلت بداية الجولة لتبدأ الساعة ${clock(explicitNewStart)} مع الحفاظ على خطتك (${conciergeDays[String(daysCount)] || `${daysCount} أيام`}${nextCtx.withChildren ? ' · مناسبة للعائلة والعيال' : ''}) وبقية المحطات كما هي.`,
+        replyText: `أبشر، عدّلت بداية الجولة لتبدأ الساعة ${clock(explicitNewStart)} مع الحفاظ على خطتك (${conciergeDays[String(daysCount)] || `${daysCount} أيام`}${nextCtx.withChildren ? ' · مناسبة للعائلة والعيال' : ''}) وبقية المحطات كما هي. تحب نعدّل عدد الأيام أو نبدّل أي محطة؟`,
         placeIds: linkedItems.map((x) => x.id),
         places: [],
         itinerary,
@@ -857,21 +888,203 @@ export function runSmartGuideTurn(payload: SmartGuideRequestPayload): SmartGuide
           { type: 'apply_plan', plan: rebuilt.plan, label: 'أضف الخطة لرحلتي', primary: true },
           { type: 'preview_plan', plan: rebuilt.plan, label: 'اعرض المسار على الخريطة' },
         ],
+        suggestions: [
+          daysCount === 1 ? 'خلّ الرحلة يومين' : 'خلّ الرحلة 3 أيام',
+          'بدّل أول محطة',
+          'رشّح لي مطاعم على المسار',
+        ],
         context: nextCtx,
         requestSeq: payload.requestSeq,
       },
     };
   }
 
-  // Keep the requested trip separate from any previously displayed or saved plan.
+  // Keep the requested trip separate from any previously displayed or saved plan unless modifying it.
   const pendingTrip = nextCtx.pendingTrip;
   const askedStyle = parseTripStyle(q);
   const presetWeather = intent === 'weather-plan' || intent === 'rain-demo' || Boolean(payload.demoRain);
   const asksAboutDuration = /(?:^|\s)(?:كم يوم|كم المده|يكفي|يكفون|تكفي|كفايه)(?:\s|$)/.test(q);
+  const asksFreshReset = /من جديد|خطه جديده|رحله جديده|ابدا من الصفر/.test(q);
+
+  // Follow-up Active Plan Modification:
+  // Handles "خلي الرحلة يومان", "عدل الرحلة لي يومين بدل يوم واحد", "خلي الرحلة لي ثلاثة ايام",
+  // "زود يوم", "خليها عائلية", "خلي المشي خفيف", "أضف قرية ذي عين للخطة", "احذف متنزه الخلب", etc.
+  const modVerb = /(?:^|\s)(?:خل|خلي|خليها|خلها|عدل|تعديل|غير|حدث|مدد|طول|قصر|زود|زيد|نقص|قلل|اضف|ضيف|احذف|شيل|الغ|انقل|حول)/.test(q);
+  const mentionsPlanOrTrip = /(?:الرحل|الخط|الجدول|البرنامج|الجول|المسار)/.test(q);
+  const asksAddStopToPlan = Boolean(activePlan) && /(?:اضف|ضيف|زيد|حط|ادخل)/.test(q) && !/يوم/.test(q);
+  const asksRemoveStopFromPlan = Boolean(activePlan) && /(?:احذف|شيل|الغ|استبعد)/.test(q) && !/يوم/.test(q);
+  const namedStopInTurn = activePlan ? findStopForNavCommand(q) : null;
+
+  const isActivePlanModification =
+    Boolean(activePlan) &&
+    !pendingTrip &&
+    !presetWeather &&
+    !asksFreshReset &&
+    !asksAboutDuration &&
+    !/فندق|شاليه|مطعم|مقهي|كافيه|ابيت|اسكن|مبيت|حجز/.test(q) &&
+    (
+      (explicitDaysInTurn !== null && (modVerb || mentionsPlanOrTrip || q.split(/\s+/).length <= 5)) ||
+      (askedStyle !== null && (modVerb || mentionsPlanOrTrip)) ||
+      (/مشي خفيف|مشي اقل|بدون مشي|كبار السن/.test(q) && (modVerb || mentionsPlanOrTrip || q.split(/\s+/).length <= 5)) ||
+      (Boolean(govDetected) && modVerb && mentionsPlanOrTrip) ||
+      (asksAddStopToPlan && Boolean(namedStopInTurn)) ||
+      (asksRemoveStopFromPlan && (Boolean(namedStopInTurn) || /اول محط|اخر محط|ثاني محط/.test(q)))
+    );
+
+  if (isActivePlanModification && activePlan) {
+    if (explicitDaysInTurn !== null && (explicitDaysInTurn < 1 || explicitDaysInTurn > maxTripDays)) {
+      return {
+        intentKind: 'trip_clarification',
+        usePreauthoredOnly: false,
+        retrievedItems: [],
+        response: {
+          replyText: `أقدر أضبط خطتك من يوم واحد إلى ${formatNum(maxTripDays)} أيام كحد أقصى. كم يوم تحب نخليها؟`,
+          placeIds: [],
+          places: [],
+          itinerary: null,
+          actions: [],
+          suggestions: ['يومان', '3 أيام', '4 أيام'],
+          context: nextCtx,
+          requestSeq: payload.requestSeq,
+        },
+      };
+    }
+
+    const prevDays = Number(activePlan.days || nextCtx.days || 1);
+    const daysCount = explicitDaysInTurn ?? prevDays;
+    const style: TripStyle = askedStyle ?? activePlan.style ?? nextCtx.style ?? 'all';
+    const explicitRegion = govDetected?.regionKey || null;
+    const baseRegion = explicitRegion || nextCtx.region || activePlan.region || 'all';
+    // When expanding to multiple days without locking a single district, open region to 'all' so every day gets rich stops
+    const queryRegion = explicitRegion ? explicitRegion : daysCount > 1 ? 'all' : baseRegion;
+    const startMin = explicitNewStart ?? activePlan.timing.start ?? nextCtx.start ?? 9 * 60;
+    const budgetMin = nextCtx.budget || 480;
+    const withChildren = style === 'family' || Boolean(nextCtx.withChildren && !askedStyle);
+    const lessWalking =
+      Boolean(nextCtx.lessWalking) ||
+      withChildren ||
+      /مشي خفيف|مشي اقل|بدون مشي|كبار السن|مريحه/.test(q);
+
+    let seedIds = [...activePlan.ids];
+    let updatedExcluded = [...(nextCtx.excludedIds || [])];
+    let changeNoteAr = '';
+
+    if (asksRemoveStopFromPlan) {
+      const targetToRemove = namedStopInTurn || parseSwapTarget(q, activePlan)?.stop || null;
+      if (targetToRemove) {
+        seedIds = seedIds.filter((id) => id !== targetToRemove.id);
+        updatedExcluded = [...new Set([...updatedExcluded, targetToRemove.id])];
+        nextCtx.excludedIds = updatedExcluded;
+        changeNoteAr = `حذفت «${targetToRemove.name}» من جدولك `;
+      }
+    } else if (asksAddStopToPlan && namedStopInTurn) {
+      updatedExcluded = updatedExcluded.filter((id) => id !== namedStopInTurn.id);
+      nextCtx.excludedIds = updatedExcluded;
+      if (!seedIds.includes(namedStopInTurn.id)) {
+        seedIds.push(namedStopInTurn.id);
+      }
+      changeNoteAr = `أضفت «${namedStopInTurn.name}» لجدولك `;
+    }
+
+    const preserveOrderOnly =
+      daysCount === prevDays &&
+      !askedStyle &&
+      !explicitRegion &&
+      !asksAddStopToPlan &&
+      !asksRemoveStopFromPlan &&
+      seedIds.length >= daysCount * 2;
+
+    const rebuilt = buildConstraintPlan({
+      days: daysCount,
+      region: queryRegion,
+      style,
+      season: nextCtx.season || nowRiyadh.season,
+      month: nextCtx.month,
+      start: startMin,
+      budget: budgetMin,
+      returnByEnd: daysCount === 1 ? nextCtx.returnByEnd : null,
+      startPointLabel: govDetected?.canonical || nextCtx.startPoint || 'مدينة الباحة',
+      visitDay: nextCtx.visitDay ?? nowRiyadh.dayOfWeek,
+      withChildren,
+      lessWalking,
+      indoorOnly: false,
+      includeIds: explicitRegion ? undefined : seedIds,
+      excludeIds: updatedExcluded,
+      lockedIds: nextCtx.lockedIds,
+      completedIds: nextCtx.completedIds,
+      preserveOrder: preserveOrderOnly,
+    });
+    rebuilt.plan.days = String(daysCount);
+    rebuilt.plan.region = explicitRegion || (daysCount > 1 ? 'all' : baseRegion);
+
+    Object.assign(nextCtx, {
+      pendingTrip: null,
+      lastPlan: rebuilt.plan,
+      days: String(daysCount),
+      style,
+      region: rebuilt.plan.region,
+      start: startMin,
+      withChildren,
+      lessWalking,
+      hasUnsavedPreview: true,
+      mode: 'plan',
+    });
+
+    const daysPhrase = conciergeDays[String(daysCount)] || `${formatNum(daysCount)} أيام`;
+    const styleLabels: Record<TripStyle, string> = {
+      family: 'عائلية مريحة',
+      nature: 'طبيعة ومغامرة',
+      heritage: 'تراثية وثقافية',
+      all: 'متنوّعة',
+    };
+    const areaPhrase =
+      rebuilt.plan.region === 'all'
+        ? 'بين السراة وتهامة'
+        : `في ${conciergeRegions[rebuilt.plan.region] || govDetected?.canonical || 'الباحة'}`;
+
+    const itinerary = buildItineraryFromPlan(rebuilt.plan);
+    const linkedItems = rebuilt.plan.ids
+      .map((id) => getGuide144ByStopId(id))
+      .filter((x): x is EnrichedGuide144Item => Boolean(x));
+
+    const summaryLead = changeNoteAr
+      ? `أبشر، ${changeNoteAr}وحدّثت خطتك لتكون ${daysPhrase} (${styleLabels[style]}) ${areaPhrase}.`
+      : explicitDaysInTurn !== null && explicitDaysInTurn !== prevDays
+        ? `أبشر، عدّلت خطتك من ${conciergeDays[String(prevDays)] || `${prevDays} أيام`} إلى ${daysPhrase} (${styleLabels[style]}) ${areaPhrase} مع توزيع مريح للمحطات.`
+        : `تم، حدّثت خطتك لتكون ${daysPhrase} بطابع ${styleLabels[style]} ${areaPhrase}.`;
+
+    const nextDaysSuggestion =
+      daysCount < 3 ? `خلّ الرحلة ${daysCount + 1} أيام` : 'خلّ البداية 8 الصبح';
+
+    return {
+      intentKind: 'trip_modify_plan',
+      usePreauthoredOnly: false,
+      retrievedItems: linkedItems,
+      referenceFact: `تم تحديث خطة الزائر الحالية مباشرة بناءً على طلبه لتصبح ${daysPhrase} (${styleLabels[style]}) ${areaPhrase}. اعرض التحديث بوضوح واختم بسؤال متابعة ودي لاستمرار النقاش.`,
+      response: {
+        replyText: `${summaryLead} شوف التوزيع الجديد تحت، وقول لي لو تحب نبدّل محطة أو نرشّح سكن ومطاعم قريبة من المسار!`,
+        placeIds: linkedItems.map((x) => x.id),
+        places: [],
+        itinerary,
+        actions: [
+          { type: 'apply_plan', plan: rebuilt.plan, label: 'أضف الخطة لرحلتي', primary: true },
+          { type: 'preview_plan', plan: rebuilt.plan, label: 'اعرض المسار على الخريطة' },
+        ],
+        suggestions: [
+          nextDaysSuggestion,
+          'بدّل أول محطة',
+          'رشّح لي سكن ومطاعم قريبة',
+        ],
+        context: nextCtx,
+        requestSeq: payload.requestSeq,
+      },
+    };
+  }
+
   const planningRequest =
     intent === 'plan' || intent === 'timed-plan' || presetWeather ||
     /(?:^|\s)(?:و)?(?:ا?رتب(?:لي)?|ترتيب|ترتب|ا?خطط|تخطيط|خطه|برنامج|مسار|جوله|نظم|تنظيم|جدول|جهز\s?لي رحله)(?:\s|$)/.test(q) ||
-    /(?:^|\s)(?:ابي|ابغي|ابغى|عايز|عاوز|حاب|اريد|نبي|نفسي)\s+(?:(?:اسوي|اعمل|اطلع|نطلع|نروح|انظم)\s+)?رحله(?:\s|$)/.test(q) ||
+    /(?:^|\s)(?:ابي|ابغي|ابغى|عايز|عاوز|حاب|اريد|نبي|نفسي)\s+(?:(?:اسوي|اعمل|اطلع|نروح|انظم)\s+)?رحله(?:\s|$)/.test(q) ||
     (explicitDaysInTurn !== null && askedStyle !== null && !asksAboutDuration &&
       !/فندق|شاليه|حجز|ليله|ليالي/.test(q));
   const timeWindow = parseTimeWindowAndReturnAr(q);
@@ -896,9 +1109,12 @@ export function runSmartGuideTurn(payload: SmartGuideRequestPayload): SmartGuide
     const cityInfo = climateCities[cityKey] || climateCities.baha;
     const invalidDays = explicitDaysInTurn !== null &&
       (explicitDaysInTurn < 1 || explicitDaysInTurn > maxTripDays);
+    // If visitor already had an activePlan in this chat and didn't ask for a fresh reset, inherit known style/days when omitted
+    const inheritedStyle = !asksFreshReset && activePlan && explicitDaysInTurn !== null ? activePlan.style : null;
+    const inheritedDays = !asksFreshReset && activePlan && askedStyle !== null ? Number(activePlan.days || 1) : null;
     const trip: NonNullable<ConciergeContextState['pendingTrip']> = {
-      days: invalidDays ? null : explicitDaysInTurn ?? pendingTrip?.days ?? (presetWeather ? 1 : null),
-      style: askedStyle ?? pendingTrip?.style ?? (presetWeather ? 'all' : null),
+      days: invalidDays ? null : explicitDaysInTurn ?? pendingTrip?.days ?? inheritedDays ?? (presetWeather || weather ? 1 : null),
+      style: askedStyle ?? pendingTrip?.style ?? inheritedStyle ?? (presetWeather || weather ? 'all' : null),
       weather,
       wet,
       city: cityKey,
@@ -920,6 +1136,12 @@ export function runSmartGuideTurn(payload: SmartGuideRequestPayload): SmartGuide
       const styleQuestion = 'وش نوع الرحلة اللي تفضّله؟ عائلية، طبيعة ومغامرة، تراثية، أو منوّعة؟';
       const replyText = [trip.days === null ? daysQuestion : '', trip.style === null ? styleQuestion : '']
         .filter(Boolean).join(' ');
+      const clarificationSuggestions =
+        trip.days === null && trip.style === null
+          ? ['يومان مع العائلة', '3 أيام طبيعة ومغامرة', 'يوم واحد منوّعة']
+          : trip.days === null
+            ? ['يوم واحد', 'يومان', '3 أيام']
+            : ['عائلية', 'طبيعة ومغامرة', 'تراثية', 'منوّعة'].slice(0, 3);
       return {
         intentKind: 'trip_clarification',
         usePreauthoredOnly: true,
@@ -930,6 +1152,7 @@ export function runSmartGuideTurn(payload: SmartGuideRequestPayload): SmartGuide
           places: [],
           itinerary: null,
           actions: [],
+          suggestions: clarificationSuggestions,
           context: nextCtx,
           requestSeq: payload.requestSeq,
         },
@@ -941,12 +1164,12 @@ export function runSmartGuideTurn(payload: SmartGuideRequestPayload): SmartGuide
     const forecast = payload.weather?.city === cityKey ? payload.weather : null;
     const isWetForecast = trip.weather && (trip.wet || Boolean(forecast?.isWet));
     const startMin = trip.start ?? (isWetForecast ? 10 * 60 : 9 * 60);
-    const regionKey = trip.region || (trip.weather ? cityInfo.region : 'all');
+    const regionKey = trip.region || (trip.weather && daysCount === 1 ? cityInfo.region : 'all');
     const startPoint = trip.startPoint || (trip.weather ? cityInfo.name : 'مدينة الباحة');
     const visitDay = trip.visitDay ?? nowRiyadh.dayOfWeek;
     const dayLabel = trip.visitDateLabel || (trip.weather ? `اليوم (${WEEKDAY_NAMES_AR[visitDay]})` : WEEKDAY_NAMES_AR[visitDay]);
     const budgetMin = trip.budget ?? (trip.weather ? 420 : 480);
-    const returnByEnd = trip.returnByEnd ?? (trip.weather ? 18 * 60 : null);
+    const returnByEnd = trip.returnByEnd ?? (trip.weather && daysCount === 1 ? 18 * 60 : null);
     const withChildren = style === 'family';
     const lessWalking = trip.lessWalking || withChildren || isWetForecast;
 
@@ -1019,13 +1242,18 @@ export function runSmartGuideTurn(payload: SmartGuideRequestPayload): SmartGuide
       usePreauthoredOnly: false,
       retrievedItems: linkedItems,
       response: {
-        replyText: `أبشر، رتّبت لك خطة ${daysPhrase}${familyPhrase} ${areaPhrase} تبدأ الساعة ${clock(startMin)} بتوقيت السعودية.${weatherNote ? ` ${weatherNote}` : ''}`,
+        replyText: `أبشر، رتّبت لك خطة ${daysPhrase}${familyPhrase} ${areaPhrase} تبدأ الساعة ${clock(startMin)} بتوقيت السعودية.${weatherNote ? ` ${weatherNote}` : ''} إيش رأيك في المحطات؟ نقدر نعدّل عدد الأيام أو وقت البداية أو نبدّل أي وجهة مع بعض.`,
         placeIds: linkedItems.map((x) => x.id),
         places: [],
         itinerary,
         actions: [
           { type: 'apply_plan', plan: built.plan, label: 'أضف الخطة لرحلتي', primary: true },
           { type: 'preview_plan', plan: built.plan, label: 'اعرض المسار على الخريطة' },
+        ],
+        suggestions: [
+          daysCount === 1 ? 'خلّ الرحلة يومين' : 'خلّ الرحلة 3 أيام',
+          'خلّ البداية 8 الصبح',
+          'بدّل أول محطة',
         ],
         context: nextCtx,
         requestSeq: payload.requestSeq,
@@ -1125,6 +1353,8 @@ export function runSmartGuideTurn(payload: SmartGuideRequestPayload): SmartGuide
     const item = searchRes.exactMatch;
     nextCtx.lastGuideItemId = item.id;
     nextCtx.recentPlaceIds = [item.id];
+    nextCtx.lastGovernorate = item.governorate;
+    nextCtx.lastCategoryKey = item.categoryKey;
     if (item.stopId) {
       nextCtx.activeStopId = item.stopId;
       nextCtx.place = item.stopId;
@@ -1142,7 +1372,16 @@ export function runSmartGuideTurn(payload: SmartGuideRequestPayload): SmartGuide
       ? `الدليل ما فيه تأكيد حالياً عن ${unconfirmedTopic} في «${item.name}»، لكن تقدر تتأكد منهم مباشرة. `
       : '';
 
-    const replyText = `${unconfirmedPrefix}«${item.name}» في ${item.governorate} (${item.address}). ${item.description}${ratingBit}${priceBit}`;
+    const isStayItem = /hotels|furnished|rural/.test(item.categoryKey);
+    const followUpAsk = isStayItem
+      ? ` تحب أشوف لك خيارات سكن ثانية في ${item.governorate} أو أعطيك اتجاهات الوصول له؟`
+      : ` تحب ندخله في خطة رحلتك أو أرشّح لك مطاعم وسكن قريب منه في ${item.governorate}؟`;
+
+    const replyText = `${unconfirmedPrefix}«${item.name}» في ${item.governorate} (${item.address}). ${item.description}${ratingBit}${priceBit}${followUpAsk}`;
+
+    const placeSuggestions = isStayItem
+      ? ['كيف أوصل له؟', `سكن ثاني في ${item.governorate}`, `مطاعم في ${item.governorate}`]
+      : ['كيف أوصل له؟', `مطاعم في ${item.governorate}`, 'رتّب لي جولة تشمله'];
 
     return {
       intentKind: unconfirmedTopic ? 'missing_info' : 'place_detail',
@@ -1155,6 +1394,7 @@ export function runSmartGuideTurn(payload: SmartGuideRequestPayload): SmartGuide
         places: [card],
         itinerary: null,
         actions: [],
+        suggestions: placeSuggestions,
         context: nextCtx,
         requestSeq: payload.requestSeq,
       },
@@ -1174,11 +1414,12 @@ export function runSmartGuideTurn(payload: SmartGuideRequestPayload): SmartGuide
           retrievedItems: [prevItem],
           unconfirmedTopic,
           response: {
-            replyText: `الدليل ما فيه تأكيد حالياً عن ${unconfirmedTopic} في «${prevItem.name}» (${prevItem.governorate}). يفضّل تتواصل معهم مباشرة للتأكد عبر الوسائل المتاحة تحت:`,
+            replyText: `الدليل ما فيه تأكيد حالياً عن ${unconfirmedTopic} في «${prevItem.name}» (${prevItem.governorate}). يفضّل تتواصل معهم مباشرة للتأكد عبر الوسائل المتاحة تحت، أو لو حاب أشوف لك بدائل ثانية في ${prevItem.governorate} أنا حاضر:`,
             placeIds: [prevItem.id],
             places: [card],
             itinerary: null,
             actions: [],
+            suggestions: [`بدائل في ${prevItem.governorate}`, 'كيف أوصل له؟'],
             context: nextCtx,
             requestSeq: payload.requestSeq,
           },
@@ -1189,29 +1430,44 @@ export function runSmartGuideTurn(payload: SmartGuideRequestPayload): SmartGuide
         usePreauthoredOnly: false,
         retrievedItems: [prevItem],
         response: {
-          replyText: `حسب المذكور في الدليل عن «${prevItem.name}» (${prevItem.governorate}): ${prevItem.description}`,
+          replyText: `حسب المذكور في الدليل عن «${prevItem.name}» (${prevItem.governorate}): ${prevItem.description} وش ودّك تعرف عنه بعد؟`,
           placeIds: [prevItem.id],
           places: [card],
           itinerary: null,
           actions: [],
+          suggestions: ['كيف أوصل له؟', `أماكن قريبة في ${prevItem.governorate}`],
           context: nextCtx,
           requestSeq: payload.requestSeq,
         },
       };
     }
 
+    // Build a smart local comparison across recentItems so even offline/without LLM it answers directly!
+    const topRated = [...recentItems].sort((a, b) => (b.rating || 0) - (a.rating || 0))[0] || recentItems[0];
+    const comparisonBits = recentItems
+      .slice(0, 3)
+      .map(
+        (it) =>
+          `«${it.name}» (${it.governorate}${it.ratingRaw ? ` · تقييم ${it.ratingRaw}` : ''}${it.priceRange ? ` · ${it.priceRange}` : ''})`
+      )
+      .join('، ');
+    const bestCard = hydratePlaceCard(topRated, {
+      reason: buildShortRecommendationReason(topRated, 'الأعلى تقييماً بين الخيارات'),
+    });
+
     return {
       intentKind: 'place_followup',
       usePreauthoredOnly: false,
       retrievedItems: recentItems,
       referenceFact:
-        'الزائر يتابع الحديث أو يقارن بين الأماكن التي عُرضت للتو في السجلات المسترجعة. أجب مباشرة وبشكل طبيعي من وصف ومعلومات هذه السجلات، وأرجع في placeIds فقط المكان أو الأماكن التي تنطبق على سؤاله الحالي.',
+        'الزائر يتابع الحديث أو يقارن بين الأماكن التي عُرضت للتو في السجلات المسترجعة. أجب مباشرة وبشكل طبيعي من وصف ومعلومات هذه السجلات، وأرجع في placeIds فقط المكان أو الأماكن التي تنطبق على سؤاله الحالي، واختم بسؤال متابعة ودي.',
       response: {
-        replyText: 'وش أهم شيء عندك في المقارنة بين الخيارات اللي عرضتها لك؟',
-        placeIds: [],
-        places: [],
+        replyText: `مقارنة سريعة بين الخيارات اللي استعرضناها: ${comparisonBits}. من ناحية التقييم والمواصفات يبرز «${topRated.name}» كخيار مميز. تحب نعتمد عليه أو أشوف لك خيارات إضافية؟`,
+        placeIds: [bestCard.id],
+        places: [bestCard],
         itinerary: null,
         actions: [],
+        suggestions: ['كيف أوصل له؟', 'عطني خيارات ثانية', 'رتّب لي خطة رحلة'],
         context: nextCtx,
         requestSeq: payload.requestSeq,
       },
@@ -1219,12 +1475,89 @@ export function runSmartGuideTurn(payload: SmartGuideRequestPayload): SmartGuide
   }
 
   // ---------------------------------------------------------------------------
-  // 7) Stay / Dining / Places Recommendation by Area (e.g. "أنا في العقيق، وين أقدر أبيت؟")
+  // 6b) Conversational Follow-up: "More Options / Alternatives" ("غيره؟", "خيارات ثانية", "زيد خيارات")
+  // ---------------------------------------------------------------------------
+  const asksMoreOptions =
+    !catIntent &&
+    /(?:^|\s)(?:غيره|غيرها|غيرهم|شي ثاني|شئ ثاني|خيارات ثانيه|خيارات اخري|اماكن ثانيه|بدائل|زيد|كمان خيارات|فيه غيرهم|عندك غيره)(?:\s|$)/.test(
+      q
+    );
+  const inferredGov =
+    govDetected?.canonical ||
+    nextCtx.lastGovernorate ||
+    recentItems[0]?.governorate ||
+    (activePlan && activePlan.region !== 'all' ? conciergeRegions[activePlan.region] : null) ||
+    null;
+  const inferredCat = catIntent?.categoryKey || nextCtx.lastCategoryKey || recentItems[0]?.categoryKey || null;
+
+  if (asksMoreOptions && inferredCat) {
+    const moreSearch = searchGuide144({
+      query: '',
+      governorate: inferredGov,
+      categoryKey: inferredCat as never,
+      limit: 10,
+      userLocation: payload.userLocation || null,
+    });
+    const unseen = moreSearch.matches
+      .map((m) => m.item)
+      .filter((it) => !recentIds.includes(it.id))
+      .slice(0, 4);
+    const fallbackPool = unseen.length ? unseen : moreSearch.matches.slice(0, 4).map((m) => m.item);
+    if (fallbackPool.length > 0) {
+      const cards = fallbackPool.map((it) =>
+        hydratePlaceCard(it, { reason: buildShortRecommendationReason(it) })
+      );
+      nextCtx.recentPlaceIds = [...new Set([...recentIds, ...cards.map((c) => c.id)])].slice(-10);
+      return {
+        intentKind: 'area_recommendation',
+        usePreauthoredOnly: false,
+        retrievedItems: fallbackPool,
+        response: {
+          replyText: unseen.length
+            ? `أبشر! هذي دفعة ثانية من الخيارات${inferredGov ? ` في ${inferredGov}` : ' في الباحة'} غير اللي عرضناها قبل شوي. أي واحد يناسبك أكثر؟`
+            : `هذي أبرز الخيارات المتوفرة حالياً${inferredGov ? ` في ${inferredGov}` : ''}. تحب نوسّع البحث لمحافظة قريبة مثل مدينة الباحة أو بلجرشي؟`,
+          placeIds: cards.map((c) => c.id),
+          places: cards,
+          itinerary: null,
+          actions: [],
+          suggestions: ['قارن لي بينهم', 'خيارات في مدينة الباحة', 'رتّب لي خطة رحلة'],
+          context: nextCtx,
+          requestSeq: payload.requestSeq,
+        },
+      };
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // 7) Stay / Dining / Places Recommendation by Area OR Contextual Nearby Follow-up
+  //    (e.g. "أنا في العقيق، وين أقدر أبيت؟" OR "طيب وين ناكل قريب منها؟" after Dhee Ain!)
   // ---------------------------------------------------------------------------
   const asksNearest = /اقرب|قريب مني|حولي|جنبي/.test(q);
-  if (catIntent && asksForRecommendations) {
-    const topMatches = searchRes.matches.slice(0, 4);
+  const contextualNearby =
+    !govDetected &&
+    Boolean(inferredGov) &&
+    Boolean(catIntent) &&
+    (/قريب|حول|جنب|هناك|نفس المنطقه|على المسار|فيها|عندها/.test(q) || recentItems.length > 0 || Boolean(activePlan));
+
+  if (catIntent && (asksForRecommendations || contextualNearby)) {
+    const effectiveGov = govDetected?.canonical || (contextualNearby ? inferredGov : null);
+    const effectiveSearch =
+      effectiveGov && effectiveGov !== govDetected?.canonical
+        ? searchGuide144({
+            query: rawText,
+            governorate: effectiveGov,
+            categoryKey: catIntent.categoryKey,
+            subType: catIntent.subType,
+            limit: 4,
+            userLocation: payload.userLocation || null,
+          })
+        : searchRes;
+    const topMatches = effectiveSearch.matches.length
+      ? effectiveSearch.matches.slice(0, 4)
+      : searchRes.matches.slice(0, 4);
     if (topMatches.length > 0) {
+      const matchedGov =
+        effectiveGov && effectiveSearch.matches.length ? effectiveGov : govDetected?.canonical || null;
       const cards = topMatches.map((m) =>
         hydratePlaceCard(m.item, {
           reason: buildShortRecommendationReason(m.item),
@@ -1232,11 +1565,13 @@ export function runSmartGuideTurn(payload: SmartGuideRequestPayload): SmartGuide
         })
       );
       nextCtx.recentPlaceIds = cards.map((c) => c.id);
+      nextCtx.lastCategoryKey = catIntent.categoryKey;
+      if (matchedGov) nextCtx.lastGovernorate = matchedGov;
       if (cards.length === 1) nextCtx.lastGuideItemId = cards[0].id;
 
-      const areaTxt = govDetected ? `في ${govDetected.canonical}` : 'في منطقة الباحة';
+      const areaTxt = matchedGov ? `في ${matchedGov}` : 'في منطقة الباحة';
       const catTxt = catIntent.labelAr;
-      const distNote = searchRes.sortedByDistance
+      const distNote = effectiveSearch.sortedByDistance
         ? ' مرتّبة حسب الأقرب لموقعك.'
         : asksNearest
           ? ' (مرتّبة حسب التقييم والملاءمة، لأن الترتيب بالمسافة يتطلب توفر موقعك وإحداثيات كل وجهة).'
@@ -1248,11 +1583,12 @@ export function runSmartGuideTurn(payload: SmartGuideRequestPayload): SmartGuide
         retrievedItems: topMatches.map((m) => m.item),
         referenceFact: distNote ? distNote.trim() : null,
         response: {
-          replyText: `حياك! هذي أبرز خيارات ${catTxt} ${areaTxt} من دليل الباحة${distNote}`,
+          replyText: `حياك! هذي أبرز خيارات ${catTxt} ${areaTxt} من دليل الباحة${distNote} تحب أقارن لك بينهم أو أشوف لك خيارات ثانية؟`,
           placeIds: cards.map((c) => c.id),
           places: cards,
           itinerary: null,
           actions: [],
+          suggestions: ['أيهم الأفضل برأيك؟', 'عطني خيارات ثانية', 'رتّب لي خطة رحلة'],
           context: nextCtx,
           requestSeq: payload.requestSeq,
         },
@@ -1261,12 +1597,61 @@ export function runSmartGuideTurn(payload: SmartGuideRequestPayload): SmartGuide
   }
 
   // ---------------------------------------------------------------------------
-  // 8) Discovery, Preparation, Access, Weather Info & FAQ
+  // 8) Discovery, Preparation, Duration Advice, Regional Comparison & FAQ
   // ---------------------------------------------------------------------------
+  if (asksAboutDuration) {
+    const requestedD = parseDaysCount(q, false) || 2;
+    const styleTxt = askedStyle === 'family' ? 'عائلية ' : '';
+    return {
+      intentKind: 'discovery_or_prep',
+      usePreauthoredOnly: false,
+      retrievedItems: recentItems,
+      referenceFact: `الزائر يسأل عن كفاية المدة (${requestedD} أيام) لزيارة الباحة دون طلب إنشاء جدول فوري.`,
+      response: {
+        replyText:
+          requestedD === 1
+            ? `يوم واحد يكفي لجولة مركّزة تشمل غابة رغدان ومنتزه الأمير حسام وقرية ذي عين التراثية، لكن لو معك يومين أو 3 أيام بتاخذ راحتك أكثر بين السراة وتهامة. تحب أرتّب لك خطة تناسب وقتك؟`
+            : `${conciergeDays[String(requestedD)] || `${requestedD} أيام`} مدة ممتازة جداً لرحلة ${styleTxt}في الباحة! تقدر تخصّص يوم لمرتفعات السراة وغاباتها (رغدان والأمير حسام)، ويوم لقطاع تهامة وقرية ذي عين وجبل شدا. تحب أجهّز لك الجدول التفصيلي الحين؟`,
+        placeIds: [],
+        places: [],
+        itinerary: null,
+        actions: [],
+        suggestions: [
+          `رتّب لي ${conciergeDays[String(requestedD)] || 'يومين'} ${askedStyle === 'family' ? 'مع العائلة' : 'منوّعة'}`,
+          'وين أفضل سكن في الباحة؟',
+          'إيه الفرق بين السراة وتهامة؟',
+        ],
+        context: nextCtx,
+        requestSeq: payload.requestSeq,
+      },
+    };
+  }
+
+  if (/السراه.*تهامه|تهامه.*السراه|الفرق بين/.test(q)) {
+    return {
+      intentKind: 'discovery_or_prep',
+      usePreauthoredOnly: false,
+      retrievedItems: recentItems,
+      referenceFact: 'اشرح الفرق بين قطاع السراة الجبلي المرتفع وقطاع تهامة الدافئ في منطقة الباحة بأسلوب حواري شيّق واختم بسؤال متابعة.',
+      response: {
+        replyText:
+          'منطقة الباحة تجمع بيئتين مختلفتين في مكان واحد: «السراة» على قمم الجبال (مثل مدينة الباحة وبلجرشي والمندق) أجواؤها باردة ومنعشة صيفاً وتشتهر بالغابات والضباب، و«تهامة» أسفل العقبة (مثل المخواة وقلوة وقرية ذي عين وجبل شدا) أجواؤها دافئة ومثالية في الشتاء والربيع. متى ناوي تزورنا عشان أنصحك بأنسب جهة تبدأ منها؟',
+        placeIds: [],
+        places: [],
+        itinerary: null,
+        actions: [],
+        suggestions: ['رتّب لي يومين بين السراة وتهامة', 'أبرز معالم السراة', 'اكتشف قرية ذي عين'],
+        context: nextCtx,
+        requestSeq: payload.requestSeq,
+      },
+    };
+  }
+
   const faqPatterns: Array<[string, RegExp]> = [
     ['faq-airport', /مطار|طيران|كيف اوصل|الوصول للباحه|كيف اروح الباحه/],
     ['faq-roads', /عقب|عقبه|طريق|طرق|قياده|تنقل|مسافه/],
     ['faq-documents', /تاشير|فيزا|جواز|اوراق|مستند|هويه/],
+    ['faq-seasons', /افضل وقت|احسن وقت|متي ازور|موسم الزياره|صيف ولا شتاء/],
     ['faq-fog-rain', /ضباب|غيم|امطار|مطر|ملابس|لبس|جاكيت|تجهيز|استعداد|وش البس|الطقس|الجو/],
     ['faq-family-elderly', /كبار السن|كرسي متحرك|معبد|مشي خفيف/],
     ['faq-food', /دغابيس|عصيده|خبزه|مقناه|بن شدوي|اكلات شعبيه|عسل/],
@@ -1283,11 +1668,12 @@ export function runSmartGuideTurn(payload: SmartGuideRequestPayload): SmartGuide
           retrievedItems: recentItems,
           referenceFact: `معلومة موثّقة من دليل الباحة: ${faq.answer}`,
           response: {
-            replyText: faq.answer,
+            replyText: `${faq.answer} تحب نرتّب خطة رحلتك بناءً على هالمعلومة أو تسألني عن شيء ثاني؟`,
             placeIds: [],
             places: [],
             itinerary: null,
             actions: [{ type: 'navigate_faq', faqId: faq.id, label: 'عرض التفاصيل في الأسئلة الشائعة' }],
+            suggestions: ['رتّب لي خطة حسب الأجواء', 'وين أقدر أسكن؟', 'مطاعم أكلات شعبية'],
             context: nextCtx,
             requestSeq: payload.requestSeq,
           },
@@ -1313,18 +1699,35 @@ export function runSmartGuideTurn(payload: SmartGuideRequestPayload): SmartGuide
       retrievedItems: featured,
       response: {
         replyText:
-          'الباحة تجمع بين برودة غابات السراة ودفء تهامة وقرى الحجر التاريخية. هذي أبرز المعالم اللي أنصحك تبدأ فيها:',
+          'الباحة تجمع بين برودة غابات السراة ودفء تهامة وقرى الحجر التاريخية. هذي أبرز المعالم اللي أنصحك تبدأ فيها — أي وجهة تشدّك أكثر عشان نرتّب حولها جولتك؟',
         placeIds: cards.map((c) => c.id),
         places: cards,
         itinerary: null,
         actions: [],
+        suggestions: ['رتّب لي يومين مع العائلة', 'فنادق ومنتجعات في الباحة', 'مطاعم ومقاهي مميزة'],
         context: nextCtx,
         requestSeq: payload.requestSeq,
       },
     };
   }
 
-  // General questions reach Gemini with prior context but no speculative recommendations.
+  // Context-aware general fallback: stay connected to activePlan or recentItems instead of resetting!
+  const contextualGeneralReply = activePlan
+    ? `أنا معك على خطتك الحالية (${conciergeDays[String(activePlan.days)] || `${activePlan.days} أيام`}). تقدر تقول لي مثلاً «خلّ الرحلة يومين»، «غيّر وقت البداية»، «بدّل أول محطة»، أو تسألني عن السكن والمطاعم القريبة من مسارك!`
+    : recentItems.length > 0
+      ? `أنا متابع معك بخصوص «${recentItems[0].name}»${recentItems.length > 1 ? ' والخيارات اللي استعرضناها' : ''}. تحب تعرف طريقة الوصول، تقارن مع بدائل ثانية في ${recentItems[0].governorate}، أو ندخلها في خطة رحلة؟`
+      : 'حياك الله! أنا مرافقك في منطقة الباحة — قولي كم يوم ناوي تقضي ومع مين مسافر، أو اسألني عن أي معلم أو فندق أو مطعم ونكمل التخطيط خطوة بخطوة.';
+
+  const contextualGeneralSuggestions = activePlan
+    ? [
+        Number(activePlan.days) === 1 ? 'خلّ الرحلة يومين' : 'خلّ الرحلة 3 أيام',
+        'بدّل أول محطة',
+        'رشّح لي مطاعم قريبة',
+      ]
+    : recentItems.length > 0
+      ? ['كيف أوصل له؟', `بدائل في ${recentItems[0].governorate}`, 'رتّب لي خطة رحلة']
+      : ['رتّب لي يومين مع العيال', 'أبرز معالم الباحة', 'وين أبيت في الباحة؟'];
+
   return {
     intentKind: 'general',
     usePreauthoredOnly: false,
@@ -1334,14 +1737,16 @@ export function runSmartGuideTurn(payload: SmartGuideRequestPayload): SmartGuide
         nextCtx.pendingTrip.days === null ? 'مدة الرحلة' : '',
         nextCtx.pendingTrip.style === null ? 'نوع الرحلة' : '',
       ].filter(Boolean).join('، ')}.`
-      : null,
+      : activePlan
+        ? `للزائر خطة رحلة نشطة حالياً (${activePlan.days} أيام، الطابع: ${activePlan.style}). حافظ على ترابط الحوار مع خطته الحالية.`
+        : null,
     response: {
-      replyText:
-        'عطني تفاصيل أكثر عن اللي تبي تعرفه، وبساعدك باللي أقدر عليه.',
+      replyText: contextualGeneralReply,
       placeIds: [],
       places: [],
       itinerary: null,
       actions: [],
+      suggestions: contextualGeneralSuggestions,
       context: nextCtx,
       requestSeq: payload.requestSeq,
     },

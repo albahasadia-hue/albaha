@@ -319,6 +319,8 @@ export interface ConciergeContextState {
   excludedIds?: string[];
   lastGuideItemId?: number | null;
   recentPlaceIds?: number[];
+  lastCategoryKey?: string | null;
+  lastGovernorate?: string | null;
   pendingTrip?: {
     days: number | null;
     style: TripStyle | null;

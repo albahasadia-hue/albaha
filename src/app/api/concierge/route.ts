@@ -6,6 +6,7 @@ import {
 } from '@/lib/smartGuideEngine';
 import {
   hydratePlaceCard,
+  sanitizeSuggestions,
   sanitizeVisitorFacingText,
   validateGuideActions,
   validatePlaceIds,
@@ -14,6 +15,7 @@ import {
   type SmartGuideResponseContract,
 } from '@/lib/smartGuideContract';
 import { getGuide144ById } from '@/lib/guideCatalog144';
+import { places } from '@/lib/portalStaticData';
 import { SMART_GUIDE_NAME } from '@/lib/smartGuideName';
 
 export const runtime = 'nodejs';
@@ -22,6 +24,7 @@ interface GeminiStructuredOutput {
   replyText?: string;
   placeIds?: number[];
   placeReasons?: Array<{ id?: number; reason?: string }>;
+  suggestions?: string[];
 }
 
 const ALBAHA_REGIONAL_OVERVIEW = [
@@ -57,6 +60,17 @@ function buildSystemInstruction(turn: SmartGuideTurnComputation, payload: SmartG
       })
     : null;
 
+  const activePlan = turn.response.context.lastPlan;
+  const activePlanSummary =
+    !turn.response.itinerary && activePlan
+      ? JSON.stringify({
+          days: activePlan.days,
+          region: activePlan.region,
+          style: activePlan.style,
+          stops: activePlan.ids.map((id) => places.get(id)?.name || id),
+        })
+      : null;
+
   const contextHints: string[] = [];
   if (turn.unconfirmedTopic) {
     contextHints.push(
@@ -70,30 +84,34 @@ function buildSystemInstruction(turn: SmartGuideTurnComputation, payload: SmartG
     contextHints.push('تم تعديل وقت بداية البرنامج مع الحفاظ على بقية أيام ومحطات الرحلة كما في برنامج الرحلة المعتمد أدناه.');
   } else if (turn.intentKind === 'trip_swap_stop') {
     contextHints.push('تم تبديل المحطة المطلوبة مع الحفاظ على بقية أيام ومواعيد الرحلة كما في برنامج الرحلة المعتمد أدناه.');
+  } else if (turn.intentKind === 'trip_modify_plan') {
+    contextHints.push('تم تحديث خطة رحلة الزائر الحالية (عدد الأيام أو الطابع أو المحطات) كما في برنامج الرحلة المعتمد أدناه.');
   }
 
   return [
-    `أنت «${SMART_GUIDE_NAME}»، مساعد محادثة حي وذكي داخل الموقع الرسمي لمنطقة الباحة.`,
-    'أسلوبك وتفاعلك:',
-    '- تفاعل مع الزائر كمحاور طبيعي وذكي يفهم كلامه وسياق المحادثة السابقة بأي لهجة عربية (سعودية، مصرية، شامية، خليجية، فصحى) أو إنجليزية، ورد عليه دائماً بلهجة سعودية خفيفة ودودة ومتنوعة وطبيعية بعيداً عن القوالب الجامدة أو الردود المحفوظة المتكررة.',
-    '- اضبط طول الرد ونبرته حسب رسالة الزائر: لو سلّم أو شكر ردّ عليه بعفوية ولطف؛ لو سأل سؤالاً مفتوحاً أو طلب رأياً أو مقارنة أو نصيحة سفر تحاور معه بذكاء ومرونة واسأله سؤال متابعة لطيف عند اللزوم؛ ولو عُرضت تحته بطاقات أماكن أو برنامج رحلة فاجعل كلامك تمهيداً طبيعياً ومختصراً لا يكرر كل ما في البطاقات حرفياً.',
-    '- تجنب التنسيق الثقيل (مثل النجوم الكثيرة أو العناوين الطويلة) واكتب بنص عربي سلس ومريح للقراءة.',
+    `أنت «${SMART_GUIDE_NAME}»، مرافق ومستشار سياحي ذكي متواصل مع الزائر داخل الموقع الرسمي لمنطقة الباحة.`,
+    'أسلوبك وتواصلك المستمر:',
+    '- أنت في حوار مستمر ومترابط مع الزائر، ولست مجرد باحث يجيب ثم ينفصل! اربط ردك دائماً بسياق الرسائل السابقة والخطة الحالية أو الأماكن التي ناقشتموها للتو، وتذكّر اختياراته وتفضيلاته.',
+    '- افهم أي لهجة عربية (سعودية، مصرية، شامية، خليجية، فصحى) أو إنجليزية، وردّ بلهجة سعودية بيضاء ودودة وطبيعية ومتجددة بدون تكرار جمل محفوظة.',
+    '- في نهاية كل رد معلوماتي أو تخطيطي (ما عدا رسائل الشكر والوداع القصيرة)، اختم بسؤال متابعة قصير وذكي يفتح الخطوة التالية مع الزائر (مثل: هل نوسّع الخطة ليوم إضافي؟ هل نرشّح مطعماً أو سكناً قريباً؟ هل نعدّل وقت الانطلاق؟) ليشعر أنك مرافقه طوال التخطيط.',
+    '- أرجع في حقل suggestions مصفوفة من 2 إلى 3 اقتراحات متابعة قصيرة بلسان الزائر (كل اقتراح 2–5 كلمات مثل "خلّ الرحلة يومين"، "مطاعم قريبة من المسار"، "قارن لي بينهم") تناسب سياق اللحظة؛ وأرجع [] عند الشكر أو الوداع.',
+    '- تجنب التنسيق الثقيل (النجوم الكثيرة أو العناوين الطويلة) واجعل النص سلساً ومريحاً للقراءة، ولا تكرر تفاصيل البطاقات أو الجدول المعروض أسفل ردك.',
     'قواعد الدقة والالتزام بالبيانات:',
-    '1. فيما يخص أسماء الأماكن المحددة (فنادق، شاليهات، مطاعم، مقاهي، معالم) وأرقام الهواتف والروابط والتقييمات والأسعار: اعتمد فقط على السجلات المسترجعة أدناه ولا تخترع أي مكان أو رقم أو رابط أو سعر غير موجود فيها.',
-    '2. إذا سأل الزائر عن تفصيل محدد لمكان معين غير موجود في سجله (مثل وجود مسبح أو إفطار مجاني أو ساعات عمل دقيقة أو رسوم دخول غير مذكورة)، قل بوضوح إن الدليل ما فيه تأكيد عنها حالياً ووجّهه للتأكد عبر التواصل المباشر أو رابط الحجز المتاح.',
-    '3. إذا سأل عن السعر الحالي أو التوفر اللحظي للغرف، وضّح أن الأسعار والتوفر تتغير ووجّهه لرابط الحجز أو وسيلة التواصل المتاحة.',
+    '1. فيما يخص أسماء الأماكن المحددة وأرقام الهواتف والروابط والتقييمات والأسعار: اعتمد حصراً على السجلات المسترجعة أدناه ولا تخترع أي مكان أو رقم أو رابط أو سعر غير مذكور.',
+    '2. إذا سأل الزائر عن تفصيل محدد لمكان معين غير مذكور في سجله (مثل مسبح أو إفطار أو ساعات عمل غير مذكورة)، قل بوضوح إن الدليل ما فيه تأكيد عنها حالياً ووجّهه للتأكد عبر التواصل المباشر أو رابط الحجز.',
+    '3. إذا سأل عن السعر الحالي أو التوفر اللحظي للغرف، وضّح أن الأسعار والتوفر تتغير ووجّهه لرابط الحجز أو التواصل المباشر.',
     '4. لا تذكر وجود واتساب لأي مكان إلا إذا كان hasWhatsApp يساوي true في سجله.',
     '5. عند الترشيح حسب منطقة أو مقارنة أماكن، اذكر المحافظة بوضوح وسبب اختيارك.',
-    '6. في placeIds اختر فقط البطاقات التي تخدم السؤال الحالي وتطابق المعرّفات المسموح بعرضها أدناه (بحد أقصى 4). أرجع [] في الردود العامة وأسئلة التوضيح. وجود اسم مكان في السجل أو المحادثة السابقة لا يعني أن الزائر يطلب بطاقة له.',
-    '7. إذا كان هناك برنامج رحلة معتمد (itinerary)، قدّمه بأسلوب طبيعي ومختصر واذكر التعديل الذي تم إن وجد دون سرد كل البطاقات من جديد لأنها ستظهر منظمة أسفل ردك.',
+    '6. في placeIds اختر فقط البطاقات التي تخدم السؤال الحالي وتطابق المعرّفات المسموح بعرضها أدناه (بحد أقصى 4). أرجع [] في الردود العامة وأسئلة التوضيح.',
+    '7. إذا كان هناك برنامج رحلة معتمد (itinerary)، قدّمه بأسلوب طبيعي ومختصر واذكر التعديل الذي تم إن وجد دون سرد كل البطاقات من جديد.',
     '8. لا تذكر أبداً اسم أي مزوّد ذكاء اصطناعي أو نموذج أو مفتاح برمجي.',
-    '9. افهم مقصد الرسالة من المحادثة: الضمائر والأسئلة القصيرة تكمل الموضوع السابق ما لم يذكر الزائر موضوعاً جديداً. جاوب السؤال نفسه. في الأسئلة العامة التي لا يغطيها الدليل، أعطِ نصيحة عامة مفيدة أو اسأل عن المعلومة الناقصة. اذكر حدود ما تعرفه إذا طلب تأكيداً على شيء محدد.',
-    '10. لا تقترح خطة أيام في نص الرد إلا إذا كان هناك برنامج معتمد أدناه. إذا بدأ الزائر التخطيط، اسأله عن مدة الرحلة ونوعها إن كانا ناقصين، وتقبّل أنه قد يجيب على كل سؤال في رسالة مختلفة.',
+    '9. لا تقترح خطة أيام مفصّلة في نص الرد إلا إذا كان هناك برنامج معتمد أدناه. إذا بدأ الزائر التخطيط بدون مدة أو طابع، اسأله عن الناقص بلطف.',
     ALBAHA_REGIONAL_OVERVIEW,
     contextHints.length ? contextHints.join('\n') : '',
-    `السجلات المسترجعة من دليل الباحة (أحدث بحث + الأماكن التي ذُكرت في المحادثة):\n${retrievedJson}`,
+    `السجلات المسترجعة من دليل الباحة (أحدث بحث + الأماكن المذكورة في الحوار):\n${retrievedJson}`,
     `المعرّفات المسموح بعرضها كبطاقات لهذا الرد: ${JSON.stringify(getCardCandidateIds(turn))}`,
-    itinerarySummary ? `برنامج الرحلة المعتمد:\n${itinerarySummary}` : '',
+    itinerarySummary ? `برنامج الرحلة المعتمد المعروض في هذا الرد:\n${itinerarySummary}` : '',
+    activePlanSummary ? `خطة الزائر الحالية المحفوظة في المحادثة (للمتابعة والنقاش):\n${activePlanSummary}` : '',
     weatherSummary ? `بيانات الطقس المتاحة:\n${weatherSummary}` : '',
   ]
     .filter(Boolean)
@@ -167,6 +185,10 @@ async function callGeminiStructured(
               required: ['id', 'reason'],
             },
           },
+          suggestions: {
+            type: 'ARRAY',
+            items: { type: 'STRING' },
+          },
         },
         required: ['replyText', 'placeIds'],
       },
@@ -236,6 +258,13 @@ function mergeValidatedLlmResult(
 ): SmartGuideResponseContract {
   const base = turn.response;
   const replyText = sanitizeVisitorFacingText(llm.replyText || base.replyText) || base.replyText;
+  const llmSuggestions = sanitizeSuggestions(llm.suggestions);
+  const mergedSuggestions =
+    turn.intentKind === 'greeting'
+      ? []
+      : llmSuggestions.length > 0
+        ? llmSuggestions
+        : sanitizeSuggestions(base.suggestions);
 
   // If itinerary response, keep places empty (stops live inside itinerary.groupedDays)
   if (base.itinerary) {
@@ -244,6 +273,7 @@ function mergeValidatedLlmResult(
       ...base,
       replyText,
       actions: validActions,
+      suggestions: mergedSuggestions,
     };
   }
 
@@ -303,6 +333,7 @@ function mergeValidatedLlmResult(
     placeIds: hydratedPlaces.map((c) => c.id),
     places: hydratedPlaces,
     actions: validActions,
+    suggestions: mergedSuggestions,
     context: nextContext,
   };
 }

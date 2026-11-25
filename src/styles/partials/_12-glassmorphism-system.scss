@@ -18,8 +18,8 @@
   );
   --ab-glass-popover-bg: linear-gradient(
     145deg,
-    rgba(255, 255, 255, 0.93) 0%,
-    rgba(240, 248, 253, 0.9) 100%
+    rgba(255, 255, 255, 0.97) 0%,
+    rgba(242, 249, 253, 0.95) 100%
   );
   --ab-glass-btn-bg: linear-gradient(
     135deg,
@@ -197,6 +197,7 @@ body:has(#homeView[hidden]) #header {
 }
 
 /* Floating Dropdowns, Popovers, Dialogs & Smart Guide Bubbles (Higher Legibility Frosted Glass) */
+.route-picker-list,
 .guide-district-menu,
 .tour-guide-suggest,
 .invest-sector-menu,
@@ -209,8 +210,71 @@ body:has(#homeView[hidden]) #header {
   border: 1px solid rgba(255, 255, 255, 0.95) !important;
   box-shadow:
     0 0 0 1px rgba(12, 46, 84, 0.1),
-    0 18px 42px rgba(6, 26, 51, 0.14),
+    0 18px 42px rgba(6, 26, 51, 0.16),
     inset 0 1px 0 #ffffff !important;
+}
+
+/* ==========================================================================
+   Stacking-Context Guardrails for Dropdowns Above Glassmorphic Siblings
+   (backdrop-filter creates stacking contexts; parent wrappers must sit above later siblings)
+   ========================================================================== */
+#planner .planner-unified-card .planner-chooser.planner-chooser--merged {
+  position: relative !important;
+  z-index: 40 !important;
+}
+
+#planner .planner-chooser-top {
+  position: relative !important;
+  z-index: 30 !important;
+}
+
+#planner .planner-chooser--merged .filterline,
+#planner .planner-unified-card .route-scroll {
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+#planner .planner-chooser--merged .route-field {
+  position: relative !important;
+  z-index: 5 !important;
+}
+
+#planner .planner-chooser--merged .route-field:has([aria-expanded="true"]),
+#planner .planner-chooser--merged .route-field:has(.route-picker-list:not([hidden])),
+#planner .planner-chooser--merged .route-field:focus-within {
+  z-index: 80 !important;
+}
+
+#planner .route-picker-list {
+  z-index: 100 !important;
+}
+
+.invest-section-head {
+  position: relative !important;
+  z-index: 40 !important;
+}
+
+.invest-sector-filter {
+  position: relative !important;
+  z-index: 45 !important;
+}
+
+.invest-projects-grid {
+  position: relative;
+  z-index: 1;
+}
+
+.tour-guide-controls {
+  position: relative !important;
+  z-index: 50 !important;
+}
+
+.tour-guide-query:has(.tour-guide-suggest:not([hidden])),
+.tour-guide-query:focus-within,
+.guide-district-picker.is-open,
+.guide-district-picker:has([aria-expanded="true"]) {
+  position: relative !important;
+  z-index: 70 !important;
 }
 
 .share-trip-link-box,

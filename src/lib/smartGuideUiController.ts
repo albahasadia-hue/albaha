@@ -21,6 +21,7 @@ import {
 } from './guideCatalog144';
 import {
   hydratePlaceCard,
+  sanitizeSuggestions,
   sanitizeVisitorFacingText,
   validateGuideAction,
   validateGuideActions,
@@ -285,9 +286,15 @@ export function createSmartGuideUiController(deps: ConciergeControllerDeps): {
           changeDraft(null);
         }
         syncTripToggleButtons();
+        const currentDays = Number(action.plan.days || 1);
         appendSystemConfirmation(
-          'تمت إضافة الخطة إلى «مخطط رحلتك». تقدر تراجع المحطات على الخريطة أو تعدّلها في أي وقت.',
-          [{ type: 'navigate_section', sectionId: 'summary', label: 'راجع ملخص رحلتي' }]
+          'تم اعتماد الخطة في «مخطط رحلتك»! أنا مستمر معك — تحب نزيد يوم إضافي، نرشّح لك سكن ومطاعم على المسار، أو نعدّل أي محطة؟',
+          [{ type: 'navigate_section', sectionId: 'summary', label: 'راجع ملخص رحلتي' }],
+          [
+            currentDays === 1 ? 'خلّ الرحلة يومين' : 'خلّ الرحلة 3 أيام',
+            'رشّح لي مطاعم قريبة من المسار',
+            'وين أفضل سكن للرحلة؟',
+          ]
         );
         return true;
       }
@@ -626,10 +633,20 @@ export function createSmartGuideUiController(deps: ConciergeControllerDeps): {
     const article = document.createElement('article');
     article.className = 'concierge-message sg-msg is-guide';
 
+    const senderRow = document.createElement('div');
+    senderRow.className = 'sg-msg-head';
+
+    const miniAvatar = document.createElement('span');
+    miniAvatar.className = 'sg-msg-avatar';
+    miniAvatar.setAttribute('aria-hidden', 'true');
+    miniAvatar.innerHTML = renderGuideCharacterSvg({ pose: 'idle', size: 18 });
+
     const header = document.createElement('h4');
     header.className = 'sg-msg-sender';
     header.textContent = SMART_GUIDE_NAME;
-    article.append(header);
+
+    senderRow.append(miniAvatar, header);
+    article.append(senderRow);
 
     const body = document.createElement('p');
     body.className = 'sg-msg-text';
@@ -705,10 +722,38 @@ export function createSmartGuideUiController(deps: ConciergeControllerDeps): {
       article.append(bar);
     }
 
+    // Contextual continuous-conversation follow-up prompt chips
+    const followUps = sanitizeSuggestions(response.suggestions);
+    if (followUps.length > 0) {
+      const chipsWrap = document.createElement('div');
+      chipsWrap.className = 'sg-suggestions';
+      chipsWrap.setAttribute('aria-label', 'اقتراحات لمتابعة الحوار');
+      for (const promptText of followUps) {
+        const chip = document.createElement('button');
+        chip.type = 'button';
+        chip.className = 'sg-suggestion-chip';
+        chip.textContent = promptText;
+        chip.addEventListener(
+          'click',
+          () => {
+            if (conciergePending) return;
+            void askConcierge({ text: promptText }, promptText);
+          },
+          { signal }
+        );
+        chipsWrap.append(chip);
+      }
+      article.append(chipsWrap);
+    }
+
     return article;
   }
 
-  function appendSystemConfirmation(text: string, actions: SmartGuideAction[] = []): void {
+  function appendSystemConfirmation(
+    text: string,
+    actions: SmartGuideAction[] = [],
+    suggestions: string[] = []
+  ): void {
     if (!conciergeThread) return;
     const response: SmartGuideResponseContract = {
       replyText: text,
@@ -716,11 +761,13 @@ export function createSmartGuideUiController(deps: ConciergeControllerDeps): {
       places: [],
       itinerary: null,
       actions,
+      suggestions,
       context: conciergeContext,
     };
     const bubble = renderAssistantBubble(response);
     conciergeThread.append(bubble);
     persistedMessages.push({ kind: 'assistant', text, response });
+    history.push({ role: 'assistant', text });
     saveSession();
     scrollToElement(bubble);
   }
@@ -847,7 +894,7 @@ export function createSmartGuideUiController(deps: ConciergeControllerDeps): {
           lockedIds: [...new Set([...(conciergeContext.lockedIds || []), ...pageCtx.lockedIds])],
           completedIds: [...new Set([...(conciergeContext.completedIds || []), ...pageCtx.completedIds])],
         },
-        history: history.slice(-6),
+        history: history.slice(-10),
         savedState: {
           days: state.days,
           region: state.region,

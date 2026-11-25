@@ -195,7 +195,7 @@ async function runTests() {
     assert.equal(cloudCard.whatsappUrl, null, 'Cloud City Hotel must NOT have WhatsApp link');
     assert.ok(cloudCard.officialWebsite?.url?.includes('cloudcityhotels.com'));
     assert.ok(cloudCard.bookingLink?.url?.includes('almosafer.com'));
-    assert.equal(cloudCard.internalHref, '#guide/place/hotels-02');
+    assert.equal(cloudCard.internalHref, '/guide/place/hotels-02');
     assert.equal(t1.json.reply.retryable, false, 'Live Gemini call should succeed cleanly');
     record('T1: Hotel by name + strict phone/booking/no-WhatsApp', true, t1.json.reply.replyText.slice(0, 72));
 
@@ -288,7 +288,7 @@ async function runTests() {
       !/أي واحد فيهم تقصد/.test(t4.json.reply.replyText),
       `Area stay query must NOT trigger name disambiguation: ${t4.json.reply.replyText}`
     );
-    assert.ok(t4.json.reply.places.every((p) => Boolean(p.image) && p.internalHref.startsWith('#guide/place/')));
+    assert.ok(t4.json.reply.places.every((p) => Boolean(p.image) && p.internalHref.startsWith('/guide/place/')));
     assert.ok(!t4.json.reply.actions.some((a) => a.autoExecute), 'Normal recommendations must NOT auto-navigate');
     record('T4: Stay in Al-Aqiq recommendations', true, `${t4.json.reply.places.length} العقيق stays (pure accommodation, images & internal links)`);
 
@@ -341,6 +341,53 @@ async function runTests() {
       'T5: 2-day family trip + time shift (08:00) + first-stop swap',
       true,
       `Swapped ${firstStopIdBefore} -> ${it3.groupedDays[0].stops[0].stopId}, kept 2 days & 08:00`
+    );
+
+    // T5d: Exact continuous conversation regression test ("خلي الرحلة يومان" -> "عدل الرحلة لي ثلاثة ايام" -> nearby dining -> more options)
+    const cw1 = (await askApi(portLive, {
+      intent: 'weather-plan',
+      city: 'makhwah',
+      question: 'خطّط حسب الأجواء',
+      context: baseCtx,
+      skipLlm: true,
+    })).json.reply;
+    assert.equal(cw1.itinerary?.days, 1);
+
+    const cw2 = (await askApi(portLive, {
+      question: 'خلي الرحلة يومان',
+      context: cw1.context,
+      skipLlm: true,
+    })).json.reply;
+    assert.ok(cw2.itinerary, '"خلي الرحلة يومان" must rebuild the active itinerary instead of hitting generic fallback');
+    assert.equal(cw2.itinerary.days, 2);
+    assert.equal(cw2.itinerary.groupedDays.length, 2);
+
+    const cw3 = (await askApi(portLive, {
+      question: 'عدل الرحلة لي ثلاثة ايام بدل يومين',
+      context: cw2.context,
+      skipLlm: true,
+    })).json.reply;
+    assert.ok(cw3.itinerary, '"عدل الرحلة لي ثلاثة ايام بدل يومين" must expand to 3 days');
+    assert.equal(cw3.itinerary.days, 3);
+    assert.equal(cw3.itinerary.groupedDays.length, 3);
+
+    const cw4 = (await askApi(portLive, {
+      question: 'خليها يوم واحد بدل ثلاثة ايام',
+      context: cw3.context,
+      skipLlm: true,
+    })).json.reply;
+    assert.equal(cw4.itinerary?.days, 1, 'Comparative "بدل ..." must pick the new target duration (1 day)');
+
+    const cw5 = (await askApi(portLive, {
+      question: 'عندك غيرهم؟',
+      context: t4.json.reply.context,
+      skipLlm: true,
+    })).json.reply;
+    assert.ok(cw5.places.length >= 1, '"عندك غيرهم؟" must continue with unseen accommodation options');
+    record(
+      'T5d: Continuous multi-turn duration edits ("خلي الرحلة يومان" / "ثلاثة أيام") & "غيرهم" follow-ups',
+      true,
+      `1d -> 2d -> 3d -> 1d + ${cw5.places.length} follow-up stays`
     );
 
     // T6: Explicit in-site navigation commands
