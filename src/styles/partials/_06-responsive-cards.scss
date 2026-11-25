@@ -796,18 +796,6 @@ body:has(#homeView:not([hidden])) #sirajLauncher,
   height: 1em;
   color: #FFE1A7;
 }
-#visit-season #seasonMonths {
-  margin: 0 !important;
-  padding: 3px 10px;
-  border-radius: 7px;
-  background: rgba(6, 26, 51, 0.56);
-  border: 1px solid rgba(255, 221, 162, 0.30);
-  color: #F7E8C8 !important;
-  font-size: 0.76rem;
-  font-weight: 600;
-  line-height: 1.35;
-  backdrop-filter: blur(8px);
-}
 #visit-season #seasonWeather {
   margin: 0 !important;
   margin-inline-start: auto;
@@ -904,10 +892,6 @@ body:has(#homeView:not([hidden])) #sirajLauncher,
     margin-inline-start: 0 !important;
     font-size: 0.72rem;
     padding: 3px 9px;
-  }
-  #visit-season #seasonMonths {
-    font-size: 0.72rem;
-    padding: 2px 9px;
   }
   #visit-season .season-card-bottom {
     flex-direction: column;

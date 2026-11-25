@@ -66,8 +66,8 @@ export function VisitSeasonSection() {
                     <use id="seasonIcon" />
                   </svg>
                   <span id="seasonLabel" />
+                  <span id="seasonMonths" />
                 </h3>
-                <p id="seasonMonths" />
                 <span className="season-best-pill" id="seasonBestTime" />
               </div>
               <div className="season-card-bottom">

@@ -1887,7 +1887,7 @@ export function initAlBahaPortal(initialView: PortalInitialView = 'home'): () =>
       `;
     }
     if (motionAllowed()) {
-      for (const el of [byId('seasonName'), seasonMonths, seasonTip]) {
+      for (const el of [byId('seasonName')?.parentElement, seasonTip]) {
         if (!el) continue;
         el.classList.remove('is-season-updating');
         void el.offsetWidth;
