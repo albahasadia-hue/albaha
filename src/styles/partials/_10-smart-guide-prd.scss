@@ -53,6 +53,17 @@ html.has-smart-guide #sirajLauncher.bot {
     grid-template-rows: none;
   }
 
+  html.has-smart-guide #placeView .place-hero:has(> .place-hero-details) {
+    grid-template-columns: minmax(0, 1fr) !important;
+    grid-template-areas: "intro" "gallery" "details";
+    grid-template-rows: auto;
+    row-gap: 16px !important;
+  }
+
+  html.has-smart-guide #placeView .place-hero-details .place-facts {
+    margin-block-start: 0 !important;
+  }
+
   html.has-smart-guide .tour-guide-facts dl,
   html.has-smart-guide .tour-guide-facts dl[data-cols="4"],
   html.has-smart-guide .place-facts {

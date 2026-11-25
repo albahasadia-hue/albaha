@@ -212,7 +212,7 @@
   gap: 10px !important;
   margin-top: 4px;
 }
-.place-hero-copy .place-actions,
+.place-hero .place-actions,
 .directory-actions .place-actions {
   display: grid !important;
   grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
@@ -221,7 +221,7 @@
   width: 100% !important;
   margin-top: 2px !important;
 }
-.place-hero-copy .place-actions > *,
+.place-hero .place-actions > *,
 .directory-actions .place-actions > * {
   width: 100% !important;
   min-width: 0 !important;
@@ -235,14 +235,14 @@
   white-space: normal !important;
 }
 @media (min-width: 541px) {
-  :is(.place-hero-copy, .directory-actions) .place-actions > * {
+  :is(.place-hero, .directory-actions) .place-actions > * {
     grid-column: span 2;
   }
-  :is(.place-hero-copy, .directory-actions) .place-actions > :nth-child(3n + 1):last-child {
+  :is(.place-hero, .directory-actions) .place-actions > :nth-child(3n + 1):last-child {
     grid-column: 1 / -1;
   }
-  :is(.place-hero-copy, .directory-actions) .place-actions:has(> :nth-child(4):last-child) > *,
-  :is(.place-hero-copy, .directory-actions) .place-actions > :is(:nth-child(3n + 1):nth-last-child(2), :nth-child(3n + 2):last-child) {
+  :is(.place-hero, .directory-actions) .place-actions:has(> :nth-child(4):last-child) > *,
+  :is(.place-hero, .directory-actions) .place-actions > :is(:nth-child(3n + 1):nth-last-child(2), :nth-child(3n + 2):last-child) {
     grid-column: span 3;
   }
 }
@@ -2596,7 +2596,7 @@ html.motion-paused .ab-showcase-img.is-active {
   .directory-meta-grid[data-cols],
   .tour-guide-facts dl,
   .tour-guide-facts dl[data-cols],
-  .place-hero-copy .place-actions,
+  .place-hero .place-actions,
   .directory-actions .place-actions {
     grid-template-columns: minmax(0, 1fr) !important;
   }

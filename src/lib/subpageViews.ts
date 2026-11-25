@@ -514,6 +514,11 @@ export function createSubpageViewsController(deps: SubpageViewsDeps): SubpageVie
             </div>
             <h1 id="placeTitle" tabindex="-1">${stop.name}</h1>
             <p class="lead">${description}</p>
+          </div>
+          <div class="place-hero-media">
+            ${mediaShowcaseMarkup({ id: 'placeHeroShowcase', items: showcaseItems, title: stop.name })}
+          </div>
+          <div class="place-hero-details">
             <dl class="place-facts">
               <div><dt>${cardHead(glyph('weather', 'card-ic-svg'), 'الوقت المقترح')}</dt><dd>${timed ? `<bdi dir="ltr">${clock(timed.start)}–${clock(timed.end)}</bdi>` : visit.best}</dd></div>
               <div><dt>${cardHead(subpageSvgMap.clock, 'مدة الزيارة')}</dt><dd>${formatNum(timed ? timed.end - timed.start : stop.min)} دقيقة</dd></div>
@@ -523,9 +528,6 @@ export function createSubpageViewsController(deps: SubpageViewsDeps): SubpageVie
               <button type="button" class="btn btn-soft" id="placeAdd" aria-pressed="false"></button>
               <a class="btn btn-soft" href="https://www.google.com/maps/search/?api=1&query=${stop.lat},${stop.lng}" target="_blank" rel="noopener">الخرائط ${glyph('external', 'ic tiny')}</a>
             </div>
-          </div>
-          <div class="place-hero-media">
-            ${mediaShowcaseMarkup({ id: 'placeHeroShowcase', items: showcaseItems, title: stop.name })}
           </div>
         </div>
         ${localWeatherMarkup(Object.hasOwn(climateCities, visit?.city || '') ? visit.city : 'baha', stop.id, deps.getCurrentSeason(), deps.getSelectedSeason())}
@@ -627,16 +629,18 @@ export function createSubpageViewsController(deps: SubpageViewsDeps): SubpageVie
           </div>
           <h1 id="placeTitle" tabindex="-1">${city.name}</h1>
           <p class="lead">${city.intro}</p>
+        </div>
+        <div class="place-hero-media">
+          ${mediaShowcaseMarkup({ id: 'cityHeroShowcase', items: showcaseItems, title: city.name })}
+          ${city.photo?.context ? `<p class="time-note place-photo-credit">${city.photo.caption}</p>` : ''}
+        </div>
+        <div class="place-hero-details">
           <dl class="place-facts">
             <div><dt>${cardHead(glyph('route', 'card-ic-svg'), 'المحطات')}</dt><dd>${formatNum(cityStops.length)}</dd></div>
             <div><dt>${cardHead(subpageSvgMap.clock, 'مدة الجولة')}</dt><dd>${formatNum(totalMins)} دقيقة</dd></div>
             <div><dt>${cardHead(glyph('weather', 'card-ic-svg'), 'الموسم الحالي')}</dt><dd>${seasons[currentSeason].name}</dd></div>
           </dl>
           <div class="place-actions">${hasStories ? `<a class="btn btn-dark" href="${cityStoriesPath}"><span>الفعاليات والأرشيف</span>${glyph('city-stories')}</a>` : `<a class="btn btn-dark" href="/guide"><span>تصفّح دليل المنطقة</span>${glyph('section-guide')}</a>`}${mapLink}</div>
-        </div>
-        <div class="place-hero-media">
-          ${mediaShowcaseMarkup({ id: 'cityHeroShowcase', items: showcaseItems, title: city.name })}
-          ${city.photo?.context ? `<p class="time-note place-photo-credit">${city.photo.caption}</p>` : ''}
         </div>
       </div>
       ${localWeatherMarkup(key, '', currentSeason, deps.getSelectedSeason())}
