@@ -179,6 +179,24 @@
       ]
     },
     {
+      "id": "humaida-stairs",
+      "name": "عقبة حميدة",
+      "category": "parks",
+      "address": "محافظة بلجرشي، منطقة الباحة",
+      "district": "بلجرشي",
+      "description": "مسار جبلي تاريخي في بلجرشي كان يربط القرى قبل إنشاء الطرق الحديثة. يمر بين الصخور والأشجار ويطل على الجبال والأودية، وتظهر على امتداده بقايا مبانٍ قديمة.",
+      "photo": "humaida-trail",
+      "gallery": [
+        { "photo": "humaida-trail", "caption": "ممر المشي بين الصخور والأشجار في عقبة حميدة" },
+        { "photo": "humaida-lookout", "caption": "إطلالة جبلية من أحد مطلات عقبة حميدة" },
+        { "photo": "humaida-valley", "caption": "الأودية والجبال كما تبدو من المسار" }
+      ],
+      "coordinates": [19.8566331, 41.5368043],
+      "map": "https://www.google.com/maps/search/?api=1&query=19.8566331,41.5368043",
+      "source": "https://www.visitsaudi.com/ar/al-baha/attractions/humaida-stairs",
+      "sourceLabel": "روح السعودية"
+    },
+    {
       "id": "dhee-ain",
       "name": "قرية ذي عين التراثية",
       "category": "heritage",
