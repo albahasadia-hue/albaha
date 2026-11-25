@@ -157,6 +157,25 @@
       ]
     },
     {
+      "id": "g-79",
+      "name": "منتزه سد وادي الجنابين",
+      "category": "parks",
+      "address": "بني كبير، محافظة بلجرشي",
+      "district": "بلجرشي",
+      "description": "ممشى وجلسات مطلّة على بحيرة السد.",
+      "coordinates": [19.906871, 41.712867],
+      "map": "https://maps.app.goo.gl/7NCaJyLF8xanAcqr5",
+      "photo": "janabeen-dam-aerial",
+      "gallery": [
+        { "photo": "janabeen-dam-aerial", "caption": "لقطة جوية لبحيرة سد وادي الجنابين والمنتزه المطلّ عليها" }
+      ],
+      "source": "https://www.visitsaudi.com/ar/al-baha/attractions/al-janabeen-dam-park",
+      "sourceLabel": "روح السعودية",
+      "facts": [
+        ["الدخول", "مجاني"]
+      ]
+    },
+    {
       "id": "shada",
       "name": "محمية جبل شدا الأعلى",
       "category": "parks",

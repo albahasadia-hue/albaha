@@ -456,6 +456,7 @@ const SITE_ASSET_BINDINGS: Record<number, SiteAssetBinding> = {
     coordinates: [20.16806, 41.38806],
     aliases: ['tharwa', 'الثروة', 'الثروه', 'منتزه الثروة'],
   },
+  79: { tourGuideId: 'g-79' },
   85: { tourGuideId: 'water-07' },
   87: { tourGuideId: 'parks-08' },
   91: { tourGuideId: 'water-12' },
