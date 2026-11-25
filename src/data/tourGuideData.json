@@ -784,6 +784,28 @@
       "sourceLabel": "روح السعودية"
     },
     {
+      "id": "g-101",
+      "name": "قلعة الملد التراثية (حصنا الأخوين)",
+      "category": "heritage",
+      "address": "قرية الملد - جنوب مدينة الباحة",
+      "district": "الباحة",
+      "description": "حصنا التوأمين في قرية الملد جنوب الباحة. شيّدهما أخوان قبل نحو 400 عام للمراقبة، ويقعان على طريق التجارة القديم المؤدي إلى عسير.",
+      "coordinates": [
+        20.012245,
+        41.497685
+      ],
+      "map": "https://www.google.com/maps/search/?api=1&query=20.012245,41.497685",
+      "photo": "almalad-forts-aerial",
+      "gallery": [
+        { "photo": "almalad-forts-aerial", "caption": "لقطة جوية لحصني الأخوين وقرية الملد" },
+        { "photo": "almalad-forts-traditions", "caption": "الأزياء التقليدية بجوار المباني الحجرية في قرية الملد" },
+        { "photo": "almalad-forts-hospitality", "caption": "جلسة ضيافة وأطباق شعبية في قرية الملد" },
+        { "photo": "almalad-forts-performance", "caption": "عرض شعبي في قرية الملد" }
+      ],
+      "source": "https://www.visitsaudi.com/ar/al-baha/attractions/al-akhawain-castle-in-almald-village-al-baha",
+      "sourceLabel": "روح السعودية"
+    },
+    {
       "id": "museums-01",
       "name": "نزل العائد",
       "category": "museums",
