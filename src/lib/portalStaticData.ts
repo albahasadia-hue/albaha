@@ -1104,6 +1104,7 @@ export const seasons: Record<SeasonKey, SeasonConfig> = {
 
 const raghdanGuideGallery = tourGuide.records.find((place) => place.id === 'raghdan')?.gallery ?? [];
 const dheeAynGuideGallery = tourGuide.records.find((place) => place.id === 'dhee-ain')?.gallery ?? [];
+const shadaGuideGallery = tourGuide.records.find((place) => place.id === 'shada')?.gallery ?? [];
 
 export const stopVisit: Record<string, StopVisitConfig> = {
   raghdan: {
@@ -1150,7 +1151,7 @@ export const stopVisit: Record<string, StopVisitConfig> = {
     best: 'في ضوء النهار',
     short: 60,
     gallery: [
-      ['shada', 'تكوينات الجرانيت في جبل شدا'],
+      ...shadaGuideGallery.map(({ photo, caption }): [string, string] => [photo, caption]),
       ['hero-shada', 'مشهد بانورامي لقمم جبل شدا'],
     ],
   },

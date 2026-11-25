@@ -157,6 +157,28 @@
       ]
     },
     {
+      "id": "shada",
+      "name": "محمية جبل شدا الأعلى",
+      "category": "parks",
+      "address": "جبل شدا الأعلى - المخواة",
+      "district": "المخواة",
+      "source": "https://www.visitsaudi.com/ar/al-baha/attractions/jabal-shada-protected-area",
+      "sourceLabel": "روح السعودية",
+      "photo": "shada-sunset",
+      "gallery": [
+        { "photo": "shada-sunset", "caption": "غروب الشمس خلف قمم جبل شدا الأعلى" },
+        { "photo": "shada-clouds", "caption": "قمم جبل شدا الأعلى فوق السحاب" },
+        { "photo": "shada-valley", "caption": "وادٍ تحيط به المنحدرات الصخرية في المحمية" },
+        { "photo": "shada-ridge", "caption": "شجيرات خضراء بين صخور القمة" },
+        { "photo": "shada-wildlife", "caption": "سحلية على صخور المحمية" }
+      ],
+      "trip": "shada",
+      "coordinates": [
+        19.83882,
+        41.31178
+      ]
+    },
+    {
       "id": "dhee-ain",
       "name": "قرية ذي عين التراثية",
       "category": "heritage",

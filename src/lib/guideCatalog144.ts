@@ -413,9 +413,10 @@ const SITE_ASSET_BINDINGS: Record<number, SiteAssetBinding> = {
     aliases: ['شهبة', 'شهبه', 'غابة شهبة'],
   },
   72: {
+    tourGuideId: 'shada',
     stopId: 'shada',
-    realPhoto: images.shada,
-    aliases: ['shada', 'شدا', 'شدى', 'جبل شدا', 'شدا الاعلى'],
+    realPhoto: images['shada-sunset'],
+    aliases: ['shada', 'شدا', 'شدى', 'جبل شدا', 'شدا الاعلى', 'محمية جبل شدا الأعلى'],
   },
   73: {
     tourGuideId: 'hussam',
