@@ -1,0 +1,344 @@
+/* ==========================================================================
+   12. Unified Frosted Glassmorphism System — White Cards & White Buttons
+       Matches the signature frosted pearl-ice glass aesthetic of #experiences .exp-cat-strip
+   ========================================================================== */
+
+:root {
+  --ab-glass-bg: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.84) 0%,
+    rgba(234, 243, 250, 0.77) 52%,
+    rgba(230, 243, 245, 0.73) 100%
+  );
+  --ab-glass-bg-hover: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.94) 0%,
+    rgba(241, 248, 253, 0.89) 56%,
+    rgba(237, 248, 246, 0.86) 100%
+  );
+  --ab-glass-popover-bg: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.93) 0%,
+    rgba(240, 248, 253, 0.9) 100%
+  );
+  --ab-glass-btn-bg: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.86) 0%,
+    rgba(233, 242, 249, 0.79) 100%
+  );
+  --ab-glass-btn-hover: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.96) 0%,
+    rgba(242, 249, 253, 0.92) 100%
+  );
+  --ab-glass-blur: blur(14px) saturate(160%);
+  --ab-glass-border-color: rgba(255, 255, 255, 0.94);
+  --ab-glass-card-shadow:
+    0 0 0 1px rgba(12, 46, 84, 0.085),
+    0 12px 30px rgba(8, 28, 54, 0.08),
+    0 2px 6px rgba(8, 28, 54, 0.035),
+    inset 0 1px 0 rgba(255, 255, 255, 0.98);
+  --ab-glass-card-shadow-hover:
+    0 0 0 1px rgba(0, 108, 53, 0.22),
+    0 16px 34px rgba(8, 28, 54, 0.11),
+    0 4px 10px rgba(8, 28, 54, 0.045),
+    inset 0 1px 0 #ffffff;
+  --ab-glass-btn-shadow:
+    0 0 0 1px rgba(12, 46, 84, 0.1),
+    0 6px 18px rgba(8, 28, 54, 0.075),
+    inset 0 1px 0 rgba(255, 255, 255, 0.98);
+  --ab-glass-btn-shadow-hover:
+    0 0 0 1px rgba(0, 108, 53, 0.28),
+    0 10px 22px rgba(8, 28, 54, 0.11),
+    inset 0 1px 0 #ffffff;
+}
+
+/* Subtle ambient depth behind light sections so backdrop-filter refracts softly */
+.faq-view,
+.invest-view,
+#placeView.place-view,
+#visit-guide,
+#visit-season,
+.official-faq-band {
+  background-image:
+    radial-gradient(ellipse at 14% 8%, rgba(16, 185, 129, 0.065) 0%, transparent 50%),
+    radial-gradient(ellipse at 88% 24%, rgba(14, 116, 144, 0.065) 0%, transparent 52%),
+    linear-gradient(180deg, #f6fafc 0%, #fcfbf7 52%, #eff6fb 100%) !important;
+}
+
+/* ==========================================================================
+   1. Scrolled / Subpage Frosted Glass Top Navigation Bar
+   ========================================================================== */
+#header.is-scrolled,
+body:has(#homeView[hidden]) #header {
+  background: rgba(248, 252, 255, 0.82) !important;
+  backdrop-filter: blur(16px) saturate(165%) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(165%) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.92) !important;
+  box-shadow:
+    0 1px 0 rgba(12, 46, 84, 0.08),
+    0 10px 28px rgba(6, 26, 51, 0.075),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.7) !important;
+}
+
+/* ==========================================================================
+   2. Frosted Glass White Cards Across Homepage & Subpages
+   ========================================================================== */
+.directory-card,
+#official-portal .kpi-card,
+#official-portal .official-card,
+#official-portal .official-disclosure,
+#official-portal .official-detail-card,
+.project-card,
+.eservice-item,
+.muni-card,
+.vision-card,
+.faq-teaser-item,
+#visit-guide .guide-index,
+#visit-guide .guide-card:not(.guide-sight-feature),
+#visit-guide .guide-dining-list,
+#visit-guide .dining-spot,
+#visit-season .season-card,
+#visit-season .season-fact-card,
+#visit-season .season-switch,
+#planner .planner-chooser--merged .route-field,
+#planner .trip-summary--board .summary-day-card:not(.is-drop-target):not(.is-empty-day),
+#faqView .faq-filter-panel,
+#faqView .faq-item,
+#faqView .faq-support-card,
+#faqView .faq-empty,
+.invest-info-card,
+.invest-kpi-card,
+.invest-project-card,
+.invest-channel-card,
+.tour-guide-controls,
+.guide-map-card,
+#placeView .place-facts > div,
+#placeView .place-weather-strip,
+#placeView .weather-reading,
+#placeView .weather-strip-main .weather-hours li,
+#placeView .place-bento-card,
+#placeView .place-ideas-list li,
+#placeView .place-field-row,
+#placeView .city-stop-card,
+.tour-guide-facts dl > div,
+.city-story,
+.story-page-article,
+.service-form-card {
+  background: var(--ab-glass-bg) !important;
+  backdrop-filter: var(--ab-glass-blur) !important;
+  -webkit-backdrop-filter: var(--ab-glass-blur) !important;
+  border: 1px solid var(--ab-glass-border-color) !important;
+  box-shadow: var(--ab-glass-card-shadow) !important;
+}
+
+/* Horizontal Event/Archive story card inner copy lets the parent's frosted glass show through */
+.city-story .city-story-copy {
+  background: transparent !important;
+}
+
+/* Open FAQ item & Planner stop cards keep their signature Saudi Green start accent + frosted glass */
+#faqView .faq-item.is-open {
+  background: var(--ab-glass-bg-hover) !important;
+  border-color: var(--ab-glass-border-color) !important;
+  border-inline-start: 3px solid #006c35 !important;
+  box-shadow: var(--ab-glass-card-shadow-hover) !important;
+}
+
+#planner .trip-summary--board .summary-stop-card {
+  background: var(--ab-glass-bg) !important;
+  backdrop-filter: blur(10px) saturate(150%) !important;
+  -webkit-backdrop-filter: blur(10px) saturate(150%) !important;
+  border: 1px solid var(--ab-glass-border-color) !important;
+  border-inline-start: 3px solid #006c35 !important;
+  box-shadow:
+    0 0 0 1px rgba(12, 46, 84, 0.08),
+    0 6px 16px rgba(8, 28, 54, 0.065),
+    inset 0 1px 0 rgba(255, 255, 255, 0.96) !important;
+}
+
+#planner .planner-unified-card {
+  background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.72) 0%,
+    rgba(238, 246, 252, 0.64) 100%
+  ) !important;
+  backdrop-filter: blur(18px) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(160%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.92) !important;
+  box-shadow:
+    0 0 0 1px rgba(12, 46, 84, 0.09),
+    0 16px 40px rgba(6, 26, 51, 0.09),
+    inset 0 1px 0 rgba(255, 255, 255, 0.96) !important;
+}
+
+.faq-teaser-panel {
+  background: rgba(255, 255, 255, 0.45) !important;
+}
+
+/* Interactive Card Hover Elevation */
+.directory-card:hover,
+#official-portal .kpi-card:hover,
+#official-portal .official-card:hover,
+#official-portal .official-disclosure:hover,
+#official-portal .official-detail-card:hover,
+.faq-teaser-item:hover,
+.faq-teaser-item.is-open,
+#visit-guide .guide-card:not(.guide-sight-feature):hover,
+#visit-guide .dining-spot:hover,
+#faqView .faq-item:hover,
+#faqView .faq-support-card:hover,
+.invest-project-card:hover,
+.invest-channel-card:hover,
+.city-story:is(:hover, :focus-visible),
+#planner .trip-summary--board .summary-day-card.is-open {
+  background: var(--ab-glass-bg-hover) !important;
+  box-shadow: var(--ab-glass-card-shadow-hover) !important;
+}
+
+/* Floating Dropdowns, Popovers, Dialogs & Smart Guide Bubbles (Higher Legibility Frosted Glass) */
+.guide-district-menu,
+.tour-guide-suggest,
+.invest-sector-menu,
+.share-trip-card,
+#agentPanel.smart-guide-panel .sg-msg:not(.is-visitor),
+#agentPanel.smart-guide-panel .sg-typing-bubble {
+  background: var(--ab-glass-popover-bg) !important;
+  backdrop-filter: blur(18px) saturate(170%) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(170%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.95) !important;
+  box-shadow:
+    0 0 0 1px rgba(12, 46, 84, 0.1),
+    0 18px 42px rgba(6, 26, 51, 0.14),
+    inset 0 1px 0 #ffffff !important;
+}
+
+.share-trip-link-box,
+#faqView .faq-search-box,
+.tour-guide-input {
+  background: rgba(255, 255, 255, 0.76) !important;
+  backdrop-filter: blur(10px) saturate(150%) !important;
+  -webkit-backdrop-filter: blur(10px) saturate(150%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.92) !important;
+  box-shadow:
+    0 0 0 1px rgba(12, 46, 84, 0.09),
+    inset 0 1px 2px rgba(8, 28, 54, 0.03) !important;
+}
+
+#faqView .faq-search-box:focus-within,
+.tour-guide-input:focus-within {
+  background: rgba(255, 255, 255, 0.95) !important;
+  box-shadow:
+    0 0 0 2px rgba(0, 108, 53, 0.28),
+    inset 0 1px 0 #ffffff !important;
+}
+
+/* ==========================================================================
+   3. Frosted Glass White & Light Buttons Across Entire Portal
+   ========================================================================== */
+
+/* White CTA Buttons Over Dark / Gradient / Scenic Surfaces (Exact .exp-cat-strip Clone) */
+#faqView .faq-hero-btn,
+.ab-showcase-zoom,
+.ab-showcase-step,
+.map-controls button {
+  background: rgba(255, 255, 255, 0.86) !important;
+  backdrop-filter: blur(14px) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(14px) saturate(160%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.94) !important;
+  color: #061a33 !important;
+  box-shadow:
+    0 12px 28px rgba(4, 15, 30, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.96) !important;
+}
+
+#faqView .faq-hero-btn:is(:hover, :focus-visible),
+.ab-showcase-zoom:is(:hover, :focus-visible),
+.ab-showcase-step:is(:hover, :focus-visible),
+.map-controls button:is(:hover, :focus-visible) {
+  background: rgba(255, 255, 255, 0.96) !important;
+  box-shadow:
+    0 14px 32px rgba(4, 15, 30, 0.3),
+    inset 0 1px 0 #ffffff !important;
+}
+
+/* All White / Soft Secondary Buttons, Nav Arrows, Filter Triggers & Inactive Pills */
+.btn-soft,
+.route-footer .btn-soft,
+.summary-actions .btn-soft,
+.place-view .btn-soft,
+.tour-guide .btn-soft,
+#placeView .place-hero-copy .place-actions .btn-soft,
+#destinations .caro-btns button,
+#header.is-scrolled .nav-icon,
+body:has(#homeView[hidden]) #header .nav-icon,
+.story-back-link,
+.invest-sector-trigger,
+.guide-district-trigger,
+.tour-guide-suggest-jump,
+#planner .planner-chooser--merged .filterline .choice:not(.active),
+#planner .planner-unified-card #routeSticky #routeDots button:not(.active),
+#planner .trip-summary--board .summary-day-edit-btn:not(.is-active),
+#planner .trip-summary--board .summary-move-day-pill:not(.is-current),
+.dir-tab:not(.active):not([aria-selected="true"]),
+.directory-filter-btn:not(.active):not([aria-pressed="true"]),
+#visit-season .season-cities button:not([aria-pressed="true"]),
+#faqView .faq-expand-btn,
+#faqView .faq-cat-pill:not(.is-active),
+#faqView .faq-item:not(.is-open) .faq-chevron,
+#faqView .faq-item-link,
+.city-story-filters button:not(.is-active):not([aria-pressed="true"]),
+.share-platform-btn:not(.is-native),
+.share-trip-close,
+#agentPanel.smart-guide-panel .sg-starter-btn,
+#agentPanel .concierge-shell .concierge-shortcuts button {
+  background: var(--ab-glass-btn-bg) !important;
+  backdrop-filter: var(--ab-glass-blur) !important;
+  -webkit-backdrop-filter: var(--ab-glass-blur) !important;
+  border: 1px solid var(--ab-glass-border-color) !important;
+  box-shadow: var(--ab-glass-btn-shadow) !important;
+  color: #061a33 !important;
+}
+
+/* Hover / Focus States for Frosted White Buttons */
+.btn-soft:is(:hover, :focus-visible),
+.route-footer .btn-soft:is(:hover, :focus-visible),
+.summary-actions .btn-soft:is(:hover, :focus-visible),
+.place-view .btn-soft:is(:hover, :focus-visible),
+.tour-guide .btn-soft:is(:hover, :focus-visible),
+#placeView .place-hero-copy .place-actions .btn-soft:is(:hover, :focus-visible),
+#destinations .caro-btns button:is(:hover, :focus-visible),
+#header.is-scrolled .nav-icon:is(:hover, :focus-visible),
+body:has(#homeView[hidden]) #header .nav-icon:is(:hover, :focus-visible),
+.story-back-link:is(:hover, :focus-visible),
+.invest-sector-trigger:is(:hover, :focus-visible, [aria-expanded="true"]),
+.guide-district-trigger:is(:hover, :focus-visible, [aria-expanded="true"]),
+#planner .planner-chooser--merged .filterline .choice:not(.active):is(:hover, :focus-visible),
+#planner .planner-unified-card #routeSticky #routeDots button:not(.active):is(:hover, :focus-visible),
+#planner .trip-summary--board .summary-day-edit-btn:not(.is-active):is(:hover, :focus-visible),
+#visit-season .season-cities button:not([aria-pressed="true"]):is(:hover, :focus-visible),
+#faqView .faq-expand-btn:hover:not(:disabled),
+#faqView .faq-cat-pill:not(.is-active):is(:hover, :focus-visible),
+.city-story-filters button:not(.is-active):not([aria-pressed="true"]):is(:hover, :focus-visible),
+.share-platform-btn:not(.is-native):is(:hover, :focus-visible),
+.share-trip-close:is(:hover, :focus-visible),
+#agentPanel.smart-guide-panel .sg-starter-btn:is(:hover, :focus-visible),
+#agentPanel .concierge-shell .concierge-shortcuts button:is(:hover, :focus-visible) {
+  background: var(--ab-glass-btn-hover) !important;
+  box-shadow: var(--ab-glass-btn-shadow-hover) !important;
+  color: #006c35 !important;
+}
+
+/* Preserve solid emerald hover on inline FAQ item links & move-day pills */
+#faqView .faq-item-link:is(:hover, :focus-visible),
+.tour-guide-suggest-jump:is(:hover, :focus-visible) {
+  background: #0a2e5c !important;
+  border-color: #0a2e5c !important;
+  color: #ffffff !important;
+}
+
+#planner .trip-summary--board .summary-move-day-pill:not(.is-current):hover:not(:disabled) {
+  background: #006c35 !important;
+  border-color: #006c35 !important;
+  color: #ffffff !important;
+}
