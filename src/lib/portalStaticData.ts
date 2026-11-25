@@ -1103,6 +1103,7 @@ export const seasons: Record<SeasonKey, SeasonConfig> = {
 };
 
 const raghdanGuideGallery = tourGuide.records.find((place) => place.id === 'raghdan')?.gallery ?? [];
+const dheeAynGuideGallery = tourGuide.records.find((place) => place.id === 'dhee-ain')?.gallery ?? [];
 
 export const stopVisit: Record<string, StopVisitConfig> = {
   raghdan: {
@@ -1136,7 +1137,10 @@ export const stopVisit: Record<string, StopVisitConfig> = {
     hours: [540, 1020],
     hoursSource: 'https://www.visitsaudi.com/content/dam/documents/saudi-summer-guide.pdf',
     gallery: [
-      ['ain', 'أزقة ذي عين وسلالمها الحجرية'],
+      ['ain', 'قرية ذي عين مضاءة عند الغروب'],
+      ...dheeAynGuideGallery
+        .filter(({ photo }) => photo !== 'ain')
+        .map(({ photo, caption }): [string, string] => [photo, caption]),
       ['hero-ain', 'القرية مضاءة فوق سفح الجبل'],
     ],
   },
