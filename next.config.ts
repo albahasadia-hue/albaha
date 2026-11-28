@@ -7,6 +7,16 @@ const nextConfig: NextConfig = {
   sassOptions: {
     silenceDeprecations: ['legacy-js-api'],
   },
+  async rewrites() {
+    return {
+      beforeFiles: [
+        {
+          source: '/app-mockup',
+          destination: '/app-mockup/index.html',
+        },
+      ],
+    };
+  },
 };
 
 export default nextConfig;
