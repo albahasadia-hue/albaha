@@ -14,6 +14,18 @@ const nextConfig: NextConfig = {
           source: '/app-mockup',
           destination: '/app-mockup/index.html',
         },
+        {
+          source: '/mockup',
+          destination: '/app-mockup/index.html',
+        },
+        {
+          source: '/public/app-mockup',
+          destination: '/app-mockup/index.html',
+        },
+        {
+          source: '/public/app-mockup/index.html',
+          destination: '/app-mockup/index.html',
+        },
       ],
     };
   },
